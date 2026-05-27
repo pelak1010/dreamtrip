@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Christian & Abi — Dream Trip 2024–25</title>
+<title>Christian & Abi — Dream Trip 2024–25 v8</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -139,6 +139,37 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .todo-price{font-size:.68rem;color:var(--green);white-space:nowrap}
 .todo-add-btn{padding:.2rem .5rem;border-radius:8px;border:1px solid rgba(123,110,255,.3);background:transparent;color:var(--purple);font-size:.6rem;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;flex-shrink:0;transition:all .2s}
 .todo-add-btn:hover{background:rgba(123,110,255,.15)}
+
+/* BOOKING PANEL */
+.booking-panel{background:rgba(0,150,80,.06);border:1px solid rgba(0,200,100,.2);border-radius:10px;padding:.8rem;margin-top:.75rem}
+.booking-panel h4{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:#00c864;margin-bottom:.8rem;display:flex;align-items:center;gap:.4rem}
+.booking-search-row{display:flex;gap:.4rem;margin-bottom:.8rem;flex-wrap:wrap}
+.booking-search-row input{flex:1;min-width:90px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:6px;color:var(--sand);font-family:'DM Sans',sans-serif;font-size:.75rem;padding:.3rem .5rem}
+.booking-search-row input:focus{outline:none;border-color:#00c864}
+.booking-search-btn{padding:.3rem .8rem;border-radius:8px;border:none;background:#00c864;color:#0f1019;font-size:.72rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:all .2s}
+.booking-search-btn:hover{background:#00a852}
+.booking-search-btn:disabled{opacity:.5;cursor:not-allowed}
+.booking-results{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.6rem}
+.booking-card{background:rgba(0,0,0,.3);border:1px solid rgba(0,200,100,.15);border-radius:8px;padding:.7rem;transition:border-color .2s;cursor:pointer}
+.booking-card:hover{border-color:rgba(0,200,100,.4)}
+.bk-name{font-size:.78rem;font-weight:600;margin-bottom:.25rem;color:var(--sand)}
+.bk-meta{font-size:.65rem;color:rgba(245,237,214,.45);margin-bottom:.35rem}
+.bk-price{font-size:.85rem;font-weight:700;color:#00c864}
+.bk-price span{font-size:.6rem;font-weight:400;color:rgba(245,237,214,.4)}
+.bk-rating{display:inline-block;background:rgba(0,200,100,.15);border:1px solid rgba(0,200,100,.3);border-radius:5px;padding:.1rem .35rem;font-size:.65rem;color:#00c864;margin-left:.4rem}
+.bk-actions{display:flex;gap:.4rem;margin-top:.5rem}
+.bk-view-btn{flex:1;padding:.25rem .5rem;border-radius:6px;border:1px solid rgba(0,200,100,.3);background:transparent;color:#00c864;font-size:.62rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;text-align:center}
+.bk-view-btn:hover{background:rgba(0,200,100,.1)}
+.bk-use-btn{flex:1;padding:.25rem .5rem;border-radius:6px;border:none;background:rgba(0,200,100,.2);color:#00c864;font-size:.62rem;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;transition:all .2s}
+.bk-use-btn:hover{background:rgba(0,200,100,.35)}
+.booking-loading{text-align:center;padding:1.2rem;color:rgba(245,237,214,.35);font-size:.75rem}
+.booking-loading .bk-spinner{display:inline-block;width:18px;height:18px;border:2px solid rgba(0,200,100,.2);border-top-color:#00c864;border-radius:50%;animation:bk-spin .8s linear infinite;margin-bottom:.4rem}
+@keyframes bk-spin{to{transform:rotate(360deg)}}
+.booking-error{text-align:center;padding:.8rem;color:rgba(232,101,74,.7);font-size:.73rem}
+.bk-image{width:100%;height:90px;object-fit:cover;border-radius:5px;margin-bottom:.4rem;background:rgba(255,255,255,.05)}
+.bk-noresult{text-align:center;padding:.8rem;color:rgba(245,237,214,.35);font-size:.73rem}
+.sa-btn.booking{border-color:rgba(0,200,100,.3);color:#00c864}
+.sa-btn.booking:hover{background:rgba(0,200,100,.1)}
 
 /* MODAL */
 .modal-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);align-items:center;justify-content:center}
@@ -604,18 +635,18 @@ const THINGS_TO_DO = {
 //  STORAGE HELPERS
 // ═══════════════════════════════════════════
 function loadStops() {
-  try { const d = localStorage.getItem('dt_stops_v7'); if(d) return JSON.parse(d); } catch(e){}
+  try { const d = localStorage.getItem('dt_stops_v8'); if(d) return JSON.parse(d); } catch(e){}
   return DEFAULT_STOPS.map(s=>({...s}));
 }
 function saveStops(arr) {
-  try { localStorage.setItem('dt_stops_v7', JSON.stringify(arr)); } catch(e){}
+  try { localStorage.setItem('dt_stops_v8', JSON.stringify(arr)); } catch(e){}
 }
 function loadICT() {
-  try { const d = localStorage.getItem('dt_ict_v7'); if(d) return JSON.parse(d); } catch(e){}
+  try { const d = localStorage.getItem('dt_ict_v8'); if(d) return JSON.parse(d); } catch(e){}
   return {...DEFAULT_ICT};
 }
 function saveICT(obj) {
-  try { localStorage.setItem('dt_ict_v7', JSON.stringify(obj)); } catch(e){}
+  try { localStorage.setItem('dt_ict_v8', JSON.stringify(obj)); } catch(e){}
 }
 
 let stops = loadStops();
@@ -861,10 +892,12 @@ function buildStopCard(s, idx) {
       </div>
       <div class="stop-actions">
         <button class="sa-btn flights" onclick="openFlights('${s.dest}')">✈ Search Flights</button>
+        <button class="sa-btn booking" onclick="toggleBooking('${s.id}')">🏨 Hotels</button>
         ${hasTodo?`<button class="sa-btn todo" onclick="toggleTodo('${s.id}')">🎯 Things To Do</button>`:''}
         <button class="sa-btn del" onclick="deleteStop('${s.id}')">✕ Delete</button>
       </div>
       <div id="todo-${s.id}" style="display:none"></div>
+      <div id="booking-${s.id}" style="display:none"></div>
     </div>
   </div>`;
 }
@@ -1044,13 +1077,135 @@ function openFlights(dest) {
 }
 
 // ═══════════════════════════════════════════
+//  BOOKING.COM HOTEL SEARCH
+// ═══════════════════════════════════════════
+function toggleBooking(sid) {
+  const el = document.getElementById('booking-'+sid);
+  if (!el) return;
+  if (el.style.display !== 'none') { el.style.display = 'none'; return; }
+  const s = stops.find(s => s.id === sid);
+  if (!s) return;
+  // Build initial panel with editable date inputs
+  const ci = s.checkin || '';
+  const co = s.checkout || '';
+  el.style.display = 'block';
+  el.innerHTML = `
+    <div class="booking-panel">
+      <h4>🏨 Live Hotel Search — Booking.com</h4>
+      <div class="booking-search-row">
+        <input type="text" id="bk-dest-${sid}" value="${s.dest}" placeholder="Destination">
+        <input type="date" id="bk-ci-${sid}" value="${ci}" title="Check-in">
+        <input type="date" id="bk-co-${sid}" value="${co}" title="Check-out">
+        <button class="booking-search-btn" id="bk-btn-${sid}" onclick="runBookingSearch('${sid}')">Search</button>
+      </div>
+      <div id="bk-results-${sid}"><div class="bk-noresult">Enter dates above and hit Search to find live prices</div></div>
+    </div>`;
+}
+
+async function runBookingSearch(sid) {
+  const s = stops.find(s => s.id === sid);
+  if (!s) return;
+  const dest = document.getElementById('bk-dest-'+sid).value || s.dest;
+  const ci = document.getElementById('bk-ci-'+sid).value || s.checkin;
+  const co = document.getElementById('bk-co-'+sid).value || s.checkout;
+  const btn = document.getElementById('bk-btn-'+sid);
+  const resultsEl = document.getElementById('bk-results-'+sid);
+
+  btn.disabled = true;
+  btn.textContent = 'Searching…';
+  resultsEl.innerHTML = `<div class="booking-loading"><div class="bk-spinner"></div><br>Fetching live prices from Booking.com…</div>`;
+
+  // Figure out nights for guests count
+  const nights = nightsBetween(ci, co) || 2;
+
+  try {
+    const prompt = `Search Booking.com for hotels in "${dest}", check-in ${ci || 'next month'}, check-out ${co || 'a few days later'}, 2 adults, 1 room. Return the top 6 results. For each property include: name, address, star_rating, review_score, price_per_night_usd (approximate), booking_url if available, and a short description. Respond ONLY with a valid JSON array, no markdown, no preamble. Format: [{"name":"...","address":"...","stars":4,"score":8.5,"price_usd":85,"url":"...","desc":"...","image_url":"..."}]`;
+
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        mcp_servers: [{ type: 'url', url: 'https://demandapi-mcp.booking.com/v1/mcp/8132308', name: 'booking-com' }],
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    const data = await response.json();
+
+    // Extract text from all content blocks
+    let rawText = '';
+    if (data.content && Array.isArray(data.content)) {
+      for (const block of data.content) {
+        if (block.type === 'text') rawText += block.text;
+        if (block.type === 'mcp_tool_result' && block.content?.[0]?.text) rawText += block.content[0].text;
+      }
+    }
+
+    // Try to parse JSON
+    let hotels = [];
+    try {
+      const clean = rawText.replace(/```json|```/g, '').trim();
+      // Find JSON array in the text
+      const match = clean.match(/\[[\s\S]*\]/);
+      if (match) hotels = JSON.parse(match[0]);
+    } catch(e) {
+      // fallback: try full parse
+      try { hotels = JSON.parse(rawText.replace(/```json|```/g,'')); } catch(e2) {}
+    }
+
+    if (!hotels || hotels.length === 0) {
+      resultsEl.innerHTML = `<div class="booking-error">No results found — try adjusting the destination or dates.<br><small style="opacity:.5">${rawText.slice(0,200)}</small></div>`;
+      return;
+    }
+
+    // NZD conversion (rough: 1 USD ≈ 1.65 NZD)
+    const USD_TO_NZD = 1.65;
+
+    resultsEl.innerHTML = `<div class="booking-results">${hotels.map((h,i) => {
+      const priceNZD = h.price_usd ? Math.round(h.price_usd * USD_TO_NZD) : null;
+      const stars = h.stars ? '★'.repeat(Math.min(5,h.stars)) : '';
+      const score = h.score ? `<span class="bk-rating">${h.score}/10</span>` : '';
+      return `<div class="booking-card">
+        ${h.image_url ? `<img class="bk-image" src="${h.image_url}" onerror="this.style.display='none'" alt="">` : ''}
+        <div class="bk-name">${h.name || 'Hotel'}</div>
+        <div class="bk-meta">${stars}${score} ${h.address ? '· '+h.address.slice(0,40) : ''}</div>
+        ${h.desc ? `<div class="bk-meta" style="color:rgba(245,237,214,.35);margin-top:.2rem">${h.desc.slice(0,80)}…</div>` : ''}
+        <div class="bk-price">${priceNZD ? '$'+priceNZD+' NZD' : 'See price'}<span> / night</span></div>
+        <div class="bk-actions">
+          ${h.url ? `<button class="bk-view-btn" onclick="window.open('${h.url}','_blank')">View on Booking.com</button>` : `<button class="bk-view-btn" onclick="window.open('https://www.booking.com/search.html?ss=${encodeURIComponent(dest)}&checkin=${ci}&checkout=${co}','_blank')">Search Booking.com</button>`}
+          <button class="bk-use-btn" onclick="useHotelForStop('${sid}','${h.name.replace(/'/g,"\\'")}',${priceNZD||0})">Use This</button>
+        </div>
+      </div>`;
+    }).join('')}</div>`;
+
+  } catch(err) {
+    resultsEl.innerHTML = `<div class="booking-error">Search failed: ${err.message}.<br>Try <a href="https://www.booking.com/search.html?ss=${encodeURIComponent(dest)}" target="_blank" style="color:#00c864">Booking.com directly ↗</a></div>`;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Search';
+  }
+}
+
+function useHotelForStop(sid, hotelName, priceNZD) {
+  const s = stops.find(s => s.id === sid);
+  if (!s) return;
+  s.hotel = hotelName;
+  if (priceNZD > 0) s.costPerNight = priceNZD;
+  saveStops(stops);
+  renderItinerary();
+  showToast('✓ Hotel set: ' + hotelName);
+}
+
+// ═══════════════════════════════════════════
 //  EXPORT
 // ═══════════════════════════════════════════
 function exportHTML() {
   const blob = new Blob([document.documentElement.outerHTML],{type:'text/html'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'DreamTrip_v7_'+new Date().toISOString().slice(0,10)+'.html';
+  a.download = 'DreamTrip_v8_'+new Date().toISOString().slice(0,10)+'.html';
   a.click();
 }
 

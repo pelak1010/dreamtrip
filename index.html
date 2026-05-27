@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Christian & Abi — Dream Trip 2026–27 v8</title>
+<title>Christian & Abi — Dream Trip 2026–27</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -11,8 +11,7 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
 :root {
-  --sand:#F5EDD6;
-  --deep:#1A1C2E; --coral:#E8654A; --teal:#2ABFAA;
+  --sand:#F5EDD6; --deep:#1A1C2E; --coral:#E8654A; --teal:#2ABFAA;
   --gold:#D4A843; --ink:#0F1019; --fog:rgba(245,237,214,0.07);
   --card:rgba(26,28,46,0.9); --glass:rgba(255,255,255,0.04);
   --border:rgba(245,237,214,0.1); --purple:#7B6EFF; --green:#52C97A;
@@ -227,14 +226,195 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 
 /* HIDDEN SCROLLBAR GLOBE */
 #globe-canvas-wrap{position:relative;width:100%;height:420px}
+
+/* ═══════════════════════════════════════════════════════════
+   v9 ADDITIONS
+   ═══════════════════════════════════════════════════════════ */
+
+/* HERO / COUNTDOWN */
+.hero{position:relative;padding:3rem 2rem 2rem;overflow:hidden;border-bottom:1px solid var(--border);background:
+  radial-gradient(ellipse 80% 60% at 80% 20%, rgba(232,101,74,.12), transparent 60%),
+  radial-gradient(ellipse 70% 60% at 15% 80%, rgba(42,191,170,.10), transparent 60%),
+  linear-gradient(180deg, rgba(26,28,46,.5), rgba(15,16,25,1))}
+.hero-grain{position:absolute;inset:0;opacity:.04;pointer-events:none;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='.7' numOctaves='2' seed='5'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='.6'/></svg>")}
+.hero-inner{position:relative;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:end;max-width:1400px;margin:0 auto}
+.hero-eyebrow{font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:var(--coral);margin-bottom:.7rem;display:flex;align-items:center;gap:.6rem}
+.hero-eyebrow::before{content:'';width:2rem;height:1px;background:var(--coral)}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,5vw,3.8rem);line-height:1.05;letter-spacing:-.01em;font-weight:400;margin-bottom:.8rem}
+.hero-title em{color:var(--coral);font-style:italic}
+.hero-title .amp{font-style:italic;color:rgba(245,237,214,.4);padding:0 .15em}
+.hero-sub{font-size:.95rem;color:rgba(245,237,214,.55);max-width:520px;line-height:1.55;font-weight:300}
+.hero-sub strong{color:var(--sand);font-weight:500}
+.hero-route{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,237,214,.35);margin-top:1.1rem;display:flex;flex-wrap:wrap;gap:.5rem 1rem}
+.hero-route span{display:inline-flex;align-items:center;gap:.4rem}
+.hero-route span:not(:last-child)::after{content:'→';color:var(--coral);opacity:.5}
+
+/* COUNTDOWN */
+.countdown{display:flex;flex-direction:column;align-items:flex-end;gap:.4rem;text-align:right}
+.cd-label{font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(245,237,214,.4)}
+.cd-num{font-family:'Playfair Display',serif;font-size:clamp(4rem,9vw,7rem);line-height:.9;font-weight:400;color:var(--sand);font-feature-settings:"tnum";letter-spacing:-.02em}
+.cd-num.live{background:linear-gradient(135deg,var(--coral),var(--gold));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.cd-num.past{color:var(--teal)}
+.cd-unit{font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(245,237,214,.55);margin-top:-.3rem}
+.cd-date{font-size:.7rem;color:rgba(245,237,214,.35);margin-top:.4rem}
+.cd-progress{margin-top:.8rem;width:240px;max-width:100%;height:4px;background:rgba(245,237,214,.08);border-radius:2px;overflow:hidden;position:relative}
+.cd-progress-fill{height:100%;background:linear-gradient(90deg,var(--coral),var(--gold),var(--teal));border-radius:2px;transition:width 1s ease;box-shadow:0 0 12px rgba(232,101,74,.4)}
+.cd-progress-label{font-size:.6rem;color:rgba(245,237,214,.35);margin-top:.35rem;display:flex;justify-content:space-between}
+@media(max-width:780px){
+  .hero{padding:2rem 1.2rem 1.5rem}
+  .hero-inner{grid-template-columns:1fr;gap:1.5rem}
+  .countdown{align-items:flex-start;text-align:left}
+  .cd-progress{width:100%}
+}
+
+/* PHASE RIBBON */
+.phase-ribbon{display:flex;gap:0;padding:0 2rem;margin-top:.8rem;border-top:1px solid var(--border);background:rgba(0,0,0,.25);overflow-x:auto;-webkit-overflow-scrolling:touch}
+.phase{flex:1;min-width:160px;padding:.85rem 1rem;cursor:pointer;border-right:1px solid var(--border);position:relative;transition:background .2s}
+.phase:last-child{border-right:none}
+.phase:hover{background:rgba(245,237,214,.03)}
+.phase.current::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--coral)}
+.phase.current{background:rgba(232,101,74,.06)}
+.phase.done{opacity:.45}
+.phase.done .ph-name{text-decoration:line-through}
+.ph-num{font-size:.55rem;letter-spacing:.2em;color:rgba(245,237,214,.3);text-transform:uppercase}
+.ph-name{font-family:'Playfair Display',serif;font-size:1rem;color:var(--sand);margin-top:.15rem;font-weight:500}
+.ph-meta{font-size:.65rem;color:rgba(245,237,214,.4);margin-top:.2rem;display:flex;gap:.6rem;flex-wrap:wrap}
+.ph-meta b{color:var(--teal);font-weight:600}
+@media(max-width:780px){
+  .phase-ribbon{padding:0 1rem;gap:0}
+  .phase{min-width:140px;padding:.7rem .8rem}
+}
+
+/* COUNTRY HERO STRIP */
+.country-section{margin:2.5rem 2rem 1.5rem}
+.country-section:first-of-type{margin-top:1.8rem}
+.country-strip{position:relative;height:140px;border-radius:14px;overflow:hidden;margin-bottom:1rem;border:1px solid var(--border);background:#0c0d18}
+.country-strip-bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.55;transition:opacity .4s, transform 4s}
+.country-strip:hover .country-strip-bg{opacity:.7;transform:scale(1.04)}
+.country-strip-tint{position:absolute;inset:0;background:linear-gradient(90deg, rgba(15,16,25,.92) 0%, rgba(15,16,25,.6) 40%, rgba(15,16,25,.2) 100%)}
+.country-strip-inner{position:relative;display:grid;grid-template-columns:1fr auto;gap:1.5rem;align-items:center;height:100%;padding:0 1.5rem}
+.cs-left{display:flex;flex-direction:column;gap:.3rem}
+.cs-flag-row{display:flex;align-items:center;gap:.8rem}
+.cs-flag{font-size:2rem;line-height:1;filter:drop-shadow(0 2px 8px rgba(0,0,0,.5))}
+.cs-name{font-family:'Playfair Display',serif;font-size:1.7rem;letter-spacing:-.01em;font-weight:500}
+.cs-phase-tag{font-size:.6rem;text-transform:uppercase;letter-spacing:.2em;padding:.18rem .5rem;border-radius:10px;background:rgba(245,237,214,.08);border:1px solid rgba(245,237,214,.15);color:rgba(245,237,214,.6)}
+.cs-dates{font-size:.78rem;color:rgba(245,237,214,.55);font-weight:300;letter-spacing:.02em}
+.cs-badges{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.4rem}
+.cs-badge{display:inline-flex;align-items:center;gap:.35rem;padding:.22rem .55rem;border-radius:8px;background:rgba(0,0,0,.4);backdrop-filter:blur(8px);border:1px solid rgba(245,237,214,.12);font-size:.66rem;color:rgba(245,237,214,.75)}
+.cs-badge b{color:var(--sand);font-weight:500}
+.cs-badge.visa{border-color:rgba(212,168,67,.3);color:var(--gold)}
+.cs-badge.visa b{color:var(--gold)}
+.cs-badge.weather{border-color:rgba(42,191,170,.3);color:var(--teal)}
+.cs-badge.currency{border-color:rgba(123,110,255,.3);color:var(--purple)}
+.cs-right{display:flex;flex-direction:column;align-items:flex-end;gap:.3rem;text-align:right}
+.cs-stops{font-family:'Playfair Display',serif;font-size:1.8rem;line-height:1;color:var(--sand)}
+.cs-stops small{font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,237,214,.4);display:block;margin-top:.2rem;font-family:'DM Sans',sans-serif}
+.cs-cost{font-size:.95rem;color:var(--coral);font-weight:600;margin-top:.4rem}
+.cs-cost small{font-size:.6rem;color:rgba(245,237,214,.4);font-weight:400;display:block;margin-top:.1rem}
+.cs-points{font-size:.7rem;color:var(--gold);margin-top:.2rem}
+@media(max-width:780px){
+  .country-section{margin:1.8rem 1rem 1rem}
+  .country-strip{height:auto;min-height:130px}
+  .country-strip-inner{grid-template-columns:1fr;padding:.9rem 1rem;gap:.6rem;align-items:flex-start}
+  .cs-right{align-items:flex-start;text-align:left}
+  .cs-name{font-size:1.35rem}
+  .cs-flag{font-size:1.6rem}
+}
+
+/* IMAGE SLOT for country header */
+.cs-img-slot{position:absolute;inset:0;display:flex;align-items:center;justify-content:flex-end;pointer-events:none}
+.cs-img-drop{position:absolute;top:.5rem;right:.5rem;width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.5);backdrop-filter:blur(8px);border:1px dashed rgba(245,237,214,.25);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.85rem;color:rgba(245,237,214,.5);pointer-events:auto;transition:all .2s;z-index:5}
+.cs-img-drop:hover{border-color:var(--coral);color:var(--coral);background:rgba(232,101,74,.1)}
+.cs-img-drop.has-image{border-style:solid;border-color:var(--teal);color:var(--teal)}
+
+/* OVERRIDES: country header (replace old layout with strip) */
+.country-section .country-header{display:none}
+.country-section .country-total-bar{margin-top:1rem}
+
+/* MOBILE: STOP CARD STACK */
+@media(max-width:780px){
+  .stop-header{flex-wrap:wrap;gap:.4rem .6rem;padding:.7rem .85rem}
+  .stop-num{order:1}
+  .stop-dest{order:2;flex:1 1 calc(100% - 60px);font-size:.95rem}
+  .stop-chevron{order:3}
+  .stop-hotel{order:4;flex:1 1 100%;font-size:.7rem}
+  .stop-dates{order:5;flex:1 1 auto;font-size:.68rem}
+  .stop-cost{order:6;font-size:.85rem}
+  .stop-points-badge,.stop-accom-type{order:7}
+  .stop-fields{grid-template-columns:1fr 1fr}
+  .stop-actions{flex-wrap:wrap}
+  .banner{padding:1rem 1rem;gap:.9rem}
+  .bb-div{display:none}
+  .bb-stat{flex:1 1 calc(50% - .5rem);min-width:130px}
+  .nav-tabs{gap:0}
+  .tab-btn{padding:.3rem .5rem;font-size:.62rem}
+  nav{padding:0 .8rem}
+  .nav-brand{font-size:.78rem}
+  .nav-brand span{display:none}
+}
+
+/* PACKING TAB */
+.packing-wrap{padding:1.5rem 2rem;max-width:1100px;margin:0 auto}
+.packing-head{display:flex;justify-content:space-between;align-items:flex-end;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}
+.packing-progress{flex:1;min-width:240px;max-width:520px}
+.pp-bar{height:8px;background:rgba(245,237,214,.06);border-radius:4px;overflow:hidden;border:1px solid var(--border)}
+.pp-fill{height:100%;background:linear-gradient(90deg,var(--coral),var(--gold),var(--teal));border-radius:4px;transition:width .4s}
+.pp-meta{display:flex;justify-content:space-between;font-size:.7rem;color:rgba(245,237,214,.5);margin-top:.4rem}
+.packing-actions{display:flex;gap:.4rem;flex-wrap:wrap}
+.pa-btn{padding:.35rem .8rem;border-radius:10px;border:1px solid var(--border);background:transparent;color:rgba(245,237,214,.55);font-size:.72rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.pa-btn:hover{border-color:var(--coral);color:var(--coral)}
+.pa-btn.danger:hover{border-color:#e8654a;color:#e8654a}
+.packing-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;margin-top:1rem}
+.pack-cat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem;display:flex;flex-direction:column}
+.pc-head{display:flex;justify-content:space-between;align-items:center;font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:.6rem;padding-bottom:.45rem;border-bottom:1px solid var(--border)}
+.pc-icon{margin-right:.4rem}
+.pc-count{font-size:.65rem;color:rgba(245,237,214,.4);font-family:'DM Sans',sans-serif;font-weight:normal}
+.pc-list{display:flex;flex-direction:column;gap:.3rem;flex:1}
+.pc-item{display:flex;align-items:center;gap:.55rem;padding:.3rem .35rem;border-radius:6px;cursor:pointer;transition:background .15s;font-size:.82rem}
+.pc-item:hover{background:rgba(245,237,214,.04)}
+.pc-check{width:16px;height:16px;border-radius:4px;border:1.5px solid rgba(245,237,214,.3);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.7rem;transition:all .15s}
+.pc-item.checked .pc-check{background:var(--teal);border-color:var(--teal);color:#0f1019}
+.pc-item.checked .pc-text{text-decoration:line-through;color:rgba(245,237,214,.35)}
+.pc-text{flex:1}
+.pc-del{opacity:0;font-size:.7rem;color:rgba(232,101,74,.6);cursor:pointer;padding:0 .3rem;transition:opacity .15s}
+.pc-item:hover .pc-del{opacity:1}
+.pc-add{display:flex;gap:.4rem;margin-top:.6rem;padding-top:.6rem;border-top:1px dashed rgba(245,237,214,.1)}
+.pc-add input{flex:1;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:6px;color:var(--sand);font-family:'DM Sans',sans-serif;font-size:.78rem;padding:.3rem .5rem}
+.pc-add input:focus{outline:none;border-color:var(--coral)}
+.pc-add button{padding:.3rem .6rem;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--coral);font-size:.78rem;cursor:pointer;font-family:'DM Sans',sans-serif}
+.pc-add button:hover{background:rgba(232,101,74,.1)}
+
+/* DOCS TAB */
+.docs-wrap{padding:1.5rem 2rem;max-width:1100px;margin:0 auto}
+.docs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1rem;margin-top:1rem}
+.doc-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.1rem}
+.doc-head{display:flex;align-items:center;gap:.6rem;font-family:'Playfair Display',serif;font-size:1.05rem;margin-bottom:.8rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+.doc-row{display:grid;grid-template-columns:110px 1fr;gap:.5rem;padding:.4rem 0;align-items:center;border-bottom:1px dashed rgba(245,237,214,.06)}
+.doc-row:last-child{border-bottom:none}
+.doc-label{font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(245,237,214,.45)}
+.doc-input{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:6px;color:var(--sand);font-family:'DM Sans',sans-serif;font-size:.82rem;padding:.35rem .55rem;width:100%}
+.doc-input:focus{outline:none;border-color:var(--coral)}
+.doc-input.textarea{min-height:60px;resize:vertical;font-family:'DM Sans',sans-serif}
+
+/* GLOBE: enhanced labels */
+.globe-now-label{position:absolute;bottom:1rem;left:1rem;font-size:.72rem;color:var(--coral);padding:.3rem .65rem;border-radius:14px;background:rgba(15,16,25,.85);border:1px solid rgba(232,101,74,.3);backdrop-filter:blur(8px);pointer-events:none}
+.globe-now-label b{color:var(--sand)}
+.globe-now-label .pulse-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--coral);margin-right:.5rem;animation:pulse-dot 2s ease-in-out infinite;vertical-align:middle}
+@keyframes pulse-dot{0%,100%{box-shadow:0 0 0 0 rgba(232,101,74,.6)}50%{box-shadow:0 0 0 8px rgba(232,101,74,0)}}
+
+/* OVERRIDES: hide old export button */
+.nav-export{display:none}
+
 </style>
 </head>
 <body>
 <nav>
-  <div class="nav-brand">Christian & <em>Abi</em> — Dream Trip 2026–27</div>
+  <div class="nav-brand">Christian &amp; <em>Abi</em> — Dream Trip <span style="opacity:.45">2026 – 27</span></div>
   <div class="nav-tabs">
     <button class="tab-btn active" onclick="switchView('itin')">✈ Itinerary</button>
     <button class="tab-btn" onclick="switchView('budg')">💰 Budget</button>
+    <button class="tab-btn" onclick="switchView('pack')">🎒 Packing</button>
+    <button class="tab-btn" onclick="switchView('docs')">📋 Docs</button>
     <button class="tab-btn" onclick="switchView('globe')">🌍 Globe</button>
     <button class="tab-btn" onclick="switchView('tips')">💡 Tips</button>
   </div>
@@ -242,11 +422,28 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 </nav>
 <div class="toast" id="toast"></div>
 
+<!-- ════════════ ITINERARY VIEW ════════════ -->
 <div class="view active" id="view-itin">
+  <section class="hero">
+    <div class="hero-grain"></div>
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eyebrow">Six months · Eight countries · One adventure</div>
+        <h1 class="hero-title">Christian <span class="amp">&amp;</span> <em>Abi</em><br>chase the long way home.</h1>
+        <p class="hero-sub">From <strong>Bali sunsets</strong> through <strong>Vietnamese lantern streets</strong>, <strong>Sri Lankan tea trains</strong> and <strong>Maldivian reefs</strong>, across the Pacific to <strong>Machu Picchu</strong>, <strong>Brazilian beaches</strong>, and finally home to <strong>Buenos Aires</strong>. Built for two — every dollar, every flight, every dragon, every dive.</p>
+        <div class="hero-route">
+          <span>🇮🇩 Indonesia</span><span>🇵🇭 Philippines</span><span>🇻🇳 Vietnam</span><span>🇱🇰 Sri Lanka</span><span>🇲🇻 Maldives</span><span>🇵🇪 Peru</span><span>🇧🇷 Brazil</span><span>🇦🇷 Argentina</span>
+        </div>
+      </div>
+      <div class="countdown" id="countdown"></div>
+    </div>
+  </section>
+  <div class="phase-ribbon" id="phase-ribbon"></div>
   <div class="banner" id="banner"></div>
   <div id="itin-content"></div>
 </div>
 
+<!-- ════════════ BUDGET VIEW ════════════ -->
 <div class="view" id="view-budg">
   <div class="budget-wrap">
     <h2 class="section-h2">Budget Breakdown</h2>
@@ -254,6 +451,35 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
   </div>
 </div>
 
+<!-- ════════════ PACKING VIEW ════════════ -->
+<div class="view" id="view-pack">
+  <div class="packing-wrap">
+    <h2 class="section-h2">The Pack List</h2>
+    <p style="font-size:.78rem;color:rgba(245,237,214,.4);margin-bottom:1.2rem;max-width:560px">Two backpacks, six months. Tick as you pack — saved automatically. Add anything missing.</p>
+    <div class="packing-head">
+      <div class="packing-progress">
+        <div class="pp-bar"><div class="pp-fill" id="pp-fill" style="width:0%"></div></div>
+        <div class="pp-meta"><span id="pp-meta-l">0 of 0 packed</span><span id="pp-meta-r">0%</span></div>
+      </div>
+      <div class="packing-actions">
+        <button class="pa-btn" onclick="packExpandAll()">Expand all</button>
+        <button class="pa-btn danger" onclick="packReset()">Reset</button>
+      </div>
+    </div>
+    <div class="packing-grid" id="packing-grid"></div>
+  </div>
+</div>
+
+<!-- ════════════ DOCS VIEW ════════════ -->
+<div class="view" id="view-docs">
+  <div class="docs-wrap">
+    <h2 class="section-h2">Documents & Important Numbers</h2>
+    <p style="font-size:.78rem;color:rgba(245,237,214,.4);margin-bottom:1.2rem;max-width:560px">Everything you'd panic-search for at 3am in a foreign hotel. Saved locally to this device — never sent anywhere.</p>
+    <div class="docs-grid" id="docs-grid"></div>
+  </div>
+</div>
+
+<!-- ════════════ GLOBE VIEW ════════════ -->
 <div class="view" id="view-globe">
   <div class="globe-wrap">
     <div>
@@ -274,6 +500,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
   </div>
 </div>
 
+<!-- ════════════ TIPS VIEW ════════════ -->
 <div class="view" id="view-tips">
   <div class="tips-wrap">
     <h2 class="section-h2">Travel Tips & Strategy</h2>
@@ -281,6 +508,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
   </div>
 </div>
 
+<!-- ADD STOP MODAL -->
 <div class="modal-overlay" id="modal-overlay">
   <div class="modal">
     <h3>Add New Stop</h3>
@@ -631,18 +859,18 @@ const THINGS_TO_DO = {
 //  STORAGE HELPERS
 // ═══════════════════════════════════════════
 function loadStops() {
-  try { const d = localStorage.getItem('dt_stops_v8'); if(d) return JSON.parse(d); } catch(e){}
+  try { const d = localStorage.getItem('dt_stops_v9'); if(d) return JSON.parse(d); } catch(e){}
   return DEFAULT_STOPS.map(s=>({...s}));
 }
 function saveStops(arr) {
-  try { localStorage.setItem('dt_stops_v8', JSON.stringify(arr)); } catch(e){}
+  try { localStorage.setItem('dt_stops_v9', JSON.stringify(arr)); } catch(e){}
 }
 function loadICT() {
-  try { const d = localStorage.getItem('dt_ict_v8'); if(d) return JSON.parse(d); } catch(e){}
+  try { const d = localStorage.getItem('dt_ict_v9'); if(d) return JSON.parse(d); } catch(e){}
   return {...DEFAULT_ICT};
 }
 function saveICT(obj) {
-  try { localStorage.setItem('dt_ict_v8', JSON.stringify(obj)); } catch(e){}
+  try { localStorage.setItem('dt_ict_v9', JSON.stringify(obj)); } catch(e){}
 }
 
 let stops = loadStops();
@@ -685,17 +913,237 @@ const MODE_META = {
 function modeMeta(m) { return MODE_META[m] || MODE_META['bus']; }
 
 // ═══════════════════════════════════════════
-//  VIEW SWITCHING
+//  v9 — COUNTRY METADATA
 // ═══════════════════════════════════════════
+const COUNTRY_META = {
+  Indonesia:    { flag:'🇮🇩', color:'#2A8B6E', accent:'#E8A647', phase:'SE Asia',
+    visa:'Visa on Arrival · 30d · ~$35 USD',
+    currency:'1 NZD ≈ 9,400 IDR',
+    weather:'☀ 28–31°C · end of dry season',
+    bg:'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1600&q=70' },
+  Philippines:  { flag:'🇵🇭', color:'#1E5E8C', accent:'#E8654A', phase:'SE Asia',
+    visa:'NZ passport · visa-free 30d',
+    currency:'1 NZD ≈ 35 PHP',
+    weather:'☀ 27–30°C · dry, ideal beach window',
+    bg:'https://images.unsplash.com/photo-1573160103600-e0aaa1cb2f25?w=1600&q=70' },
+  Vietnam:      { flag:'🇻🇳', color:'#A8324A', accent:'#D4A843', phase:'SE Asia',
+    visa:'e-Visa required · apply 1mo ahead · ~$25 USD',
+    currency:'1 NZD ≈ 15,500 VND',
+    weather:'🌤 Hanoi cool 18–25°C · HCMC warm 26–29°C',
+    bg:'https://images.unsplash.com/photo-1528127269322-539801943592?w=1600&q=70' },
+  'Sri Lanka':  { flag:'🇱🇰', color:'#0F6E5E', accent:'#FFC857', phase:'Indian Ocean',
+    visa:'ETA online · ~$50 USD · 1 week ahead',
+    currency:'1 NZD ≈ 195 LKR',
+    weather:'☀ 26–30°C · dry SW + south coast',
+    bg:'https://images.unsplash.com/photo-1586183189334-1f2b91dc6f06?w=1600&q=70' },
+  Maldives:     { flag:'🇲🇻', color:'#1A8FBF', accent:'#F2D2A1', phase:'Indian Ocean',
+    visa:'Visa on Arrival · 30d · free',
+    currency:'1 NZD ≈ 9.4 MVR · USD widely accepted',
+    weather:'☀ 28–31°C · dry season, perfect',
+    bg:'https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=1600&q=70' },
+  Peru:         { flag:'🇵🇪', color:'#9B3838', accent:'#F2D2A1', phase:'South America',
+    visa:'NZ passport · visa-free 90d',
+    currency:'1 NZD ≈ 2.3 PEN',
+    weather:'🌥 Lima grey 18–23°C · Cusco 5–19°C · layers!',
+    bg:'https://images.unsplash.com/photo-1526392060635-9d6019884377?w=1600&q=70' },
+  Brazil:       { flag:'🇧🇷', color:'#0E7C3A', accent:'#FFD600', phase:'South America',
+    visa:'NZ passport · visa-free 90d',
+    currency:'1 NZD ≈ 3.4 BRL',
+    weather:'☀ 27–32°C NE coast · 22–28°C Rio',
+    bg:'https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=1600&q=70' },
+  Argentina:    { flag:'🇦🇷', color:'#5BB3D8', accent:'#FFC857', phase:'Home Base',
+    visa:'NZ passport · visa-free 90d',
+    currency:'1 NZD ≈ 600 ARS · volatile, Western Union best',
+    weather:'🍂 BA 16–24°C autumn · Patagonia 0–10°C · cold!',
+    bg:'https://images.unsplash.com/photo-1589909202802-8f4aadce1849?w=1600&q=70' },
+};
+
+const TRIP_START = '2026-10-21';
+
+// ═══════════════════════════════════════════
+//  v9 — DATE HELPER (with weekday)
+// ═══════════════════════════════════════════
+function fmtDateWk(d){
+  if(!d) return '';
+  return new Date(d+'T00:00:00').toLocaleDateString('en-NZ',{weekday:'short',day:'numeric',month:'short'});
+}
+function fmtDateLong(d){
+  if(!d) return '';
+  return new Date(d+'T00:00:00').toLocaleDateString('en-NZ',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+}
+
+// ═══════════════════════════════════════════
+//  v9 — COUNTDOWN
+// ═══════════════════════════════════════════
+function renderCountdown(){
+  const el = document.getElementById('countdown');
+  if(!el) return;
+  const today = new Date(); today.setHours(0,0,0,0);
+  const start = new Date(TRIP_START+'T00:00:00');
+  // Last stop end for "trip end"
+  const lastEnd = stops.map(s=>s.checkout).filter(Boolean).sort().pop();
+  const end = lastEnd ? new Date(lastEnd+'T00:00:00') : new Date('2027-04-30T00:00:00');
+  const totalMs = end - start;
+  const elapsedMs = today - start;
+  const daysToStart = Math.ceil((start - today)/86400000);
+  const daysTotal = Math.round(totalMs/86400000);
+  const daysElapsed = Math.floor(elapsedMs/86400000);
+  const daysRemaining = Math.ceil((end - today)/86400000);
+
+  let html = '';
+  if(daysToStart > 0){
+    html = `
+      <div class="cd-label">Wheels up in</div>
+      <div class="cd-num live">${daysToStart}</div>
+      <div class="cd-unit">${daysToStart===1?'day':'days'}</div>
+      <div class="cd-date">${fmtDateLong(TRIP_START)} · Bali 🇮🇩</div>
+      <div class="cd-progress"><div class="cd-progress-fill" style="width:${Math.max(2,Math.min(98,100 - (daysToStart/200*100)))}%"></div></div>
+      <div class="cd-progress-label"><span>Today</span><span>Departure</span></div>`;
+  } else if(daysRemaining > 0){
+    const pct = Math.max(0, Math.min(100, (daysElapsed/daysTotal)*100));
+    html = `
+      <div class="cd-label">On the road · day ${daysElapsed} of ${daysTotal}</div>
+      <div class="cd-num live">${daysRemaining}</div>
+      <div class="cd-unit">${daysRemaining===1?'day left':'days left'}</div>
+      <div class="cd-date">Trip ends ${fmtDateLong(lastEnd)}</div>
+      <div class="cd-progress"><div class="cd-progress-fill" style="width:${pct}%"></div></div>
+      <div class="cd-progress-label"><span>Bali</span><span>${pct.toFixed(0)}% complete</span><span>BA</span></div>`;
+  } else {
+    html = `
+      <div class="cd-label">Home, dreaming of next time</div>
+      <div class="cd-num past">${Math.abs(daysRemaining)}</div>
+      <div class="cd-unit">days since return</div>
+      <div class="cd-date">${daysTotal} days · 8 countries · 1 trip of a lifetime</div>`;
+  }
+  el.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════
+//  v9 — PHASE RIBBON
+// ═══════════════════════════════════════════
+function renderPhaseRibbon(){
+  const el = document.getElementById('phase-ribbon');
+  if(!el) return;
+  const phases = [
+    { id:'sea', name:'Southeast Asia', countries:['Indonesia','Philippines','Vietnam'], emoji:'🏝' },
+    { id:'io',  name:'Indian Ocean',   countries:['Sri Lanka','Maldives'],              emoji:'🌊' },
+    { id:'sa',  name:'South America',  countries:['Peru','Brazil'],                     emoji:'⛰' },
+    { id:'home',name:'Argentina',      countries:['Argentina'],                          emoji:'🍷' },
+  ];
+  const today = new Date(); today.setHours(0,0,0,0);
+  el.innerHTML = phases.map(p=>{
+    const pStops = stops.filter(s=>p.countries.includes(s.country));
+    if(pStops.length===0) return '';
+    const start = pStops.map(s=>s.checkin).filter(Boolean).sort()[0];
+    const end = pStops.map(s=>s.checkout).filter(Boolean).sort().pop();
+    const startD = new Date(start+'T00:00:00');
+    const endD = new Date(end+'T00:00:00');
+    const cost = pStops.reduce((a,s)=>a+calcStopCost(s),0)*2;
+    let cls = '';
+    if(today > endD) cls = 'done';
+    else if(today >= startD) cls = 'current';
+    const dur = Math.round((endD-startD)/86400000);
+    const dateRange = `${startD.toLocaleDateString('en-NZ',{day:'numeric',month:'short'})} → ${endD.toLocaleDateString('en-NZ',{day:'numeric',month:'short'})}`;
+    return `<div class="phase ${cls}" onclick="scrollToCountry('${p.countries[0].replace(/\s+/g,'_')}')">
+      <div class="ph-num">${p.emoji} Phase</div>
+      <div class="ph-name">${p.name}</div>
+      <div class="ph-meta"><span>${dateRange}</span><span><b>${dur}d</b></span><span><b>$${(cost/1000).toFixed(1)}k</b></span></div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════
+//  v9 — COUNTRY HERO STRIP
+// ═══════════════════════════════════════════
+function loadCountryImages(){
+  try { const d = localStorage.getItem('dt_country_imgs_v9'); if(d) return JSON.parse(d); } catch(e){}
+  return {};
+}
+function saveCountryImages(o){ try{ localStorage.setItem('dt_country_imgs_v9', JSON.stringify(o)); }catch(e){} }
+let countryImages = loadCountryImages();
+
+function buildCountryStrip(country, cStops){
+  const meta = COUNTRY_META[country] || {flag:'🌍', color:'#444', accent:'#888', phase:'', visa:'—', currency:'—', weather:'—', bg:''};
+  const cTotal = cStops.reduce((a,s)=>a+calcStopCost(s),0);
+  const cPoints = cStops.reduce((a,s)=>a+(parseInt(s.points)||0),0);
+  const start = cStops.map(s=>s.checkin).filter(Boolean).sort()[0];
+  const end = cStops.map(s=>s.checkout).filter(Boolean).sort().pop();
+  const dateRange = start && end ? `${fmtDateWk(start)} → ${fmtDateWk(end)}` : '';
+  const customBg = countryImages[country];
+  const bgUrl = customBg || meta.bg;
+  const tintGrad = `linear-gradient(90deg, rgba(15,16,25,.95) 0%, ${meta.color}55 50%, ${meta.color}aa 100%)`;
+  return `
+    <div class="country-strip" id="country-${country.replace(/\s+/g,'_')}">
+      <div class="country-strip-bg" style="background-image:url('${bgUrl}')"></div>
+      <div class="country-strip-tint" style="background:${tintGrad}"></div>
+      <label class="cs-img-drop ${customBg?'has-image':''}" title="Upload your own photo of ${country}">
+        ${customBg?'✓':'📷'}
+        <input type="file" accept="image/*" style="display:none" onchange="setCountryImage('${country}',this)">
+      </label>
+      <div class="country-strip-inner">
+        <div class="cs-left">
+          <div class="cs-flag-row">
+            <span class="cs-flag">${meta.flag}</span>
+            <span class="cs-name">${country}</span>
+            <span class="cs-phase-tag">${meta.phase}</span>
+          </div>
+          <div class="cs-dates">${dateRange}</div>
+          <div class="cs-badges">
+            <span class="cs-badge visa">🛂 <b>${meta.visa}</b></span>
+            <span class="cs-badge weather">${meta.weather}</span>
+            <span class="cs-badge currency">💱 <b>${meta.currency}</b></span>
+          </div>
+        </div>
+        <div class="cs-right">
+          <div class="cs-stops">${cStops.length}<small>${cStops.length===1?'stop':'stops'}</small></div>
+          <div class="cs-cost">${fmtNZD(cTotal*2)}<small>${fmtNZD(cTotal)} each</small></div>
+          ${cPoints>0?`<div class="cs-points">⭐ ${cPoints.toLocaleString()} pts</div>`:''}
+        </div>
+      </div>
+    </div>`;
+}
+
+function setCountryImage(country, input){
+  const file = input.files && input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e=>{
+    countryImages[country] = e.target.result;
+    saveCountryImages(countryImages);
+    renderItinerary();
+    showToast('✓ Photo saved for '+country);
+  };
+  reader.readAsDataURL(file);
+}
+
+// Preload all country strip bgs; on failure, swap to a thematic gradient.
+function preloadCountryBgs(){
+  Object.entries(COUNTRY_META).forEach(([country, meta])=>{
+    if(countryImages[country]) return; // user uploaded one, trust it
+    const slug = country.replace(/\s+/g,'_');
+    const bgEl = document.querySelector(`#country-${slug} .country-strip-bg`);
+    if(!bgEl || !meta.bg) return;
+    const img = new Image();
+    img.onerror = ()=>{
+      // Replace broken image with a thematic gradient
+      bgEl.style.backgroundImage = `linear-gradient(135deg, ${meta.color} 0%, ${meta.accent} 100%)`;
+      bgEl.style.opacity = '.45';
+    };
+    img.src = meta.bg;
+  });
+}
 function switchView(v) {
   document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(el=>el.classList.remove('active'));
   document.getElementById('view-'+v).classList.add('active');
   const btns = document.querySelectorAll('.tab-btn');
-  ['itin','budg','globe','tips'].forEach((name,i)=>{ if(name===v) btns[i].classList.add('active'); });
+  ['itin','budg','pack','docs','globe','tips'].forEach((name,i)=>{ if(name===v) btns[i].classList.add('active'); });
   if(v==='globe') { initGlobe(); initLeafletMap(); }
   if(v==='budg') renderBudget();
   if(v==='tips') renderTips();
+  if(v==='pack') renderPacking();
+  if(v==='docs') renderDocs();
+  if(v==='itin') { renderCountdown(); renderPhaseRibbon(); }
 }
 
 // ═══════════════════════════════════════════
@@ -838,8 +1286,8 @@ const ATYPE_LABELS = { accor:'🏨 Accor', airbnb:'🏠 Airbnb', hostel:'🛏 Ho
 function buildStopCard(s, idx) {
   const nights = nightsBetween(s.checkin, s.checkout);
   const cost = calcStopCost(s);
-  const ci = s.checkin ? new Date(s.checkin+'T00:00:00').toLocaleDateString('en-NZ',{day:'numeric',month:'short'}) : '';
-  const co = s.checkout ? new Date(s.checkout+'T00:00:00').toLocaleDateString('en-NZ',{day:'numeric',month:'short'}) : '';
+  const ci = fmtDateWk(s.checkin);
+  const co = fmtDateWk(s.checkout);
   const breakdown = nights>0 ? `${nights}n × ${fmtNZD(s.costPerNight)}${s.transport>0?' + '+fmtNZD(s.transport*2)+' transport':''}` : '';
   const accomLabel = ATYPE_LABELS[s.accommodationType||'hotel']||'🏩 Hotel';
   const hasTodo = THINGS_TO_DO[s.dest] && THINGS_TO_DO[s.dest].length>0;
@@ -887,8 +1335,8 @@ function buildStopCard(s, idx) {
         <div class="sf" style="grid-column:1/-1"><label>Notes & Activities</label><textarea onchange="updateStop('${s.id}','notes',this.value)">${s.notes||''}</textarea></div>
       </div>
       <div class="stop-actions">
-        <button class="sa-btn flights" onclick="openFlights('${s.dest}')">✈ Search Flights</button>
-        <button class="sa-btn booking" onclick="toggleBooking('${s.id}')">🏨 Hotels</button>
+        <a class="sa-btn flights" target="_blank" rel="noopener noreferrer" style="text-decoration:none" href="https://www.google.com/travel/flights?q=cheap+flights+to+${encodeURIComponent(s.dest)}">✈ Search Flights ↗</a>
+        <a class="sa-btn booking" target="_blank" rel="noopener noreferrer" style="text-decoration:none" href="https://www.booking.com/searchresults.html?ss=${encodeURIComponent(s.dest)}&checkin=${s.checkin||''}&checkout=${s.checkout||''}&group_adults=2&no_rooms=1&group_children=0">🏨 Find Hotels on Booking.com ↗</a>
         ${hasTodo?`<button class="sa-btn todo" onclick="toggleTodo('${s.id}')">🎯 Things To Do</button>`:''}
         <button class="sa-btn del" onclick="deleteStop('${s.id}')">✕ Delete</button>
       </div>
@@ -939,8 +1387,8 @@ function updateStop(id, field, value) {
   if(card) {
     const nights = nightsBetween(s.checkin, s.checkout);
     const cost = calcStopCost(s);
-    const ci = s.checkin ? new Date(s.checkin+'T00:00:00').toLocaleDateString('en-NZ',{day:'numeric',month:'short'}) : '';
-    const co = s.checkout ? new Date(s.checkout+'T00:00:00').toLocaleDateString('en-NZ',{day:'numeric',month:'short'}) : '';
+    const ci = fmtDateWk(s.checkin);
+    const co = fmtDateWk(s.checkout);
     const breakdown = nights>0 ? `${nights}n × ${fmtNZD(s.costPerNight)}${s.transport>0?' + '+fmtNZD(s.transport*2)+' transport':''}` : '';
     const dEl = card.querySelector('.stop-dates');
     if(dEl) dEl.innerHTML = `${ci}${ci&&co?' → '+co:''}${nights?' · '+nights+'n':''}<div class="stop-breakdown">${breakdown}</div>`;
@@ -965,46 +1413,39 @@ const ICT_KEYS = [
   'Peru→Brazil',
   'Brazil→Argentina',
 ];
+
 function renderItinerary() {
   renderBanner();
+  renderCountdown();
+  renderPhaseRibbon();
   const countries = [...new Set(stops.map(s=>s.country))];
   // Sort countries by predefined order
   countries.sort((a,b)=>{
     const ai = COUNTRY_ORDER.indexOf(a), bi = COUNTRY_ORDER.indexOf(b);
     return (ai===-1?99:ai) - (bi===-1?99:bi);
   });
+
   let html = '';
   countries.forEach((country, cIdx) => {
     const cStops = stops.filter(s=>s.country===country);
     const cTotal = cStops.reduce((a,s)=>a+calcStopCost(s),0);
     const cPoints = cStops.reduce((a,s)=>a+(parseInt(s.points)||0),0);
-    html += `
-    <div class="country-section">
-      <div class="country-header">
-        <div class="country-title">
-          <span class="country-flag">${COUNTRY_FLAGS[country]||'🌍'}</span>
-          <span>${country}</span>
-        </div>
-        <div class="country-meta">
-          <span>${cStops.length} stops</span>
-          ${cPoints>0?`<span style="color:var(--gold)">⭐ ${cPoints.toLocaleString()} pts</span>`:''}
-          <span class="country-total">${fmtNZD(cTotal*2)} combined (${fmtNZD(cTotal)} each)</span>
-          <button class="add-stop-btn" onclick="openModal('${country}')">+ Add Stop</button>
-        </div>
-      </div>`;
+    html += `<div class="country-section">${buildCountryStrip(country, cStops)}`;
 
     cStops.forEach((s, si) => {
       if(si>0) html += buildConnector(s);
       html += buildStopCard(s, si);
     });
 
-    // Country total bar
+    // Country total bar with inline Add Stop
     html += `<div class="country-total-bar">
       <div class="ctb-item"><div class="ctb-lbl">Accommodation</div><div class="ctb-val bb-teal">${fmtNZD(cStops.reduce((a,s)=>a+(parseFloat(s.costPerNight)||0)*nightsBetween(s.checkin,s.checkout),0)*2)}</div></div>
       <div class="ctb-item"><div class="ctb-lbl">Internal Transport</div><div class="ctb-val bb-gold">${fmtNZD(cStops.reduce((a,s)=>a+(parseFloat(s.transport)||0),0)*2)}</div></div>
       <div class="ctb-item"><div class="ctb-lbl">Accor Points Used</div><div class="ctb-val" style="color:var(--gold)">${cPoints.toLocaleString()}</div></div>
       <div class="ctb-item"><div class="ctb-lbl">Total ${country}</div><div class="ctb-val bb-coral" style="color:var(--coral)">${fmtNZD(cTotal*2)} <span style="font-size:.65rem;opacity:.6">(${fmtNZD(cTotal)} each)</span></div></div>
+      <div class="ctb-item" style="margin-left:auto"><button class="add-stop-btn" onclick="openModal('${country}')">+ Add stop in ${country}</button></div>
     </div>`;
+
     html += `</div>`;
 
     // Inter-country transport after each country (except last)
@@ -1020,6 +1461,7 @@ function renderItinerary() {
   });
 
   document.getElementById('itin-content').innerHTML = html;
+  preloadCountryBgs();
 }
 
 // ═══════════════════════════════════════════
@@ -1113,6 +1555,7 @@ async function runBookingSearch(sid) {
 
   try {
     const prompt = `Search Booking.com for hotels in "${dest}", check-in ${ci || 'next month'}, check-out ${co || 'a few days later'}, 2 adults, 1 room. Return the top 6 results. For each property include: name, address, star_rating, review_score, price_per_night_usd (approximate), booking_url if available, and a short description. Respond ONLY with a valid JSON array, no markdown, no preamble. Format: [{"name":"...","address":"...","stars":4,"score":8.5,"price_usd":85,"url":"...","desc":"...","image_url":"..."}]`;
+
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1123,6 +1566,7 @@ async function runBookingSearch(sid) {
         messages: [{ role: 'user', content: prompt }]
       })
     });
+
     const data = await response.json();
 
     // Extract text from all content blocks
@@ -1153,6 +1597,7 @@ async function runBookingSearch(sid) {
 
     // NZD conversion (rough: 1 USD ≈ 1.65 NZD)
     const USD_TO_NZD = 1.65;
+
     resultsEl.innerHTML = `<div class="booking-results">${hotels.map((h,i) => {
       const priceNZD = h.price_usd ? Math.round(h.price_usd * USD_TO_NZD) : null;
       const stars = h.stars ? '★'.repeat(Math.min(5,h.stars)) : '';
@@ -1187,6 +1632,266 @@ function useHotelForStop(sid, hotelName, priceNZD) {
   renderItinerary();
   showToast('✓ Hotel set: ' + hotelName);
 }
+
+// ═══════════════════════════════════════════
+//  v9 — BOOKING.COM (deep link, no broken API)
+// ═══════════════════════════════════════════
+function openBooking(sid){
+  const s = stops.find(x=>x.id===sid);
+  if(!s) return;
+  const ci = s.checkin || '';
+  const co = s.checkout || '';
+  const url = `https://www.booking.com/searchresults.html?ss=${encodeURIComponent(s.dest)}&checkin=${ci}&checkout=${co}&group_adults=2&no_rooms=1&group_children=0`;
+  window.open(url, '_blank');
+}
+
+// ═══════════════════════════════════════════
+//  v9 — PACKING TAB
+// ═══════════════════════════════════════════
+const DEFAULT_PACKING = {
+  '👕 Clothes': [
+    'Lightweight quick-dry shirts × 5',
+    'Linen long-sleeve (sun, temples)',
+    'Shorts × 3',
+    'Long pants (Vietnam evenings, Patagonia)',
+    'Swimwear × 2 (always drying)',
+    'Light puffer (Cusco, Patagonia)',
+    'Rain shell',
+    'Underwear × 7, socks × 5',
+    'Sleepwear',
+    'Sarong / scarf (temple cover, beach, plane blanket)',
+    'Hat with brim',
+  ],
+  '👟 Footwear': [
+    'Walking shoes / trail runners',
+    'Sandals (Tevas or similar)',
+    'Flip-flops (showers, beach)',
+  ],
+  '🧴 Toiletries': [
+    'Toothbrush + small toothpaste',
+    'Solid shampoo / conditioner bar',
+    'Sunscreen (reef-safe)',
+    'Insect repellent (DEET for SE Asia)',
+    'Razor + spare blades',
+    'Deodorant',
+    'Quick-dry travel towel',
+    'Small first-aid kit',
+    'Tampons / pads (hard to find in some places)',
+    'Wet wipes & hand sanitiser',
+  ],
+  '💊 Health': [
+    'Prescription meds (carry-on)',
+    'Anti-diarrhoea (Imodium)',
+    'Rehydration salts',
+    'Antihistamines',
+    'Painkillers (paracetamol + ibuprofen)',
+    'Anti-malarials (consult GP for Indonesia/Sri Lanka)',
+    'Sea-sickness tablets (boats!)',
+    'Plasters / blister pads',
+    'Altitude pills (Cusco)',
+  ],
+  '📋 Documents': [
+    'Passport (6+ months validity)',
+    'Photocopies of passport (3×)',
+    'Yellow fever cert (if entering Brazil from Peru)',
+    'Travel insurance docs',
+    'Driver licence (Argentina, scooter rentals)',
+    'Vaccination records',
+    'Credit cards × 2 + ATM card',
+    'NZ$ + some USD cash backup',
+    'Print first hotel booking (Bali immigration)',
+  ],
+  '💻 Tech': [
+    'Phone + charger',
+    'Universal travel adapter',
+    'Power bank (10,000+ mAh)',
+    'Headphones + spare buds',
+    'Kindle / e-reader',
+    'Camera + charger + spare battery',
+    'Dry bag for phone (boats, waterfalls)',
+    'Small daypack (collapsible)',
+  ],
+  '🤿 Gear': [
+    'Snorkel + mask (cheaper than renting 10×)',
+    'Reef-safe rash vest',
+    'Quick-dry microfibre towel',
+    'Reusable water bottle (Steripen optional)',
+    'Padlock (hostels)',
+    'Daypack',
+    'Packing cubes',
+  ],
+  '💑 Together': [
+    'A book to swap halfway',
+    'Card game (UNO travel edition)',
+    'Polaroid camera + film',
+    'Small notebook for the trip journal',
+    'Anniversary surprise (somewhere mid-trip)',
+  ],
+};
+
+function loadPacking(){
+  try{ const d = localStorage.getItem('dt_packing_v9'); if(d) return JSON.parse(d); }catch(e){}
+  // Default state: items grouped, none checked
+  const out = {};
+  Object.entries(DEFAULT_PACKING).forEach(([cat, items])=>{
+    out[cat] = items.map(name=>({name, done:false}));
+  });
+  return out;
+}
+function savePacking(o){ try{ localStorage.setItem('dt_packing_v9', JSON.stringify(o)); }catch(e){} }
+let packingData = loadPacking();
+
+function renderPacking(){
+  const grid = document.getElementById('packing-grid');
+  if(!grid) return;
+  let total=0, done=0;
+  Object.values(packingData).forEach(items=>{ items.forEach(it=>{ total++; if(it.done) done++; }); });
+  const pct = total ? (done/total*100) : 0;
+  document.getElementById('pp-fill').style.width = pct+'%';
+  document.getElementById('pp-meta-l').textContent = `${done} of ${total} packed`;
+  document.getElementById('pp-meta-r').textContent = pct.toFixed(0)+'%';
+
+  grid.innerHTML = Object.entries(packingData).map(([cat, items])=>{
+    const catDone = items.filter(i=>i.done).length;
+    return `<div class="pack-cat">
+      <div class="pc-head">
+        <span>${cat}</span>
+        <span class="pc-count">${catDone}/${items.length}</span>
+      </div>
+      <div class="pc-list">
+        ${items.map((it,i)=>`
+          <div class="pc-item ${it.done?'checked':''}" onclick="togglePackItem('${cat.replace(/'/g,"\\'")}',${i})">
+            <div class="pc-check">${it.done?'✓':''}</div>
+            <div class="pc-text">${it.name}</div>
+            <span class="pc-del" onclick="event.stopPropagation();delPackItem('${cat.replace(/'/g,"\\'")}',${i})">✕</span>
+          </div>`).join('')}
+      </div>
+      <div class="pc-add">
+        <input id="pkin-${packCatSlug(cat)}" placeholder="Add item…" onkeydown="if(event.key==='Enter')addPackItem('${cat.replace(/'/g,"\\'")}')">
+        <button onclick="addPackItem('${cat.replace(/'/g,"\\'")}')">+</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+function togglePackItem(cat, i){
+  const it = packingData[cat][i];
+  it.done = !it.done;
+  savePacking(packingData);
+  renderPacking();
+}
+function delPackItem(cat, i){
+  packingData[cat].splice(i,1);
+  savePacking(packingData);
+  renderPacking();
+}
+function packCatSlug(cat){ return cat.replace(/[^a-zA-Z]/g,'').toLowerCase() || 'cat'; }
+function addPackItem(cat){
+  const inp = document.getElementById('pkin-'+packCatSlug(cat));
+  const name = inp.value.trim();
+  if(!name) return;
+  packingData[cat].push({name, done:false});
+  savePacking(packingData);
+  renderPacking();
+}
+function packExpandAll(){ renderPacking(); /* placeholder for future collapsing */ }
+function packReset(){
+  if(!confirm('Reset all packing items to unchecked? (Custom items will remain)')) return;
+  Object.values(packingData).forEach(items=>items.forEach(it=>it.done=false));
+  savePacking(packingData);
+  renderPacking();
+  showToast('Packing list reset');
+}
+
+// ═══════════════════════════════════════════
+//  v9 — DOCS VAULT TAB
+// ═══════════════════════════════════════════
+const DOC_TEMPLATES = [
+  { id:'passports', title:'🛂 Passports', fields:[
+    {k:'christian_pp', label:"Christian — Passport #"},
+    {k:'christian_pp_exp', label:'Expiry', type:'date'},
+    {k:'abi_pp', label:'Abi — Passport #'},
+    {k:'abi_pp_exp', label:'Expiry', type:'date'},
+    {k:'pp_notes', label:'Notes', type:'textarea'},
+  ]},
+  { id:'insurance', title:'🩺 Travel Insurance', fields:[
+    {k:'ins_provider', label:'Provider'},
+    {k:'ins_policy', label:'Policy #'},
+    {k:'ins_emergency', label:'24h emergency #'},
+    {k:'ins_dates', label:'Coverage'},
+    {k:'ins_notes', label:'What\'s covered', type:'textarea'},
+  ]},
+  { id:'visas', title:'🌏 Visas & ETAs', fields:[
+    {k:'vn_evisa', label:'Vietnam e-Visa'},
+    {k:'lk_eta', label:'Sri Lanka ETA'},
+    {k:'id_voa', label:'Indonesia VoA'},
+    {k:'mv_voa', label:'Maldives VoA'},
+    {k:'visa_notes', label:'Visa notes', type:'textarea'},
+  ]},
+  { id:'flights', title:'✈ Booked Flights', fields:[
+    {k:'fl_akl_dps', label:'AKL → Bali (date + ref)'},
+    {k:'fl_long_haul', label:'Long-haul Asia → Lima'},
+    {k:'fl_back', label:'Buenos Aires → Home'},
+    {k:'fl_notes', label:'Other bookings', type:'textarea'},
+  ]},
+  { id:'money', title:'💳 Money & Banks', fields:[
+    {k:'card_main', label:'Main travel card (last 4)'},
+    {k:'card_backup', label:'Backup card (last 4)'},
+    {k:'bank_emergency', label:'Bank lost-card hotline'},
+    {k:'wise', label:'Wise / Revolut details'},
+    {k:'money_notes', label:'Backup access notes', type:'textarea'},
+  ]},
+  { id:'emergency', title:'🆘 Emergency Contacts', fields:[
+    {k:'em_fam_ar', label:"Christian's family (Argentina)"},
+    {k:'em_fam_nz', label:'Family (NZ)'},
+    {k:'em_nz_consul', label:'NZ Consular Helpline'},
+    {k:'em_friend', label:'Trusted friend (house, mail)'},
+    {k:'em_notes', label:'Other', type:'textarea'},
+  ]},
+  { id:'embassies', title:'🏛 NZ Embassies en route', fields:[
+    {k:'emb_id', label:'Jakarta · +62 21 2995 5800'},
+    {k:'emb_ph', label:'Manila (via Aus High Comm)'},
+    {k:'emb_vn', label:'Hanoi · +84 24 3824 1481'},
+    {k:'emb_br', label:'Brasília · +55 61 3248 9900'},
+    {k:'emb_ar', label:'Buenos Aires · +54 11 5070 0700'},
+  ]},
+  { id:'health', title:'💉 Health & Vaccines', fields:[
+    {k:'gp_name', label:'GP name + phone'},
+    {k:'vacc_record', label:'Vaccine record location'},
+    {k:'allergies', label:'Allergies / conditions'},
+    {k:'blood_type', label:'Blood types'},
+    {k:'health_notes', label:'Pre-trip checklist', type:'textarea'},
+  ]},
+];
+
+function loadDocs(){
+  try{ const d = localStorage.getItem('dt_docs_v9'); if(d) return JSON.parse(d); }catch(e){}
+  return {};
+}
+function saveDocs(o){ try{ localStorage.setItem('dt_docs_v9', JSON.stringify(o)); }catch(e){} }
+let docsData = loadDocs();
+
+function renderDocs(){
+  const grid = document.getElementById('docs-grid');
+  if(!grid) return;
+  grid.innerHTML = DOC_TEMPLATES.map(card=>`
+    <div class="doc-card">
+      <div class="doc-head">${card.title}</div>
+      ${card.fields.map(f=>{
+        const v = docsData[f.k] || '';
+        if(f.type==='textarea') {
+          return `<div class="doc-row" style="grid-template-columns:1fr;gap:.25rem">
+            <div class="doc-label">${f.label}</div>
+            <textarea class="doc-input textarea" oninput="updateDoc('${f.k}',this.value)" placeholder="—">${v}</textarea>
+          </div>`;
+        }
+        return `<div class="doc-row">
+          <div class="doc-label">${f.label}</div>
+          <input type="${f.type||'text'}" class="doc-input" value="${v.replace(/"/g,'&quot;')}" oninput="updateDoc('${f.k}',this.value)" placeholder="—">
+        </div>`;
+      }).join('')}
+    </div>`).join('');
+}
+function updateDoc(key, val){ docsData[key] = val; saveDocs(docsData); }
 
 // ═══════════════════════════════════════════
 //  EXPORT
@@ -1242,6 +1947,7 @@ function renderBudget() {
     <div class="bc-row"><span class="bc-dest">Points Used</span><span class="bc-amt">${stops.reduce((a,s)=>a+(parseInt(s.points)||0),0).toLocaleString()}</span></div>
     <div class="bc-row"><span class="bc-dest">Points Remaining</span><span class="bc-amt" style="color:var(--gold)">${(INITIAL_ACCOR-stops.reduce((a,s)=>a+(parseInt(s.points)||0),0)).toLocaleString()}</span></div>
   </div>`;
+
   html+='</div>';
   document.getElementById('budget-content').innerHTML = html;
 }
@@ -1309,17 +2015,57 @@ function initGlobe(){
     tex=>{ const mat=new THREE.MeshLambertMaterial({map:tex}); scene.add(new THREE.Mesh(geo,mat)); },
     undefined, ()=>{ const mat=new THREE.MeshLambertMaterial({color:0x1a3a5c}); scene.add(new THREE.Mesh(geo,mat)); }
   );
-  // Route line
-  const pts=ROUTE_COORDS.map(([lat,lng])=>latLngToVec(lat,lng,1.01));
-  const lineGeo=new THREE.BufferGeometry().setFromPoints(pts);
-  scene.add(new THREE.Line(lineGeo,new THREE.LineBasicMaterial({color:0xE8654A,linewidth:2})));
-  // Dots
-  ROUTE_COORDS.forEach(([lat,lng,name])=>{
+  // Determine current/next stop based on today
+  const todayD = new Date(); todayD.setHours(0,0,0,0);
+  let activeIdx = 0;
+  for(let i=0;i<stops.length;i++){
+    const ci = stops[i].checkin ? new Date(stops[i].checkin+'T00:00:00') : null;
+    const co = stops[i].checkout ? new Date(stops[i].checkout+'T00:00:00') : null;
+    if(ci && co && todayD>=ci && todayD<co){ activeIdx=i; break; }
+    if(ci && todayD < ci){ activeIdx=i; break; }
+  }
+
+  // Route line (animated draw-in)
+  const allPts=ROUTE_COORDS.map(([lat,lng])=>latLngToVec(lat,lng,1.01));
+  const lineMat = new THREE.LineBasicMaterial({color:0xE8654A});
+  const lineGeo = new THREE.BufferGeometry();
+  lineGeo.setFromPoints([allPts[0]]);
+  const routeLine = new THREE.Line(lineGeo, lineMat);
+  scene.add(routeLine);
+  let drawProgress = 1; // start to grow
+  // Stop dots (with active highlight)
+  const dots = [];
+  ROUTE_COORDS.forEach(([lat,lng,name], i)=>{
     const pos=latLngToVec(lat,lng,1.02);
-    const dot=new THREE.Mesh(new THREE.SphereGeometry(0.012,8,8),new THREE.MeshBasicMaterial({color:0x2ABFAA}));
+    const isActive = (i===activeIdx);
+    const color = isActive ? 0xE8654A : 0x2ABFAA;
+    const size = isActive ? 0.022 : 0.012;
+    const dot=new THREE.Mesh(new THREE.SphereGeometry(size,12,12),new THREE.MeshBasicMaterial({color}));
     dot.position.copy(pos); scene.add(dot);
+    dots.push({mesh:dot, isActive, basePos:pos});
+    // Pulse halo for active
+    if(isActive){
+      const haloGeo = new THREE.RingGeometry(0.025, 0.04, 32);
+      const haloMat = new THREE.MeshBasicMaterial({color:0xE8654A, side:THREE.DoubleSide, transparent:true, opacity:.5});
+      const halo = new THREE.Mesh(haloGeo, haloMat);
+      halo.position.copy(pos);
+      halo.lookAt(0,0,0);
+      scene.add(halo);
+      dots[i].halo = halo;
+    }
   });
-  scene.rotation.y=1.5; scene.rotation.x=0.2;
+  // Add label
+  const labelEl = document.createElement('div');
+  labelEl.className = 'globe-now-label';
+  const activeName = ROUTE_COORDS[activeIdx]?.[2] || 'Bali';
+  const isFuture = new Date(TRIP_START+'T00:00:00') > todayD;
+  labelEl.innerHTML = `<span class="pulse-dot"></span>${isFuture?'Next up':'Currently'}: <b>${activeName}</b>`;
+  document.getElementById('globe-container').appendChild(labelEl);
+
+  // Spin to roughly show the active region
+  const [actLat, actLng] = ROUTE_COORDS[activeIdx] || [-8,115];
+  scene.rotation.y = -(actLng+180)*Math.PI/180 + Math.PI;
+  scene.rotation.x = actLat*Math.PI/180 * 0.5 + 0.2;
   let isDragging=false,prevMouse={x:0,y:0},autoRotate=true;
   canvas.addEventListener('mousedown',e=>{isDragging=true;prevMouse={x:e.clientX,y:e.clientY};autoRotate=false;});
   window.addEventListener('mouseup',()=>isDragging=false);
@@ -1331,7 +2077,28 @@ function initGlobe(){
   });
   canvas.addEventListener('wheel',e=>{ camera.position.z=Math.max(1.4,Math.min(5.5,camera.position.z+e.deltaY*0.002)); });
   canvas.addEventListener('click',()=>{ autoRotate=!autoRotate; document.getElementById('globe-hint').textContent=autoRotate?'Click to pause · Scroll to zoom · Drag to rotate':'▶ Click to resume · Scroll to zoom · Drag to rotate'; });
-  (function animate(){globeAnimFrame=requestAnimationFrame(animate);if(autoRotate&&!isDragging)scene.rotation.y+=0.0012;renderer.render(scene,camera);})();
+  let pulseT = 0;
+  (function animate(){
+    globeAnimFrame=requestAnimationFrame(animate);
+    if(autoRotate&&!isDragging)scene.rotation.y+=0.0012;
+    // Animate route line drawing in
+    if(drawProgress < allPts.length){
+      drawProgress += 0.08;
+      const i = Math.min(allPts.length, Math.ceil(drawProgress));
+      lineGeo.setFromPoints(allPts.slice(0, i));
+      lineGeo.attributes.position.needsUpdate = true;
+    }
+    // Pulse halo
+    pulseT += 0.04;
+    dots.forEach(d=>{
+      if(d.halo){
+        const s = 1 + Math.sin(pulseT)*0.4 + 0.4;
+        d.halo.scale.set(s,s,1);
+        d.halo.material.opacity = 0.5 - (s-1)*0.3;
+      }
+    });
+    renderer.render(scene,camera);
+  })();
 }
 
 // ═══════════════════════════════════════════
@@ -1373,10 +2140,26 @@ document.addEventListener('click', e=>{
   }
   if(e.target===document.getElementById('modal-overlay')) closeModal();
 });
+
+// ═══════════════════════════════════════════
+//  v9 — SCROLL HELPER + COUNTDOWN TICKER
+// ═══════════════════════════════════════════
+function scrollToCountry(idSlug){
+  const el = document.getElementById('country-'+idSlug);
+  if(!el) return;
+  const y = el.getBoundingClientRect().top + window.pageYOffset - 70;
+  window.scrollTo({top:y, behavior:'smooth'});
+}
+
 // ═══════════════════════════════════════════
 //  INIT
 // ═══════════════════════════════════════════
 renderItinerary();
+setInterval(()=>{
+  // Re-render countdown every minute so leaving the tab open stays fresh
+  const viewItin = document.getElementById('view-itin');
+  if(viewItin && viewItin.classList.contains('active')) renderCountdown();
+}, 60000);
 </script>
 </body>
 </html>

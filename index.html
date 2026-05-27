@@ -562,14 +562,14 @@ const BUDGET_COMBINED = 30000;
 //  These are the flights/transport BETWEEN countries
 // ═══════════════════════════════════════════
 const DEFAULT_ICT = {
-  'Indonesia→Philippines': { mode:'plane', icon:'✈', label:'Flight', route:'Labuan Bajo → Bali → Cebu via KL', cost:360, notes:'Fly LBJ→Bali (~$80pp USD, 1.5h) + AirAsia Bali→KL→Cebu (~$140pp USD). Can overnight in Bali if connection is tight.' },
-  'Philippines→Vietnam':   { mode:'plane', icon:'✈', label:'Flight', route:'El Nido → Manila → Hanoi', cost:200, notes:'Van El Nido→Puerto Princesa ($20) + Cebu Pacific PP→Manila ($50) + AirAsia Manila→Hanoi ($90) ~$160pp USD' },
-  'Vietnam→Sri Lanka':     { mode:'plane', icon:'✈', label:'Flight', route:'Ho Chi Minh → Colombo', cost:260, notes:'AirAsia or SriLankan via KL/indirect ~$160pp USD. No direct flight.' },
-  'Sri Lanka→Maldives':    { mode:'plane', icon:'✈', label:'Flight', route:'Colombo → Malé', cost:220, notes:'SriLankan Airlines or Flyme ~$130pp USD. Book 6–8 weeks ahead.' },
-  'Sri Lanka→Peru':        { mode:'plane', icon:'✈', label:'Flight', route:'Colombo → Lima (via Dubai/Doha)', cost:1650, notes:'Emirates via Dubai or Qatar via Doha ~$1000pp USD. Book 3+ months early — use Airpoints!' },
-  'Maldives→Peru':         { mode:'plane', icon:'✈', label:'Flight', route:'Malé → Lima (via Dubai)', cost:1750, notes:'Emirates or Qatar ~$1060pp USD. Longest haul of the trip — use Airpoints here!' },
-  'Peru→Brazil':           { mode:'plane', icon:'✈', label:'Flight', route:'Lima → Fortaleza', cost:380, notes:'LATAM or Avianca via Bogotá/São Paulo ~$230pp USD. No direct — allow 1 connection.' },
-  'Brazil→Argentina':      { mode:'bus',   icon:'🚌', label:'Bus/Drive', route:'Porto Alegre → Buenos Aires', cost:65, notes:'Overnight bus ~$40pp USD (Eureka or Pluma). ~18h. Or fly Gol/LATAM ~$80pp USD.' },
+  'Indonesia→Philippines': { mode:'plane', icon:'✈', label:'Flight', route:'Labuan Bajo → Bali → Cebu via KL', cost:360, notes:'Fly LBJ→Bali (~$130pp NZD, 1.5h) + AirAsia Bali→KL→Cebu (~$230pp NZD). Can overnight in Bali if connection is tight.' },
+  'Philippines→Vietnam':   { mode:'plane', icon:'✈', label:'Flight', route:'El Nido → Manila → Hanoi', cost:200, notes:'Van El Nido→Puerto Princesa (~$33pp NZD) + Cebu Pacific PP→Manila (~$83pp NZD) + AirAsia Manila→Hanoi (~$149pp NZD). ~$265pp NZD total.' },
+  'Vietnam→Sri Lanka':     { mode:'plane', icon:'✈', label:'Flight', route:'Ho Chi Minh → Colombo', cost:260, notes:'AirAsia or SriLankan via KL/indirect ~$265pp NZD. No direct flight.' },
+  'Sri Lanka→Maldives':    { mode:'plane', icon:'✈', label:'Flight', route:'Colombo → Malé', cost:220, notes:'SriLankan Airlines or Flyme ~$215pp NZD. Book 6–8 weeks ahead.' },
+  'Sri Lanka→Peru':        { mode:'plane', icon:'✈', label:'Flight', route:'Colombo → Lima (via Dubai/Doha)', cost:1650, notes:'Emirates via Dubai or Qatar via Doha ~$1,650pp NZD. Book 3+ months early — use Airpoints!' },
+  'Maldives→Peru':         { mode:'plane', icon:'✈', label:'Flight', route:'Malé → Lima (via Dubai)', cost:1750, notes:'Emirates or Qatar ~$1,750pp NZD. Longest haul of the trip — use Airpoints here!' },
+  'Peru→Brazil':           { mode:'plane', icon:'✈', label:'Flight', route:'Lima → Fortaleza', cost:380, notes:'LATAM or Avianca via Bogotá/São Paulo ~$380pp NZD. No direct — allow 1 connection.' },
+  'Brazil→Argentina':      { mode:'bus',   icon:'🚌', label:'Bus/Drive', route:'Porto Alegre → Buenos Aires', cost:65, notes:'Overnight bus ~$66pp NZD (Eureka or Pluma). ~18h. Or fly Gol/LATAM ~$132pp NZD.' },
 };
 
 // ═══════════════════════════════════════════
@@ -579,7 +579,7 @@ const DEFAULT_STOPS = [
   // INDONESIA
   { id:'s1',  country:'Indonesia', dest:'Bali', hotel:'Mercure Bali Nusa Dua', checkin:'2026-10-21', checkout:'2026-10-24', costPerNight:60,  points:4000,  transport:0,   transportMode:'plane', accommodationType:'accor',   notes:'Arrive 22:30. Explore Nusa Dua, Seminyak, Uluwatu' },
   { id:'s2',  country:'Indonesia', dest:'Lombok', hotel:'Pullman Lombok', checkin:'2026-10-24', checkout:'2026-10-27', costPerNight:78,  points:12000, transport:36,  transportMode:'ferry', accommodationType:'accor',   notes:'Ferry $18pp each way. Gili islands day trip, Mount Rinjani views' },
-  { id:'s3',  country:'Indonesia', dest:'Labuan Bajo (Komodo)', hotel:'Hotel Bonne Nuit', checkin:'2026-10-27', checkout:'2026-10-30', costPerNight:115, points:0,     transport:130, transportMode:'plane', accommodationType:'hotel',   notes:'Fly Bali→Labuan Bajo ~$80pp USD (AirAsia or Batik Air, 1.5h). Komodo dragon tour + liveaboard snorkel' },
+  { id:'s3',  country:'Indonesia', dest:'Labuan Bajo (Komodo)', hotel:'Hotel Bonne Nuit', checkin:'2026-10-27', checkout:'2026-10-30', costPerNight:115, points:0,     transport:130, transportMode:'plane', accommodationType:'hotel',   notes:'Fly Bali→Labuan Bajo ~$130pp NZD (AirAsia or Batik Air, 1.5h). Komodo dragon tour + liveaboard snorkel' },
 
   // PHILIPPINES
   { id:'s4',  country:'Philippines', dest:'Cebu (transit)', hotel:'Mercure Cebu', checkin:'2026-10-31', checkout:'2026-11-01', costPerNight:15,  points:4000,  transport:0,   transportMode:'plane', accommodationType:'accor',   notes:'Arrive 12pm via KL. Chill day, recover from travel' },
@@ -589,9 +589,9 @@ const DEFAULT_STOPS = [
   { id:'s8',  country:'Philippines', dest:'Bohol', hotel:'Airbnb Panglao area', checkin:'2026-11-05', checkout:'2026-11-10', costPerNight:55,  points:0,     transport:20,  transportMode:'ferry', accommodationType:'airbnb',  notes:'Ferry Cebu→Tagbilaran $10pp. Chocolate Hills, tarsiers, Loboc River cruise' },
   { id:'s9',  country:'Philippines', dest:'Siquijor', hotel:'Airbnb', checkin:'2026-11-10', checkout:'2026-11-13', costPerNight:45,  points:0,     transport:14,  transportMode:'ferry', accommodationType:'airbnb',  notes:'Ferry $7pp. Cambugahay Falls, Salagdoong cliff diving, island scooter loop' },
   { id:'s10', country:'Philippines', dest:'Cebu (transit)', hotel:'Mercure Cebu', checkin:'2026-11-13', checkout:'2026-11-14', costPerNight:15,  points:4000,  transport:14,  transportMode:'ferry', accommodationType:'accor',   notes:'Points night. Transit to Siargao connection' },
-  { id:'s11', country:'Philippines', dest:'Siargao', hotel:'Airbnb', checkin:'2026-11-14', checkout:'2026-11-20', costPerNight:60,  points:0,     transport:90,  transportMode:'plane', accommodationType:'airbnb',  notes:'Fly Cebu→Siargao ~$55pp USD (Cebu Pacific or Cebgo, 1h). Cloud 9 surf, island hopping, sugba lagoon' },
-  { id:'s12', country:'Philippines', dest:'Boracay', hotel:'Airbnb White Beach', checkin:'2026-11-20', checkout:'2026-11-24', costPerNight:70,  points:0,     transport:110, transportMode:'plane', accommodationType:'airbnb',  notes:'Fly Siargao→Caticlan ~$65pp USD (PAL or Cebu Pacific, 1.5h). White Beach sunsets, paraw sailing, kitesurfing' },
-  { id:'s13', country:'Philippines', dest:'El Nido, Palawan', hotel:'Airbnb', checkin:'2026-11-24', checkout:'2026-11-30', costPerNight:65,  points:0,     transport:130, transportMode:'plane', accommodationType:'airbnb',  notes:'Fly Caticlan→Puerto Princesa (~$50pp USD) + van to El Nido (~$20pp, 5h). Or AirSWIFT direct ~$196pp USD. Tour A+C island hopping, hidden lagoons' },
+  { id:'s11', country:'Philippines', dest:'Siargao', hotel:'Airbnb', checkin:'2026-11-14', checkout:'2026-11-20', costPerNight:60,  points:0,     transport:90,  transportMode:'plane', accommodationType:'airbnb',  notes:'Fly Cebu→Siargao ~$90pp NZD (Cebu Pacific or Cebgo, 1h). Cloud 9 surf, island hopping, sugba lagoon' },
+  { id:'s12', country:'Philippines', dest:'Boracay', hotel:'Airbnb White Beach', checkin:'2026-11-20', checkout:'2026-11-24', costPerNight:70,  points:0,     transport:110, transportMode:'plane', accommodationType:'airbnb',  notes:'Fly Siargao→Caticlan ~$107pp NZD (PAL or Cebu Pacific, 1.5h). White Beach sunsets, paraw sailing, kitesurfing' },
+  { id:'s13', country:'Philippines', dest:'El Nido, Palawan', hotel:'Airbnb', checkin:'2026-11-24', checkout:'2026-11-30', costPerNight:65,  points:0,     transport:130, transportMode:'plane', accommodationType:'airbnb',  notes:'Fly Caticlan→Puerto Princesa (~$83pp NZD) + van to El Nido (~$33pp NZD, 5h). Or AirSWIFT direct ~$323pp NZD. Tour A+C island hopping, hidden lagoons' },
 
   // VIETNAM
   { id:'s14', country:'Vietnam', dest:'Hanoi', hotel:'Silk Path Hotel (Accor)', checkin:'2026-12-01', checkout:'2026-12-05', costPerNight:55,  points:3000,  transport:0,   transportMode:'plane', accommodationType:'accor',   notes:'Hoan Kiem Lake, Old Quarter, Banh Mi breakfast, street food tour' },
@@ -599,8 +599,8 @@ const DEFAULT_STOPS = [
   { id:'s16', country:'Vietnam', dest:'Hue', hotel:'Guesthouse', checkin:'2026-12-07', checkout:'2026-12-09', costPerNight:30,  points:0,     transport:25,  transportMode:'bus',   accommodationType:'hostel',  notes:'Sleeper bus $25pp. Imperial Citadel, Royal Tombs, Thien Mu Pagoda' },
   { id:'s17', country:'Vietnam', dest:'Hoi An', hotel:'Airbnb', checkin:'2026-12-09', checkout:'2026-12-14', costPerNight:40,  points:0,     transport:15,  transportMode:'bus',   accommodationType:'airbnb',  notes:'Ancient Town lanterns, An Bang Beach, tailor-made clothes, My Son Sanctuary' },
   { id:'s18', country:'Vietnam', dest:'Da Nang', hotel:'Airbnb', checkin:'2026-12-14', checkout:'2026-12-16', costPerNight:45,  points:0,     transport:8,   transportMode:'bus',   accommodationType:'airbnb',  notes:'Marble Mountains, Dragon Bridge fire show, My Khe Beach' },
-  { id:'s19', country:'Vietnam', dest:'Ho Chi Minh City', hotel:'Novotel Saigon Centre', checkin:'2026-12-16', checkout:'2026-12-22', costPerNight:65,  points:4000,  transport:65,  transportMode:'plane', accommodationType:'accor',   notes:'Fly Da Nang→HCMC ~$40pp USD (VietJet or Bamboo, 1.5h). Cu Chi Tunnels, Mekong Delta, War Remnants Museum' },
-  { id:'s20', country:'Vietnam', dest:'Phu Quoc', hotel:'Airbnb', checkin:'2026-12-22', checkout:'2026-12-29', costPerNight:55,  points:0,     transport:55,  transportMode:'plane', accommodationType:'airbnb',  notes:'Fly HCMC→Phu Quoc ~$35pp USD (VietJet or Bamboo, 1h). Beach time, snorkelling, New Year celebration' },
+  { id:'s19', country:'Vietnam', dest:'Ho Chi Minh City', hotel:'Novotel Saigon Centre', checkin:'2026-12-16', checkout:'2026-12-22', costPerNight:65,  points:4000,  transport:65,  transportMode:'plane', accommodationType:'accor',   notes:'Fly Da Nang→HCMC ~$66pp NZD (VietJet or Bamboo, 1.5h). Cu Chi Tunnels, Mekong Delta, War Remnants Museum' },
+  { id:'s20', country:'Vietnam', dest:'Phu Quoc', hotel:'Airbnb', checkin:'2026-12-22', checkout:'2026-12-29', costPerNight:55,  points:0,     transport:55,  transportMode:'plane', accommodationType:'airbnb',  notes:'Fly HCMC→Phu Quoc ~$58pp NZD (VietJet or Bamboo, 1h). Beach time, snorkelling, New Year celebration' },
 
   // SRI LANKA
   { id:'s21', country:'Sri Lanka', dest:'Colombo / Negombo', hotel:'Ibis Colombo City', checkin:'2027-01-02', checkout:'2027-01-04', costPerNight:45,  points:2000,  transport:0,   transportMode:'plane', accommodationType:'accor',   notes:'Arrive Colombo. Negombo fish market, Pettah bazaar, Galle Face Green' },
@@ -610,20 +610,20 @@ const DEFAULT_STOPS = [
   { id:'s25', country:'Sri Lanka', dest:'Mirissa / Unawatuna', hotel:'Airbnb', checkin:'2027-01-13', checkout:'2027-01-20', costPerNight:40,  points:0,     transport:15,  transportMode:'bus',   accommodationType:'airbnb',  notes:'Whale watching (blue whales Jan!), Galle Fort, beach chill, surf lessons' },
 
   // MALDIVES (optional)
-  { id:'s26', country:'Maldives', dest:'Kooddoo / Huvadhoo', hotel:'Mercure Maldives Kooddoo', checkin:'2027-01-22', checkout:'2027-01-25', costPerNight:200, points:8000,  transport:200, transportMode:'plane', accommodationType:'accor',   notes:'Fly Colombo→Malé (SriLankan ~$130pp USD) then Maldivian domestic to Kooddoo (~$120pp USD). House reef snorkel, sandbar picnic, dolphins' },
+  { id:'s26', country:'Maldives', dest:'Kooddoo / Huvadhoo', hotel:'Mercure Maldives Kooddoo', checkin:'2027-01-22', checkout:'2027-01-25', costPerNight:200, points:8000,  transport:200, transportMode:'plane', accommodationType:'accor',   notes:'Fly Colombo→Malé (SriLankan ~$215pp NZD) then Maldivian domestic to Kooddoo (~$198pp NZD). House reef snorkel, sandbar picnic, dolphins' },
 
   // PERU
   { id:'s27', country:'Peru', dest:'Lima', hotel:'ibis Lima Miraflores', checkin:'2027-02-01', checkout:'2027-02-04', costPerNight:50,  points:2000,  transport:0,   transportMode:'plane', accommodationType:'accor',   notes:'Miraflores cliffs, Larco Museum, Lima food scene (best in SA!), Barranco' },
-  { id:'s28', country:'Peru', dest:'Cusco', hotel:'Airbnb', checkin:'2027-02-04', checkout:'2027-02-09', costPerNight:40,  points:0,     transport:95,  transportMode:'plane', accommodationType:'airbnb',  notes:'Fly Lima→Cusco ~$58pp USD (JetSMART or Sky Airline, 1.5h). Acclimatise, Sacsayhuamán, San Pedro Market, Centro Histórico' },
-  { id:'s29', country:'Peru', dest:'Machu Picchu', hotel:'Aguas Calientes hostel', checkin:'2027-02-09', checkout:'2027-02-11', costPerNight:50,  points:0,     transport:100, transportMode:'train', accommodationType:'hostel',  notes:'Peru Rail Expedition Cusco→Aguas Calientes ~$75pp USD (1.5h). Book online months ahead — fills fast. Sunrise at Machu Picchu, Sun Gate hike, Huayna Picchu option' },
+  { id:'s28', country:'Peru', dest:'Cusco', hotel:'Airbnb', checkin:'2027-02-04', checkout:'2027-02-09', costPerNight:40,  points:0,     transport:95,  transportMode:'plane', accommodationType:'airbnb',  notes:'Fly Lima→Cusco ~$96pp NZD (JetSMART or Sky Airline, 1.5h). Acclimatise, Sacsayhuamán, San Pedro Market, Centro Histórico' },
+  { id:'s29', country:'Peru', dest:'Machu Picchu', hotel:'Aguas Calientes hostel', checkin:'2027-02-09', checkout:'2027-02-11', costPerNight:50,  points:0,     transport:100, transportMode:'train', accommodationType:'hostel',  notes:'Peru Rail Expedition Cusco→Aguas Calientes ~$124pp NZD (1.5h). Book online months ahead — fills fast. Sunrise at Machu Picchu, Sun Gate hike, Huayna Picchu option' },
   { id:'s30', country:'Peru', dest:'Lake Titicaca', hotel:'Airbnb Puno', checkin:'2027-02-11', checkout:'2027-02-14', costPerNight:30,  points:0,     transport:30,  transportMode:'bus',   accommodationType:'airbnb',  notes:'Overnight bus Cusco→Puno $30pp. Uros floating islands, Taquile, Bolivia day trip option' },
 
   // BRAZIL
   { id:'s31', country:'Brazil', dest:'Fortaleza / Jericoacoara', hotel:'Airbnb', checkin:'2027-02-20', checkout:'2027-02-26', costPerNight:55,  points:0,     transport:0,   transportMode:'plane', accommodationType:'airbnb',  notes:'Fly Lima→Fortaleza. Jeri dunes, lagoons, kitesurfing, sunsets' },
-  { id:'s32', country:'Brazil', dest:'Maceió / Porto de Galinhas', hotel:'Airbnb', checkin:'2027-02-26', checkout:'2027-03-04', costPerNight:50,  points:0,     transport:100, transportMode:'plane', accommodationType:'airbnb',  notes:'Fly Fortaleza→Maceió ~$60pp USD (Azul or Gol, 1.5h). Porto de Galinhas natural pools, Maragogi reefs, Maceió beaches' },
+  { id:'s32', country:'Brazil', dest:'Maceió / Porto de Galinhas', hotel:'Airbnb', checkin:'2027-02-26', checkout:'2027-03-04', costPerNight:50,  points:0,     transport:100, transportMode:'plane', accommodationType:'airbnb',  notes:'Fly Fortaleza→Maceió ~$99pp NZD (Azul or Gol, 1.5h). Porto de Galinhas natural pools, Maragogi reefs, Maceió beaches' },
   { id:'s33', country:'Brazil', dest:'Recife / Olinda', hotel:'Airbnb', checkin:'2027-03-04', checkout:'2027-03-07', costPerNight:45,  points:0,     transport:20,  transportMode:'bus',   accommodationType:'airbnb',  notes:'Bus $20pp. Olinda colonial hilltop, Marco Zero, Caruaru day trip' },
   { id:'s34', country:'Brazil', dest:'Salvador', hotel:'Airbnb Pelourinho', checkin:'2027-03-07', checkout:'2027-03-12', costPerNight:50,  points:0,     transport:40,  transportMode:'bus',   accommodationType:'airbnb',  notes:'Bus $40pp. Pelourinho, Capoeira, Afro-Brazilian culture, Mercado Modelo' },
-  { id:'s35', country:'Brazil', dest:'Rio de Janeiro', hotel:'Airbnb Santa Teresa', checkin:'2027-03-12', checkout:'2027-03-18', costPerNight:70,  points:0,     transport:130, transportMode:'plane', accommodationType:'airbnb',  notes:'Fly Salvador→Rio ~$80pp USD (LATAM or Azul, 2.5h). Christ the Redeemer, Sugarloaf, Ipanema, Lapa arches nightlife' },
+  { id:'s35', country:'Brazil', dest:'Rio de Janeiro', hotel:'Airbnb Santa Teresa', checkin:'2027-03-12', checkout:'2027-03-18', costPerNight:70,  points:0,     transport:130, transportMode:'plane', accommodationType:'airbnb',  notes:'Fly Salvador→Rio ~$132pp NZD (LATAM or Azul, 2.5h). Christ the Redeemer, Sugarloaf, Ipanema, Lapa arches nightlife' },
   { id:'s36', country:'Brazil', dest:'Florianópolis', hotel:'Airbnb', checkin:'2027-03-18', checkout:'2027-03-22', costPerNight:55,  points:0,     transport:50,  transportMode:'bus',   accommodationType:'airbnb',  notes:'Bus $50pp. Lagoa, Joaquina dunes, surf beaches, chill before Argentina' },
 
   // ARGENTINA
@@ -917,7 +917,7 @@ function modeMeta(m) { return MODE_META[m] || MODE_META['bus']; }
 // ═══════════════════════════════════════════
 const COUNTRY_META = {
   Indonesia:    { flag:'🇮🇩', color:'#2A8B6E', accent:'#E8A647', phase:'SE Asia',
-    visa:'Visa on Arrival · 30d · ~$35 USD',
+    visa:'Visa on Arrival · 30d · ~$58 NZD',
     currency:'1 NZD ≈ 9,400 IDR',
     weather:'☀ 28–31°C · end of dry season',
     bg:'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1600&q=70' },
@@ -927,12 +927,12 @@ const COUNTRY_META = {
     weather:'☀ 27–30°C · dry, ideal beach window',
     bg:'https://images.unsplash.com/photo-1573160103600-e0aaa1cb2f25?w=1600&q=70' },
   Vietnam:      { flag:'🇻🇳', color:'#A8324A', accent:'#D4A843', phase:'SE Asia',
-    visa:'e-Visa required · apply 1mo ahead · ~$25 USD',
+    visa:'e-Visa required · apply 1mo ahead · ~$41 NZD',
     currency:'1 NZD ≈ 15,500 VND',
     weather:'🌤 Hanoi cool 18–25°C · HCMC warm 26–29°C',
     bg:'https://images.unsplash.com/photo-1528127269322-539801943592?w=1600&q=70' },
   'Sri Lanka':  { flag:'🇱🇰', color:'#0F6E5E', accent:'#FFC857', phase:'Indian Ocean',
-    visa:'ETA online · ~$50 USD · 1 week ahead',
+    visa:'ETA online · ~$83 NZD · 1 week ahead',
     currency:'1 NZD ≈ 195 LKR',
     weather:'☀ 26–30°C · dry SW + south coast',
     bg:'https://images.unsplash.com/photo-1586183189334-1f2b91dc6f06?w=1600&q=70' },

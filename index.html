@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Christian & Abi — Dream Trip 2024–25</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+:root {
+  --sand:#F5EDD6; --deep:#1A1C2E; --coral:#E8654A; --teal:#2ABFAA;
+  --gold:#D4A843; --ink:#0F1019; --fog:rgba(245,237,214,0.07);
+  --card:rgba(26,28,46,0.9); --glass:rgba(255,255,255,0.04);
+  --border:rgba(245,237,214,0.1); --purple:#7B6EFF; --green:#52C97A;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:var(--ink);color:var(--sand);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:58px;background:rgba(10,10,18,0.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav-brand{font-family:'Playfair Display',serif;font-size:1rem;letter-spacing:.04em}
+.nav-brand em{font-style:italic;color:var(--coral)}
+.nav-tabs{display:flex;gap:.2rem}
+.tab-btn{padding:.35rem .9rem;border-radius:20px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:500;background:transparent;color:rgba(245,237,214,.4);transition:all .2s;letter-spacing:.06em;text-transform:uppercase}
+.tab-btn:hover{color:var(--sand);background:var(--fog)}
+.tab-btn.active{background:var(--coral);color:#fff}
+.nav-export{padding:.3rem .8rem;border-radius:16px;border:1px solid var(--border);background:transparent;color:var(--sand);font-size:.72rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.nav-export:hover{border-color:var(--coral);color:var(--coral)}
+.view{display:none;padding-top:58px;min-height:100vh}
+.view.active{display:block}
+
+/* BANNER */
+.banner{background:linear-gradient(135deg,rgba(26,28,46,.95) 0%,rgba(15,16,25,.98) 100%);border-bottom:1px solid var(--border);padding:1.2rem 2rem;display:flex;flex-wrap:wrap;gap:1.2rem;align-items:center}
+.bb-stat{display:flex;flex-direction:column;gap:.15rem}
+.bb-label{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,237,214,.35)}
+.bb-val{font-size:1.1rem;font-weight:600;font-family:'Playfair Display',serif}
+.bb-sub{font-size:.65rem;color:rgba(245,237,214,.4)}
+.bb-div{width:1px;height:40px;background:var(--border);flex-shrink:0}
+.bb-red{color:var(--coral)}
+.bb-green{color:var(--green)}
+.bb-gold{color:var(--gold)}
+.bb-teal{color:var(--teal)}
+
+/* COUNTRY SECTIONS */
+.country-section{margin:1.5rem 2rem}
+.country-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;padding-bottom:.6rem;border-bottom:1px solid var(--border)}
+.country-title{display:flex;align-items:center;gap:.6rem;font-family:'Playfair Display',serif;font-size:1.2rem}
+.country-flag{font-size:1.4rem}
+.country-meta{display:flex;align-items:center;gap:1rem;font-size:.72rem;color:rgba(245,237,214,.4)}
+.country-total{font-size:.8rem;padding:.2rem .6rem;border-radius:10px;background:var(--fog);border:1px solid var(--border);color:var(--sand)}
+.add-stop-btn{padding:.3rem .8rem;border-radius:14px;border:1px dashed rgba(245,237,214,.2);background:transparent;color:rgba(245,237,214,.4);font-size:.7rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.add-stop-btn:hover{border-color:var(--teal);color:var(--teal)}
+
+/* STOP CARD */
+.stop-card{background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:.5rem;overflow:hidden;transition:border-color .2s}
+.stop-card:hover{border-color:rgba(245,237,214,.2)}
+.stop-header{display:flex;align-items:center;gap:.8rem;padding:.75rem 1rem;cursor:pointer;user-select:none}
+.stop-num{width:22px;height:22px;border-radius:50%;background:var(--fog);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.6rem;color:rgba(245,237,214,.4);flex-shrink:0}
+.stop-dest{font-weight:500;font-size:.9rem;flex:1}
+.stop-hotel{font-size:.72rem;color:rgba(245,237,214,.4);flex:1}
+.stop-dates{font-size:.7rem;color:rgba(245,237,214,.4);white-space:nowrap}
+.stop-cost{font-size:.78rem;font-weight:600;color:var(--teal);white-space:nowrap}
+.stop-points-badge{font-size:.6rem;padding:.1rem .4rem;border-radius:8px;background:rgba(212,168,67,.12);border:1px solid rgba(212,168,67,.25);color:var(--gold)}
+.stop-accom-type{font-size:.6rem;padding:.1rem .35rem;border-radius:6px;background:var(--fog);border:1px solid var(--border);color:rgba(245,237,214,.45)}
+.stop-chevron{font-size:.7rem;color:rgba(245,237,214,.25);transition:transform .2s;flex-shrink:0}
+.stop-card.open .stop-chevron{transform:rotate(180deg)}
+.stop-body{display:none;padding:.75rem 1rem 1rem;border-top:1px solid var(--border);background:rgba(0,0,0,.2)}
+.stop-card.open .stop-body{display:block}
+.stop-fields{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.5rem;margin-bottom:.75rem}
+.sf{display:flex;flex-direction:column;gap:.2rem}
+.sf label{font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(245,237,214,.35)}
+.sf input,.sf select,.sf textarea{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:6px;color:var(--sand);font-family:'DM Sans',sans-serif;font-size:.8rem;padding:.35rem .5rem;transition:border-color .2s;width:100%}
+.sf input:focus,.sf select:focus,.sf textarea:focus{outline:none;border-color:var(--teal)}
+.sf textarea{resize:vertical;min-height:60px}
+.sf select option{background:#1a1c2e}
+.stop-breakdown{font-size:.65rem;color:rgba(245,237,214,.25);margin-top:.05rem;font-style:italic}
+.stop-actions{display:flex;gap:.5rem;margin-top:.75rem}
+.sa-btn{padding:.3rem .7rem;border-radius:10px;border:1px solid var(--border);background:transparent;color:rgba(245,237,214,.5);font-size:.68rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.sa-btn:hover{border-color:var(--coral);color:var(--coral)}
+.sa-btn.del{border-color:rgba(232,101,74,.25)}
+.sa-btn.flights{border-color:rgba(42,191,170,.25);color:var(--teal)}
+.sa-btn.flights:hover{background:rgba(42,191,170,.1)}
+.sa-btn.todo{border-color:rgba(123,110,255,.25);color:var(--purple)}
+.sa-btn.todo:hover{background:rgba(123,110,255,.1)}
+
+/* TRANSPORT CONNECTOR - within country */
+.transport-connector{display:flex;align-items:center;justify-content:center;gap:.6rem;padding:.35rem 0;margin:.15rem 0}
+.tc-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
+.tc-pill{display:flex;align-items:center;gap:.35rem;padding:.25rem .7rem;border-radius:20px;border:1px solid var(--border);background:rgba(26,28,46,.8);font-size:.68rem;cursor:pointer;transition:all .2s;white-space:nowrap}
+.tc-pill:hover{border-color:rgba(245,237,214,.3);background:rgba(26,28,46,.95)}
+.tc-mode{font-size:.9rem}
+.tc-label{color:rgba(245,237,214,.5);font-weight:500}
+.tc-cost{color:var(--teal);font-weight:600}
+.tc-each{color:rgba(245,237,214,.3);font-size:.6rem}
+.tc-popover{position:absolute;z-index:100;background:#1a1c2e;border:1px solid var(--border);border-radius:10px;padding:.8rem;display:none;box-shadow:0 8px 32px rgba(0,0,0,.6);min-width:220px}
+.tc-popover.open{display:block}
+.tc-pop-row{display:flex;gap:.4rem;align-items:center;margin-bottom:.4rem}
+.tc-pop-row label{font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(245,237,214,.35);width:55px;flex-shrink:0}
+.tc-pop-row input,.tc-pop-row select{flex:1;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:6px;color:var(--sand);font-family:'DM Sans',sans-serif;font-size:.78rem;padding:.28rem .4rem}
+.tc-pop-row input:focus,.tc-pop-row select:focus{outline:none;border-color:var(--teal)}
+.tc-pop-row select option{background:#1a1c2e}
+.tc-save-btn{width:100%;padding:.3rem;border-radius:6px;border:none;background:var(--teal);color:#0f1019;font-size:.72rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:.2rem}
+
+/* INTER-COUNTRY TRANSPORT */
+.inter-country-transport{display:flex;align-items:center;justify-content:center;gap:.6rem;padding:.6rem 0;margin:0 2rem .5rem}
+.ict-line{flex:1;height:2px;background:linear-gradient(90deg,transparent,rgba(232,101,74,.3),transparent)}
+.ict-pill{display:flex;align-items:center;gap:.5rem;padding:.4rem 1rem;border-radius:24px;border:1px solid rgba(232,101,74,.3);background:rgba(232,101,74,.07);font-size:.72rem;cursor:pointer;transition:all .2s;white-space:nowrap}
+.ict-pill:hover{border-color:rgba(232,101,74,.6);background:rgba(232,101,74,.12)}
+.ict-mode{font-size:1rem}
+.ict-label{color:rgba(245,237,214,.6);font-weight:500}
+.ict-route{color:rgba(245,237,214,.35);font-size:.62rem}
+.ict-cost{color:var(--coral);font-weight:600}
+.ict-each{color:rgba(245,237,214,.3);font-size:.6rem}
+.ict-popover{position:absolute;z-index:100;background:#1a1c2e;border:1px solid rgba(232,101,74,.3);border-radius:10px;padding:.8rem;display:none;box-shadow:0 8px 32px rgba(0,0,0,.6);min-width:260px}
+.ict-popover.open{display:block}
+.ict-pop-row{display:flex;gap:.4rem;align-items:center;margin-bottom:.4rem}
+.ict-pop-row label{font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(245,237,214,.35);width:65px;flex-shrink:0}
+.ict-pop-row input,.ict-pop-row select{flex:1;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:6px;color:var(--sand);font-family:'DM Sans',sans-serif;font-size:.78rem;padding:.28rem .4rem}
+.ict-pop-row input:focus,.ict-pop-row select:focus{outline:none;border-color:var(--coral)}
+.ict-pop-row select option{background:#1a1c2e}
+.ict-save-btn{width:100%;padding:.3rem;border-radius:6px;border:none;background:var(--coral);color:#fff;font-size:.72rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:.2rem}
+
+/* COUNTRY TOTAL BAR */
+.country-total-bar{margin:.5rem 0 1.5rem;padding:.6rem 1rem;background:rgba(26,28,46,.5);border:1px solid var(--border);border-radius:10px;display:flex;flex-wrap:wrap;gap:1rem;font-size:.72rem}
+.ctb-item{display:flex;flex-direction:column;gap:.1rem}
+.ctb-lbl{font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(245,237,214,.3)}
+.ctb-val{font-weight:600}
+
+/* THINGS TO DO PANEL */
+.todo-panel{background:rgba(123,110,255,.06);border:1px solid rgba(123,110,255,.2);border-radius:10px;padding:.8rem;margin-top:.75rem}
+.todo-panel h4{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--purple);margin-bottom:.6rem}
+.todo-item{display:flex;align-items:flex-start;gap:.6rem;padding:.45rem 0;border-bottom:1px solid rgba(123,110,255,.1)}
+.todo-item:last-child{border-bottom:none}
+.todo-icon{font-size:1rem;flex-shrink:0;margin-top:.05rem}
+.todo-info{flex:1}
+.todo-name{font-size:.78rem;font-weight:500}
+.todo-desc{font-size:.68rem;color:rgba(245,237,214,.4);margin-top:.1rem}
+.todo-price{font-size:.68rem;color:var(--green);white-space:nowrap}
+.todo-add-btn{padding:.2rem .5rem;border-radius:8px;border:1px solid rgba(123,110,255,.3);background:transparent;color:var(--purple);font-size:.6rem;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;flex-shrink:0;transition:all .2s}
+.todo-add-btn:hover{background:rgba(123,110,255,.15)}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:#1a1c2e;border:1px solid var(--border);border-radius:16px;padding:1.5rem;width:min(480px,90vw);max-height:90vh;overflow-y:auto}
+.modal h3{font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:1rem;color:var(--sand)}
+.modal-fields{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.modal-field{display:flex;flex-direction:column;gap:.2rem}
+.modal-field.full{grid-column:1/-1}
+.modal-field label{font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(245,237,214,.35)}
+.modal-field input,.modal-field select,.modal-field textarea{background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;color:var(--sand);font-family:'DM Sans',sans-serif;font-size:.82rem;padding:.45rem .6rem}
+.modal-field input:focus,.modal-field select:focus{outline:none;border-color:var(--teal)}
+.modal-field select option{background:#1a1c2e}
+.modal-actions{display:flex;gap:.6rem;margin-top:1rem;justify-content:flex-end}
+.m-btn{padding:.4rem 1rem;border-radius:10px;border:none;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:500;cursor:pointer;transition:all .2s}
+.m-btn.save{background:var(--teal);color:#0f1019}
+.m-btn.cancel{background:var(--fog);border:1px solid var(--border);color:var(--sand)}
+
+/* BUDGET TAB */
+.budget-wrap{padding:1.5rem 2rem}
+.budget-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;margin-top:1rem}
+.budget-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem}
+.bc-title{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(245,237,214,.4);margin-bottom:.6rem}
+.bc-row{display:flex;justify-content:space-between;align-items:center;padding:.3rem 0;border-bottom:1px solid var(--border);font-size:.78rem}
+.bc-row:last-child{border-bottom:none;font-weight:600;color:var(--teal)}
+.bc-dest{color:rgba(245,237,214,.7)}
+.bc-amt{color:var(--sand)}
+
+/* GLOBE TAB */
+.globe-wrap{padding:1.5rem 2rem;display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+@media(max-width:768px){.globe-wrap{grid-template-columns:1fr}}
+.globe-container{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;height:500px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative}
+.map-container{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;height:500px}
+.globe-controls{display:flex;gap:.4rem;margin-top:.6rem;justify-content:center}
+.gmode-btn{padding:.3rem .8rem;border-radius:12px;border:1px solid var(--border);background:transparent;color:rgba(245,237,214,.4);font-size:.7rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.gmode-btn:hover{color:var(--sand)}
+.gmode-btn.active{background:var(--teal);color:#0f1019;border-color:var(--teal)}
+
+/* TOAST */
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;z-index:999;background:#1a1c2e;border:1px solid var(--teal);border-radius:10px;padding:.6rem 1rem;font-size:.78rem;color:var(--teal);opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
+
+/* TIPS TAB */
+.tips-wrap{padding:1.5rem 2rem}
+.tips-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;margin-top:1rem}
+.tip-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem}
+.tip-card h4{font-size:.78rem;font-weight:600;margin-bottom:.5rem;color:var(--teal)}
+.tip-card p{font-size:.75rem;color:rgba(245,237,214,.6);line-height:1.55}
+.tip-card ul{padding-left:1rem;margin-top:.4rem}
+.tip-card ul li{font-size:.73rem;color:rgba(245,237,214,.55);margin-bottom:.25rem;line-height:1.45}
+
+/* TOTAL SECTION */
+.section-h2{font-family:'Playfair Display',serif;font-size:1rem;color:var(--sand);margin-bottom:.5rem}
+
+/* HIDDEN SCROLLBAR GLOBE */
+#globe-canvas-wrap{position:relative;width:100%;height:420px}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-brand">Christian &amp; <em>Abi</em> — Dream Trip 2024–25</div>
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="switchView('itin')">✈ Itinerary</button>
+    <button class="tab-btn" onclick="switchView('budg')">💰 Budget</button>
+    <button class="tab-btn" onclick="switchView('globe')">🌍 Globe</button>
+    <button class="tab-btn" onclick="switchView('tips')">💡 Tips</button>
+  </div>
+  <button class="nav-export" onclick="exportHTML()">⬇ Export</button>
+</nav>
+<div class="toast" id="toast"></div>
+
+<!-- ════════════ ITINERARY VIEW ════════════ -->
+<div class="view active" id="view-itin">
+  <div class="banner" id="banner"></div>
+  <div id="itin-content"></div>
+</div>
+
+<!-- ════════════ BUDGET VIEW ════════════ -->
+<div class="view" id="view-budg">
+  <div class="budget-wrap">
+    <h2 class="section-h2">Budget Breakdown</h2>
+    <div id="budget-content"></div>
+  </div>
+</div>
+
+<!-- ════════════ GLOBE VIEW ════════════ -->
+<div class="view" id="view-globe">
+  <div class="globe-wrap">
+    <div>
+      <h2 class="section-h2">3D Route Globe</h2>
+      <div class="globe-container" id="globe-container">
+        <div id="globe-canvas-wrap"><canvas id="globe-canvas"></canvas></div>
+        <p id="globe-hint" style="font-size:.72rem;color:rgba(245,237,214,.25);margin-top:.5rem;padding:.3rem">Click to pause · Scroll to zoom · Drag to rotate</p>
+      </div>
+    </div>
+    <div>
+      <h2 class="section-h2">Interactive Map</h2>
+      <div class="globe-controls" style="margin-bottom:.6rem">
+        <button class="gmode-btn active" id="gbtn-street" onclick="setMapMode('street')">Street</button>
+        <button class="gmode-btn" id="gbtn-satellite" onclick="setMapMode('satellite')">Satellite</button>
+      </div>
+      <div class="map-container" id="leaflet-map"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ TIPS VIEW ════════════ -->
+<div class="view" id="view-tips">
+  <div class="tips-wrap">
+    <h2 class="section-h2">Travel Tips & Strategy</h2>
+    <div id="tips-content"></div>
+  </div>
+</div>
+
+<!-- ADD STOP MODAL -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <h3>Add New Stop</h3>
+    <div class="modal-fields">
+      <div class="modal-field"><label>Destination</label><input id="m-dest" placeholder="e.g. Hoi An"></div>
+      <div class="modal-field"><label>Hotel / Accommodation</label><input id="m-hotel" placeholder="e.g. Accor Le Belhamy"></div>
+      <div class="modal-field"><label>Check-in</label><input type="date" id="m-checkin"></div>
+      <div class="modal-field"><label>Check-out</label><input type="date" id="m-checkout"></div>
+      <div class="modal-field"><label>Cost/night (total $NZD)</label><input type="number" id="m-cost" placeholder="0"></div>
+      <div class="modal-field"><label>Accor Points</label><input type="number" id="m-points" placeholder="0"></div>
+      <div class="modal-field"><label>Transport to here ($)</label><input type="number" id="m-transport" placeholder="0"></div>
+      <div class="modal-field"><label>Transport Mode</label>
+        <select id="m-tmode">
+          <option value="plane">✈ Flight</option>
+          <option value="ferry">⛴ Ferry</option>
+          <option value="bus">🚌 Bus/Van</option>
+          <option value="train">🚂 Train</option>
+          <option value="drive">🚗 Drive</option>
+          <option value="walk">🚶 Walk</option>
+        </select>
+      </div>
+      <div class="modal-field"><label>Accom Type</label>
+        <select id="m-atype">
+          <option value="hotel">Hotel</option>
+          <option value="accor">Accor (Points)</option>
+          <option value="airbnb">Airbnb</option>
+          <option value="hostel">Hostel (Private)</option>
+          <option value="free">Free / Family</option>
+        </select>
+      </div>
+      <div class="modal-field full"><label>Notes</label><textarea id="m-notes" rows="2" placeholder="Activities, tips, links..."></textarea></div>
+    </div>
+    <div class="modal-actions">
+      <button class="m-btn cancel" onclick="closeModal()">Cancel</button>
+      <button class="m-btn save" onclick="saveNewStop()">Add Stop</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+//  CONSTANTS
+// ═══════════════════════════════════════════
+const INITIAL_ACCOR = 50000;
+const INITIAL_AIRPOINTS = 400;
+const BUDGET_PP = 15000;
+const BUDGET_COMBINED = 30000;
+
+// ═══════════════════════════════════════════
+//  INTER-COUNTRY TRANSPORT DATA
+//  These are the flights/transport BETWEEN countries
+// ═══════════════════════════════════════════
+const DEFAULT_ICT = {
+  'Indonesia→Philippines': { mode:'plane', icon:'✈', label:'Flight', route:'Bali → Cebu via KL', cost:280, notes:'AirAsia + Malaysian – 14h with 7h KL layover' },
+  'Philippines→Vietnam':   { mode:'plane', icon:'✈', label:'Flight', route:'Manila/Cebu → Hanoi', cost:90,  notes:'Cebu Pacific or AirAsia' },
+  'Vietnam→Sri Lanka':     { mode:'plane', icon:'✈', label:'Flight', route:'Ho Chi Minh → Colombo', cost:160, notes:'SriLankan Airlines or indirect' },
+  'Sri Lanka→Maldives':    { mode:'plane', icon:'✈', label:'Flight', route:'Colombo → Malé', cost:200, notes:'Flyme or SriLankan Airlines' },
+  'Sri Lanka→Peru':        { mode:'plane', icon:'✈', label:'Flight', route:'Colombo → Lima (via Dubai/Doha)', cost:950, notes:'Emirates or Qatar Airways – use Airpoints here!' },
+  'Maldives→Peru':         { mode:'plane', icon:'✈', label:'Flight', route:'Malé → Lima (via Dubai)', cost:1100, notes:'Long haul – use Airpoints here!' },
+  'Peru→Brazil':           { mode:'plane', icon:'✈', label:'Flight', route:'Lima → Fortaleza', cost:180, notes:'LATAM or Gol – domestic Brazil' },
+  'Brazil→Argentina':      { mode:'bus',   icon:'🚌', label:'Bus/Drive', route:'Porto Alegre → Buenos Aires', cost:45, notes:'Overnight bus or short flight' },
+};
+
+// ═══════════════════════════════════════════
+//  STOPS DATA
+// ═══════════════════════════════════════════
+const DEFAULT_STOPS = [
+  // INDONESIA
+  { id:'s1',  country:'Indonesia', dest:'Bali', hotel:'Mercure Bali Nusa Dua', checkin:'2024-10-21', checkout:'2024-10-24', costPerNight:60,  points:4000,  transport:0,   transportMode:'plane', accommodationType:'accor',   notes:'Arrive 22:30. Explore Nusa Dua, Seminyak, Uluwatu' },
+  { id:'s2',  country:'Indonesia', dest:'Lombok', hotel:'Pullman Lombok', checkin:'2024-10-24', checkout:'2024-10-27', costPerNight:78,  points:12000, transport:36,  transportMode:'ferry', accommodationType:'accor',   notes:'Ferry $18pp each way. Gili islands day trip, Mount Rinjani views' },
+  { id:'s3',  country:'Indonesia', dest:'Labuan Bajo (Komodo)', hotel:'Hotel Bonne Nuit', checkin:'2024-10-27', checkout:'2024-10-30', costPerNight:115, points:0,     transport:444, transportMode:'plane', accommodationType:'hotel',   notes:'Fly Bali→Labuan Bajo ~$222pp. Komodo dragon tour + liveaboard snorkel' },
+
+  // PHILIPPINES
+  { id:'s4',  country:'Philippines', dest:'Cebu (transit)', hotel:'Mercure Cebu', checkin:'2024-10-31', checkout:'2024-11-01', costPerNight:15,  points:4000,  transport:0,   transportMode:'plane', accommodationType:'accor',   notes:'Arrive 12pm via KL. Chill day, recover from travel' },
+  { id:'s5',  country:'Philippines', dest:'Moalboal', hotel:'TopBudz Hostel (pvt)', checkin:'2024-11-01', checkout:'2024-11-03', costPerNight:50,  points:0,     transport:32,  transportMode:'bus',   accommodationType:'hostel',  notes:'Shared van $16pp. Sardine run, Kawasan Falls canyoneering, turtle snorkel' },
+  { id:'s6',  country:'Philippines', dest:'Oslob', hotel:'Guesthouse', checkin:'2024-11-03', checkout:'2024-11-04', costPerNight:37,  points:0,     transport:10,  transportMode:'bus',   accommodationType:'hostel',  notes:'Whale shark swimming 5am. Tumalog Falls, Sumilon Island' },
+  { id:'s7',  country:'Philippines', dest:'Cebu (return)', hotel:'Mercure Cebu', checkin:'2024-11-04', checkout:'2024-11-05', costPerNight:15,  points:4000,  transport:10,  transportMode:'bus',   accommodationType:'accor',   notes:'Transit night before Bohol ferry' },
+  { id:'s8',  country:'Philippines', dest:'Bohol', hotel:'Airbnb Panglao area', checkin:'2024-11-05', checkout:'2024-11-10', costPerNight:55,  points:0,     transport:20,  transportMode:'ferry', accommodationType:'airbnb',  notes:'Ferry Cebu→Tagbilaran $10pp. Chocolate Hills, tarsiers, Loboc River cruise' },
+  { id:'s9',  country:'Philippines', dest:'Siquijor', hotel:'Airbnb', checkin:'2024-11-10', checkout:'2024-11-13', costPerNight:45,  points:0,     transport:14,  transportMode:'ferry', accommodationType:'airbnb',  notes:'Ferry $7pp. Cambugahay Falls, Salagdoong cliff diving, island scooter loop' },
+  { id:'s10', country:'Philippines', dest:'Cebu (transit)', hotel:'Mercure Cebu', checkin:'2024-11-13', checkout:'2024-11-14', costPerNight:15,  points:4000,  transport:14,  transportMode:'ferry', accommodationType:'accor',   notes:'Points night. Transit to Siargao connection' },
+  { id:'s11', country:'Philippines', dest:'Siargao', hotel:'Airbnb', checkin:'2024-11-14', checkout:'2024-11-20', costPerNight:60,  points:0,     transport:80,  transportMode:'plane', accommodationType:'airbnb',  notes:'Fly Cebu→Siargao ~$40pp. Cloud 9 surf, island hopping, sugba lagoon' },
+  { id:'s12', country:'Philippines', dest:'Boracay', hotel:'Airbnb White Beach', checkin:'2024-11-20', checkout:'2024-11-24', costPerNight:70,  points:0,     transport:100, transportMode:'plane', accommodationType:'airbnb',  notes:'Fly Siargao→Caticlan ~$50pp. White Beach sunsets, paraw sailing, kitesurfing' },
+  { id:'s13', country:'Philippines', dest:'El Nido, Palawan', hotel:'Airbnb', checkin:'2024-11-24', checkout:'2024-11-30', costPerNight:65,  points:0,     transport:80,  transportMode:'plane', accommodationType:'airbnb',  notes:'Fly Caticlan→El Nido ~$40pp. Tour A+C island hopping, hidden lagoons' },
+
+  // VIETNAM
+  { id:'s14', country:'Vietnam', dest:'Hanoi', hotel:'Silk Path Hotel (Accor)', checkin:'2024-12-01', checkout:'2024-12-05', costPerNight:55,  points:3000,  transport:0,   transportMode:'plane', accommodationType:'accor',   notes:'Hoan Kiem Lake, Old Quarter, Banh Mi breakfast, street food tour' },
+  { id:'s15', country:'Vietnam', dest:'Ha Long Bay', hotel:'Junk Boat Cruise', checkin:'2024-12-05', checkout:'2024-12-07', costPerNight:90,  points:0,     transport:30,  transportMode:'bus',   accommodationType:'hotel',   notes:'2-night cruise $90pp. Limestone karsts, kayaking, emerald caves' },
+  { id:'s16', country:'Vietnam', dest:'Hue', hotel:'Guesthouse', checkin:'2024-12-07', checkout:'2024-12-09', costPerNight:30,  points:0,     transport:25,  transportMode:'bus',   accommodationType:'hostel',  notes:'Sleeper bus $25pp. Imperial Citadel, Royal Tombs, Thien Mu Pagoda' },
+  { id:'s17', country:'Vietnam', dest:'Hoi An', hotel:'Airbnb', checkin:'2024-12-09', checkout:'2024-12-14', costPerNight:40,  points:0,     transport:15,  transportMode:'bus',   accommodationType:'airbnb',  notes:'Ancient Town lanterns, An Bang Beach, tailor-made clothes, My Son Sanctuary' },
+  { id:'s18', country:'Vietnam', dest:'Da Nang', hotel:'Airbnb', checkin:'2024-12-14', checkout:'2024-12-16', costPerNight:45,  points:0,     transport:8,   transportMode:'bus',   accommodationType:'airbnb',  notes:'Marble Mountains, Dragon Bridge fire show, My Khe Beach' },
+  { id:'s19', country:'Vietnam', dest:'Ho Chi Minh City', hotel:'Novotel Saigon Centre', checkin:'2024-12-16', checkout:'2024-12-22', costPerNight:65,  points:4000,  transport:30,  transportMode:'plane', accommodationType:'accor',   notes:'Fly Da Nang→HCMC $30pp. Cu Chi Tunnels, Mekong Delta, War Remnants Museum' },
+  { id:'s20', country:'Vietnam', dest:'Phu Quoc', hotel:'Airbnb', checkin:'2024-12-22', checkout:'2024-12-29', costPerNight:55,  points:0,     transport:30,  transportMode:'plane', accommodationType:'airbnb',  notes:'Fly HCMC→Phu Quoc $30pp. Beach time, snorkelling, New Year celebration' },
+
+  // SRI LANKA
+  { id:'s21', country:'Sri Lanka', dest:'Colombo / Negombo', hotel:'Ibis Colombo City', checkin:'2025-01-02', checkout:'2025-01-04', costPerNight:45,  points:2000,  transport:0,   transportMode:'plane', accommodationType:'accor',   notes:'Arrive Colombo. Negombo fish market, Pettah bazaar, Galle Face Green' },
+  { id:'s22', country:'Sri Lanka', dest:'Sigiriya & Dambulla', hotel:'Guesthouse', checkin:'2025-01-04', checkout:'2025-01-06', costPerNight:40,  points:0,     transport:20,  transportMode:'bus',   accommodationType:'hostel',  notes:'Lion Rock fortress sunrise climb, Cave temples, jeep safari Minneriya' },
+  { id:'s23', country:'Sri Lanka', dest:'Kandy', hotel:'Airbnb', checkin:'2025-01-06', checkout:'2025-01-09', costPerNight:35,  points:0,     transport:15,  transportMode:'bus',   accommodationType:'airbnb',  notes:'Temple of Tooth, Peradeniya Gardens, train to Ella booking essential' },
+  { id:'s24', country:'Sri Lanka', dest:'Ella', hotel:'Airbnb', checkin:'2025-01-09', checkout:'2025-01-13', costPerNight:35,  points:0,     transport:12,  transportMode:'train', accommodationType:'airbnb',  notes:'Train Kandy→Ella $5pp scenic. Nine Arch Bridge, Adam\'s Peak hike, tea estates' },
+  { id:'s25', country:'Sri Lanka', dest:'Mirissa / Unawatuna', hotel:'Airbnb', checkin:'2025-01-13', checkout:'2025-01-20', costPerNight:40,  points:0,     transport:15,  transportMode:'bus',   accommodationType:'airbnb',  notes:'Whale watching (blue whales Jan!), Galle Fort, beach chill, surf lessons' },
+
+  // MALDIVES (optional)
+  { id:'s26', country:'Maldives', dest:'Kooddoo / Huvadhoo', hotel:'Mercure Maldives Kooddoo', checkin:'2025-01-22', checkout:'2025-01-25', costPerNight:200, points:8000,  transport:160, transportMode:'plane', accommodationType:'accor',   notes:'Fly Colombo→Gan (domestic). House reef snorkel, sandbar picnic, dolphins' },
+
+  // PERU
+  { id:'s27', country:'Peru', dest:'Lima', hotel:'ibis Lima Miraflores', checkin:'2025-02-01', checkout:'2025-02-04', costPerNight:50,  points:2000,  transport:0,   transportMode:'plane', accommodationType:'accor',   notes:'Miraflores cliffs, Larco Museum, Lima food scene (best in SA!), Barranco' },
+  { id:'s28', country:'Peru', dest:'Cusco', hotel:'Airbnb', checkin:'2025-02-04', checkout:'2025-02-09', costPerNight:40,  points:0,     transport:60,  transportMode:'plane', accommodationType:'airbnb',  notes:'Fly Lima→Cusco $60pp. Acclimatise, Sacsayhuamán, San Pedro Market, Centro Histórico' },
+  { id:'s29', country:'Peru', dest:'Machu Picchu', hotel:'Aguas Calientes hostel', checkin:'2025-02-09', checkout:'2025-02-11', costPerNight:50,  points:0,     transport:60,  transportMode:'train', accommodationType:'hostel',  notes:'Peru Rail $60pp. Sunrise at Machu Picchu, Sun Gate hike, Huayna Picchu option' },
+  { id:'s30', country:'Peru', dest:'Lake Titicaca', hotel:'Airbnb Puno', checkin:'2025-02-11', checkout:'2025-02-14', costPerNight:30,  points:0,     transport:30,  transportMode:'bus',   accommodationType:'airbnb',  notes:'Overnight bus Cusco→Puno $30pp. Uros floating islands, Taquile, Bolivia day trip option' },
+
+  // BRAZIL
+  { id:'s31', country:'Brazil', dest:'Fortaleza / Jericoacoara', hotel:'Airbnb', checkin:'2025-02-20', checkout:'2025-02-26', costPerNight:55,  points:0,     transport:0,   transportMode:'plane', accommodationType:'airbnb',  notes:'Fly Lima→Fortaleza. Jeri dunes, lagoons, kitesurfing, sunsets' },
+  { id:'s32', country:'Brazil', dest:'Maceió / Porto de Galinhas', hotel:'Airbnb', checkin:'2025-02-26', checkout:'2025-03-04', costPerNight:50,  points:0,     transport:60,  transportMode:'plane', accommodationType:'airbnb',  notes:'Fly $60pp. Porto de Galinhas natural pools, Maragogi reefs, Maceió beaches' },
+  { id:'s33', country:'Brazil', dest:'Recife / Olinda', hotel:'Airbnb', checkin:'2025-03-04', checkout:'2025-03-07', costPerNight:45,  points:0,     transport:20,  transportMode:'bus',   accommodationType:'airbnb',  notes:'Bus $20pp. Olinda colonial hilltop, Marco Zero, Caruaru day trip' },
+  { id:'s34', country:'Brazil', dest:'Salvador', hotel:'Airbnb Pelourinho', checkin:'2025-03-07', checkout:'2025-03-12', costPerNight:50,  points:0,     transport:40,  transportMode:'bus',   accommodationType:'airbnb',  notes:'Bus $40pp. Pelourinho, Capoeira, Afro-Brazilian culture, Mercado Modelo' },
+  { id:'s35', country:'Brazil', dest:'Rio de Janeiro', hotel:'Airbnb Santa Teresa', checkin:'2025-03-12', checkout:'2025-03-18', costPerNight:70,  points:0,     transport:80,  transportMode:'plane', accommodationType:'airbnb',  notes:'Fly $80pp. Christ the Redeemer, Sugarloaf, Ipanema, Lapa arches nightlife' },
+  { id:'s36', country:'Brazil', dest:'Florianópolis', hotel:'Airbnb', checkin:'2025-03-18', checkout:'2025-03-22', costPerNight:55,  points:0,     transport:50,  transportMode:'bus',   accommodationType:'airbnb',  notes:'Bus $50pp. Lagoa, Joaquina dunes, surf beaches, chill before Argentina' },
+
+  // ARGENTINA
+  { id:'s37', country:'Argentina', dest:'Buenos Aires', hotel:'Family Apartment (FREE)', checkin:'2025-03-23', checkout:'2025-04-05', costPerNight:0,   points:0,     transport:45,  transportMode:'bus',   accommodationType:'free',    notes:'Bus Porto Alegre→BA $45pp. Free apartment + family car. Tango, La Boca, San Telmo' },
+  { id:'s38', country:'Argentina', dest:'Bariloche', hotel:'Airbnb', checkin:'2025-04-05', checkout:'2025-04-09', costPerNight:45,  points:0,     transport:40,  transportMode:'drive', accommodationType:'airbnb',  notes:'Drive south on Ruta 40. Nahuel Huapi lake, Cerro Catedral, chocolate shops' },
+  { id:'s39', country:'Argentina', dest:'El Calafate / Perito Moreno', hotel:'Airbnb', checkin:'2025-04-09', checkout:'2025-04-12', costPerNight:50,  points:0,     transport:60,  transportMode:'drive', accommodationType:'airbnb',  notes:'Drive Ruta 40 south. Perito Moreno glacier walk, trekking, condors' },
+  { id:'s40', country:'Argentina', dest:'El Chaltén', hotel:'Hostel', checkin:'2025-04-12', checkout:'2025-04-14', costPerNight:35,  points:0,     transport:30,  transportMode:'drive', accommodationType:'hostel',  notes:'Drive. Fitz Roy trek, Cerro Torre, world-class free hiking, wild camping option' },
+  { id:'s41', country:'Argentina', dest:'Mendoza', hotel:'Airbnb', checkin:'2025-04-14', checkout:'2025-04-18', costPerNight:40,  points:0,     transport:80,  transportMode:'drive', accommodationType:'airbnb',  notes:'Drive north Ruta 40. Malbec wine tours, Aconcagua views, Potrerillos rafting' },
+  { id:'s42', country:'Argentina', dest:'Buenos Aires (return)', hotel:'Family Apartment (FREE)', checkin:'2025-04-18', checkout:'2025-04-30', costPerNight:0,   points:0,     transport:50,  transportMode:'drive', accommodationType:'free',    notes:'Drive back BA. Final days, packing, fly to Europe (BA→somewhere Europe)' },
+];
+
+// ═══════════════════════════════════════════
+//  THINGS TO DO
+// ═══════════════════════════════════════════
+const THINGS_TO_DO = {
+  'Bali': [
+    { icon:'🌊', name:'Uluwatu Temple Sunset + Kecak', desc:'Clifftop Hindu temple with dramatic sunset kecak fire dance performance', price:'~$15pp entry+show' },
+    { icon:'🏄', name:'Canggu surf lesson', desc:'2h lesson with board and instructor at Echo Beach', price:'~$25pp' },
+    { icon:'🍜', name:'Seminyak street food tour', desc:'Evening walk through warungs sampling nasi goreng, satay, martabak', price:'~$20pp' },
+    { icon:'🛵', name:'Rice terrace scooter loop', desc:'Jatiluwih UNESCO terraces → Tegallalang → Ubud coffee plantation', price:'~$8 scooter/day' },
+  ],
+  'Lombok': [
+    { icon:'⛵', name:'Gili Island day trip', desc:'Gili T snorkelling, turtles, beach bars — no motorised vehicles', price:'~$20pp boat' },
+    { icon:'🏔', name:'Mount Rinjani viewpoint hike', desc:'Sunrise trek to crater rim — full summit is 3 days, rim is doable in 1', price:'~$30pp guide' },
+    { icon:'🌊', name:'Kuta Lombok surf & beaches', desc:'Pink Beach, Tanjung Aan, surfing Selong Belanak — far less crowded than Bali', price:'Free-$10' },
+  ],
+  'Labuan Bajo (Komodo)': [
+    { icon:'🦎', name:'Komodo Island dragon trek', desc:'Guided trek to see Komodo dragons in their habitat — mandatory ranger', price:'~$25pp park fee' },
+    { icon:'🤿', name:'Snorkelling / diving liveaboard', desc:'2-day liveaboard visiting Manta Point, Pink Beach, Crystal Rock', price:'~$130pp 2 days' },
+    { icon:'🌅', name:'Padar Island sunrise hike', desc:'45min hike to iconic 3-bay panorama — Instagram famous for good reason', price:'~$10pp park fee' },
+  ],
+  'Moalboal': [
+    { icon:'🐠', name:'Sardine run snorkel', desc:'Millions of sardines form shifting bait-balls just meters from shore', price:'~$8 mask+fins' },
+    { icon:'🐢', name:'Sea turtle snorkel', desc:'Resident sea turtles at Tongo Point — almost guaranteed sighting', price:'Free with snorkel' },
+    { icon:'🏞', name:'Kawasan Falls canyoneering', desc:'Full-day canyoneering with jumps, slides, and cliff sections', price:'~$35pp' },
+    { icon:'🤿', name:'Pescador Island dive', desc:'Wall dive with barracuda, reef sharks, and huge biodiversity', price:'~$30pp 2 dives' },
+  ],
+  'Oslob': [
+    { icon:'🐋', name:'Whale shark swim', desc:'Book the 5am slot before feeding starts — better whale shark behavior', price:'~$20pp' },
+    { icon:'🏝', name:'Sumilon Island', desc:'Stunning sandbar + snorkel — take the boat from Oslob wharf', price:'~$10pp boat' },
+    { icon:'💦', name:'Tumalog Falls', desc:'Ethereal curtain waterfall through moss and ferns', price:'~$3 entry' },
+  ],
+  'Bohol': [
+    { icon:'⛰', name:'Chocolate Hills viewpoint', desc:'1,776 perfectly conical hills turning chocolate-brown in dry season', price:'~$5 entry' },
+    { icon:'🐒', name:'Philippine Tarsier sanctuary', desc:'World\'s smallest primate — see them in their natural nocturnal habitat', price:'~$4 entry' },
+    { icon:'🚣', name:'Loboc River lunch cruise', desc:'Bamboo raft floating restaurant through jungle canopy', price:'~$12pp' },
+    { icon:'🤿', name:'Balicasag Island dive/snorkel', desc:'Pristine reef with sea turtles, wall dives, and huge fish diversity', price:'~$25pp' },
+  ],
+  'Siquijor': [
+    { icon:'💦', name:'Cambugahay Falls swing', desc:'Multi-tiered falls with rope swings and natural pools', price:'Free (tip guide)' },
+    { icon:'🏊', name:'Salagdoong cliff jump', desc:'8m and 12m platforms into crystalline water', price:'~$2 entry' },
+    { icon:'🛵', name:'Island scooter circumnavigation', desc:'Full island loop: 72km, beaches, balete tree, mystical village', price:'~$8 scooter' },
+    { icon:'🌊', name:'Paliton Beach', desc:'Quiet white sand beach — arrive before 10am to beat the day trippers', price:'Free' },
+  ],
+  'Siargao': [
+    { icon:'🏄', name:'Cloud 9 surfing', desc:'Famous reef break — hire board from locals near the boardwalk tower', price:'~$5pp board' },
+    { icon:'🏝', name:'Island hopping (Naked/Daku/Guyam)', desc:'3 islands, snorkelling, coconut crab lunch on Daku', price:'~$15pp boat trip' },
+    { icon:'🌊', name:'Sugba Lagoon', desc:'Emerald lagoon, cliff jump platform, and stand-up paddleboarding', price:'~$8pp boat+entry' },
+    { icon:'🛵', name:'Scooter to Magpupungko Rock Pools', desc:'Tidal pools revealed at low tide — stunning natural swimming pools', price:'~$3 entry' },
+  ],
+  'Boracay': [
+    { icon:'⛵', name:'Paraw sailing sunset', desc:'Traditional outrigger sailboat with drinks during golden hour', price:'~$20pp' },
+    { icon:'🏄', name:'Kitesurfing lesson', desc:'Bulabog Beach is a world-class kitesurfing destination', price:'~$60pp 3h lesson' },
+    { icon:'🤿', name:'Crocodile Island snorkel', desc:'Colourful reef teeming with fish, a short boat ride from White Beach', price:'~$15pp' },
+    { icon:'🏖', name:'Puka Shell Beach', desc:'North end, quieter, more natural and less developed than White Beach', price:'Free' },
+  ],
+  'El Nido, Palawan': [
+    { icon:'🚣', name:'Tour A — Big Lagoon & Secret Lagoon', desc:'Classic island-hopping route. Book the first departure to beat crowds', price:'~$25pp' },
+    { icon:'🚣', name:'Tour C — Helicopter Island', desc:'Snorkelling spots, hidden beaches and coral gardens', price:'~$25pp' },
+    { icon:'🤿', name:'Nacpan & Calitang twin beaches', desc:'Undeveloped twin beaches accessible by tricycle north of El Nido town', price:'~$5 tricycle' },
+    { icon:'🌅', name:'Taraw Cliff sunset hike', desc:'45min scramble for panoramic El Nido bay sunset view', price:'Free' },
+  ],
+  'Hanoi': [
+    { icon:'🍜', name:'Old Quarter street food walk', desc:'Bun cha, pho, banh mi, ca phe trung (egg coffee) — all within 300m', price:'~$8pp' },
+    { icon:'🛶', name:'Hoan Kiem Lake morning walk', desc:'Watch locals doing tai chi and badminton at sunrise, visit Ngoc Son Temple', price:'~$1 entry' },
+    { icon:'🎭', name:'Water puppet theatre', desc:'Traditional art form unique to Vietnam — Thang Long theatre', price:'~$7pp' },
+    { icon:'🏰', name:'Ho Chi Minh Mausoleum complex', desc:'Mausoleum, One Pillar Pagoda, Ho Chi Minh Museum', price:'Free' },
+  ],
+  'Ha Long Bay': [
+    { icon:'🚣', name:'Kayak through karst caves', desc:'Paddle through Luon Cave arch and floating fishing villages', price:'Included in cruise' },
+    { icon:'🤿', name:'Snorkelling off the boat', desc:'Clear water around the limestone islands, surprisingly good visibility', price:'Included in cruise' },
+    { icon:'🌅', name:'Sunrise from the top deck', desc:'Wake up at 5:30am — the misty sunrise over limestone karsts is incredible', price:'Free' },
+    { icon:'🍳', name:'Cooking class on board', desc:'Most 2-day cruises include a Vietnamese cooking demo', price:'Included' },
+  ],
+  'Hue': [
+    { icon:'🏰', name:'Imperial Citadel', desc:'UNESCO World Heritage walled city — allow 3h minimum', price:'~$8pp' },
+    { icon:'⛪', name:'Royal Tombs by motorbike', desc:'Hire a Honda Win and visit Minh Mang, Khai Dinh and Tu Duc tombs', price:'~$15 bike hire' },
+    { icon:'🍜', name:'Bun bo Hue + Com Hen', desc:'Try the spicy local noodle soup and rice with baby clams — unique to Hue', price:'~$3pp meal' },
+    { icon:'⛵', name:'Perfume River boat trip', desc:'Local sampan to Thien Mu Pagoda at dusk', price:'~$8pp' },
+  ],
+  'Hoi An': [
+    { icon:'🏮', name:'Ancient Town at night', desc:'Lantern-lit streets, Thu Bon River reflections — arrive after 6pm', price:'~$5 entry pass' },
+    { icon:'👗', name:'Tailored clothes in 24h', desc:'Bespoke shirts, dresses, suits made to measure — allow 2 fittings', price:'~$25 per item' },
+    { icon:'🚲', name:'Cycling to An Bang Beach', desc:'5km flat cycle through rice paddies to a calm, beautiful beach', price:'~$2 bike hire' },
+    { icon:'🏺', name:'My Son Sanctuary', desc:'Cham Hindu temple ruins in jungle setting — go at sunrise, beat tour buses', price:'~$12pp' },
+  ],
+  'Da Nang': [
+    { icon:'🌉', name:'Dragon Bridge fire & water show', desc:'Saturdays and Sundays 9pm, the bridge breathes fire and shoots water', price:'Free' },
+    { icon:'⛰', name:'Marble Mountains', desc:'Five marble/limestone hills with caves, pagodas and war history', price:'~$2 entry' },
+    { icon:'🏖', name:'My Khe Beach morning swim', desc:'Clean, long beach voted one of the world\'s best — swim before 8am', price:'Free' },
+    { icon:'🌉', name:'Golden Bridge (Ba Na Hills)', desc:'Two giant stone hands holding a golden bridge — touristy but worth it', price:'~$25pp cable car' },
+  ],
+  'Ho Chi Minh City': [
+    { icon:'🕳', name:'Cu Chi Tunnels', desc:'Crawl through Viet Cong tunnels — half-day tour from HCMC', price:'~$15pp' },
+    { icon:'🚣', name:'Mekong Delta day trip', desc:'Sampan through canals, floating markets, coconut candy workshops', price:'~$25pp' },
+    { icon:'🏛', name:'War Remnants Museum', desc:'Powerful and sobering — allow 2h, some graphic content', price:'~$3 entry' },
+    { icon:'🍻', name:'Bui Vien Walking Street', desc:'The backpacker street — loud, colourful, $0.50 beer, starts after 8pm', price:'~$10pp evening' },
+  ],
+  'Phu Quoc': [
+    { icon:'🤿', name:'South island snorkel tour', desc:'3-island boat tour with snorkelling, fish feeding and seafood lunch', price:'~$20pp' },
+    { icon:'🌅', name:'Sunset at Sao Beach', desc:'Pristine white sand in the south, clear water, mostly quiet', price:'Free' },
+    { icon:'🎉', name:'New Year Eve beach party', desc:'Phu Quoc is known for great NYE beach celebrations', price:'~$20pp drinks' },
+    { icon:'🌶', name:'Fish sauce factory tour', desc:'See how phu quoc fish sauce (the best in Vietnam) is produced', price:'Free' },
+  ],
+  'Colombo / Negombo': [
+    { icon:'🐟', name:'Negombo fish market at dawn', desc:'Massive beach landing market — 5am arrival to see the action', price:'Free' },
+    { icon:'🏛', name:'National Museum of Sri Lanka', desc:'Artefacts from 2,500 years of Sinhalese history', price:'~$5pp' },
+    { icon:'🛒', name:'Pettah markets', desc:'Chaotic, colourful wholesale market district — try the kottu roti street food', price:'Free to browse' },
+    { icon:'🍽', name:'Ministry of Crab dinner', desc:'Award-winning crab restaurant inside old Dutch Hospital — book ahead', price:'~$40pp' },
+  ],
+  'Sigiriya & Dambulla': [
+    { icon:'🏰', name:'Sigiriya Rock Fortress', desc:'UNESCO world heritage 5th century palace — climb at 7am to beat heat', price:'~$35pp' },
+    { icon:'🕌', name:'Dambulla Cave Temples', desc:'5 caves with 150 Buddha statues — stunning golden temple exterior', price:'~$12pp' },
+    { icon:'🐘', name:'Minneriya elephant safari', desc:'September-October is best — hundreds of wild elephants gather at reservoir', price:'~$30pp jeep' },
+  ],
+  'Kandy': [
+    { icon:'🦷', name:'Temple of the Tooth (Dalada Maligawa)', desc:'Sri Lanka\'s most sacred Buddhist site — attend the 6pm puja ceremony', price:'~$10pp' },
+    { icon:'🌸', name:'Peradeniya Royal Botanical Gardens', desc:'150 acres, 4,000 species, Avenue of Royal Palms', price:'~$5pp' },
+    { icon:'🚂', name:'Book Kandy→Ella train', desc:'One of the world\'s most scenic train rides — book 2nd class months ahead', price:'~$5pp' },
+  ],
+  'Ella': [
+    { icon:'🌉', name:'Nine Arch Bridge at sunrise', desc:'Walk through tea estates to the colonial stone viaduct with trains passing', price:'Free' },
+    { icon:'⛰', name:'Adam\'s Peak (Sri Pada)', desc:'Overnight hike to sacred footprint summit — 5,500 steps, worth every one', price:'Free' },
+    { icon:'🍵', name:'Tea estate walk + tasting', desc:'Walk through Lipton\'s Seat tea estates and taste fresh-picked tea', price:'~$5pp guide' },
+    { icon:'🏋', name:'Little Adam\'s Peak day hike', desc:'Easier 3h hike with views of Ella Gap and Nine Arch Bridge', price:'Free' },
+  ],
+  'Mirissa / Unawatuna': [
+    { icon:'🐋', name:'Blue whale watching', desc:'January is peak season — Sri Lanka is one of the best spots on earth', price:'~$35pp' },
+    { icon:'🏰', name:'Galle Fort walk', desc:'Portuguese-Dutch colonial fort, boutique cafes, lighthouse at sunset', price:'Free to walk' },
+    { icon:'🏄', name:'Surf lessons at Weligama', desc:'Long gentle beach break — perfect for beginners', price:'~$20pp lesson' },
+    { icon:'🐢', name:'Sea turtle hatchery', desc:'Release baby turtles into the ocean — Rekawa or Kosgoda', price:'~$5pp' },
+  ],
+  'Kooddoo / Huvadhoo': [
+    { icon:'🐠', name:'House reef snorkelling', desc:'Step off the beach — coral and tropical fish immediately', price:'Free with stay' },
+    { icon:'🦈', name:'Nurse shark & eagle ray sandbar', desc:'Local fishermen know a shallow sandbar where sharks congregate daily', price:'~$20pp boat' },
+    { icon:'🌊', name:'Sandbank picnic trip', desc:'Resort boats you to a deserted white sandbank in the middle of the ocean', price:'~$30pp' },
+    { icon:'🌅', name:'Sunset dolphin watching cruise', desc:'Spinner dolphins are common — early evening boat trip', price:'~$25pp' },
+  ],
+  'Lima': [
+    { icon:'🍽', name:'Miraflores restaurant dining', desc:'Lima is consistently voted best food city in South America', price:'~$20pp dinner' },
+    { icon:'🏛', name:'Larco Museum', desc:'Pre-Inca gold and ceramic masterworks in a 300-year-old mansion', price:'~$12pp' },
+    { icon:'🌆', name:'Barranco neighbourhood walk', desc:'Colourful arts district with galleries, street food and the Bridge of Sighs', price:'Free' },
+    { icon:'🐧', name:'Palomino Islands sea lion cruise', desc:'Speed boat to see thousands of sea lions plus Humboldt penguins', price:'~$30pp' },
+  ],
+  'Cusco': [
+    { icon:'🏰', name:'Sacsayhuamán fortress', desc:'Enormous Inca fortress above the city — visit at dawn, llamas everywhere', price:'~$25pp Boleto Turístico' },
+    { icon:'🛒', name:'San Pedro Market', desc:'Local market for fresh juices, chicha, textiles and coca leaves', price:'Free' },
+    { icon:'🚞', name:'Sacred Valley day trip', desc:'Pisac ruins and market + Ollantaytambo fortress on one circuit', price:'~$30pp tour' },
+    { icon:'🍺', name:'Chicha + pisco sours in Cusco', desc:'Try the purple corn chicha and classic pisco sour at Museo del Pisco', price:'~$8pp drinks' },
+  ],
+  'Machu Picchu': [
+    { icon:'🌅', name:'Sunrise at the Sun Gate', desc:'Hike from Machu Picchu up to Inti Punku — arrive before 6am for empty paths', price:'~$15pp extra ticket' },
+    { icon:'⛰', name:'Huayna Picchu hike', desc:'The steep mountain in every photo — book 6 months ahead, limited tickets', price:'~$25pp add-on' },
+    { icon:'📸', name:'Classic Llama photo spot', desc:'The terrace near the entrance where llamas graze with the citadel behind', price:'Free with entry' },
+    { icon:'🌿', name:'Guided tour of the ruins', desc:'2h guided tour reveals astronomical alignments and Inca engineering secrets', price:'~$15pp' },
+  ],
+  'Lake Titicaca': [
+    { icon:'🏝', name:'Uros floating reed islands', desc:'Traditional Aymara people living on totora reed islands — boat tour essential', price:'~$15pp boat' },
+    { icon:'🌅', name:'Taquile Island overnight', desc:'Stay with a local family, traditional textiles UNESCO-listed crafts', price:'~$30pp w/food' },
+    { icon:'🚌', name:'Copacabana + Bolivia day trip', desc:'Cross to Bolivia for Isla del Sol and the sacred rock', price:'~$20pp day trip' },
+  ],
+  'Fortaleza / Jericoacoara': [
+    { icon:'🏜', name:'Jeri dune sunset (Lagoa do Por do Sol)', desc:'Walk 45min through dunes to a lagoon perfectly timed for sunset', price:'Free' },
+    { icon:'🏄', name:'Kitesurfing at Cumbuco or Jeri', desc:'One of the world\'s top kite destinations — steady offshore winds', price:'~$60pp 3h lesson' },
+    { icon:'🚙', name:'Lençóis Maranhenses day trip', desc:'Otherworldly white dune lagoons — fly or 4WD, worth the detour', price:'~$100pp tour' },
+  ],
+  'Maceió / Porto de Galinhas': [
+    { icon:'🐠', name:'Porto de Galinhas natural pools', desc:'Jangada (raft) to coral reef pools with tropical fish at low tide', price:'~$8pp jangada' },
+    { icon:'🤿', name:'Maragogi reefs (Galés)', desc:'Snorkelling in crystal-clear water with rays and colourful fish', price:'~$20pp tour' },
+    { icon:'🏖', name:'Maceió beach strip (Ponta Verde)', desc:'Urban beach promenade with fresh coconuts and seafood', price:'Free' },
+  ],
+  'Recife / Olinda': [
+    { icon:'🎨', name:'Olinda colonial hilltop walk', desc:'UNESCO colonial architecture, craft studios, Frevo dance on Sundays', price:'Free' },
+    { icon:'🐟', name:'Marco Zero seafood lunch', desc:'Iconic central square with fresh lobster and tapioca crepes nearby', price:'~$15pp' },
+    { icon:'🦈', name:'Boa Viagem beach (caution signs)', desc:'Urban beach but infamous for bull shark sightings — swim only within the reef', price:'Free' },
+  ],
+  'Salvador': [
+    { icon:'🥁', name:'Capoeira roda in Pelourinho', desc:'Watch or join a capoeira circle in the cobblestone squares', price:'Free' },
+    { icon:'🏛', name:'Pelourinho UNESCO walk', desc:'Colourful colonial buildings, Baroque churches, Brazilian African heritage', price:'Free' },
+    { icon:'⛵', name:'Ferry to Ilha de Itaparica', desc:'Day trip to car-free beach island across the Bay of All Saints', price:'~$5pp ferry' },
+    { icon:'🍽', name:'Moqueca at Solar dos Românticos', desc:'Traditional Bahian coconut and dendê oil seafood stew', price:'~$20pp' },
+  ],
+  'Rio de Janeiro': [
+    { icon:'✝', name:'Christ the Redeemer at sunrise', desc:'Book the first tram 8am — clouds clear, near-empty with golden light', price:'~$25pp' },
+    { icon:'🚡', name:'Sugarloaf at sunset', desc:'Two cable cars to 396m summit — Rio\'s skyline at golden hour', price:'~$22pp' },
+    { icon:'🏖', name:'Ipanema beach morning', desc:'People watching, football keepy-uppy, fresh acai bowls on the boardwalk', price:'Free' },
+    { icon:'🎵', name:'Lapa arches samba night', desc:'Friday and Saturday nights — outdoor samba in the street arches district', price:'~$10pp drinks' },
+  ],
+  'Florianópolis': [
+    { icon:'🏄', name:'Surf at Joaquina or Praia do Rosa', desc:'Quality Atlantic swells, less crowded than Rio, green rolling hills', price:'~$20pp lesson' },
+    { icon:'🌊', name:'Lagoa da Conceição', desc:'Beautiful saltwater lagoon — kayak, windsurf, or just a beach bar', price:'~$10pp boat' },
+    { icon:'🐧', name:'Penguin watching (July-Sept)', desc:'Magellanic penguins sometimes wash up on beaches — seasonal', price:'Free (seasonal)' },
+  ],
+  'Buenos Aires': [
+    { icon:'💃', name:'Tango show + milonga', desc:'See a professional show at Café de los Angelitos, then dance at La Viruta', price:'~$30pp show' },
+    { icon:'🥩', name:'Asado with Christian\'s family', desc:'Classic Argentine BBQ — bring wine, stay for hours', price:'Family dinner!' },
+    { icon:'🎨', name:'La Boca / Caminito street art', desc:'Colourful corrugated metal neighbourhood, football murals, street tango', price:'Free' },
+    { icon:'🛒', name:'San Telmo Sunday market', desc:'Antiques, leather, artisans, live tango on the cobblestones', price:'Free to browse' },
+  ],
+  'Bariloche': [
+    { icon:'🍫', name:'Chocolate circuit + Ruta de los Lagos', desc:'Argentine-style chocolate shops + stunning Seven Lakes Road drive', price:'~$10pp chocolate' },
+    { icon:'⛷', name:'Cerro Catedral ski area hike', desc:'Summer hike up ski slopes for panoramic Nahuel Huapi views', price:'~$15pp chairlift' },
+    { icon:'🏔', name:'Colonia Suiza day trip', desc:'Swiss-German village with smoked meats and fresh trout', price:'~$5pp bus' },
+  ],
+  'El Calafate / Perito Moreno': [
+    { icon:'🧊', name:'Perito Moreno glacier walk', desc:'Walk on the glacier surface with crampons — spectacular and accessible', price:'~$60pp w/transfer' },
+    { icon:'🚣', name:'Mini-trekking & ice kayak', desc:'Paddle through icebergs calving off the glacier face', price:'~$80pp' },
+    { icon:'🦅', name:'Condor watching at Los Glaciares', desc:'Andean condors ride thermals above the glacier — bring binoculars', price:'~$15pp park fee' },
+  ],
+  'El Chaltén': [
+    { icon:'⛰', name:'Fitz Roy base camp hike', desc:'World-class free day hike with the most famous mountain view in Patagonia', price:'Free' },
+    { icon:'🏔', name:'Cerro Torre lagoon trail', desc:'8h return hike to Laguna Torre with Cerro Torre needle rising above', price:'Free' },
+    { icon:'🏕', name:'Wild camping in the park', desc:'Free camping at Poincenot campsite — book months ahead', price:'Free' },
+  ],
+  'Mendoza': [
+    { icon:'🍷', name:'Malbec winery cycling', desc:'Rent a bike and cycle between Luján de Cuyo wineries for tastings', price:'~$10pp bike +tastings' },
+    { icon:'🏔', name:'Aconcagua viewpoint drive', desc:'Drive to Confluencia for views of the highest peak outside Asia', price:'~$5 park entry' },
+    { icon:'🚣', name:'Potrerillos river rafting', desc:'Class III-IV rapids on the Mendoza River through Andean foothills', price:'~$40pp' },
+  ],
+};
+
+// ═══════════════════════════════════════════
+//  STORAGE HELPERS
+// ═══════════════════════════════════════════
+function loadStops() {
+  try { const d = localStorage.getItem('dt_stops_v7'); if(d) return JSON.parse(d); } catch(e){}
+  return DEFAULT_STOPS.map(s=>({...s}));
+}
+function saveStops(arr) {
+  try { localStorage.setItem('dt_stops_v7', JSON.stringify(arr)); } catch(e){}
+}
+function loadICT() {
+  try { const d = localStorage.getItem('dt_ict_v7'); if(d) return JSON.parse(d); } catch(e){}
+  return {...DEFAULT_ICT};
+}
+function saveICT(obj) {
+  try { localStorage.setItem('dt_ict_v7', JSON.stringify(obj)); } catch(e){}
+}
+
+let stops = loadStops();
+let ictData = loadICT();
+
+// ═══════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════
+function nightsBetween(ci, co) {
+  if(!ci||!co) return 0;
+  const a = new Date(ci+'T00:00:00'), b = new Date(co+'T00:00:00');
+  return Math.max(0, Math.round((b-a)/86400000));
+}
+function calcStopCost(s) {
+  const n = nightsBetween(s.checkin, s.checkout);
+  return (parseFloat(s.costPerNight)||0)*n + (parseFloat(s.transport)||0);
+}
+function calcCountryStopsCost(country) {
+  return stops.filter(s=>s.country===country).reduce((a,s)=>a+calcStopCost(s),0);
+}
+function calcGrandTotal() {
+  let total = stops.reduce((a,s)=>a+calcStopCost(s),0);
+  Object.values(ictData).forEach(v=>{ total += (parseFloat(v.cost)||0)*2; });
+  return total;
+}
+function fmtNZD(n) { return '$'+(Math.round(n)).toLocaleString(); }
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2200);
+}
+const MODE_META = {
+  plane: { icon:'✈', label:'Flight', color:'var(--teal)' },
+  ferry: { icon:'⛴', label:'Ferry', color:'var(--purple)' },
+  bus:   { icon:'🚌', label:'Bus/Van', color:'var(--gold)' },
+  train: { icon:'🚂', label:'Train', color:'#88c988' },
+  drive: { icon:'🚗', label:'Drive', color:'#d4a843' },
+  walk:  { icon:'🚶', label:'Walk', color:'rgba(245,237,214,.4)' },
+};
+function modeMeta(m) { return MODE_META[m] || MODE_META['bus']; }
+
+// ═══════════════════════════════════════════
+//  VIEW SWITCHING
+// ═══════════════════════════════════════════
+function switchView(v) {
+  document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el=>el.classList.remove('active'));
+  document.getElementById('view-'+v).classList.add('active');
+  const btns = document.querySelectorAll('.tab-btn');
+  ['itin','budg','globe','tips'].forEach((name,i)=>{ if(name===v) btns[i].classList.add('active'); });
+  if(v==='globe') { initGlobe(); initLeafletMap(); }
+  if(v==='budg') renderBudget();
+  if(v==='tips') renderTips();
+}
+
+// ═══════════════════════════════════════════
+//  BANNER
+// ═══════════════════════════════════════════
+function renderBanner() {
+  const total = calcGrandTotal();
+  const totalPP = total/2;
+  const accorUsed = stops.reduce((a,s)=>a+(parseInt(s.points)||0),0);
+  const accorLeft = INITIAL_ACCOR - accorUsed;
+  const remainPP = BUDGET_PP - totalPP;
+  const ictTotal = Object.values(ictData).reduce((a,v)=>a+(parseFloat(v.cost)||0)*2,0);
+  document.getElementById('banner').innerHTML = `
+    <div class="bb-stat"><div class="bb-label">Combined Budget</div><div class="bb-val bb-gold">${fmtNZD(BUDGET_COMBINED)}</div><div class="bb-sub">$15k each</div></div>
+    <div class="bb-div"></div>
+    <div class="bb-stat"><div class="bb-label">Total Spent</div><div class="bb-val bb-red">${fmtNZD(total)}</div><div class="bb-sub">${fmtNZD(totalPP)} each</div></div>
+    <div class="bb-div"></div>
+    <div class="bb-stat"><div class="bb-label">Remaining</div><div class="bb-val ${remainPP>0?'bb-green':'bb-red'}">${fmtNZD(remainPP*2)}</div><div class="bb-sub">${fmtNZD(remainPP)} each</div></div>
+    <div class="bb-div"></div>
+    <div class="bb-stat"><div class="bb-label">Transport Between Countries</div><div class="bb-val bb-teal">${fmtNZD(ictTotal)}</div><div class="bb-sub">${fmtNZD(ictTotal/2)} each</div></div>
+    <div class="bb-div"></div>
+    <div class="bb-stat"><div class="bb-label">Accor Points</div><div class="bb-val bb-gold">${accorLeft.toLocaleString()}</div><div class="bb-sub">${accorUsed.toLocaleString()} used of ${INITIAL_ACCOR.toLocaleString()}</div></div>
+    <div class="bb-div"></div>
+    <div class="bb-stat"><div class="bb-label">Airpoints</div><div class="bb-val" style="color:var(--purple)">${INITIAL_AIRPOINTS}</div><div class="bb-sub">Use for long-haul!</div></div>
+  `;
+}
+
+// ═══════════════════════════════════════════
+//  INTER-COUNTRY TRANSPORT CONNECTOR
+// ═══════════════════════════════════════════
+function buildICT(key) {
+  const d = ictData[key] || { mode:'plane', icon:'✈', label:'Flight', route:'', cost:0, notes:'' };
+  const mm = modeMeta(d.mode);
+  const totalCost = (parseFloat(d.cost)||0)*2;
+  const eachCost = parseFloat(d.cost)||0;
+  const pid = 'ict-pop-'+key.replace(/[^a-zA-Z0-9]/g,'_');
+  return `
+    <div class="inter-country-transport" style="position:relative">
+      <div class="ict-line"></div>
+      <div class="ict-pill" onclick="toggleICTPop('${pid}')">
+        <span class="ict-mode">${mm.icon}</span>
+        <span class="ict-label">${mm.label}</span>
+        <span class="ict-route">${d.route || key}</span>
+        <span class="ict-cost">${totalCost>0?fmtNZD(totalCost)+' total':'no cost'}</span>
+        <span class="ict-each">${eachCost>0?'('+fmtNZD(eachCost)+' each)':''}</span>
+        <span style="font-size:.65rem;color:rgba(245,237,214,.25)">✎</span>
+      </div>
+      <div class="ict-popover" id="${pid}">
+        <div class="ict-pop-row"><label>Mode</label>
+          <select id="${pid}-mode" onchange="ictModeChange('${pid}','${key}')">
+            <option value="plane" ${d.mode==='plane'?'selected':''}>✈ Flight</option>
+            <option value="ferry" ${d.mode==='ferry'?'selected':''}>⛴ Ferry</option>
+            <option value="bus" ${d.mode==='bus'?'selected':''}>🚌 Bus/Van</option>
+            <option value="train" ${d.mode==='train'?'selected':''}>🚂 Train</option>
+            <option value="drive" ${d.mode==='drive'?'selected':''}>🚗 Drive</option>
+          </select>
+        </div>
+        <div class="ict-pop-row"><label>Route</label><input id="${pid}-route" value="${d.route||''}" placeholder="e.g. Bali → Cebu"></div>
+        <div class="ict-pop-row"><label>Cost pp ($)</label><input type="number" id="${pid}-cost" value="${eachCost}"></div>
+        <div class="ict-pop-row"><label>Notes</label><input id="${pid}-notes" value="${d.notes||''}"></div>
+        <button class="ict-save-btn" onclick="saveICTPop('${pid}','${key}')">Save</button>
+      </div>
+      <div class="ict-line"></div>
+    </div>`;
+}
+function toggleICTPop(pid) {
+  document.querySelectorAll('.ict-popover.open').forEach(p=>{ if(p.id!==pid) p.classList.remove('open'); });
+  document.getElementById(pid).classList.toggle('open');
+}
+function ictModeChange(pid, key) {}
+function saveICTPop(pid, key) {
+  const mode = document.getElementById(pid+'-mode').value;
+  const route = document.getElementById(pid+'-route').value;
+  const cost = parseFloat(document.getElementById(pid+'-cost').value)||0;
+  const notes = document.getElementById(pid+'-notes').value;
+  ictData[key] = { mode, icon: modeMeta(mode).icon, label: modeMeta(mode).label, route, cost, notes };
+  saveICT(ictData);
+  document.getElementById(pid).classList.remove('open');
+  renderItinerary();
+  renderBanner();
+  showToast('✓ Transport updated');
+}
+
+// ═══════════════════════════════════════════
+//  WITHIN-COUNTRY TRANSPORT CONNECTOR
+// ═══════════════════════════════════════════
+function buildConnector(stop) {
+  if(!(parseFloat(stop.transport)>0)) return '';
+  const mode = stop.transportMode || 'bus';
+  const mm = modeMeta(mode);
+  const total = (parseFloat(stop.transport)||0)*2;
+  const each_ = parseFloat(stop.transport)||0;
+  const pid = 'tc-pop-'+stop.id;
+  return `
+    <div class="transport-connector" style="position:relative">
+      <div class="tc-line"></div>
+      <div class="tc-pill" onclick="toggleTCPop('${pid}')">
+        <span class="tc-mode">${mm.icon}</span>
+        <span class="tc-label">${mm.label}</span>
+        <span class="tc-cost">${fmtNZD(total)}</span>
+        <span class="tc-each">(${fmtNZD(each_)}pp)</span>
+        <span style="font-size:.6rem;color:rgba(245,237,214,.2)">✎</span>
+      </div>
+      <div class="tc-popover" id="${pid}">
+        <div class="tc-pop-row"><label>Mode</label>
+          <select id="${pid}-mode">
+            <option value="plane" ${mode==='plane'?'selected':''}>✈ Flight</option>
+            <option value="ferry" ${mode==='ferry'?'selected':''}>⛴ Ferry</option>
+            <option value="bus" ${mode==='bus'?'selected':''}>🚌 Bus/Van</option>
+            <option value="train" ${mode==='train'?'selected':''}>🚂 Train</option>
+            <option value="drive" ${mode==='drive'?'selected':''}>🚗 Drive</option>
+          </select>
+        </div>
+        <div class="tc-pop-row"><label>Cost pp $</label><input type="number" id="${pid}-cost" value="${each_}"></div>
+        <button class="tc-save-btn" onclick="saveTCPop('${pid}','${stop.id}')">Save</button>
+      </div>
+      <div class="tc-line"></div>
+    </div>`;
+}
+function toggleTCPop(pid) {
+  document.querySelectorAll('.tc-popover.open').forEach(p=>{ if(p.id!==pid) p.classList.remove('open'); });
+  document.getElementById(pid).classList.toggle('open');
+}
+function saveTCPop(pid, sid) {
+  const mode = document.getElementById(pid+'-mode').value;
+  const cost = parseFloat(document.getElementById(pid+'-cost').value)||0;
+  const s = stops.find(s=>s.id===sid);
+  if(s){ s.transportMode=mode; s.transport=cost; }
+  saveStops(stops);
+  document.getElementById(pid).classList.remove('open');
+  renderItinerary();
+  renderBanner();
+  showToast('✓ Transport updated');
+}
+
+// ═══════════════════════════════════════════
+//  STOP CARD
+// ═══════════════════════════════════════════
+const ATYPE_LABELS = { accor:'🏨 Accor', airbnb:'🏠 Airbnb', hostel:'🛏 Hostel', hotel:'🏩 Hotel', free:'🆓 Free' };
+function buildStopCard(s, idx) {
+  const nights = nightsBetween(s.checkin, s.checkout);
+  const cost = calcStopCost(s);
+  const ci = s.checkin ? new Date(s.checkin+'T00:00:00').toLocaleDateString('en-NZ',{day:'numeric',month:'short'}) : '';
+  const co = s.checkout ? new Date(s.checkout+'T00:00:00').toLocaleDateString('en-NZ',{day:'numeric',month:'short'}) : '';
+  const breakdown = nights>0 ? `${nights}n × ${fmtNZD(s.costPerNight)}${s.transport>0?' + '+fmtNZD(s.transport*2)+' transport':''}` : '';
+  const accomLabel = ATYPE_LABELS[s.accommodationType||'hotel']||'🏩 Hotel';
+  const hasTodo = THINGS_TO_DO[s.dest] && THINGS_TO_DO[s.dest].length>0;
+  return `
+  <div class="stop-card" id="card-${s.id}">
+    <div class="stop-header" onclick="toggleCard('${s.id}')">
+      <div class="stop-num">${idx+1}</div>
+      <div class="stop-dest">${s.dest}</div>
+      <div class="stop-hotel">${s.hotel||'—'}</div>
+      <div class="stop-dates">${ci}${ci&&co?' → '+co:''}${nights?' · '+nights+'n':''}
+        <div class="stop-breakdown">${breakdown}</div>
+      </div>
+      <div class="stop-cost">${cost>0?fmtNZD(cost*2):cost===0&&nights===0?'—':fmtNZD(cost*2)}</div>
+      ${s.points>0?`<div class="stop-points-badge">⭐ ${(s.points).toLocaleString()}pts</div>`:''}
+      <div class="stop-accom-type">${accomLabel}</div>
+      <div class="stop-chevron">▼</div>
+    </div>
+    <div class="stop-body">
+      <div class="stop-fields">
+        <div class="sf"><label>Destination</label><input value="${s.dest||''}" onchange="updateStop('${s.id}','dest',this.value)"></div>
+        <div class="sf"><label>Hotel / Stay</label><input value="${s.hotel||''}" onchange="updateStop('${s.id}','hotel',this.value)"></div>
+        <div class="sf"><label>Check-in</label><input type="date" value="${s.checkin||''}" onchange="updateStop('${s.id}','checkin',this.value)"></div>
+        <div class="sf"><label>Check-out</label><input type="date" value="${s.checkout||''}" onchange="updateStop('${s.id}','checkout',this.value)"></div>
+        <div class="sf"><label>Cost/night (total $)</label><input type="number" value="${s.costPerNight||0}" onchange="updateStop('${s.id}','costPerNight',parseFloat(this.value)||0)"></div>
+        <div class="sf"><label>Accor Points</label><input type="number" value="${s.points||0}" onchange="updateStop('${s.id}','points',parseInt(this.value)||0)"></div>
+        <div class="sf"><label>Transport cost (pp $)</label><input type="number" value="${s.transport||0}" onchange="updateStop('${s.id}','transport',parseFloat(this.value)||0)"></div>
+        <div class="sf"><label>Transport Mode</label>
+          <select onchange="updateStop('${s.id}','transportMode',this.value)">
+            <option value="plane" ${(s.transportMode||'bus')==='plane'?'selected':''}>✈ Flight</option>
+            <option value="ferry" ${(s.transportMode||'bus')==='ferry'?'selected':''}>⛴ Ferry</option>
+            <option value="bus" ${(s.transportMode||'bus')==='bus'?'selected':''}>🚌 Bus/Van</option>
+            <option value="train" ${(s.transportMode||'bus')==='train'?'selected':''}>🚂 Train</option>
+            <option value="drive" ${(s.transportMode||'bus')==='drive'?'selected':''}>🚗 Drive</option>
+          </select>
+        </div>
+        <div class="sf"><label>Accom Type</label>
+          <select onchange="updateStop('${s.id}','accommodationType',this.value)">
+            <option value="hotel" ${(s.accommodationType||'hotel')==='hotel'?'selected':''}>Hotel</option>
+            <option value="accor" ${(s.accommodationType||'')==='accor'?'selected':''}>Accor (Points)</option>
+            <option value="airbnb" ${(s.accommodationType||'')==='airbnb'?'selected':''}>Airbnb</option>
+            <option value="hostel" ${(s.accommodationType||'')==='hostel'?'selected':''}>Hostel</option>
+            <option value="free" ${(s.accommodationType||'')==='free'?'selected':''}>Free / Family</option>
+          </select>
+        </div>
+        <div class="sf" style="grid-column:1/-1"><label>Notes & Activities</label><textarea onchange="updateStop('${s.id}','notes',this.value)">${s.notes||''}</textarea></div>
+      </div>
+      <div class="stop-actions">
+        <button class="sa-btn flights" onclick="openFlights('${s.dest}')">✈ Search Flights</button>
+        ${hasTodo?`<button class="sa-btn todo" onclick="toggleTodo('${s.id}')">🎯 Things To Do</button>`:''}
+        <button class="sa-btn del" onclick="deleteStop('${s.id}')">✕ Delete</button>
+      </div>
+      <div id="todo-${s.id}" style="display:none"></div>
+    </div>
+  </div>`;
+}
+function toggleCard(id) {
+  document.getElementById('card-'+id).classList.toggle('open');
+}
+function toggleTodo(id) {
+  const el = document.getElementById('todo-'+id);
+  const s = stops.find(s=>s.id===id);
+  if(!s) return;
+  if(el.style.display!=='none') { el.style.display='none'; return; }
+  const items = THINGS_TO_DO[s.dest]||[];
+  el.style.display='block';
+  el.innerHTML = `<div class="todo-panel"><h4>🎯 Things To Do in ${s.dest}</h4>${
+    items.map(t=>`<div class="todo-item">
+      <div class="todo-icon">${t.icon}</div>
+      <div class="todo-info"><div class="todo-name">${t.name}</div><div class="todo-desc">${t.desc}</div></div>
+      <div class="todo-price">${t.price}</div>
+      <button class="todo-add-btn" onclick="addTodoToNotes('${id}','${t.name.replace(/'/g,"\\'")}')">+ Add</button>
+    </div>`).join('')
+  }</div>`;
+}
+function addTodoToNotes(sid, name) {
+  const s = stops.find(s=>s.id===sid);
+  if(!s) return;
+  s.notes = (s.notes||'') + (s.notes?'\n':'') + '☐ ' + name;
+  saveStops(stops);
+  renderItinerary();
+  showToast('✓ Added to notes');
+}
+
+// ═══════════════════════════════════════════
+//  STOP EDITING
+// ═══════════════════════════════════════════
+function updateStop(id, field, value) {
+  const s = stops.find(s=>s.id===id);
+  if(!s) return;
+  s[field] = value;
+  saveStops(stops);
+  renderBanner();
+  // Update just the header without full re-render
+  const card = document.getElementById('card-'+s.id);
+  if(card) {
+    const nights = nightsBetween(s.checkin, s.checkout);
+    const cost = calcStopCost(s);
+    const ci = s.checkin ? new Date(s.checkin+'T00:00:00').toLocaleDateString('en-NZ',{day:'numeric',month:'short'}) : '';
+    const co = s.checkout ? new Date(s.checkout+'T00:00:00').toLocaleDateString('en-NZ',{day:'numeric',month:'short'}) : '';
+    const breakdown = nights>0 ? `${nights}n × ${fmtNZD(s.costPerNight)}${s.transport>0?' + '+fmtNZD(s.transport*2)+' transport':''}` : '';
+    const dEl = card.querySelector('.stop-dates');
+    if(dEl) dEl.innerHTML = `${ci}${ci&&co?' → '+co:''}${nights?' · '+nights+'n':''}<div class="stop-breakdown">${breakdown}</div>`;
+    const cEl = card.querySelector('.stop-cost');
+    if(cEl) cEl.textContent = fmtNZD(cost*2);
+  }
+}
+
+// ═══════════════════════════════════════════
+//  RENDER ITINERARY
+// ═══════════════════════════════════════════
+const COUNTRY_ORDER = ['Indonesia','Philippines','Vietnam','Sri Lanka','Maldives','Peru','Brazil','Argentina'];
+const COUNTRY_FLAGS = { Indonesia:'🇮🇩', Philippines:'🇵🇭', Vietnam:'🇻🇳', 'Sri Lanka':'🇱🇰', Maldives:'🇲🇻', Peru:'🇵🇪', Brazil:'🇧🇷', Argentina:'🇦🇷' };
+// ICT keys between consecutive countries
+const ICT_KEYS = [
+  'Indonesia→Philippines',
+  'Philippines→Vietnam',
+  'Vietnam→Sri Lanka',
+  'Sri Lanka→Maldives',
+  'Sri Lanka→Peru',
+  'Maldives→Peru',
+  'Peru→Brazil',
+  'Brazil→Argentina',
+];
+
+function renderItinerary() {
+  renderBanner();
+  const countries = [...new Set(stops.map(s=>s.country))];
+  // Sort countries by predefined order
+  countries.sort((a,b)=>{
+    const ai = COUNTRY_ORDER.indexOf(a), bi = COUNTRY_ORDER.indexOf(b);
+    return (ai===-1?99:ai) - (bi===-1?99:bi);
+  });
+
+  let html = '';
+  countries.forEach((country, cIdx) => {
+    const cStops = stops.filter(s=>s.country===country);
+    const cTotal = cStops.reduce((a,s)=>a+calcStopCost(s),0);
+    const cPoints = cStops.reduce((a,s)=>a+(parseInt(s.points)||0),0);
+    html += `
+    <div class="country-section">
+      <div class="country-header">
+        <div class="country-title">
+          <span class="country-flag">${COUNTRY_FLAGS[country]||'🌍'}</span>
+          <span>${country}</span>
+        </div>
+        <div class="country-meta">
+          <span>${cStops.length} stops</span>
+          ${cPoints>0?`<span style="color:var(--gold)">⭐ ${cPoints.toLocaleString()} pts</span>`:''}
+          <span class="country-total">${fmtNZD(cTotal*2)} combined (${fmtNZD(cTotal)} each)</span>
+          <button class="add-stop-btn" onclick="openModal('${country}')">+ Add Stop</button>
+        </div>
+      </div>`;
+
+    cStops.forEach((s, si) => {
+      if(si>0) html += buildConnector(s);
+      html += buildStopCard(s, si);
+    });
+
+    // Country total bar
+    html += `<div class="country-total-bar">
+      <div class="ctb-item"><div class="ctb-lbl">Accommodation</div><div class="ctb-val bb-teal">${fmtNZD(cStops.reduce((a,s)=>a+(parseFloat(s.costPerNight)||0)*nightsBetween(s.checkin,s.checkout),0)*2)}</div></div>
+      <div class="ctb-item"><div class="ctb-lbl">Internal Transport</div><div class="ctb-val bb-gold">${fmtNZD(cStops.reduce((a,s)=>a+(parseFloat(s.transport)||0),0)*2)}</div></div>
+      <div class="ctb-item"><div class="ctb-lbl">Accor Points Used</div><div class="ctb-val" style="color:var(--gold)">${cPoints.toLocaleString()}</div></div>
+      <div class="ctb-item"><div class="ctb-lbl">Total ${country}</div><div class="ctb-val bb-coral" style="color:var(--coral)">${fmtNZD(cTotal*2)} <span style="font-size:.65rem;opacity:.6">(${fmtNZD(cTotal)} each)</span></div></div>
+    </div>`;
+
+    html += `</div>`;
+
+    // Inter-country transport after each country (except last)
+    const nextCountry = countries[cIdx+1];
+    if(nextCountry) {
+      const ictKey = `${country}→${nextCountry}`;
+      const altKey = Object.keys(DEFAULT_ICT).find(k=>k.startsWith(country+'→'));
+      const keyToUse = ictData[ictKey] ? ictKey : (ictData[altKey] ? altKey : ictKey);
+      if(ictData[keyToUse] || DEFAULT_ICT[ictKey] || DEFAULT_ICT[altKey]) {
+        html += buildICT(keyToUse);
+      }
+    }
+  });
+
+  document.getElementById('itin-content').innerHTML = html;
+}
+
+// ═══════════════════════════════════════════
+//  ADD / DELETE
+// ═══════════════════════════════════════════
+let modalCountry = '';
+function openModal(country) {
+  modalCountry = country;
+  document.getElementById('modal-overlay').classList.add('open');
+  ['m-dest','m-hotel','m-cost','m-points','m-transport','m-notes'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.value='';
+  });
+}
+function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
+function saveNewStop() {
+  const s = {
+    id:'s'+Date.now(), country:modalCountry,
+    dest:document.getElementById('m-dest').value||'New Stop',
+    checkin:document.getElementById('m-checkin').value,
+    checkout:document.getElementById('m-checkout').value,
+    hotel:document.getElementById('m-hotel').value,
+    costPerNight:parseFloat(document.getElementById('m-cost').value)||0,
+    points:parseInt(document.getElementById('m-points').value)||0,
+    transport:parseFloat(document.getElementById('m-transport').value)||0,
+    transportMode:document.getElementById('m-tmode').value,
+    accommodationType:document.getElementById('m-atype').value,
+    notes:document.getElementById('m-notes').value,
+  };
+  stops.push(s);
+  saveStops(stops);
+  closeModal();
+  renderItinerary();
+  showToast('✓ '+s.dest+' added');
+}
+function deleteStop(id) {
+  if(!confirm('Delete this stop?')) return;
+  stops = stops.filter(s=>s.id!==id);
+  saveStops(stops);
+  renderItinerary();
+  showToast('Stop deleted');
+}
+
+// ═══════════════════════════════════════════
+//  FLIGHTS
+// ═══════════════════════════════════════════
+function openFlights(dest) {
+  window.open('https://www.google.com/travel/flights?q=cheap+flights+to+'+encodeURIComponent(dest),'_blank');
+}
+
+// ═══════════════════════════════════════════
+//  EXPORT
+// ═══════════════════════════════════════════
+function exportHTML() {
+  const blob = new Blob([document.documentElement.outerHTML],{type:'text/html'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'DreamTrip_v7_'+new Date().toISOString().slice(0,10)+'.html';
+  a.click();
+}
+
+// ═══════════════════════════════════════════
+//  BUDGET VIEW
+// ═══════════════════════════════════════════
+function renderBudget() {
+  const COUNTRY_ORDER2 = ['Indonesia','Philippines','Vietnam','Sri Lanka','Maldives','Peru','Brazil','Argentina'];
+  let html = '<div class="budget-grid">';
+  let grandTotal = 0;
+
+  COUNTRY_ORDER2.forEach(country=>{
+    const cStops = stops.filter(s=>s.country===country);
+    if(cStops.length===0) return;
+    const rows = cStops.map(s=>{
+      const n=nightsBetween(s.checkin,s.checkout);
+      const c=calcStopCost(s)*2;
+      grandTotal+=c;
+      return `<div class="bc-row"><span class="bc-dest">${s.dest}${s.points>0?` <small style="color:var(--gold)">⭐${s.points.toLocaleString()}pts</small>`:''}</span><span class="bc-amt">${fmtNZD(c)}</span></div>`;
+    });
+    const cTotal = cStops.reduce((a,s)=>a+calcStopCost(s)*2,0);
+    html+=`<div class="budget-card"><div class="bc-title">${COUNTRY_FLAGS[country]||'🌍'} ${country}</div>${rows.join('')}<div class="bc-row" style="margin-top:.3rem;border-top:1px solid var(--border);padding-top:.4rem"><span class="bc-dest">Subtotal</span><span class="bc-amt" style="color:var(--teal)">${fmtNZD(cTotal)}</span></div></div>`;
+  });
+
+  // Inter-country transport card
+  let ictHtml = '';
+  let ictTotal = 0;
+  Object.entries(ictData).forEach(([key,v])=>{
+    const c = (parseFloat(v.cost)||0)*2;
+    ictTotal+=c;
+    ictHtml+=`<div class="bc-row"><span class="bc-dest">${v.icon||'✈'} ${key}</span><span class="bc-amt">${fmtNZD(c)}</span></div>`;
+  });
+  grandTotal+=ictTotal;
+  html+=`<div class="budget-card"><div class="bc-title">✈ Between Countries</div>${ictHtml}<div class="bc-row" style="margin-top:.3rem;border-top:1px solid var(--border);padding-top:.4rem"><span class="bc-dest">Subtotal</span><span class="bc-amt" style="color:var(--coral)">${fmtNZD(ictTotal)}</span></div></div>`;
+
+  // Grand total card
+  html+=`<div class="budget-card" style="border-color:var(--teal)">
+    <div class="bc-title">📊 Grand Total</div>
+    <div class="bc-row"><span class="bc-dest">Total Combined</span><span class="bc-amt" style="color:var(--coral);font-size:1.1rem">${fmtNZD(grandTotal)}</span></div>
+    <div class="bc-row"><span class="bc-dest">Per Person</span><span class="bc-amt" style="color:var(--teal)">${fmtNZD(grandTotal/2)}</span></div>
+    <div class="bc-row"><span class="bc-dest">Budget Each</span><span class="bc-amt" style="color:var(--gold)">${fmtNZD(BUDGET_PP)}</span></div>
+    <div class="bc-row"><span class="bc-dest">Remaining Each</span><span class="bc-amt" style="color:${BUDGET_PP-grandTotal/2>0?'var(--green)':'var(--coral)'}">${fmtNZD(BUDGET_PP-grandTotal/2)}</span></div>
+    <div class="bc-row"><span class="bc-dest">Accor Points Start</span><span class="bc-amt" style="color:var(--gold)">${INITIAL_ACCOR.toLocaleString()}</span></div>
+    <div class="bc-row"><span class="bc-dest">Points Used</span><span class="bc-amt">${stops.reduce((a,s)=>a+(parseInt(s.points)||0),0).toLocaleString()}</span></div>
+    <div class="bc-row"><span class="bc-dest">Points Remaining</span><span class="bc-amt" style="color:var(--gold)">${(INITIAL_ACCOR-stops.reduce((a,s)=>a+(parseInt(s.points)||0),0)).toLocaleString()}</span></div>
+  </div>`;
+
+  html+='</div>';
+  document.getElementById('budget-content').innerHTML = html;
+}
+
+// ═══════════════════════════════════════════
+//  TIPS
+// ═══════════════════════════════════════════
+const TIPS = [
+  { title:'🏨 Accor Explorer Pass Strategy', text:'Buy the Explorer Pass — gives you Red Hot Rooms (up to 50% off) at Accor properties across Asia. Check if your Amex Platinum NZ already includes this as a benefit before buying. Use points for Mercure transit nights to maximise value.', list:['Mercure Cebu: 4,000 pts × 4 stays = 16,000 pts','Novotel/Ibis Vietnam: ~7,000 pts','Ibis Sri Lanka: ~2,000 pts','Mercure Maldives: 8,000 pts'] },
+  { title:'✈ Airpoints Strategy', text:'Your 400 Airpoints are best used for the big expensive legs you can\'t get cheaply:', list:['Sri Lanka → South America (~$950pp) → USE HERE','Buenos Aires → Europe → USE HERE','Never use Airpoints on short hops you can get for $30-90 on AirAsia/Cebu Pacific'] },
+  { title:'🏝 Philippines Island Hopping', text:'The best way to do the Philippines is NOT to fly everything. Use the ferry network:', list:['Cebu → Bohol: 2h fast ferry $10pp','Bohol → Siquijor: 1.5h fast ferry $7pp','Cebu → Siargao: fly (~$40pp, no ferry option)','Siargao → Boracay: fly via Manila or Cebu (~$50pp)','Boracay → El Nido: fly via Puerto Princesa (~$40pp)'] },
+  { title:'🇻🇳 Vietnam Transport Hacks', text:'Vietnam has excellent inter-city transport. Sleeper buses are cheap and comfortable:', list:['Hanoi → Ha Long Bay: 3.5h bus included in cruise $8pp','Hanoi → Hue: 13h sleeper bus $20pp or fly $30pp','Hue → Hoi An: 3h bus $8pp (stop at Hai Van Pass)','Hoi An → Da Nang: $3pp taxi share','Da Nang → Ho Chi Minh City: fly 1.5h from $30pp','HCMC → Phu Quoc: fly 1h from $20pp'] },
+  { title:'💰 South America Budget Reality', text:'South America is more expensive than Southeast Asia. Budget accordingly:', list:['Peru: $60-80pp/day (food+activities+transport)','Brazil: $70-90pp/day (BRL has been strong)','Argentina: near-zero cost with your apartment & car!','Long-haul flights (the big spend): book 3-4 months early'] },
+  { title:'🚗 Argentina Ruta 40 Tips', text:'You have the huge advantage of a family car and Buenos Aires apartment. The Ruta 40 loop is epic:', list:['Route: BA → Bariloche → El Calafate → El Chaltén → Mendoza → BA','Total drive: ~4,500km over ~3 weeks','Fuel cost: ~$340 total combined (very cheap!)','Book hostels in Calafate+Chaltén months ahead — they fill fast','Perito Moreno glacier: book trekking online before you arrive'] },
+  { title:'🌍 Best Budget Airlines by Region', text:'', list:['Indonesia/Philippines: AirAsia, Cebu Pacific, Philippines Airlines','Vietnam: VietJet, Bamboo, Vietnam Airlines sales','Sri Lanka: SriLankan Airlines, AirArabia','South America: LATAM, Gol, Avianca, JetSmart (Argentina)','Long haul bargains: Emirates, Qatar, Turkish (via hub cities)'] },
+  { title:'💳 Money & Exchange Tips', text:'', list:['Argentina: Use ATMs wisely, exchange rates have been volatile','Vietnam: ATM fees add up — withdraw larger amounts less often','Sri Lanka: Colombo ATMs reliable; Ella/rural carry cash','Peru/Brazil: Wise card for best exchange rates','Maldives: USD accepted widely — take cash'] },
+];
+function renderTips() {
+  document.getElementById('tips-content').innerHTML = `<div class="tips-grid">${
+    TIPS.map(t=>`<div class="tip-card"><h4>${t.title}</h4>${t.text?`<p>${t.text}</p>`:''}${t.list.length?`<ul>${t.list.map(l=>`<li>${l}</li>`).join('')}</ul>`:''}</div>`).join('')
+  }</div>`;
+}
+
+// ═══════════════════════════════════════════
+//  3D GLOBE
+// ═══════════════════════════════════════════
+let globeInited = false, globeAnimFrame;
+const ROUTE_COORDS = [
+  [-8.4095,115.1889,'Bali'],[-8.6524,116.3240,'Lombok'],[-8.4892,119.8880,'Labuan Bajo'],
+  [10.3157,123.8854,'Cebu'],[9.8500,124.1430,'Bohol'],[9.1856,123.5100,'Siquijor'],
+  [9.8600,126.0478,'Siargao'],[11.9674,121.9248,'Boracay'],[11.1750,119.4105,'El Nido'],
+  [21.0278,105.8342,'Hanoi'],[20.9099,107.1839,'Ha Long Bay'],[16.4637,107.5909,'Hue'],
+  [15.8801,108.3380,'Hoi An'],[16.0544,108.2022,'Da Nang'],[10.8231,106.6297,'HCMC'],
+  [10.2898,103.9840,'Phu Quoc'],[7.8731,80.7718,'Sri Lanka'],[3.2028,73.2207,'Maldives'],
+  [-12.0464,-77.0428,'Lima'],[-13.5319,-71.9675,'Cusco'],[-13.1631,-72.5450,'Machu Picchu'],
+  [-15.8402,-70.0219,'Puno'],[-3.7172,-38.5433,'Fortaleza'],[-9.6658,-35.7350,'Maceió'],
+  [-8.0522,-34.9286,'Recife'],[-12.9714,-38.5014,'Salvador'],[-22.9068,-43.1729,'Rio'],
+  [-27.5969,-48.5495,'Florianópolis'],[-34.6037,-58.3816,'Buenos Aires'],
+  [-41.1335,-71.3103,'Bariloche'],[-50.3377,-72.2648,'El Calafate'],
+  [-49.3310,-72.8860,'El Chaltén'],[-32.8908,-68.8272,'Mendoza'],
+];
+function latLngToVec(lat,lng,r){
+  const phi=(90-lat)*Math.PI/180, th=(lng+180)*Math.PI/180;
+  return new THREE.Vector3(-r*Math.sin(phi)*Math.cos(th),r*Math.cos(phi),r*Math.sin(phi)*Math.sin(th));
+}
+function initGlobe(){
+  if(globeInited) return;
+  globeInited=true;
+  const wrap=document.getElementById('globe-canvas-wrap');
+  const canvas=document.getElementById('globe-canvas');
+  const W=wrap.clientWidth, H=wrap.clientHeight||420;
+  canvas.width=W; canvas.height=H;
+  const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+  renderer.setSize(W,H);
+  const scene=new THREE.Scene();
+  const camera=new THREE.PerspectiveCamera(50,W/H,0.1,100);
+  camera.position.z=2.8;
+  scene.add(new THREE.AmbientLight(0xffffff,0.7));
+  const dl=new THREE.DirectionalLight(0xffffff,0.8);
+  dl.position.set(5,3,5); scene.add(dl);
+  // Globe sphere
+  const geo=new THREE.SphereGeometry(1,64,64);
+  const texLoader=new THREE.TextureLoader();
+  texLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_atmos_2048.jpg',
+    tex=>{ const mat=new THREE.MeshLambertMaterial({map:tex}); scene.add(new THREE.Mesh(geo,mat)); },
+    undefined, ()=>{ const mat=new THREE.MeshLambertMaterial({color:0x1a3a5c}); scene.add(new THREE.Mesh(geo,mat)); }
+  );
+  // Route line
+  const pts=ROUTE_COORDS.map(([lat,lng])=>latLngToVec(lat,lng,1.01));
+  const lineGeo=new THREE.BufferGeometry().setFromPoints(pts);
+  scene.add(new THREE.Line(lineGeo,new THREE.LineBasicMaterial({color:0xE8654A,linewidth:2})));
+  // Dots
+  ROUTE_COORDS.forEach(([lat,lng,name])=>{
+    const pos=latLngToVec(lat,lng,1.02);
+    const dot=new THREE.Mesh(new THREE.SphereGeometry(0.012,8,8),new THREE.MeshBasicMaterial({color:0x2ABFAA}));
+    dot.position.copy(pos); scene.add(dot);
+  });
+  scene.rotation.y=1.5; scene.rotation.x=0.2;
+  let isDragging=false,prevMouse={x:0,y:0},autoRotate=true;
+  canvas.addEventListener('mousedown',e=>{isDragging=true;prevMouse={x:e.clientX,y:e.clientY};autoRotate=false;});
+  window.addEventListener('mouseup',()=>isDragging=false);
+  window.addEventListener('mousemove',e=>{
+    if(!isDragging) return;
+    scene.rotation.y+=(e.clientX-prevMouse.x)*0.005;
+    scene.rotation.x+=(e.clientY-prevMouse.y)*0.005;
+    prevMouse={x:e.clientX,y:e.clientY};
+  });
+  canvas.addEventListener('wheel',e=>{ camera.position.z=Math.max(1.4,Math.min(5.5,camera.position.z+e.deltaY*0.002)); });
+  canvas.addEventListener('click',()=>{ autoRotate=!autoRotate; document.getElementById('globe-hint').textContent=autoRotate?'Click to pause · Scroll to zoom · Drag to rotate':'▶ Click to resume · Scroll to zoom · Drag to rotate'; });
+  (function animate(){globeAnimFrame=requestAnimationFrame(animate);if(autoRotate&&!isDragging)scene.rotation.y+=0.0012;renderer.render(scene,camera);})();
+}
+
+// ═══════════════════════════════════════════
+//  LEAFLET MAP
+// ═══════════════════════════════════════════
+let leafletMap=null, currentTileLayer=null;
+function initLeafletMap(){
+  if(leafletMap){leafletMap.invalidateSize();return;}
+  leafletMap=L.map('leaflet-map').setView([10,105],3);
+  currentTileLayer=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:18}).addTo(leafletMap);
+  ROUTE_COORDS.forEach(([lat,lng,name])=>{
+    L.circleMarker([lat,lng],{radius:7,fillColor:'#2ABFAA',color:'#E8654A',weight:2,fillOpacity:0.9})
+     .bindPopup(`<b>${name}</b>`).addTo(leafletMap);
+  });
+  // Route polyline
+  L.polyline(ROUTE_COORDS.map(([lat,lng])=>[lat,lng]),{color:'#E8654A',weight:2,opacity:0.6,dashArray:'6 4'}).addTo(leafletMap);
+}
+function setMapMode(mode){
+  if(!leafletMap) return;
+  if(currentTileLayer) leafletMap.removeLayer(currentTileLayer);
+  if(mode==='satellite'){
+    currentTileLayer=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{attribution:'© Esri',maxZoom:18}).addTo(leafletMap);
+  } else {
+    currentTileLayer=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:18}).addTo(leafletMap);
+  }
+  document.querySelectorAll('.gmode-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('gbtn-'+mode).classList.add('active');
+}
+
+// ═══════════════════════════════════════════
+//  CLOSE POPOVERS ON OUTSIDE CLICK
+// ═══════════════════════════════════════════
+document.addEventListener('click', e=>{
+  if(!e.target.closest('.tc-pill')&&!e.target.closest('.tc-popover')&&!e.target.closest('.tc-save-btn')) {
+    document.querySelectorAll('.tc-popover.open').forEach(p=>p.classList.remove('open'));
+  }
+  if(!e.target.closest('.ict-pill')&&!e.target.closest('.ict-popover')&&!e.target.closest('.ict-save-btn')) {
+    document.querySelectorAll('.ict-popover.open').forEach(p=>p.classList.remove('open'));
+  }
+  if(e.target===document.getElementById('modal-overlay')) closeModal();
+});
+
+// ═══════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════
+renderItinerary();
+</script>
+</body>
+</html>

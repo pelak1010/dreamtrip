@@ -1108,10 +1108,26 @@ function setCountryImage(country, input){
   if(!file) return;
   const reader = new FileReader();
   reader.onload = e=>{
-    countryImages[country] = e.target.result;
-    saveCountryImages(countryImages);
-    renderItinerary();
-    showToast('✓ Photo saved for '+country);
+    const img = new Image();
+    img.onload = ()=>{
+      // Resize to max 1200px wide, JPEG 0.75 — keeps it well under localStorage limits
+      const MAX = 1200;
+      const scale = img.width > MAX ? MAX / img.width : 1;
+      const canvas = document.createElement('canvas');
+      canvas.width  = Math.round(img.width  * scale);
+      canvas.height = Math.round(img.height * scale);
+      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.75);
+      countryImages[country] = dataUrl;
+      try {
+        saveCountryImages(countryImages);
+        renderItinerary();
+        showToast('✓ Photo saved for ' + country);
+      } catch(err) {
+        showToast('⚠ Photo too large to save — try a smaller file');
+      }
+    };
+    img.src = e.target.result;
   };
   reader.readAsDataURL(file);
 }

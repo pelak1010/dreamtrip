@@ -440,30 +440,40 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
   <div class="nav-currency" id="navCurrency">
     <input type="number" id="ccAmount" value="100" min="0">
     <select id="ccFrom">
+      <option value="NZD">NZD</option>
       <option value="USD">USD</option>
       <option value="EUR">EUR</option>
       <option value="GBP">GBP</option>
       <option value="AUD">AUD</option>
       <option value="IDR">IDR</option>
-      <option value="ARS">ARS</option>
+      <option value="PHP">PHP</option>
+      <option value="VND">VND</option>
+      <option value="LKR">LKR</option>
+      <option value="MVR">MVR</option>
+      <option value="PEN">PEN</option>
       <option value="BRL">BRL</option>
+      <option value="ARS">ARS</option>
       <option value="SGD">SGD</option>
       <option value="THB">THB</option>
-      <option value="NZD">NZD</option>
       <option value="JPY">JPY</option>
     </select>
     <span class="cc-arrow">→</span>
     <select id="ccTo">
-      <option value="EUR">EUR</option>
+      <option value="IDR">IDR</option>
+      <option value="NZD">NZD</option>
       <option value="USD">USD</option>
+      <option value="EUR">EUR</option>
       <option value="GBP">GBP</option>
       <option value="AUD">AUD</option>
-      <option value="IDR">IDR</option>
-      <option value="ARS">ARS</option>
+      <option value="PHP">PHP</option>
+      <option value="VND">VND</option>
+      <option value="LKR">LKR</option>
+      <option value="MVR">MVR</option>
+      <option value="PEN">PEN</option>
       <option value="BRL">BRL</option>
+      <option value="ARS">ARS</option>
       <option value="SGD">SGD</option>
       <option value="THB">THB</option>
-      <option value="NZD">NZD</option>
       <option value="JPY">JPY</option>
     </select>
     <span class="cc-divider"></span>
@@ -2404,7 +2414,7 @@ function scrollToCountry(idSlug){
   const rateCache = {};
 
   // Fallback rates relative to USD (updated May 2026 — live API tried first)
-  const FALLBACK_USD = {USD:1,EUR:0.924,GBP:0.790,AUD:1.557,IDR:16350,ARS:1065,BRL:5.72,SGD:1.347,THB:34.1,NZD:1.692,JPY:144.5};
+  const FALLBACK_USD = {USD:1,EUR:0.924,GBP:0.790,AUD:1.557,NZD:1.692,IDR:16350,PHP:56.5,VND:25450,LKR:300,MVR:15.4,PEN:3.72,BRL:5.72,ARS:1065,SGD:1.347,THB:34.1,JPY:144.5};
 
   function toUSD(amount, cur) {
     return cur === 'USD' ? amount : amount / FALLBACK_USD[cur];

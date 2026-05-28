@@ -1010,6 +1010,25 @@ function parsePriceNum(str) {
   const m = str.match(/\$(\d+(?:\.\d+)?)/);
   return m ? parseFloat(m[1]) : 0;
 }
+function calcActivitiesCostFromNotes(s) {
+  const items = THINGS_TO_DO[s.dest] || [];
+  if(!s.notes || !items.length) return 0;
+  return s.notes.split(/\r?\n/).reduce((total, rawLine) => {
+    const line = rawLine.trim();
+    if(!/^[\u2610\u2611]\s+/.test(line)) return total;
+    const activityText = line.replace(/^[\u2610\u2611]\s+/, '');
+    const dayMatch = activityText.match(/\((\d+)\s+days?\)\s*$/i);
+    const days = dayMatch ? parseInt(dayMatch[1], 10) || 1 : 1;
+    const activityName = activityText.replace(/\s+\(\d+\s+days?\)\s*$/i, '');
+    const activity = items.find(t => t.name === activityName);
+    if(!activity) return total;
+    const priceNum = activity.priceNum !== undefined ? activity.priceNum : parsePriceNum(activity.price);
+    return total + priceNum * days;
+  }, 0);
+}
+function syncActivitiesCost(s) {
+  s.activitiesCost = calcActivitiesCostFromNotes(s);
+}
 function calcCountryStopsCost(country) {
   const cStops = stops.filter(s=>s.country===country);
   return cStops.reduce((a,s)=>a+calcStopCost(s),0) + calcActivityAllowance(cStops);
@@ -1619,7 +1638,7 @@ function _doAddTodo(sid, tIdx, days) {
   const costPP = priceNum * (days||1);
   const noteLine = '☐ ' + t.name + (days > 1 ? ' (' + days + ' days)' : '');
   s.notes = (s.notes||'') + (s.notes?'\n':'') + noteLine;
-  s.activitiesCost = (s.activitiesCost||0) + costPP;
+  syncActivitiesCost(s);
   saveStops(stops);
   renderItinerary();
   showToast('✓ Added' + (costPP>0?' — '+fmtNZD(costPP*2)+' added to budget':''));
@@ -1664,6 +1683,12 @@ function updateStop(id, field, value) {
   const s = stops.find(s=>s.id===id);
   if(!s) return;
   s[field] = value;
+  if(field === 'notes') {
+    syncActivitiesCost(s);
+    saveStops(stops);
+    renderItinerary();
+    return;
+  }
   saveStops(stops);
   renderBanner();
   // Update just the header without full re-render
@@ -2519,6 +2544,13 @@ function scrollToCountry(idSlug){
 // ═══════════════════════════════════════════
 //  INIT
 // ═══════════════════════════════════════════
+let _activitiesCostChanged = false;
+stops.forEach(s => {
+  const before = parseFloat(s.activitiesCost) || 0;
+  syncActivitiesCost(s);
+  if(before !== (parseFloat(s.activitiesCost) || 0)) _activitiesCostChanged = true;
+});
+if(_activitiesCostChanged) saveStops(stops);
 renderItinerary();
 setInterval(()=>{
   // Re-render countdown every minute so leaving the tab open stays fresh

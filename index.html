@@ -944,8 +944,28 @@ function loadStops() {
     const d = localStorage.getItem('dt_stops_v10');
     if(d) {
       const data = JSON.parse(d);
+      const dateMigrations = {
+        s31: { oldIn:'2027-02-20', oldOut:'2027-02-26', checkin:'2027-02-20', checkout:'2027-02-24' },
+        s32: { oldIn:'2027-02-26', oldOut:'2027-03-04', checkin:'2027-02-24', checkout:'2027-02-28' },
+        s33: { oldIn:'2027-03-04', oldOut:'2027-03-07', checkin:'2027-02-28', checkout:'2027-03-03' },
+        s34: { oldIn:'2027-03-07', oldOut:'2027-03-12', checkin:'2027-03-03', checkout:'2027-03-07' },
+        s35: { oldIn:'2027-03-12', oldOut:'2027-03-18', checkin:'2027-03-07', checkout:'2027-03-11' },
+        s36: { oldIn:'2027-03-18', oldOut:'2027-03-22', checkin:'2027-03-11', checkout:'2027-03-13' },
+        s37: { oldIn:'2027-03-23', oldOut:'2027-04-05', checkin:'2027-03-14', checkout:'2027-03-27' },
+        s38: { oldIn:'2027-04-05', oldOut:'2027-04-09', checkin:'2027-03-27', checkout:'2027-03-31' },
+        s39: { oldIn:'2027-04-09', oldOut:'2027-04-12', checkin:'2027-03-31', checkout:'2027-04-03' },
+        s40: { oldIn:'2027-04-12', oldOut:'2027-04-14', checkin:'2027-04-03', checkout:'2027-04-05' },
+        s41: { oldIn:'2027-04-14', oldOut:'2027-04-18', checkin:'2027-04-05', checkout:'2027-04-09' },
+        s42: { oldIn:'2027-04-18', oldOut:'2027-04-30', checkin:'2027-04-09', checkout:'2027-04-21' },
+      };
       let changed = false;
       data.forEach(s => {
+        const migration = dateMigrations[s.id];
+        if(migration && s.checkin === migration.oldIn && s.checkout === migration.oldOut) {
+          s.checkin = migration.checkin;
+          s.checkout = migration.checkout;
+          changed = true;
+        }
         if(parseFloat(s.foodCostPerDay) > 0) return;
         const def = DEFAULT_STOPS.find(ds => ds.id === s.id || (ds.country === s.country && ds.dest === s.dest));
         if(def && parseFloat(def.foodCostPerDay) > 0) {
@@ -1707,6 +1727,15 @@ function updateStop(id, field, value) {
     if(cEl) cEl.textContent = fmtNZD(cost);
     const fEl = card.querySelector('.stop-food-badge');
     if(fEl) fEl.textContent = `Food ${fmtNZD(s.foodCostPerDay||0)}/day pp`;
+  }
+  if(field === 'checkin' || field === 'checkout') {
+    const cStops = stops.filter(st=>st.country===s.country);
+    const stripStart = cStops.map(st=>st.checkin).filter(Boolean).sort()[0];
+    const stripEnd   = cStops.map(st=>st.checkout).filter(Boolean).sort().pop();
+    const stripRange = stripStart && stripEnd ? `${fmtDateWk(stripStart)} → ${fmtDateWk(stripEnd)}` : '';
+    const stripEl = document.getElementById('country-'+s.country.replace(/\s+/g,'_'));
+    if(stripEl){ const datesEl=stripEl.querySelector('.cs-dates'); if(datesEl) datesEl.textContent=stripRange; }
+    renderPhaseRibbon();
   }
 }
 

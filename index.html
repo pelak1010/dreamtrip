@@ -101,6 +101,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .tc-pop-row input:focus,.tc-pop-row select:focus{outline:none;border-color:var(--teal)}
 .tc-pop-row select option{background:#1a1c2e}
 .tc-save-btn{width:100%;padding:.3rem;border-radius:6px;border:none;background:var(--teal);color:#0f1019;font-size:.72rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:.2rem}
+.tc-add-leg-btn{padding:.2rem .7rem;border-radius:20px;border:1px dashed rgba(245,237,214,.2);background:transparent;color:rgba(245,237,214,.35);font-size:.62rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;white-space:nowrap}
+.tc-add-leg-btn:hover{border-color:var(--teal);color:var(--teal)}
+.tc-leg-notes{color:rgba(245,237,214,.45);font-size:.6rem;font-style:italic;max-width:120px;overflow:hidden;text-overflow:ellipsis}
+.tc-leg-sep{color:rgba(245,237,214,.25);font-size:.65rem;padding:0 .1rem}
+.tc-del-btn{flex:1;padding:.3rem;border-radius:6px;border:none;background:rgba(255,90,70,.6);color:#fff;font-size:.72rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:.2rem}
+.tc-del-btn:hover{background:rgba(255,90,70,.85)}
 
 /* INTER-COUNTRY TRANSPORT */
 .inter-country-transport{display:flex;align-items:center;justify-content:center;gap:.6rem;padding:.6rem 0;margin:0 2rem .5rem}
@@ -904,9 +910,15 @@ function nightsBetween(ci, co) {
   const a = new Date(ci+'T00:00:00'), b = new Date(co+'T00:00:00');
   return Math.max(0, Math.round((b-a)/86400000));
 }
+function calcTransportTotal(s) {
+  if (s.transportLegs && s.transportLegs.length > 0) {
+    return s.transportLegs.reduce((a, l) => a + (parseFloat(l.cost) || 0), 0);
+  }
+  return parseFloat(s.transport) || 0;
+}
 function calcStopCost(s) {
   const n = nightsBetween(s.checkin, s.checkout);
-  return (parseFloat(s.costPerNight)||0)*n + (parseFloat(s.transport)||0) + (parseFloat(s.activitiesCost)||0);
+  return (parseFloat(s.costPerNight)||0)*n + calcTransportTotal(s) + (parseFloat(s.activitiesCost)||0);
 }
 function parsePriceNum(str) {
   if(!str || /^free/i.test(str.trim())) return 0;
@@ -1272,35 +1284,80 @@ function saveICTPop(pid, key) {
 //  WITHIN-COUNTRY TRANSPORT CONNECTOR
 // ═══════════════════════════════════════════
 function buildConnector(stop) {
-  if(!(parseFloat(stop.transport)>0)) return '';
-  const mode = stop.transportMode || 'bus';
-  const mm = modeMeta(mode);
-  const total = (parseFloat(stop.transport)||0)*2;
-  const each_ = parseFloat(stop.transport)||0;
-  const pid = 'tc-pop-'+stop.id;
-  return `
-    <div class="transport-connector" style="position:relative">
-      <div class="tc-line"></div>
-      <div class="tc-pill" onclick="toggleTCPop('${pid}')">
-        <span class="tc-mode">${mm.icon}</span>
-        <span class="tc-label">${mm.label}</span>
-        <span class="tc-cost">${fmtNZD(total)}</span>
-        <span class="tc-each">(${fmtNZD(each_)}pp)</span>
-        <span style="font-size:.6rem;color:rgba(245,237,214,.2)">✎</span>
-      </div>
-      <div class="tc-popover" id="${pid}">
-        <div class="tc-pop-row"><label>Mode</label>
-          <select id="${pid}-mode">
-            <option value="plane" ${mode==='plane'?'selected':''}>✈ Flight</option>
-            <option value="ferry" ${mode==='ferry'?'selected':''}>⛴ Ferry</option>
-            <option value="bus" ${mode==='bus'?'selected':''}>🚌 Bus/Van</option>
-            <option value="train" ${mode==='train'?'selected':''}>🚂 Train</option>
-            <option value="drive" ${mode==='drive'?'selected':''}>🚗 Drive</option>
-          </select>
+  const hasLegs = stop.transportLegs && stop.transportLegs.length > 0;
+  const hasLegacy = !hasLegs && parseFloat(stop.transport) > 0;
+
+  let legsHtml = '';
+  if (hasLegs) {
+    legsHtml = stop.transportLegs.map((leg, li) => {
+      const mm = modeMeta(leg.mode);
+      const pid = `leg-pop-${stop.id}-${leg.id}`;
+      const each_ = parseFloat(leg.cost) || 0;
+      return `${li>0?'<span class="tc-leg-sep">+</span>':''}
+        <div style="position:relative;display:inline-flex">
+          <div class="tc-pill" onclick="toggleLegPop('${pid}')">
+            <span class="tc-mode">${mm.icon}</span>
+            <span class="tc-label">${mm.label}</span>
+            ${leg.notes?`<span class="tc-leg-notes">${leg.notes}</span>`:''}
+            <span class="tc-cost">${fmtNZD(each_*2)}</span>
+            <span class="tc-each">(${fmtNZD(each_)}pp)</span>
+            <span style="font-size:.6rem;color:rgba(245,237,214,.2)">✎</span>
+          </div>
+          <div class="tc-popover" id="${pid}">
+            <div class="tc-pop-row"><label>Mode</label>
+              <select id="${pid}-mode">
+                <option value="plane" ${leg.mode==='plane'?'selected':''}>✈ Flight</option>
+                <option value="ferry" ${leg.mode==='ferry'?'selected':''}>⛴ Ferry</option>
+                <option value="bus" ${leg.mode==='bus'?'selected':''}>🚌 Bus/Van</option>
+                <option value="train" ${leg.mode==='train'?'selected':''}>🚂 Train</option>
+                <option value="drive" ${leg.mode==='drive'?'selected':''}>🚗 Drive</option>
+              </select>
+            </div>
+            <div class="tc-pop-row"><label>Cost pp $</label><input type="number" id="${pid}-cost" value="${each_}"></div>
+            <div class="tc-pop-row"><label>Route</label><input type="text" id="${pid}-notes" value="${leg.notes||''}" placeholder="e.g. El Nido → Puerto Princesa"></div>
+            <div style="display:flex;gap:.4rem">
+              <button class="tc-save-btn" style="flex:1" onclick="saveLegPop('${pid}','${stop.id}','${leg.id}')">Save</button>
+              <button class="tc-del-btn" onclick="deleteLeg('${stop.id}','${leg.id}')">✕</button>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+  } else if (hasLegacy) {
+    const mode = stop.transportMode || 'bus';
+    const mm = modeMeta(mode);
+    const total = (parseFloat(stop.transport)||0)*2;
+    const each_ = parseFloat(stop.transport)||0;
+    const pid = 'tc-pop-'+stop.id;
+    legsHtml = `
+      <div style="position:relative;display:inline-flex">
+        <div class="tc-pill" onclick="toggleTCPop('${pid}')">
+          <span class="tc-mode">${mm.icon}</span>
+          <span class="tc-label">${mm.label}</span>
+          <span class="tc-cost">${fmtNZD(total)}</span>
+          <span class="tc-each">(${fmtNZD(each_)}pp)</span>
+          <span style="font-size:.6rem;color:rgba(245,237,214,.2)">✎</span>
         </div>
-        <div class="tc-pop-row"><label>Cost pp $</label><input type="number" id="${pid}-cost" value="${each_}"></div>
-        <button class="tc-save-btn" onclick="saveTCPop('${pid}','${stop.id}')">Save</button>
-      </div>
+        <div class="tc-popover" id="${pid}">
+          <div class="tc-pop-row"><label>Mode</label>
+            <select id="${pid}-mode">
+              <option value="plane" ${mode==='plane'?'selected':''}>✈ Flight</option>
+              <option value="ferry" ${mode==='ferry'?'selected':''}>⛴ Ferry</option>
+              <option value="bus" ${mode==='bus'?'selected':''}>🚌 Bus/Van</option>
+              <option value="train" ${mode==='train'?'selected':''}>🚂 Train</option>
+              <option value="drive" ${mode==='drive'?'selected':''}>🚗 Drive</option>
+            </select>
+          </div>
+          <div class="tc-pop-row"><label>Cost pp $</label><input type="number" id="${pid}-cost" value="${each_}"></div>
+          <button class="tc-save-btn" onclick="saveTCPop('${pid}','${stop.id}')">Save</button>
+        </div>
+      </div>`;
+  }
+
+  return `
+    <div class="transport-connector" style="position:relative;flex-wrap:wrap;gap:.4rem">
+      <div class="tc-line"></div>
+      ${legsHtml}
+      <button class="tc-add-leg-btn" onclick="addTransportLeg('${stop.id}')">+ Add leg</button>
       <div class="tc-line"></div>
     </div>`;
 }
@@ -1319,6 +1376,48 @@ function saveTCPop(pid, sid) {
   renderBanner();
   showToast('✓ Transport updated');
 }
+function toggleLegPop(pid) {
+  document.querySelectorAll('.tc-popover.open').forEach(p=>{ if(p.id!==pid) p.classList.remove('open'); });
+  document.getElementById(pid).classList.toggle('open');
+}
+function saveLegPop(pid, sid, legId) {
+  const mode = document.getElementById(pid+'-mode').value;
+  const cost = parseFloat(document.getElementById(pid+'-cost').value)||0;
+  const notes = document.getElementById(pid+'-notes').value||'';
+  const s = stops.find(s=>s.id===sid);
+  if(!s||!s.transportLegs) return;
+  const leg = s.transportLegs.find(l=>l.id===legId);
+  if(leg){ leg.mode=mode; leg.cost=cost; leg.notes=notes; }
+  saveStops(stops);
+  document.getElementById(pid).classList.remove('open');
+  renderItinerary();
+  renderBanner();
+  showToast('✓ Transport leg updated');
+}
+function deleteLeg(sid, legId) {
+  const s = stops.find(s=>s.id===sid);
+  if(!s||!s.transportLegs) return;
+  s.transportLegs = s.transportLegs.filter(l=>l.id!==legId);
+  saveStops(stops);
+  renderItinerary();
+  renderBanner();
+  showToast('✓ Leg removed');
+}
+function addTransportLeg(sid) {
+  const s = stops.find(s=>s.id===sid);
+  if(!s) return;
+  if(!s.transportLegs) s.transportLegs = [];
+  if(s.transportLegs.length===0 && parseFloat(s.transport)>0) {
+    s.transportLegs.push({ id:'l'+Date.now(), mode: s.transportMode||'bus', cost: parseFloat(s.transport)||0, notes:'' });
+    s.transport=0; s.transportMode='';
+  }
+  const newId = 'l'+(Date.now()+Math.floor(Math.random()*9999));
+  s.transportLegs.push({ id:newId, mode:'bus', cost:0, notes:'' });
+  saveStops(stops);
+  renderItinerary();
+  setTimeout(()=>toggleLegPop(`leg-pop-${sid}-${newId}`), 30);
+  showToast('✓ New leg added — fill in the details');
+}
 
 // ═══════════════════════════════════════════
 //  STOP CARD
@@ -1329,7 +1428,8 @@ function buildStopCard(s, idx) {
   const cost = calcStopCost(s);
   const ci = fmtDateWk(s.checkin);
   const co = fmtDateWk(s.checkout);
-  const breakdown = nights>0 ? `${nights}n × ${fmtNZD(s.costPerNight)}${s.transport>0?' + '+fmtNZD(s.transport*2)+' transport':''}${(s.activitiesCost||0)>0?' + '+fmtNZD(s.activitiesCost*2)+' activities':''}` : '';
+  const tTotal = calcTransportTotal(s);
+  const breakdown = nights>0 ? `${nights}n × ${fmtNZD(s.costPerNight)}${tTotal>0?' + '+fmtNZD(tTotal*2)+' transport':''}${(s.activitiesCost||0)>0?' + '+fmtNZD(s.activitiesCost*2)+' activities':''}` : '';
   const accomLabel = ATYPE_LABELS[s.accommodationType||'hotel']||'🏩 Hotel';
   const hasTodo = THINGS_TO_DO[s.dest] && THINGS_TO_DO[s.dest].length>0;
   return `
@@ -1484,7 +1584,8 @@ function updateStop(id, field, value) {
     const cost = calcStopCost(s);
     const ci = fmtDateWk(s.checkin);
     const co = fmtDateWk(s.checkout);
-    const breakdown = nights>0 ? `${nights}n × ${fmtNZD(s.costPerNight)}${s.transport>0?' + '+fmtNZD(s.transport*2)+' transport':''}${(s.activitiesCost||0)>0?' + '+fmtNZD(s.activitiesCost*2)+' activities':''}` : '';
+    const tTotal2 = calcTransportTotal(s);
+    const breakdown = nights>0 ? `${nights}n × ${fmtNZD(s.costPerNight)}${tTotal2>0?' + '+fmtNZD(tTotal2*2)+' transport':''}${(s.activitiesCost||0)>0?' + '+fmtNZD(s.activitiesCost*2)+' activities':''}` : '';
     const dEl = card.querySelector('.stop-dates');
     if(dEl) dEl.innerHTML = `${ci}${ci&&co?' → '+co:''}${nights?' · '+nights+'n':''}<div class="stop-breakdown">${breakdown}</div>`;
     const cEl = card.querySelector('.stop-cost');
@@ -1536,7 +1637,7 @@ function renderItinerary() {
     // Country total bar with inline Add Stop
     html += `<div class="country-total-bar">
       <div class="ctb-item"><div class="ctb-lbl">Accommodation</div><div class="ctb-val bb-teal">${fmtNZD(cStops.reduce((a,s)=>a+(parseFloat(s.costPerNight)||0)*nightsBetween(s.checkin,s.checkout),0)*2)}</div></div>
-      <div class="ctb-item"><div class="ctb-lbl">Internal Transport</div><div class="ctb-val bb-gold">${fmtNZD(cStops.reduce((a,s)=>a+(parseFloat(s.transport)||0),0)*2)}</div></div>
+      <div class="ctb-item"><div class="ctb-lbl">Internal Transport</div><div class="ctb-val bb-gold">${fmtNZD(cStops.reduce((a,s)=>a+calcTransportTotal(s),0)*2)}</div></div>
       ${cActivities>0?`<div class="ctb-item"><div class="ctb-lbl">Activities</div><div class="ctb-val" style="color:var(--purple)">${fmtNZD(cActivities*2)}</div></div>`:''}
       <div class="ctb-item"><div class="ctb-lbl">Accor Points Used</div><div class="ctb-val" style="color:var(--gold)">${cPoints.toLocaleString()}</div></div>
       <div class="ctb-item"><div class="ctb-lbl">Total ${country}</div><div class="ctb-val bb-coral" style="color:var(--coral)">${fmtNZD(cTotal*2)} <span style="font-size:.65rem;opacity:.6">(${fmtNZD(cTotal)} each)</span></div></div>
@@ -2229,7 +2330,7 @@ function setMapMode(mode){
 //  CLOSE POPOVERS ON OUTSIDE CLICK
 // ═══════════════════════════════════════════
 document.addEventListener('click', e=>{
-  if(!e.target.closest('.tc-pill')&&!e.target.closest('.tc-popover')&&!e.target.closest('.tc-save-btn')) {
+  if(!e.target.closest('.tc-pill')&&!e.target.closest('.tc-popover')&&!e.target.closest('.tc-save-btn')&&!e.target.closest('.tc-del-btn')&&!e.target.closest('.tc-add-leg-btn')) {
     document.querySelectorAll('.tc-popover.open').forEach(p=>p.classList.remove('open'));
   }
   if(!e.target.closest('.ict-pill')&&!e.target.closest('.ict-popover')&&!e.target.closest('.ict-save-btn')) {

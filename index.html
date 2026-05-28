@@ -1714,7 +1714,8 @@ function renderItinerary() {
   let html = '';
   countries.forEach((country, cIdx) => {
     const cStops = stops.filter(s=>s.country===country);
-    const cTotal = cStops.reduce((a,s)=>a+calcStopCost(s),0);
+    const cActivityAllowance = calcActivityAllowance(cStops);
+    const cTotal = cStops.reduce((a,s)=>a+calcStopCost(s),0) + cActivityAllowance;
     const cPoints = cStops.reduce((a,s)=>a+(parseInt(s.points)||0),0);
     const cActivities = cStops.reduce((a,s)=>a+(parseFloat(s.activitiesCost)||0),0);
     html += `<div class="country-section">${buildCountryStrip(country, cStops)}`;

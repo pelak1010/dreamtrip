@@ -508,6 +508,24 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
   </div>
 </div>
 
+<!-- DAYS MODAL -->
+<div class="modal-overlay" id="days-modal">
+  <div class="modal" style="max-width:340px">
+    <h3 id="days-modal-title" style="margin-bottom:.2rem"></h3>
+    <div id="days-modal-dest" style="font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--purple);margin-bottom:.8rem"></div>
+    <p id="days-modal-desc" style="font-size:.8rem;color:rgba(245,237,214,.5);margin-bottom:1rem;line-height:1.5"></p>
+    <div class="modal-field full">
+      <label>How many days will you be surfing?</label>
+      <input type="number" id="days-modal-num" min="1" max="60" value="3" style="margin-top:.3rem;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;color:var(--sand);font-family:'DM Sans',sans-serif;font-size:.82rem;padding:.45rem .6rem;width:100%">
+    </div>
+    <div id="days-modal-summary" style="font-size:.82rem;color:var(--green);margin:.8rem 0;min-height:1.4em"></div>
+    <div class="modal-actions">
+      <button class="m-btn cancel" onclick="closeDaysModal()">Cancel</button>
+      <button class="m-btn save" onclick="confirmDaysModal()">Add to Budget</button>
+    </div>
+  </div>
+</div>
+
 <!-- ADD STOP MODAL -->
 <div class="modal-overlay" id="modal-overlay">
   <div class="modal">
@@ -642,6 +660,7 @@ const THINGS_TO_DO = {
   'Bali': [
     { icon:'🌊', name:'Uluwatu Temple Sunset + Kecak', desc:'Clifftop Hindu temple with dramatic sunset kecak fire dance performance', price:'~$15pp entry+show' },
     { icon:'🏄', name:'Canggu surf lesson', desc:'2h lesson with board and instructor at Echo Beach', price:'~$25pp' },
+    { icon:'🏄', name:'Surfboard rental', desc:'Hire a board for the day at Canggu or Kuta — dozens of rental shops on the beach', price:'~$10pp/day', priceNum:10, perDay:true },
     { icon:'🍜', name:'Seminyak street food tour', desc:'Evening walk through warungs sampling nasi goreng, satay, martabak', price:'~$20pp' },
     { icon:'🛵', name:'Rice terrace scooter loop', desc:'Jatiluwih UNESCO terraces → Tegallalang → Ubud coffee plantation', price:'~$8 scooter/day' },
   ],
@@ -679,7 +698,7 @@ const THINGS_TO_DO = {
     { icon:'🌊', name:'Paliton Beach', desc:'Quiet white sand beach — arrive before 10am to beat the day trippers', price:'Free' },
   ],
   'Siargao': [
-    { icon:'🏄', name:'Cloud 9 surfing', desc:'Famous reef break — hire board from locals near the boardwalk tower', price:'~$5pp board' },
+    { icon:'🏄', name:'Cloud 9 surfboard rental', desc:'Hire a board from locals near the boardwalk tower — daily rate for the reef break', price:'~$5pp/day', priceNum:5, perDay:true },
     { icon:'🏝', name:'Island hopping (Naked/Daku/Guyam)', desc:'3 islands, snorkelling, coconut crab lunch on Daku', price:'~$15pp boat trip' },
     { icon:'🌊', name:'Sugba Lagoon', desc:'Emerald lagoon, cliff jump platform, and stand-up paddleboarding', price:'~$8pp boat+entry' },
     { icon:'🛵', name:'Scooter to Magpupungko Rock Pools', desc:'Tidal pools revealed at low tide — stunning natural swimming pools', price:'~$3 entry' },
@@ -764,6 +783,7 @@ const THINGS_TO_DO = {
     { icon:'🐋', name:'Blue whale watching', desc:'January is peak season — Sri Lanka is one of the best spots on earth', price:'~$35pp' },
     { icon:'🏰', name:'Galle Fort walk', desc:'Portuguese-Dutch colonial fort, boutique cafes, lighthouse at sunset', price:'Free to walk' },
     { icon:'🏄', name:'Surf lessons at Weligama', desc:'Long gentle beach break — perfect for beginners', price:'~$20pp lesson' },
+    { icon:'🏄', name:'Surfboard rental', desc:'Hire a board for the day at Weligama or Mirissa Beach — great for beginners and intermediates', price:'~$15pp/day', priceNum:15, perDay:true },
     { icon:'🐢', name:'Sea turtle hatchery', desc:'Release baby turtles into the ocean — Rekawa or Kosgoda', price:'~$5pp' },
   ],
   'Kooddoo / Huvadhoo': [
@@ -886,7 +906,12 @@ function nightsBetween(ci, co) {
 }
 function calcStopCost(s) {
   const n = nightsBetween(s.checkin, s.checkout);
-  return (parseFloat(s.costPerNight)||0)*n + (parseFloat(s.transport)||0);
+  return (parseFloat(s.costPerNight)||0)*n + (parseFloat(s.transport)||0) + (parseFloat(s.activitiesCost)||0);
+}
+function parsePriceNum(str) {
+  if(!str || /^free/i.test(str.trim())) return 0;
+  const m = str.match(/\$(\d+(?:\.\d+)?)/);
+  return m ? parseFloat(m[1]) : 0;
 }
 function calcCountryStopsCost(country) {
   return stops.filter(s=>s.country===country).reduce((a,s)=>a+calcStopCost(s),0);
@@ -1304,7 +1329,7 @@ function buildStopCard(s, idx) {
   const cost = calcStopCost(s);
   const ci = fmtDateWk(s.checkin);
   const co = fmtDateWk(s.checkout);
-  const breakdown = nights>0 ? `${nights}n × ${fmtNZD(s.costPerNight)}${s.transport>0?' + '+fmtNZD(s.transport*2)+' transport':''}` : '';
+  const breakdown = nights>0 ? `${nights}n × ${fmtNZD(s.costPerNight)}${s.transport>0?' + '+fmtNZD(s.transport*2)+' transport':''}${(s.activitiesCost||0)>0?' + '+fmtNZD(s.activitiesCost*2)+' activities':''}` : '';
   const accomLabel = ATYPE_LABELS[s.accommodationType||'hotel']||'🏩 Hotel';
   const hasTodo = THINGS_TO_DO[s.dest] && THINGS_TO_DO[s.dest].length>0;
   return `
@@ -1372,21 +1397,75 @@ function toggleTodo(id) {
   const items = THINGS_TO_DO[s.dest]||[];
   el.style.display='block';
   el.innerHTML = `<div class="todo-panel"><h4>🎯 Things To Do in ${s.dest}</h4>${
-    items.map(t=>`<div class="todo-item">
+    items.map((t,i)=>`<div class="todo-item">
       <div class="todo-icon">${t.icon}</div>
       <div class="todo-info"><div class="todo-name">${t.name}</div><div class="todo-desc">${t.desc}</div></div>
-      <div class="todo-price">${t.price}</div>
-      <button class="todo-add-btn" onclick="addTodoToNotes('${id}','${t.name.replace(/'/g,"\\'")}')">+ Add</button>
+      <div class="todo-price">${t.price}${t.perDay?' <span style="font-size:.6rem;opacity:.7">(per day)</span>':''}</div>
+      <button class="todo-add-btn" onclick="addTodoToNotes('${id}',${i})">+ Add</button>
     </div>`).join('')
   }</div>`;
 }
-function addTodoToNotes(sid, name) {
+let _daysModalData = null;
+
+function addTodoToNotes(sid, tIdx) {
   const s = stops.find(s=>s.id===sid);
   if(!s) return;
-  s.notes = (s.notes||'') + (s.notes?'\n':'') + '☐ ' + name;
+  const items = THINGS_TO_DO[s.dest]||[];
+  const t = items[tIdx];
+  if(!t) return;
+  if(t.perDay) {
+    openDaysModal(t, s.dest, sid, tIdx);
+  } else {
+    _doAddTodo(sid, tIdx, 1);
+  }
+}
+
+function _doAddTodo(sid, tIdx, days) {
+  const s = stops.find(s=>s.id===sid);
+  if(!s) return;
+  const items = THINGS_TO_DO[s.dest]||[];
+  const t = items[tIdx];
+  if(!t) return;
+  const priceNum = t.priceNum !== undefined ? t.priceNum : parsePriceNum(t.price);
+  const costPP = priceNum * (days||1);
+  const noteLine = '☐ ' + t.name + (days > 1 ? ' (' + days + ' days)' : '');
+  s.notes = (s.notes||'') + (s.notes?'\n':'') + noteLine;
+  s.activitiesCost = (s.activitiesCost||0) + costPP;
   saveStops(stops);
   renderItinerary();
-  showToast('✓ Added to notes');
+  showToast('✓ Added' + (costPP>0?' — '+fmtNZD(costPP*2)+' added to budget':''));
+}
+
+function openDaysModal(t, dest, sid, tIdx) {
+  const overlay = document.getElementById('days-modal');
+  document.getElementById('days-modal-title').textContent = t.name;
+  document.getElementById('days-modal-dest').textContent = dest;
+  document.getElementById('days-modal-desc').textContent = t.desc;
+  const priceNum = t.priceNum !== undefined ? t.priceNum : parsePriceNum(t.price);
+  const inp = document.getElementById('days-modal-num');
+  inp.value = 3;
+  function updateSummary() {
+    const d = parseInt(inp.value)||1;
+    document.getElementById('days-modal-summary').textContent =
+      d + ' day' + (d!==1?'s':'') + ' × ' + fmtNZD(priceNum) + 'pp = ' + fmtNZD(priceNum*d) + 'pp (' + fmtNZD(priceNum*d*2) + ' for two)';
+  }
+  inp.oninput = updateSummary;
+  updateSummary();
+  _daysModalData = { sid, tIdx };
+  overlay.classList.add('open');
+}
+
+function closeDaysModal() {
+  document.getElementById('days-modal').classList.remove('open');
+  _daysModalData = null;
+}
+
+function confirmDaysModal() {
+  if(!_daysModalData) return;
+  const { sid, tIdx } = _daysModalData;
+  const days = parseInt(document.getElementById('days-modal-num').value)||1;
+  closeDaysModal();
+  _doAddTodo(sid, tIdx, days);
 }
 
 // ═══════════════════════════════════════════
@@ -1405,7 +1484,7 @@ function updateStop(id, field, value) {
     const cost = calcStopCost(s);
     const ci = fmtDateWk(s.checkin);
     const co = fmtDateWk(s.checkout);
-    const breakdown = nights>0 ? `${nights}n × ${fmtNZD(s.costPerNight)}${s.transport>0?' + '+fmtNZD(s.transport*2)+' transport':''}` : '';
+    const breakdown = nights>0 ? `${nights}n × ${fmtNZD(s.costPerNight)}${s.transport>0?' + '+fmtNZD(s.transport*2)+' transport':''}${(s.activitiesCost||0)>0?' + '+fmtNZD(s.activitiesCost*2)+' activities':''}` : '';
     const dEl = card.querySelector('.stop-dates');
     if(dEl) dEl.innerHTML = `${ci}${ci&&co?' → '+co:''}${nights?' · '+nights+'n':''}<div class="stop-breakdown">${breakdown}</div>`;
     const cEl = card.querySelector('.stop-cost');
@@ -1446,6 +1525,7 @@ function renderItinerary() {
     const cStops = stops.filter(s=>s.country===country);
     const cTotal = cStops.reduce((a,s)=>a+calcStopCost(s),0);
     const cPoints = cStops.reduce((a,s)=>a+(parseInt(s.points)||0),0);
+    const cActivities = cStops.reduce((a,s)=>a+(parseFloat(s.activitiesCost)||0),0);
     html += `<div class="country-section">${buildCountryStrip(country, cStops)}`;
 
     cStops.forEach((s, si) => {
@@ -1457,6 +1537,7 @@ function renderItinerary() {
     html += `<div class="country-total-bar">
       <div class="ctb-item"><div class="ctb-lbl">Accommodation</div><div class="ctb-val bb-teal">${fmtNZD(cStops.reduce((a,s)=>a+(parseFloat(s.costPerNight)||0)*nightsBetween(s.checkin,s.checkout),0)*2)}</div></div>
       <div class="ctb-item"><div class="ctb-lbl">Internal Transport</div><div class="ctb-val bb-gold">${fmtNZD(cStops.reduce((a,s)=>a+(parseFloat(s.transport)||0),0)*2)}</div></div>
+      ${cActivities>0?`<div class="ctb-item"><div class="ctb-lbl">Activities</div><div class="ctb-val" style="color:var(--purple)">${fmtNZD(cActivities*2)}</div></div>`:''}
       <div class="ctb-item"><div class="ctb-lbl">Accor Points Used</div><div class="ctb-val" style="color:var(--gold)">${cPoints.toLocaleString()}</div></div>
       <div class="ctb-item"><div class="ctb-lbl">Total ${country}</div><div class="ctb-val bb-coral" style="color:var(--coral)">${fmtNZD(cTotal*2)} <span style="font-size:.65rem;opacity:.6">(${fmtNZD(cTotal)} each)</span></div></div>
       <div class="ctb-item" style="margin-left:auto"><button class="add-stop-btn" onclick="openModal('${country}')">+ Add stop in ${country}</button></div>

@@ -1669,6 +1669,10 @@ function _doAddTodo(sid, tIdx, days) {
   syncActivitiesCost(s);
   saveStops(stops);
   renderItinerary();
+  // Re-open the card and todo panel that was open before re-render
+  const card = document.getElementById('card-'+sid);
+  if(card) card.classList.add('open');
+  toggleTodo(sid);
   showToast('✓ Added' + (costPP>0?' — '+fmtNZD(costPP*2)+' added to budget':''));
 }
 

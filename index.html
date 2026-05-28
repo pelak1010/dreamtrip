@@ -940,7 +940,23 @@ const THINGS_TO_DO = {
 //  STORAGE HELPERS
 // ═══════════════════════════════════════════
 function loadStops() {
-  try { const d = localStorage.getItem('dt_stops_v10'); if(d) return JSON.parse(d); } catch(e){}
+  try {
+    const d = localStorage.getItem('dt_stops_v10');
+    if(d) {
+      const data = JSON.parse(d);
+      let changed = false;
+      data.forEach(s => {
+        if(parseFloat(s.foodCostPerDay) > 0) return;
+        const def = DEFAULT_STOPS.find(ds => ds.id === s.id || (ds.country === s.country && ds.dest === s.dest));
+        if(def && parseFloat(def.foodCostPerDay) > 0) {
+          s.foodCostPerDay = def.foodCostPerDay;
+          changed = true;
+        }
+      });
+      if(changed) localStorage.setItem('dt_stops_v10', JSON.stringify(data));
+      return data;
+    }
+  } catch(e){}
   return DEFAULT_STOPS.map(s=>({...s}));
 }
 function saveStops(arr) {

@@ -946,7 +946,15 @@ function saveStops(arr) {
   try { localStorage.setItem('dt_stops_v10', JSON.stringify(arr)); } catch(e){}
 }
 function loadICT() {
-  try { const d = localStorage.getItem('dt_ict_v10'); if(d) return JSON.parse(d); } catch(e){}
+  try {
+    const d = localStorage.getItem('dt_ict_v10');
+    if(d) {
+      const data = JSON.parse(d);
+      delete data['Maldives→Peru'];
+      localStorage.setItem('dt_ict_v10', JSON.stringify(data));
+      return data;
+    }
+  } catch(e){}
   return {...DEFAULT_ICT};
 }
 function saveICT(obj) {

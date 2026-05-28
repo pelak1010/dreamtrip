@@ -1008,7 +1008,7 @@ function calcCountryStopsCost(country) {
   return stops.filter(s=>s.country===country).reduce((a,s)=>a+calcStopCost(s),0);
 }
 function calcGrandTotal() {
-  let total = stops.reduce((a,s)=>a+calcStopCost(s),0);
+  let total = stops.reduce((a,s)=>a+calcStopCost(s),0)*2;
   Object.values(ictData).forEach(v=>{ total += (parseFloat(v.cost)||0)*2; });
   return total;
 }

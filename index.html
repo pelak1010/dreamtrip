@@ -63,6 +63,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .stop-cost{font-size:.78rem;font-weight:600;color:var(--teal);white-space:nowrap}
 .stop-points-badge{font-size:.6rem;padding:.1rem .4rem;border-radius:8px;background:rgba(212,168,67,.12);border:1px solid rgba(212,168,67,.25);color:var(--gold)}
 .stop-accom-type{font-size:.6rem;padding:.1rem .35rem;border-radius:6px;background:var(--fog);border:1px solid var(--border);color:rgba(245,237,214,.45)}
+.stop-food-badge{font-size:.6rem;padding:.1rem .4rem;border-radius:8px;background:rgba(82,201,122,.1);border:1px solid rgba(82,201,122,.22);color:var(--green);white-space:nowrap}
 .stop-chevron{font-size:.7rem;color:rgba(245,237,214,.25);transition:transform .2s;flex-shrink:0}
 .stop-card.open .stop-chevron{transform:rotate(180deg)}
 .stop-body{display:none;padding:.75rem 1rem 1rem;border-top:1px solid var(--border);background:rgba(0,0,0,.2)}
@@ -1507,6 +1508,7 @@ function buildStopCard(s, idx) {
       <div class="stop-cost">${cost>0?fmtNZD(cost*2):cost===0&&nights===0?'—':fmtNZD(cost*2)}</div>
       ${s.points>0?`<div class="stop-points-badge">⭐ ${(s.points).toLocaleString()}pts</div>`:''}
       <div class="stop-accom-type">${accomLabel}</div>
+      <div class="stop-food-badge">Food ${fmtNZD(s.foodCostPerDay||0)}/day pp</div>
       <div class="stop-chevron">▼</div>
     </div>
     <div class="stop-body">
@@ -1655,6 +1657,8 @@ function updateStop(id, field, value) {
     if(dEl) dEl.innerHTML = `${ci}${ci&&co?' → '+co:''}${nights?' · '+nights+'n':''}<div class="stop-breakdown">${breakdown}</div>`;
     const cEl = card.querySelector('.stop-cost');
     if(cEl) cEl.textContent = fmtNZD(cost*2);
+    const fEl = card.querySelector('.stop-food-badge');
+    if(fEl) fEl.textContent = `Food ${fmtNZD(s.foodCostPerDay||0)}/day pp`;
   }
 }
 

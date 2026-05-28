@@ -645,7 +645,6 @@ const DEFAULT_ICT = {
   'Indonesia→Philippines': { mode:'plane', icon:'✈', label:'Flight', route:'Labuan Bajo → Bali → Cebu via KL', cost:360, notes:'Fly LBJ→Bali (~$130pp NZD, 1.5h) + AirAsia Bali→KL→Cebu (~$230pp NZD). Can overnight in Bali if connection is tight.' },
   'Philippines→Vietnam':   { mode:'plane', icon:'✈', label:'Flight', route:'El Nido → Manila → Hanoi', cost:200, notes:'Van El Nido→Puerto Princesa (~$33pp NZD) + Cebu Pacific PP→Manila (~$83pp NZD) + AirAsia Manila→Hanoi (~$149pp NZD). ~$265pp NZD total.' },
   'Vietnam→Sri Lanka':     { mode:'plane', icon:'✈', label:'Flight', route:'Ho Chi Minh → Colombo', cost:260, notes:'AirAsia or SriLankan via KL/indirect ~$265pp NZD. No direct flight.' },
-  'Sri Lanka→Maldives':    { mode:'plane', icon:'✈', label:'Flight', route:'Colombo → Malé', cost:220, notes:'SriLankan Airlines or Flyme ~$215pp NZD. Book 6–8 weeks ahead.' },
   'Sri Lanka→Peru':        { mode:'plane', icon:'✈', label:'Flight', route:'Colombo → Lima (via Dubai/Doha)', cost:1650, notes:'Emirates via Dubai or Qatar via Doha ~$1,650pp NZD. Book 3+ months early — use Airpoints!' },
   'Peru→Brazil':           { mode:'plane', icon:'✈', label:'Flight', route:'Lima → Fortaleza', cost:380, notes:'LATAM or Avianca via Bogotá/São Paulo ~$380pp NZD. No direct — allow 1 connection.' },
   'Brazil→Argentina':      { mode:'bus',   icon:'🚌', label:'Bus/Drive', route:'Porto Alegre → Buenos Aires', cost:65, notes:'Overnight bus ~$66pp NZD (Eureka or Pluma). ~18h. Or fly Gol/LATAM ~$132pp NZD.' },
@@ -967,6 +966,7 @@ function loadICT() {
     const d = localStorage.getItem('dt_ict_v10');
     if(d) {
       const data = JSON.parse(d);
+      delete data['Sri Lanka→Maldives'];
       delete data['Maldives→Peru'];
       localStorage.setItem('dt_ict_v10', JSON.stringify(data));
       return data;
@@ -1688,7 +1688,6 @@ const ICT_KEYS = [
   'Indonesia→Philippines',
   'Philippines→Vietnam',
   'Vietnam→Sri Lanka',
-  'Sri Lanka→Maldives',
   'Sri Lanka→Peru',
   'Peru→Brazil',
   'Brazil→Argentina',

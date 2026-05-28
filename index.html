@@ -636,6 +636,7 @@ const INITIAL_ACCOR = 50000;
 const INITIAL_AIRPOINTS = 400;
 const BUDGET_PP = 15000;
 const BUDGET_COMBINED = 30000;
+const ACTIVITY_ALLOWANCE_PP_DAY = 15;
 
 // ═══════════════════════════════════════════
 //  INTER-COUNTRY TRANSPORT DATA
@@ -1001,16 +1002,20 @@ function calcStopCost(s) {
   const perPersonTotal = calcTransportTotal(s) + (parseFloat(s.activitiesCost)||0) + (parseFloat(s.foodCostPerDay)||0)*n;
   return accommodationTotal + perPersonTotal*2;
 }
+function calcActivityAllowance(stopList=stops) {
+  return stopList.reduce((a,s)=>a+nightsBetween(s.checkin,s.checkout),0) * ACTIVITY_ALLOWANCE_PP_DAY * 2;
+}
 function parsePriceNum(str) {
   if(!str || /^free/i.test(str.trim())) return 0;
   const m = str.match(/\$(\d+(?:\.\d+)?)/);
   return m ? parseFloat(m[1]) : 0;
 }
 function calcCountryStopsCost(country) {
-  return stops.filter(s=>s.country===country).reduce((a,s)=>a+calcStopCost(s),0);
+  const cStops = stops.filter(s=>s.country===country);
+  return cStops.reduce((a,s)=>a+calcStopCost(s),0) + calcActivityAllowance(cStops);
 }
 function calcGrandTotal() {
-  let total = stops.reduce((a,s)=>a+calcStopCost(s),0);
+  let total = stops.reduce((a,s)=>a+calcStopCost(s),0) + calcActivityAllowance(stops);
   Object.values(ictData).forEach(v=>{ total += (parseFloat(v.cost)||0)*2; });
   return total;
 }
@@ -1156,7 +1161,7 @@ function renderPhaseRibbon(){
     const end = pStops.map(s=>s.checkout).filter(Boolean).sort().pop();
     const startD = new Date(start+'T00:00:00');
     const endD = new Date(end+'T00:00:00');
-    const cost = pStops.reduce((a,s)=>a+calcStopCost(s),0);
+    const cost = pStops.reduce((a,s)=>a+calcStopCost(s),0) + calcActivityAllowance(pStops);
     let cls = '';
     if(today > endD) cls = 'done';
     else if(today >= startD) cls = 'current';
@@ -1182,7 +1187,7 @@ let countryImages = loadCountryImages();
 
 function buildCountryStrip(country, cStops){
   const meta = COUNTRY_META[country] || {flag:'🌍', color:'#444', accent:'#888', phase:'', visa:'—', currency:'—', weather:'—', bg:''};
-  const cTotal = cStops.reduce((a,s)=>a+calcStopCost(s),0);
+  const cTotal = cStops.reduce((a,s)=>a+calcStopCost(s),0) + calcActivityAllowance(cStops);
   const cPoints = cStops.reduce((a,s)=>a+(parseInt(s.points)||0),0);
   const start = cStops.map(s=>s.checkin).filter(Boolean).sort()[0];
   const end = cStops.map(s=>s.checkout).filter(Boolean).sort().pop();
@@ -1724,7 +1729,8 @@ function renderItinerary() {
       <div class="ctb-item"><div class="ctb-lbl">Accommodation</div><div class="ctb-val bb-teal">${fmtNZD(cStops.reduce((a,s)=>a+(parseFloat(s.costPerNight)||0)*nightsBetween(s.checkin,s.checkout),0))}</div></div>
       <div class="ctb-item"><div class="ctb-lbl">Internal Transport</div><div class="ctb-val bb-gold">${fmtNZD(cStops.reduce((a,s)=>a+calcTransportTotal(s),0)*2)}</div></div>
       <div class="ctb-item"><div class="ctb-lbl">🍜 Food (approx)</div><div class="ctb-val" style="color:var(--green)">${fmtNZD(cStops.reduce((a,s)=>a+(parseFloat(s.foodCostPerDay)||0)*nightsBetween(s.checkin,s.checkout),0)*2)}</div></div>
-      ${cActivities>0?`<div class="ctb-item"><div class="ctb-lbl">Activities</div><div class="ctb-val" style="color:var(--purple)">${fmtNZD(cActivities*2)}</div></div>`:''}
+      <div class="ctb-item"><div class="ctb-lbl">Activities Buffer</div><div class="ctb-val" style="color:var(--purple)">${fmtNZD(cActivityAllowance)}</div></div>
+      ${cActivities>0?`<div class="ctb-item"><div class="ctb-lbl">Planned Activities</div><div class="ctb-val" style="color:var(--purple)">${fmtNZD(cActivities*2)}</div></div>`:''}
       <div class="ctb-item"><div class="ctb-lbl">Accor Points Used</div><div class="ctb-val" style="color:var(--gold)">${cPoints.toLocaleString()}</div></div>
       <div class="ctb-item"><div class="ctb-lbl">Total ${country}</div><div class="ctb-val bb-coral" style="color:var(--coral)">${fmtNZD(cTotal)} <span style="font-size:.65rem;opacity:.6">(${fmtNZD(cTotal/2)} each)</span></div></div>
       <div class="ctb-item" style="margin-left:auto"><button class="add-stop-btn" onclick="openModal('${country}')">+ Add stop in ${country}</button></div>
@@ -2206,8 +2212,11 @@ function renderBudget() {
       grandTotal+=c;
       return `<div class="bc-row"><span class="bc-dest">${s.dest}${s.points>0?` <small style="color:var(--gold)">⭐${s.points.toLocaleString()}pts</small>`:''}</span><span class="bc-amt">${fmtNZD(c)}</span></div>`;
     });
-    const cTotal = cStops.reduce((a,s)=>a+calcStopCost(s),0);
-    html+=`<div class="budget-card"><div class="bc-title">${COUNTRY_FLAGS[country]||'🌍'} ${country}</div>${rows.join('')}<div class="bc-row" style="margin-top:.3rem;border-top:1px solid var(--border);padding-top:.4rem"><span class="bc-dest">Subtotal</span><span class="bc-amt" style="color:var(--teal)">${fmtNZD(cTotal)}</span></div></div>`;
+    const cActivityAllowance = calcActivityAllowance(cStops);
+    grandTotal+=cActivityAllowance;
+    const cTotal = cStops.reduce((a,s)=>a+calcStopCost(s),0) + cActivityAllowance;
+    const allowanceRow = `<div class="bc-row"><span class="bc-dest">Activities buffer (${fmtNZD(ACTIVITY_ALLOWANCE_PP_DAY)}/day pp)</span><span class="bc-amt" style="color:var(--purple)">${fmtNZD(cActivityAllowance)}</span></div>`;
+    html+=`<div class="budget-card"><div class="bc-title">${COUNTRY_FLAGS[country]||'🌍'} ${country}</div>${rows.join('')}${allowanceRow}<div class="bc-row" style="margin-top:.3rem;border-top:1px solid var(--border);padding-top:.4rem"><span class="bc-dest">Subtotal</span><span class="bc-amt" style="color:var(--teal)">${fmtNZD(cTotal)}</span></div></div>`;
   });
 
   // Inter-country transport card
@@ -2223,11 +2232,15 @@ function renderBudget() {
 
   // Grand total card
   const totalFood = stops.reduce((a,s)=>a+(parseFloat(s.foodCostPerDay)||0)*nightsBetween(s.checkin,s.checkout),0)*2;
+  const totalActivityAllowance = calcActivityAllowance(stops);
+  const totalPlannedActivities = stops.reduce((a,s)=>a+(parseFloat(s.activitiesCost)||0),0)*2;
   html+=`<div class="budget-card" style="border-color:var(--teal)">
     <div class="bc-title">📊 Grand Total</div>
     <div class="bc-row"><span class="bc-dest">Total Combined</span><span class="bc-amt" style="color:var(--coral);font-size:1.1rem">${fmtNZD(grandTotal)}</span></div>
     <div class="bc-row"><span class="bc-dest">Per Person</span><span class="bc-amt" style="color:var(--teal)">${fmtNZD(grandTotal/2)}</span></div>
     <div class="bc-row"><span class="bc-dest">🍜 Food Total (approx)</span><span class="bc-amt" style="color:var(--green)">${fmtNZD(totalFood)}</span></div>
+    <div class="bc-row"><span class="bc-dest">Activities Buffer</span><span class="bc-amt" style="color:var(--purple)">${fmtNZD(totalActivityAllowance)}</span></div>
+    ${totalPlannedActivities>0?`<div class="bc-row"><span class="bc-dest">Planned Activities</span><span class="bc-amt" style="color:var(--purple)">${fmtNZD(totalPlannedActivities)}</span></div>`:''}
     <div class="bc-row"><span class="bc-dest">Budget Each</span><span class="bc-amt" style="color:var(--gold)">${fmtNZD(BUDGET_PP)}</span></div>
     <div class="bc-row"><span class="bc-dest">Remaining Each</span><span class="bc-amt" style="color:${BUDGET_PP-grandTotal/2>0?'var(--green)':'var(--coral)'}">${fmtNZD(BUDGET_PP-grandTotal/2)}</span></div>
     <div class="bc-row"><span class="bc-dest">Accor Points Start</span><span class="bc-amt" style="color:var(--gold)">${INITIAL_ACCOR.toLocaleString()}</span></div>

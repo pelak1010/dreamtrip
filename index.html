@@ -997,7 +997,9 @@ function calcTransportTotal(s) {
 }
 function calcStopCost(s) {
   const n = nightsBetween(s.checkin, s.checkout);
-  return (parseFloat(s.costPerNight)||0)*n + calcTransportTotal(s) + (parseFloat(s.activitiesCost)||0) + (parseFloat(s.foodCostPerDay)||0)*n;
+  const accommodationTotal = (parseFloat(s.costPerNight)||0)*n;
+  const perPersonTotal = calcTransportTotal(s) + (parseFloat(s.activitiesCost)||0) + (parseFloat(s.foodCostPerDay)||0)*n;
+  return accommodationTotal + perPersonTotal*2;
 }
 function parsePriceNum(str) {
   if(!str || /^free/i.test(str.trim())) return 0;
@@ -1008,7 +1010,7 @@ function calcCountryStopsCost(country) {
   return stops.filter(s=>s.country===country).reduce((a,s)=>a+calcStopCost(s),0);
 }
 function calcGrandTotal() {
-  let total = stops.reduce((a,s)=>a+calcStopCost(s),0)*2;
+  let total = stops.reduce((a,s)=>a+calcStopCost(s),0);
   Object.values(ictData).forEach(v=>{ total += (parseFloat(v.cost)||0)*2; });
   return total;
 }
@@ -1154,7 +1156,7 @@ function renderPhaseRibbon(){
     const end = pStops.map(s=>s.checkout).filter(Boolean).sort().pop();
     const startD = new Date(start+'T00:00:00');
     const endD = new Date(end+'T00:00:00');
-    const cost = pStops.reduce((a,s)=>a+calcStopCost(s),0)*2;
+    const cost = pStops.reduce((a,s)=>a+calcStopCost(s),0);
     let cls = '';
     if(today > endD) cls = 'done';
     else if(today >= startD) cls = 'current';
@@ -1212,7 +1214,7 @@ function buildCountryStrip(country, cStops){
         </div>
         <div class="cs-right">
           <div class="cs-stops">${cStops.length}<small>${cStops.length===1?'stop':'stops'}</small></div>
-          <div class="cs-cost">${fmtNZD(cTotal*2)}<small>${fmtNZD(cTotal)} each</small></div>
+          <div class="cs-cost">${fmtNZD(cTotal)}<small>${fmtNZD(cTotal/2)} each</small></div>
           ${cPoints>0?`<div class="cs-points">⭐ ${cPoints.toLocaleString()} pts</div>`:''}
         </div>
       </div>
@@ -1521,7 +1523,7 @@ function buildStopCard(s, idx) {
       <div class="stop-dates">${ci}${ci&&co?' → '+co:''}${nights?' · '+nights+'n':''}
         <div class="stop-breakdown">${breakdown}</div>
       </div>
-      <div class="stop-cost">${cost>0?fmtNZD(cost*2):cost===0&&nights===0?'—':fmtNZD(cost*2)}</div>
+      <div class="stop-cost">${cost>0?fmtNZD(cost):cost===0&&nights===0?'—':fmtNZD(cost)}</div>
       ${s.points>0?`<div class="stop-points-badge">⭐ ${(s.points).toLocaleString()}pts</div>`:''}
       <div class="stop-accom-type">${accomLabel}</div>
       <div class="stop-food-badge">Food ${fmtNZD(s.foodCostPerDay||0)}/day pp</div>
@@ -1672,7 +1674,7 @@ function updateStop(id, field, value) {
     const dEl = card.querySelector('.stop-dates');
     if(dEl) dEl.innerHTML = `${ci}${ci&&co?' → '+co:''}${nights?' · '+nights+'n':''}<div class="stop-breakdown">${breakdown}</div>`;
     const cEl = card.querySelector('.stop-cost');
-    if(cEl) cEl.textContent = fmtNZD(cost*2);
+    if(cEl) cEl.textContent = fmtNZD(cost);
     const fEl = card.querySelector('.stop-food-badge');
     if(fEl) fEl.textContent = `Food ${fmtNZD(s.foodCostPerDay||0)}/day pp`;
   }
@@ -1719,12 +1721,12 @@ function renderItinerary() {
 
     // Country total bar with inline Add Stop
     html += `<div class="country-total-bar">
-      <div class="ctb-item"><div class="ctb-lbl">Accommodation</div><div class="ctb-val bb-teal">${fmtNZD(cStops.reduce((a,s)=>a+(parseFloat(s.costPerNight)||0)*nightsBetween(s.checkin,s.checkout),0)*2)}</div></div>
+      <div class="ctb-item"><div class="ctb-lbl">Accommodation</div><div class="ctb-val bb-teal">${fmtNZD(cStops.reduce((a,s)=>a+(parseFloat(s.costPerNight)||0)*nightsBetween(s.checkin,s.checkout),0))}</div></div>
       <div class="ctb-item"><div class="ctb-lbl">Internal Transport</div><div class="ctb-val bb-gold">${fmtNZD(cStops.reduce((a,s)=>a+calcTransportTotal(s),0)*2)}</div></div>
       <div class="ctb-item"><div class="ctb-lbl">🍜 Food (approx)</div><div class="ctb-val" style="color:var(--green)">${fmtNZD(cStops.reduce((a,s)=>a+(parseFloat(s.foodCostPerDay)||0)*nightsBetween(s.checkin,s.checkout),0)*2)}</div></div>
       ${cActivities>0?`<div class="ctb-item"><div class="ctb-lbl">Activities</div><div class="ctb-val" style="color:var(--purple)">${fmtNZD(cActivities*2)}</div></div>`:''}
       <div class="ctb-item"><div class="ctb-lbl">Accor Points Used</div><div class="ctb-val" style="color:var(--gold)">${cPoints.toLocaleString()}</div></div>
-      <div class="ctb-item"><div class="ctb-lbl">Total ${country}</div><div class="ctb-val bb-coral" style="color:var(--coral)">${fmtNZD(cTotal*2)} <span style="font-size:.65rem;opacity:.6">(${fmtNZD(cTotal)} each)</span></div></div>
+      <div class="ctb-item"><div class="ctb-lbl">Total ${country}</div><div class="ctb-val bb-coral" style="color:var(--coral)">${fmtNZD(cTotal)} <span style="font-size:.65rem;opacity:.6">(${fmtNZD(cTotal/2)} each)</span></div></div>
       <div class="ctb-item" style="margin-left:auto"><button class="add-stop-btn" onclick="openModal('${country}')">+ Add stop in ${country}</button></div>
     </div>`;
 
@@ -2200,11 +2202,11 @@ function renderBudget() {
     if(cStops.length===0) return;
     const rows = cStops.map(s=>{
       const n=nightsBetween(s.checkin,s.checkout);
-      const c=calcStopCost(s)*2;
+      const c=calcStopCost(s);
       grandTotal+=c;
       return `<div class="bc-row"><span class="bc-dest">${s.dest}${s.points>0?` <small style="color:var(--gold)">⭐${s.points.toLocaleString()}pts</small>`:''}</span><span class="bc-amt">${fmtNZD(c)}</span></div>`;
     });
-    const cTotal = cStops.reduce((a,s)=>a+calcStopCost(s)*2,0);
+    const cTotal = cStops.reduce((a,s)=>a+calcStopCost(s),0);
     html+=`<div class="budget-card"><div class="bc-title">${COUNTRY_FLAGS[country]||'🌍'} ${country}</div>${rows.join('')}<div class="bc-row" style="margin-top:.3rem;border-top:1px solid var(--border);padding-top:.4rem"><span class="bc-dest">Subtotal</span><span class="bc-amt" style="color:var(--teal)">${fmtNZD(cTotal)}</span></div></div>`;
   });
 

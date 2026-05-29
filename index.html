@@ -420,6 +420,47 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .stop-card.drag-over-above{border-top:2px solid var(--teal) !important}
 .stop-card.drag-over-below{border-bottom:2px solid var(--teal) !important}
 
+/* ROUTE OPTIMIZER */
+.route-optimizer{margin-bottom:1.5rem;background:rgba(26,28,46,.7);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.ro-header{display:flex;align-items:baseline;gap:.8rem;padding:1rem 1.2rem .7rem;border-bottom:1px solid var(--border);background:rgba(0,0,0,.2)}
+.ro-title{font-family:'Playfair Display',serif;font-size:1rem;color:var(--sand)}
+.ro-subtitle{font-size:.68rem;color:rgba(245,237,214,.35)}
+.ro-issues{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1px;background:var(--border)}
+.ro-issue{background:#12131f;padding:.8rem 1rem;display:flex;flex-direction:column;gap:.3rem}
+.ro-issue-top{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.ro-issue-icon{font-size:1rem;flex-shrink:0}
+.ro-issue-country{font-size:.68rem;font-weight:600;color:rgba(245,237,214,.55);letter-spacing:.04em}
+.ro-badge{font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;padding:.1rem .4rem;border-radius:8px;border:1px solid;font-weight:600}
+.ro-saving{font-size:.62rem;color:var(--green);margin-left:auto;white-space:nowrap}
+.ro-issue-title{font-size:.78rem;font-weight:500;color:var(--sand);line-height:1.3}
+.ro-issue-detail{font-size:.68rem;color:rgba(245,237,214,.45);line-height:1.5}
+
+/* BUDGET OPTIMIZER */
+.budget-optimizer{margin-bottom:1.5rem}
+.bo-header{margin-bottom:.9rem}
+.bo-title{font-family:'Playfair Display',serif;font-size:1rem;color:var(--sand);margin-bottom:.15rem}
+.bo-subtitle{font-size:.68rem;color:rgba(245,237,214,.35)}
+.bo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+.bo-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem}
+.bo-card-title{font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(245,237,214,.4);margin-bottom:.7rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+.bo-bar-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.45rem}
+.bo-bar-label{font-size:.68rem;color:rgba(245,237,214,.6);width:110px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bo-bar-wrap{flex:1;height:5px;background:rgba(245,237,214,.06);border-radius:3px;overflow:hidden}
+.bo-bar-fill{height:100%;border-radius:3px;transition:width .4s}
+.bo-bar-val{font-size:.68rem;font-weight:600;width:44px;text-align:right;flex-shrink:0}
+.bo-list-row{display:flex;align-items:center;gap:.4rem;padding:.3rem 0;border-bottom:1px solid rgba(245,237,214,.05)}
+.bo-list-row:last-child{border-bottom:none}
+.bo-rank{width:16px;font-size:.62rem;color:rgba(245,237,214,.25);flex-shrink:0;text-align:right}
+.bo-stop-name{flex:1;font-size:.73rem;color:rgba(245,237,214,.75);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bo-stop-nights{font-size:.62rem;color:rgba(245,237,214,.3);flex-shrink:0}
+.bo-stop-cost{font-size:.73rem;font-weight:600;flex-shrink:0}
+.bo-stop-cost small{font-size:.55rem;font-weight:400;color:rgba(245,237,214,.3)}
+.bo-savings-list{display:flex;flex-direction:column;gap:.55rem}
+.bo-saving-item{padding:.5rem .6rem;background:rgba(0,0,0,.25);border-radius:8px;border:1px solid rgba(82,201,122,.1)}
+.bo-saving-title{font-size:.73rem;font-weight:500;color:var(--sand);margin-bottom:.15rem}
+.bo-saving-desc{font-size:.65rem;color:rgba(245,237,214,.4);line-height:1.4;margin-bottom:.25rem}
+.bo-saving-amount{font-size:.7rem;font-weight:600}
+
 /* CURRENCY CONVERTER */
 .nav-currency{display:flex;align-items:center;gap:.3rem;padding:.25rem .6rem;border-radius:20px;border:1px solid var(--border);background:rgba(255,255,255,.03);flex-shrink:0}
 .nav-currency input[type=number]{width:52px;background:transparent;border:none;color:var(--sand);font-family:'DM Sans',sans-serif;font-size:.72rem;text-align:right;outline:none;-moz-appearance:textfield}
@@ -2505,11 +2546,346 @@ function exportHTML() {
 }
 
 // ═══════════════════════════════════════════
+//  ROUTE OPTIMIZER
+// ═══════════════════════════════════════════
+function renderRouteOptimizer() {
+  const issues = [];
+
+  // 1. Detect same destination visited 2+ times in a country
+  const destCounts = {};
+  stops.forEach(s => {
+    const key = `${s.country}::${s.dest}`;
+    destCounts[key] = (destCounts[key] || 0) + 1;
+  });
+  Object.entries(destCounts).forEach(([key, count]) => {
+    if (count < 2) return;
+    const [country, dest] = key.split('::');
+    const affected = stops.filter(s => s.country === country && s.dest === dest);
+    const nights = affected.reduce((a, s) => a + nightsBetween(s.checkin, s.checkout), 0);
+    const transportCost = affected.reduce((a, s) => a + calcTransportTotal(s) * 2, 0);
+    issues.push({
+      severity: 'medium', icon: '🔄', country,
+      title: `${dest} visited ${count}× (${nights} nights total)`,
+      detail: `Multiple passes through ${dest} add transit costs and hotel shuffling. Consolidating could save transport legs and one hotel night.`,
+      saving: Math.round(transportCost * 0.5),
+    });
+  });
+
+  // 2. Detect date gaps ≥3 days between consecutive countries
+  const countryOrder = [...new Set(stops.map(s => s.country))];
+  for (let i = 0; i < countryOrder.length - 1; i++) {
+    const c1 = countryOrder[i], c2 = countryOrder[i + 1];
+    const c1End = stops.filter(s => s.country === c1).map(s => s.checkout).filter(Boolean).sort().pop();
+    const c2Start = stops.filter(s => s.country === c2).map(s => s.checkin).filter(Boolean).sort()[0];
+    if (!c1End || !c2Start) continue;
+    const gap = nightsBetween(c1End, c2Start);
+    if (gap >= 3) {
+      issues.push({
+        severity: gap >= 8 ? 'high' : 'medium', icon: '📅',
+        country: `${c1} → ${c2}`,
+        title: `${gap}-day unplanned gap (${c1End} → ${c2Start})`,
+        detail: gap >= 8
+          ? `${gap} days unaccounted between ${c1} and ${c2}. The paused Maldives stop (3 nights Jan 22–25) was designed to fill part of this. Consider re-enabling it or adding a transit hub.`
+          : `${gap} days with no planned stops. Add a transit night or slow travel here to avoid scrambling.`,
+        saving: 0,
+      });
+    }
+  }
+
+  // 3. Flag expensive international legs with booking tips
+  Object.entries(ictData).forEach(([key, v]) => {
+    const total = (parseFloat(v.cost) || 0) * 2;
+    if (total < 600) return;
+    issues.push({
+      severity: total > 3000 ? 'high' : 'medium', icon: '✈',
+      country: key,
+      title: `${key}: ${fmtNZD(total)} combined — book early`,
+      detail: v.notes || 'This is one of your most expensive transit legs. Book 3+ months ahead and check Airpoints/Emirates Skywards for discounts.',
+      saving: Math.round(total * 0.12),
+    });
+  });
+
+  // 4. Argentina NW zigzag: Iguazu (NE) → Chaco → Jujuy (NW)
+  const argStops = stops.filter(s => s.country === 'Argentina');
+  const hasIguazu = argStops.some(s => s.dest.toLowerCase().includes('iguazu'));
+  const hasChaco  = argStops.some(s => s.dest.toLowerCase().includes('chaco'));
+  const hasJujuy  = argStops.some(s => s.dest.toLowerCase().includes('jujuy'));
+  if (hasIguazu && hasChaco && hasJujuy) {
+    issues.push({
+      severity: 'low', icon: '🔀', country: 'Argentina',
+      title: 'Iguazu → Chaco → Jujuy creates a NE zigzag',
+      detail: 'After Iguazu Falls (NE corner), heading to Resistencia/Chaco takes you further east before swinging NW to Jujuy — ~300km extra. Alternative: Iguazu → Tucumán → Jujuy (more direct), or visit Chaco as a day trip from Resistencia on the return north drive.',
+      saving: 90,
+    });
+  }
+
+  // 5. Ushuaia route — must pass Rio Gallegos twice
+  const hasUshuaia = argStops.some(s => s.dest.toLowerCase().includes('ushuaia'));
+  const hasRioGallegos = argStops.some(s => s.dest.toLowerCase().includes('rio gallegos'));
+  const hasDeseado = argStops.some(s => s.dest.toLowerCase().includes('deseado'));
+  if (hasUshuaia && hasRioGallegos && hasDeseado) {
+    issues.push({
+      severity: 'low', icon: '↩', country: 'Argentina',
+      title: 'Rio Gallegos passed twice (Ushuaia detour)',
+      detail: 'The route El Calafate → Rio Gallegos → Ushuaia → (back north) → Puerto Deseado means passing through Rio Gallegos twice. Flying Ushuaia → Buenos Aires (~$100pp) on the return saves 870km of backtracking if Patagonia-coast stops can be done southbound instead.',
+      saving: 0,
+    });
+  }
+
+  if (!issues.length) return '<div style="padding:1rem;font-size:.78rem;color:var(--green)">✓ No routing issues detected</div>';
+
+  const col = { high: 'var(--coral)', medium: 'var(--gold)', low: 'var(--teal)' };
+  const lbl = { high: 'Review', medium: 'Note', low: 'Tip' };
+  const highCount = issues.filter(i => i.severity === 'high').length;
+
+  return `
+    <div class="route-optimizer">
+      <div class="ro-header">
+        <div class="ro-title">🗺 Route Analysis</div>
+        <div class="ro-subtitle">${issues.length} finding${issues.length !== 1 ? 's' : ''} · ${highCount} high priority · ${issues.filter(i=>i.saving>0).reduce((a,i)=>a+i.saving,0)>0?'up to '+fmtNZD(issues.reduce((a,i)=>a+i.saving,0))+' potential savings':''}</div>
+      </div>
+      <div class="ro-issues">
+        ${issues.map(issue => `
+          <div class="ro-issue">
+            <div class="ro-issue-top">
+              <span class="ro-issue-icon">${issue.icon}</span>
+              <span class="ro-issue-country">${issue.country}</span>
+              <span class="ro-badge" style="background:${col[issue.severity]}1a;color:${col[issue.severity]};border-color:${col[issue.severity]}44">${lbl[issue.severity]}</span>
+              ${issue.saving > 0 ? `<span class="ro-saving">💰 Save ~${fmtNZD(issue.saving)}</span>` : ''}
+            </div>
+            <div class="ro-issue-title">${issue.title}</div>
+            <div class="ro-issue-detail">${issue.detail}</div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+// ═══════════════════════════════════════════
+//  BUDGET OPTIMIZER
+// ═══════════════════════════════════════════
+function renderBudgetOptimizer() {
+  // Cost per person per night for each stop with at least 1 night
+  const stopCosts = stops.map(s => {
+    const n = nightsBetween(s.checkin, s.checkout);
+    if (!n) return null;
+    const total = calcStopCost(s);
+    return { ...s, nights: n, totalCost: total, ppn: total / n / 2 };
+  }).filter(Boolean);
+
+  const byPPN = [...stopCosts].sort((a, b) => b.ppn - a.ppn);
+  const top5Ex  = byPPN.slice(0, 5);
+  const top5Ch  = byPPN.slice(-5).reverse();
+
+  // Country average cost per person per night
+  const countries = [...new Set(stops.map(s => s.country))];
+  const countryAvg = {};
+  countries.forEach(c => {
+    const cs = stopCosts.filter(s => s.country === c);
+    if (!cs.length) return;
+    const nights = cs.reduce((a, s) => a + s.nights, 0);
+    const total  = cs.reduce((a, s) => a + s.totalCost, 0);
+    countryAvg[c] = { ppn: total / Math.max(1, nights) / 2, total, nights };
+  });
+  const maxPPN = Math.max(...Object.values(countryAvg).map(v => v.ppn), 1);
+
+  // International transport
+  const ictEntries = Object.entries(ictData)
+    .map(([key, v]) => ({ key, cost: (parseFloat(v.cost) || 0) * 2, icon: v.icon || '✈' }))
+    .filter(e => e.cost > 0)
+    .sort((a, b) => b.cost - a.cost);
+  const totalICT = ictEntries.reduce((a, e) => a + e.cost, 0);
+  const maxICT = ictEntries[0] ? ictEntries[0].cost : 1;
+
+  // Points stops
+  const pointStops = stops.filter(s => parseInt(s.points) > 0);
+  const totalPointsValue = pointStops.reduce((a, s) => a + (parseFloat(s.costPerNight) || 0) * nightsBetween(s.checkin, s.checkout), 0);
+  const pointsUsed = stops.reduce((a, s) => a + (parseInt(s.points) || 0), 0);
+  const pointsLeft = INITIAL_ACCOR - pointsUsed;
+
+  // Food cost by country
+  const foodByCountry = {};
+  countries.forEach(c => {
+    const cs = stops.filter(s => s.country === c);
+    const nights = cs.reduce((a, s) => a + nightsBetween(s.checkin, s.checkout), 0);
+    const total  = cs.reduce((a, s) => a + (parseFloat(s.foodCostPerDay) || 0) * nightsBetween(s.checkin, s.checkout), 0);
+    if (nights) foodByCountry[c] = total / nights;
+  });
+  const maxFood = Math.max(...Object.values(foodByCountry), 1);
+
+  return `
+    <div class="budget-optimizer">
+      <div class="bo-header">
+        <div class="bo-title">💡 Budget Optimizer</div>
+        <div class="bo-subtitle">Ranked opportunities to maximise your ${fmtNZD(BUDGET_PP)} each · ${fmtNZD(BUDGET_COMBINED - calcGrandTotal())} buffer remaining</div>
+      </div>
+      <div class="bo-grid">
+
+        <!-- Cost per night by country -->
+        <div class="bo-card">
+          <div class="bo-card-title">🌍 Avg Cost / Night by Country (pp)</div>
+          ${countries.filter(c => countryAvg[c]).map(c => {
+            const avg = countryAvg[c];
+            const pct = Math.round(avg.ppn / maxPPN * 100);
+            const colour = avg.ppn > 90 ? 'var(--coral)' : avg.ppn > 55 ? 'var(--gold)' : 'var(--green)';
+            return `<div class="bo-bar-row">
+              <div class="bo-bar-label">${COUNTRY_FLAGS[c] || '🌍'} ${c}</div>
+              <div class="bo-bar-wrap"><div class="bo-bar-fill" style="width:${pct}%;background:${colour}"></div></div>
+              <div class="bo-bar-val" style="color:${colour}">${fmtNZD(avg.ppn)}</div>
+            </div>`;
+          }).join('')}
+        </div>
+
+        <!-- Food spend by country -->
+        <div class="bo-card">
+          <div class="bo-card-title">🍜 Food Budget / Day (pp)</div>
+          ${countries.filter(c => foodByCountry[c]).map(c => {
+            const fpd = foodByCountry[c];
+            const pct = Math.round(fpd / maxFood * 100);
+            const colour = fpd > 35 ? 'var(--coral)' : fpd > 22 ? 'var(--gold)' : 'var(--green)';
+            return `<div class="bo-bar-row">
+              <div class="bo-bar-label">${COUNTRY_FLAGS[c] || '🌍'} ${c}</div>
+              <div class="bo-bar-wrap"><div class="bo-bar-fill" style="width:${pct}%;background:${colour}"></div></div>
+              <div class="bo-bar-val" style="color:${colour}">${fmtNZD(fpd)}</div>
+            </div>`;
+          }).join('')}
+        </div>
+
+        <!-- Most expensive stops -->
+        <div class="bo-card">
+          <div class="bo-card-title">🔴 Priciest Stops (pp / night)</div>
+          ${top5Ex.map((s, i) => `
+            <div class="bo-list-row">
+              <span class="bo-rank">${i + 1}</span>
+              <span class="bo-stop-name">${s.dest}</span>
+              <span class="bo-stop-nights">${s.nights}n</span>
+              <span class="bo-stop-cost" style="color:var(--coral)">${fmtNZD(s.ppn)}<small>/night</small></span>
+            </div>`).join('')}
+        </div>
+
+        <!-- Best value stops -->
+        <div class="bo-card">
+          <div class="bo-card-title">🟢 Best Value Stops (pp / night)</div>
+          ${top5Ch.map((s, i) => `
+            <div class="bo-list-row">
+              <span class="bo-rank">${i + 1}</span>
+              <span class="bo-stop-name">${s.dest}</span>
+              <span class="bo-stop-nights">${s.nights}n</span>
+              <span class="bo-stop-cost" style="color:var(--green)">${fmtNZD(s.ppn)}<small>/night</small></span>
+            </div>`).join('')}
+        </div>
+
+        <!-- International flights breakdown -->
+        <div class="bo-card">
+          <div class="bo-card-title">✈ International Flights (combined)</div>
+          ${ictEntries.map(e => {
+            const pct = Math.round(e.cost / maxICT * 100);
+            const colour = e.cost > 2500 ? 'var(--coral)' : e.cost > 800 ? 'var(--gold)' : 'var(--teal)';
+            return `<div class="bo-bar-row">
+              <div class="bo-bar-label" style="font-size:.63rem">${e.key}</div>
+              <div class="bo-bar-wrap"><div class="bo-bar-fill" style="width:${pct}%;background:${colour}"></div></div>
+              <div class="bo-bar-val" style="color:${colour}">${fmtNZD(e.cost)}</div>
+            </div>`;
+          }).join('')}
+          <div style="margin-top:.55rem;padding-top:.45rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:.7rem">
+            <span style="color:rgba(245,237,214,.35)">Total flights (combined)</span>
+            <span style="color:var(--coral);font-weight:600">${fmtNZD(totalICT)}</span>
+          </div>
+        </div>
+
+        <!-- Accor points tracker -->
+        <div class="bo-card" style="border-color:rgba(212,168,67,.3)">
+          <div class="bo-card-title">⭐ Accor Points — ${pointsLeft.toLocaleString()} remaining</div>
+          ${pointStops.map(s => {
+            const n = nightsBetween(s.checkin, s.checkout);
+            const cashVal = (parseFloat(s.costPerNight) || 0) * n;
+            return `<div class="bo-list-row">
+              <span class="bo-stop-name" style="flex:2">${s.dest} <small style="color:rgba(245,237,214,.3)">${n}n</small></span>
+              <span style="color:var(--gold);font-size:.68rem">${parseInt(s.points).toLocaleString()} pts</span>
+              <span style="color:rgba(245,237,214,.25);font-size:.6rem;padding:0 .2rem">≈</span>
+              <span style="color:var(--green);font-size:.68rem;font-weight:600">${fmtNZD(cashVal)}</span>
+            </div>`;
+          }).join('')}
+          <div style="margin-top:.5rem;padding-top:.45rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:.7rem">
+            <span style="color:rgba(245,237,214,.35)">Total points value saved</span>
+            <span style="color:var(--gold);font-weight:600">${fmtNZD(totalPointsValue)}</span>
+          </div>
+          ${pointsLeft > 0 ? `<div style="margin-top:.35rem;font-size:.63rem;color:rgba(212,168,67,.55);line-height:1.4">${pointsLeft.toLocaleString()} pts unallocated — consider Pullman Lombok (12,000 pts/night) or Novotel Vietnam for max redemption value.</div>` : ''}
+        </div>
+
+        <!-- Savings opportunities -->
+        <div class="bo-card" style="border-color:rgba(82,201,122,.25)">
+          <div class="bo-card-title">💰 Top Saving Opportunities</div>
+          <div class="bo-savings-list">
+            <div class="bo-saving-item">
+              <div class="bo-saving-title">🎟 Book Sri Lanka → Peru 3+ months early</div>
+              <div class="bo-saving-desc">Current budget ${fmtNZD((parseFloat((ictData['Sri Lanka→Peru']||{}).cost)||0)*2)} combined. Emirates/Qatar early-bird can save 15–20% — check 6-month advance prices.</div>
+              <div class="bo-saving-amount" style="color:var(--green)">Save ~${fmtNZD(Math.round(((parseFloat((ictData['Sri Lanka→Peru']||{}).cost)||0)*2)*0.15))}</div>
+            </div>
+            <div class="bo-saving-item">
+              <div class="bo-saving-title">🛂 Use Airpoints for the long-haul leg</div>
+              <div class="bo-saving-desc">${INITIAL_AIRPOINTS} Airpoints ≈ $${INITIAL_AIRPOINTS}–${INITIAL_AIRPOINTS*2} off Air NZ redemptions. Best applied to Sri Lanka→Lima or Buenos Aires→Europe. Never burn on short hops.</div>
+              <div class="bo-saving-amount" style="color:var(--green)">Save ~${fmtNZD(INITIAL_AIRPOINTS * 1.5)}</div>
+            </div>
+            <div class="bo-saving-item">
+              <div class="bo-saving-title">🏨 Redeem remaining ${pointsLeft.toLocaleString()} Accor points</div>
+              <div class="bo-saving-desc">Pullman Lombok (12,000 pts/night) or Novotel Saigon area give the best cash equivalent. Don't leave points idle — redeem before the trip ends.</div>
+              <div class="bo-saving-amount" style="color:var(--green)">Save ~${fmtNZD(Math.round(pointsLeft / 4000 * 60))}</div>
+            </div>
+            <div class="bo-saving-item">
+              <div class="bo-saving-title">🍜 Vietnam street food vs sit-down</div>
+              <div class="bo-saving-desc">Current budget ${fmtNZD(foodByCountry['Vietnam']||0)}/day pp. Pho for $1.50, banh mi for $1 — targeting $15/day pp saves $3/day pp across ${stops.filter(s=>s.country==='Vietnam').reduce((a,s)=>a+nightsBetween(s.checkin,s.checkout),0)} nights.</div>
+              <div class="bo-saving-amount" style="color:var(--green)">Save ~${fmtNZD(3 * stops.filter(s=>s.country==='Vietnam').reduce((a,s)=>a+nightsBetween(s.checkin,s.checkout),0) * 2)}</div>
+            </div>
+            <div class="bo-saving-item">
+              <div class="bo-saving-title">🏠 Buenos Aires free apartment (already locked in)</div>
+              <div class="bo-saving-desc">12 free nights in BA (checkout ${stops.find(s=>s.id==='s42')?.checkout||'May'}) worth ~${fmtNZD(12*60)} combined vs market rate. This is your biggest single accommodation saving.</div>
+              <div class="bo-saving-amount" style="color:var(--teal)">Already saving ${fmtNZD(12 * 60)}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Optimised island flow suggestions -->
+        <div class="bo-card" style="border-color:rgba(123,110,255,.3)">
+          <div class="bo-card-title">🏝 Optimised Island Flow</div>
+          <div class="bo-savings-list">
+            <div class="bo-saving-item" style="border-color:rgba(123,110,255,.15)">
+              <div class="bo-saving-title">🇮🇩 Indonesia — ✓ Optimal</div>
+              <div class="bo-saving-desc">Bali hub → Lombok (ferry) → Labuan Bajo (flight, one-way) → exit direct to Philippines. Clean linear flow, no backtracking.</div>
+              <div class="bo-saving-amount" style="color:var(--teal)">Efficient ✓</div>
+            </div>
+            <div class="bo-saving-item" style="border-color:rgba(123,110,255,.15)">
+              <div class="bo-saving-title">🇵🇭 Philippines — Triple Cebu bounce</div>
+              <div class="bo-saving-desc">You transit Cebu 3× (arrival, after Siquijor, before Siargao). A Bato→Ubay ferry (Oslob area → Bohol direct, ~3h) eliminates one Cebu overnight and saves ~${fmtNZD(15+20)} in transit costs.</div>
+              <div class="bo-saving-amount" style="color:var(--gold)">Review routing</div>
+            </div>
+            <div class="bo-saving-item" style="border-color:rgba(123,110,255,.15)">
+              <div class="bo-saving-title">🇻🇳 Vietnam — ✓ Classic North→South</div>
+              <div class="bo-saving-desc">Hanoi → Ha Long → Hue → Hoi An / Da Nang → HCMC → Phu Quoc is the optimal Vietnamese route. No backtracking, right season each stop.</div>
+              <div class="bo-saving-amount" style="color:var(--teal)">Efficient ✓</div>
+            </div>
+            <div class="bo-saving-item" style="border-color:rgba(123,110,255,.15)">
+              <div class="bo-saving-title">🇧🇷 Brazil — ✓ Coastal South</div>
+              <div class="bo-saving-desc">Fortaleza → Maceió → Recife → Salvador → Rio → Florianópolis traces the coast cleanly south. No wasted legs.</div>
+              <div class="bo-saving-amount" style="color:var(--teal)">Efficient ✓</div>
+            </div>
+            <div class="bo-saving-item" style="border-color:rgba(123,110,255,.15)">
+              <div class="bo-saving-title">🇦🇷 Argentina — Ruta 40 loop needs sequencing</div>
+              <div class="bo-saving-desc">Iguazu → Chaco → Jujuy → Salta → Cafayate → (Ruta 40 south) → Patagonia is scenic but the Chaco detour adds ~300km. Consider Chaco as a day trip from Resistencia on the way home from Patagonia instead.</div>
+              <div class="bo-saving-amount" style="color:var(--gold)">Review order</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>`;
+}
+
+// ═══════════════════════════════════════════
 //  BUDGET VIEW
 // ═══════════════════════════════════════════
 function renderBudget() {
   const COUNTRY_ORDER2 = ['Indonesia','Philippines','Vietnam','Sri Lanka','Maldives','Peru','Brazil','Argentina'];
-  let html = '<div class="budget-grid">';
+  let html = renderRouteOptimizer() + renderBudgetOptimizer() + '<div class="budget-grid">';
   let grandTotal = 0;
 
   COUNTRY_ORDER2.forEach(country=>{

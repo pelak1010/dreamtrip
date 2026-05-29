@@ -509,6 +509,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
   </section>
   <div class="phase-ribbon" id="phase-ribbon"></div>
   <div class="banner" id="banner"></div>
+  <div style="text-align:right;padding:.25rem 1rem 0;"><button onclick="resetToDefaults()" style="font-size:.65rem;padding:.2rem .6rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:4px;color:rgba(245,237,214,.45);cursor:pointer;">↺ Reset to defaults</button></div>
   <div id="itin-content"></div>
 </div>
 
@@ -1083,6 +1084,12 @@ function syncActivitiesCost(s) {
 function calcCountryStopsCost(country) {
   const cStops = stops.filter(s=>s.country===country);
   return cStops.reduce((a,s)=>a+calcStopCost(s),0) + calcActivityAllowance(cStops);
+}
+function resetToDefaults() {
+  if(!confirm('Reset all stop costs and transport data to file defaults? This will clear your browser cache for this app.')) return;
+  localStorage.removeItem('dt_stops_v10');
+  localStorage.removeItem('dt_ict_v10');
+  location.reload();
 }
 function calcGrandTotal() {
   let total = stops.reduce((a,s)=>a+calcStopCost(s),0) + calcActivityAllowance(stops);

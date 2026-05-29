@@ -687,6 +687,7 @@ const INITIAL_AIRPOINTS = 400;
 const BUDGET_PP = 15000;
 const BUDGET_COMBINED = 30000;
 const ACTIVITY_ALLOWANCE_PP_DAY = 15;
+const ACCOR_RATE_PER_1000 = 39.38; // NZD value per 1000 Accor points
 
 // ═══════════════════════════════════════════
 //  INTER-COUNTRY TRANSPORT DATA
@@ -1235,9 +1236,13 @@ function calcTransportTotal(s) {
   }
   return parseFloat(s.transport) || 0;
 }
+function calcAccorDiscount(s) {
+  return (parseInt(s.points)||0) * (ACCOR_RATE_PER_1000 / 1000);
+}
 function calcStopCost(s) {
   const n = nightsBetween(s.checkin, s.checkout);
-  const accommodationTotal = (parseFloat(s.costPerNight)||0)*n;
+  const rawAccom = (parseFloat(s.costPerNight)||0)*n;
+  const accommodationTotal = Math.max(0, rawAccom - calcAccorDiscount(s));
   const perPersonTotal = calcTransportTotal(s) + (parseFloat(s.activitiesCost)||0) + (parseFloat(s.foodCostPerDay)||0)*n;
   return accommodationTotal + perPersonTotal*2;
 }
@@ -1845,7 +1850,8 @@ function buildStopCard(s, idx) {
   const co = fmtDateWk(s.checkout);
   const tTotal = calcTransportTotal(s);
   const foodTotal = (parseFloat(s.foodCostPerDay)||0)*nights;
-  const breakdown = nights>0 ? `${nights}n × ${fmtNZD(s.costPerNight)}${tTotal>0?' + '+fmtNZD(tTotal*2)+' transport':''}${foodTotal>0?' + '+fmtNZD(foodTotal*2)+' food':''}${(s.activitiesCost||0)>0?' + '+fmtNZD(s.activitiesCost*2)+' activities':''}` : '';
+  const accorDiscount = calcAccorDiscount(s);
+  const breakdown = nights>0 ? `${nights}n × ${fmtNZD(s.costPerNight)}${accorDiscount>0?' − '+fmtNZD(accorDiscount)+' pts':''}${tTotal>0?' + '+fmtNZD(tTotal*2)+' transport':''}${foodTotal>0?' + '+fmtNZD(foodTotal*2)+' food':''}${(s.activitiesCost||0)>0?' + '+fmtNZD(s.activitiesCost*2)+' activities':''}` : '';
   const accomLabel = ATYPE_LABELS[s.accommodationType||'hotel']||'🏩 Hotel';
   const hasTodo = THINGS_TO_DO[s.dest] && THINGS_TO_DO[s.dest].length>0;
   return `
@@ -2015,7 +2021,8 @@ function updateStop(id, field, value) {
     const co = fmtDateWk(s.checkout);
     const tTotal2 = calcTransportTotal(s);
     const foodTotal2 = (parseFloat(s.foodCostPerDay)||0)*nights;
-    const breakdown = nights>0 ? `${nights}n × ${fmtNZD(s.costPerNight)}${tTotal2>0?' + '+fmtNZD(tTotal2*2)+' transport':''}${foodTotal2>0?' + '+fmtNZD(foodTotal2*2)+' food':''}${(s.activitiesCost||0)>0?' + '+fmtNZD(s.activitiesCost*2)+' activities':''}` : '';
+    const accorDiscount2 = calcAccorDiscount(s);
+    const breakdown = nights>0 ? `${nights}n × ${fmtNZD(s.costPerNight)}${accorDiscount2>0?' − '+fmtNZD(accorDiscount2)+' pts':''}${tTotal2>0?' + '+fmtNZD(tTotal2*2)+' transport':''}${foodTotal2>0?' + '+fmtNZD(foodTotal2*2)+' food':''}${(s.activitiesCost||0)>0?' + '+fmtNZD(s.activitiesCost*2)+' activities':''}` : '';
     const dEl = card.querySelector('.stop-dates');
     if(dEl) dEl.innerHTML = `${ci}${ci&&co?' → '+co:''}${nights?' · '+nights+'n':''}<div class="stop-breakdown">${breakdown}</div>`;
     const cEl = card.querySelector('.stop-cost');
@@ -2076,7 +2083,7 @@ function renderItinerary() {
 
     // Country total bar with inline Add Stop
     html += `<div class="country-total-bar">
-      <div class="ctb-item"><div class="ctb-lbl">Accommodation</div><div class="ctb-val bb-teal">${fmtNZD(cStops.reduce((a,s)=>a+(parseFloat(s.costPerNight)||0)*nightsBetween(s.checkin,s.checkout),0))}</div></div>
+      <div class="ctb-item"><div class="ctb-lbl">Accommodation</div><div class="ctb-val bb-teal">${fmtNZD(cStops.reduce((a,s)=>a+Math.max(0,(parseFloat(s.costPerNight)||0)*nightsBetween(s.checkin,s.checkout)-calcAccorDiscount(s)),0))}</div></div>
       <div class="ctb-item"><div class="ctb-lbl">Internal Transport</div><div class="ctb-val bb-gold">${fmtNZD(cStops.reduce((a,s)=>a+calcTransportTotal(s),0)*2)}</div></div>
       <div class="ctb-item"><div class="ctb-lbl">🍜 Food (approx)</div><div class="ctb-val" style="color:var(--green)">${fmtNZD(cStops.reduce((a,s)=>a+(parseFloat(s.foodCostPerDay)||0)*nightsBetween(s.checkin,s.checkout),0)*2)}</div></div>
       <div class="ctb-item"><div class="ctb-lbl">Activities Buffer</div><div class="ctb-val" style="color:var(--purple)">${fmtNZD(cActivityAllowance)}</div></div>
@@ -2697,9 +2704,8 @@ function renderBudgetOptimizer() {
   const maxICT = ictEntries[0] ? ictEntries[0].cost : 1;
 
   // Points stops
-  const pointStops = stops.filter(s => parseInt(s.points) > 0);
-  const totalPointsValue = pointStops.reduce((a, s) => a + (parseFloat(s.costPerNight) || 0) * nightsBetween(s.checkin, s.checkout), 0);
   const pointsUsed = stops.reduce((a, s) => a + (parseInt(s.points) || 0), 0);
+  const totalPointsValue = pointsUsed * (ACCOR_RATE_PER_1000 / 1000);
   const pointsLeft = INITIAL_ACCOR - pointsUsed;
 
   // Food cost by country

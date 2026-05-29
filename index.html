@@ -725,9 +725,7 @@ const DEFAULT_STOPS = [
   // VIETNAM
   { id:'s14', country:'Vietnam', dest:'Hanoi', hotel:'Silk Path Hotel', checkin:'2026-12-01', checkout:'2026-12-05', costPerNight:40,  points:0,  transport:0,   transportMode:'plane', accommodationType:'hotel',   foodCostPerDay:20, notes:'Hoan Kiem Lake, Old Quarter, Banh Mi breakfast, street food tour' },
   { id:'s15', country:'Vietnam', dest:'Ha Long Bay', hotel:'Day Trip', checkin:'2026-12-04', checkout:'2026-12-04', costPerNight:0,    points:0,     transport:94,  transportMode:'bus',   accommodationType:'hotel',   foodCostPerDay:0,  notes:'Day trip $74pp NZD. Bus from Hanoi $20pp. Limestone karsts, kayaking, emerald caves' },
-  { id:'s16', country:'Vietnam', dest:'Hue', hotel:'Guesthouse', checkin:'2026-12-07', checkout:'2026-12-09', costPerNight:30,  points:0,     transport:25,  transportMode:'bus',   accommodationType:'hostel',  foodCostPerDay:18, notes:'Sleeper bus $25pp. Imperial Citadel, Royal Tombs, Thien Mu Pagoda' },
-  { id:'s17', country:'Vietnam', dest:'Hoi An', hotel:'Airbnb', checkin:'2026-12-09', checkout:'2026-12-14', costPerNight:40,  points:0,     transport:15,  transportMode:'bus',   accommodationType:'airbnb',  foodCostPerDay:18, notes:'Ancient Town lanterns, An Bang Beach, tailor-made clothes, My Son Sanctuary' },
-  { id:'s18', country:'Vietnam', dest:'Da Nang', hotel:'Airbnb', checkin:'2026-12-14', checkout:'2026-12-16', costPerNight:45,  points:0,     transport:8,   transportMode:'bus',   accommodationType:'airbnb',  foodCostPerDay:18, notes:'Marble Mountains, Dragon Bridge fire show, My Khe Beach' },
+  { id:'s18', country:'Vietnam', dest:'Da Nang', hotel:'Airbnb', checkin:'2026-12-07', checkout:'2026-12-14', costPerNight:45,  points:0,     transport:50,  transportMode:'plane', accommodationType:'airbnb',  foodCostPerDay:18, notes:'Fly Hanoi→Da Nang ~$50pp NZD (VietJet, 1.5h). Marble Mountains, Dragon Bridge fire show, My Khe Beach, Ba Na Hills, Son Tra Peninsula, street food in Con Market' },
   { id:'s19', country:'Vietnam', dest:'Ho Chi Minh City', hotel:'Novotel Saigon Centre', checkin:'2026-12-16', checkout:'2026-12-22', costPerNight:65,  points:4000,  transport:65,  transportMode:'plane', accommodationType:'accor',   foodCostPerDay:18, notes:'Fly Da Nang→HCMC ~$66pp NZD (VietJet or Bamboo, 1.5h). Cu Chi Tunnels, Mekong Delta, War Remnants Museum' },
   { id:'s20', country:'Vietnam', dest:'Phu Quoc', hotel:'Airbnb', checkin:'2026-12-22', checkout:'2026-12-29', costPerNight:55,  points:0,     transport:55,  transportMode:'plane', accommodationType:'airbnb',  foodCostPerDay:20, notes:'Fly HCMC→Phu Quoc ~$58pp NZD (VietJet or Bamboo, 1h). Beach time, snorkelling, New Year celebration' },
 
@@ -862,18 +860,6 @@ const THINGS_TO_DO = {
     { icon:'🤿', name:'Snorkelling off the boat', desc:'Clear water around the limestone islands, surprisingly good visibility', price:'Included in cruise' },
     { icon:'🌅', name:'Sunrise from the top deck', desc:'Wake up at 5:30am — the misty sunrise over limestone karsts is incredible', price:'Free' },
     { icon:'🍳', name:'Cooking class on board', desc:'Most 2-day cruises include a Vietnamese cooking demo', price:'Included' },
-  ],
-  'Hue': [
-    { icon:'🏰', name:'Imperial Citadel', desc:'UNESCO World Heritage walled city — allow 3h minimum', price:'~$8pp' },
-    { icon:'⛪', name:'Royal Tombs by motorbike', desc:'Hire a Honda Win and visit Minh Mang, Khai Dinh and Tu Duc tombs', price:'~$15 bike hire' },
-    { icon:'🍜', name:'Bun bo Hue + Com Hen', desc:'Try the spicy local noodle soup and rice with baby clams — unique to Hue', price:'~$3pp meal' },
-    { icon:'⛵', name:'Perfume River boat trip', desc:'Local sampan to Thien Mu Pagoda at dusk', price:'~$8pp' },
-  ],
-  'Hoi An': [
-    { icon:'🏮', name:'Ancient Town at night', desc:'Lantern-lit streets, Thu Bon River reflections — arrive after 6pm', price:'~$5 entry pass' },
-    { icon:'👗', name:'Tailored clothes in 24h', desc:'Bespoke shirts, dresses, suits made to measure — allow 2 fittings', price:'~$25 per item' },
-    { icon:'🚲', name:'Cycling to An Bang Beach', desc:'5km flat cycle through rice paddies to a calm, beautiful beach', price:'~$2 bike hire' },
-    { icon:'🏺', name:'My Son Sanctuary', desc:'Cham Hindu temple ruins in jungle setting — go at sunrise, beat tour buses', price:'~$12pp' },
   ],
   'Da Nang': [
     { icon:'🌉', name:'Dragon Bridge fire & water show', desc:'Saturdays and Sundays 9pm, the bridge breathes fire and shoots water', price:'Free' },
@@ -2865,7 +2851,7 @@ function renderBudgetOptimizer() {
             </div>
             <div class="bo-saving-item" style="border-color:rgba(123,110,255,.15)">
               <div class="bo-saving-title">🇻🇳 Vietnam — ✓ Classic North→South</div>
-              <div class="bo-saving-desc">Hanoi → Ha Long → Hue → Hoi An / Da Nang → HCMC → Phu Quoc is the optimal Vietnamese route. No backtracking, right season each stop.</div>
+              <div class="bo-saving-desc">Hanoi → Ha Long → Da Nang → HCMC → Phu Quoc is the optimal Vietnamese route. No backtracking, right season each stop.</div>
               <div class="bo-saving-amount" style="color:var(--teal)">Efficient ✓</div>
             </div>
             <div class="bo-saving-item" style="border-color:rgba(123,110,255,.15)">
@@ -2949,7 +2935,7 @@ const TIPS = [
   { title:'🏨 Accor Explorer Pass Strategy', text:'Buy the Explorer Pass — gives you Red Hot Rooms (up to 50% off) at Accor properties across Asia. Check if your Amex Platinum NZ already includes this as a benefit before buying. Use points for Mercure transit nights to maximise value.', list:['Mercure Cebu: 4,000 pts × 4 stays = 16,000 pts','Novotel/Ibis Vietnam: ~7,000 pts','Ibis Sri Lanka: ~2,000 pts','Mercure Maldives: 8,000 pts'] },
   { title:'✈ Airpoints Strategy', text:'Your 400 Airpoints are best used for the big expensive legs you can\'t get cheaply:', list:['Sri Lanka → South America (~$950pp) → USE HERE','Buenos Aires → Europe → USE HERE','Never use Airpoints on short hops you can get for $30-90 on AirAsia/Cebu Pacific'] },
   { title:'🏝 Philippines Island Hopping', text:'The best way to do the Philippines is NOT to fly everything. Use the ferry network:', list:['Cebu → Bohol: 2h fast ferry $10pp','Bohol → Siquijor: 1.5h fast ferry $7pp','Cebu → Siargao: fly (~$40pp, no ferry option)','Siargao → Boracay: fly via Manila or Cebu (~$50pp)','Boracay → El Nido: fly via Puerto Princesa (~$40pp)'] },
-  { title:'🇻🇳 Vietnam Transport Hacks', text:'Vietnam has excellent inter-city transport. Sleeper buses are cheap and comfortable:', list:['Hanoi → Ha Long Bay: 3.5h bus included in cruise $8pp','Hanoi → Hue: 13h sleeper bus $20pp or fly $30pp','Hue → Hoi An: 3h bus $8pp (stop at Hai Van Pass)','Hoi An → Da Nang: $3pp taxi share','Da Nang → Ho Chi Minh City: fly 1.5h from $30pp','HCMC → Phu Quoc: fly 1h from $20pp'] },
+  { title:'🇻🇳 Vietnam Transport Hacks', text:'Vietnam has excellent inter-city transport. Sleeper buses and budget flights are cheap and reliable:', list:['Hanoi → Ha Long Bay: 3.5h bus included in cruise $8pp','Hanoi → Da Nang: fly 1.5h from ~$40pp NZD (VietJet/Bamboo)','Da Nang → Ho Chi Minh City: fly 1.5h from $30pp','HCMC → Phu Quoc: fly 1h from $20pp'] },
   { title:'💰 South America Budget Reality', text:'South America is more expensive than Southeast Asia. Budget accordingly:', list:['Peru: $60-80pp/day (food+activities+transport)','Brazil: $70-90pp/day (BRL has been strong)','Argentina: near-zero cost with your apartment & car!','Long-haul flights (the big spend): book 3-4 months early'] },
   { title:'🚗 Argentina Ruta 40 Tips', text:'You have the huge advantage of a family car and Buenos Aires apartment. The Ruta 40 loop is epic:', list:['Route: BA → Bariloche → El Calafate → El Chaltén → Mendoza → BA','Total drive: ~4,500km over ~3 weeks','Fuel cost: ~$340 total combined (very cheap!)','Book hostels in Calafate+Chaltén months ahead — they fill fast','Perito Moreno glacier: book trekking online before you arrive'] },
   { title:'⛽ Argentina Fuel Prices (2027)', text:'Argentine nafta (petrol) is subsidised — among the cheapest in South America. Budget for the Chaco→BA drive:', list:['Chaco (Resistencia) → Buenos Aires: ~1,050km via Ruta 16/9','Family car consumption: ~10L/100km = ~105L total','Nafta Super price: ~1,200–1,500 ARS/L (≈ $1.20–1.50 USD/L)','Total fuel cost: ~$120–160 USD combined (~$60–80pp NZD)','Fill up in Resistencia before leaving — fewer stations on Ruta 16','Carry a 10L jerry can through the Chaco stretch'] },
@@ -2971,8 +2957,7 @@ const ROUTE_COORDS = [
   [-8.4095,115.1889,'Bali'],[-8.6524,116.3240,'Lombok'],[-8.4892,119.8880,'Labuan Bajo'],
   [10.3157,123.8854,'Cebu'],[9.8500,124.1430,'Bohol'],[9.1856,123.5100,'Siquijor'],
   [9.8600,126.0478,'Siargao'],[11.9674,121.9248,'Boracay'],[11.1750,119.4105,'El Nido'],
-  [21.0278,105.8342,'Hanoi'],[20.9099,107.1839,'Ha Long Bay'],[16.4637,107.5909,'Hue'],
-  [15.8801,108.3380,'Hoi An'],[16.0544,108.2022,'Da Nang'],[10.8231,106.6297,'HCMC'],
+  [21.0278,105.8342,'Hanoi'],[20.9099,107.1839,'Ha Long Bay'],[16.0544,108.2022,'Da Nang'],[10.8231,106.6297,'HCMC'],
   [10.2898,103.9840,'Phu Quoc'],[7.8731,80.7718,'Sri Lanka'],[3.2028,73.2207,'Maldives'],
   [-12.0464,-77.0428,'Lima'],[-13.5319,-71.9675,'Cusco'],[-13.1631,-72.5450,'Machu Picchu'],
   [-15.8402,-70.0219,'Puno'],[-3.7172,-38.5433,'Fortaleza'],[-9.6658,-35.7350,'Maceió'],

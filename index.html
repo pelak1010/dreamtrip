@@ -716,7 +716,8 @@ const DEFAULT_STOPS = [
 
   // ARGENTINA
   { id:'s43', country:'Argentina', dest:'Iguazu Falls', hotel:'Airbnb Puerto Iguazú', checkin:'2027-03-13', checkout:'2027-03-16', costPerNight:45, points:0, transport:100, transportMode:'bus', accommodationType:'airbnb', foodCostPerDay:28, notes:'Bus from Porto Alegre/Foz do Iguaçu (Brazil side). Argentina side has the best views. Upper Circuit, Lower Circuit, Devil\'s Throat walkway.' },
-  { id:'s37', country:'Argentina', dest:'Buenos Aires', hotel:'Family Apartment (FREE)', checkin:'2027-03-14', checkout:'2027-03-27', costPerNight:0,   points:0,     transport:45,  transportMode:'bus',   accommodationType:'free',    foodCostPerDay:25, notes:'Bus Porto Alegre→BA $45pp. Free apartment + family car. Tango, La Boca, San Telmo' },
+  { id:'s44', country:'Argentina', dest:'Chaco (Resistencia)', hotel:'Airbnb Resistencia', checkin:'2027-03-16', checkout:'2027-03-23', costPerNight:30, points:0, transport:45, transportMode:'bus', accommodationType:'airbnb', foodCostPerDay:22, notes:'Bus Puerto Iguazú → Resistencia ~8h (~$25 USD pp via Flecha Bus or El Rápido). Capital of Chaco province. Resistencia is the "City of Sculptures" — 700+ outdoor statues. Gran Chaco wetlands, yacarés (caimans), capybaras, exotic birds. Cheap and off the gringo trail.' },
+  { id:'s37', country:'Argentina', dest:'Buenos Aires', hotel:'Family Apartment (FREE)', checkin:'2027-03-23', checkout:'2027-03-27', costPerNight:0,   points:0,     transport:100, transportMode:'drive', accommodationType:'free',    foodCostPerDay:25, notes:'Drive Resistencia → BA ~1,050km via Ruta 16 → Ruta 9. ~11h, fuel ~$120 USD total (family car, ~100L). Arrive home base — collect road trip gear. Tango, La Boca, San Telmo.' },
   { id:'s38', country:'Argentina', dest:'Bariloche', hotel:'Airbnb', checkin:'2027-03-27', checkout:'2027-03-31', costPerNight:45,  points:0,     transport:40,  transportMode:'drive', accommodationType:'airbnb',  foodCostPerDay:30, notes:'Drive south on Ruta 40. Nahuel Huapi lake, Cerro Catedral, chocolate shops' },
   { id:'s39', country:'Argentina', dest:'El Calafate / Perito Moreno', hotel:'Airbnb', checkin:'2027-03-31', checkout:'2027-04-03', costPerNight:50,  points:0,     transport:60,  transportMode:'drive', accommodationType:'airbnb',  foodCostPerDay:35, notes:'Drive Ruta 40 south. Perito Moreno glacier walk, trekking, condors' },
   { id:'s40', country:'Argentina', dest:'El Chaltén', hotel:'Hostel', checkin:'2027-04-03', checkout:'2027-04-05', costPerNight:35,  points:0,     transport:30,  transportMode:'drive', accommodationType:'hostel',  foodCostPerDay:30, notes:'Drive. Fitz Roy trek, Cerro Torre, world-class free hiking, wild camping option' },
@@ -926,6 +927,13 @@ const THINGS_TO_DO = {
     { icon:'🌊', name:'Lagoa da Conceição', desc:'Beautiful saltwater lagoon — kayak, windsurf, or just a beach bar', price:'~$10pp boat' },
     { icon:'🐧', name:'Penguin watching (July-Sept)', desc:'Magellanic penguins sometimes wash up on beaches — seasonal', price:'Free (seasonal)' },
   ],
+  'Chaco (Resistencia)': [
+    { icon:'🗿', name:'Resistencia sculpture circuit', desc:'700+ outdoor sculptures scattered across the city — free open-air museum, unique in South America', price:'Free' },
+    { icon:'🌿', name:'Gran Chaco National Park (El Impenetrable)', desc:'UNESCO-listed subtropical dry forest — jaguars, giant anteaters, tapirs, hundreds of bird species', price:'~$5pp entry' },
+    { icon:'🐊', name:'Esteros del Iberá day trip', desc:'Vast wetland reserve — caimans, capybaras, marsh deer, and spectacular birdlife on boat tours', price:'~$30pp guided tour' },
+    { icon:'🍖', name:'Local asado & locro', desc:'Chaco is cattle country — cheap, excellent BBQ and hearty locro stew, far off the tourist circuit', price:'~$8pp local restaurant' },
+    { icon:'🦜', name:'Chaco bird watching', desc:'One of the best birding regions in South America — horneros, jabiru storks, parrots, hawks', price:'Free (guide ~$20pp)' },
+  ],
   'Iguazu Falls': [
     { icon:'🌊', name:'Devil\'s Throat walkway', desc:'Walk the metal catwalks right over the most powerful cascade — expect to get soaked', price:'~$25pp park entry' },
     { icon:'🚶', name:'Upper & Lower Circuit hike', desc:'Full-day walk through subtropical jungle to 275 individual cascades from above and below', price:'Included in park entry' },
@@ -1003,6 +1011,23 @@ function loadStops() {
         const firstArgIdx = data.findIndex(s => s.country === 'Argentina');
         if (firstArgIdx !== -1) data.splice(firstArgIdx, 0, iguazuStop);
         else data.push(iguazuStop);
+        changed = true;
+      }
+      // Insert Chaco if missing from Argentina
+      if (!data.some(s => s.country === 'Argentina' && s.dest && s.dest.toLowerCase().includes('chaco'))) {
+        const chacoStop = { id:'s44', country:'Argentina', dest:'Chaco (Resistencia)', hotel:'Airbnb Resistencia', checkin:'2027-03-16', checkout:'2027-03-23', costPerNight:30, points:0, transport:45, transportMode:'bus', accommodationType:'airbnb', foodCostPerDay:22, notes:'Bus Puerto Iguazú → Resistencia ~8h (~$25 USD pp via Flecha Bus or El Rápido). Capital of Chaco province. Resistencia is the "City of Sculptures" — 700+ outdoor statues. Gran Chaco wetlands, yacarés (caimans), capybaras, exotic birds. Cheap and off the gringo trail.' };
+        const iguazuIdx = data.findIndex(s => s.country === 'Argentina' && s.dest && s.dest.toLowerCase().includes('iguazu'));
+        if (iguazuIdx !== -1) data.splice(iguazuIdx + 1, 0, chacoStop);
+        else { const firstArgIdx = data.findIndex(s => s.country === 'Argentina'); data.splice(firstArgIdx !== -1 ? firstArgIdx : data.length, 0, chacoStop); }
+        changed = true;
+      }
+      // Fix BA first stay: was overlapping with Iguazu (checkin 2027-03-14), shift to 2027-03-23 after Chaco
+      const baStop = data.find(s => s.id === 's37');
+      if (baStop && baStop.checkin === '2027-03-14') {
+        baStop.checkin = '2027-03-23';
+        baStop.transport = 100;
+        baStop.transportMode = 'drive';
+        baStop.notes = 'Drive Resistencia → BA ~1,050km via Ruta 16 → Ruta 9. ~11h, fuel ~$120 USD total (family car, ~100L). Arrive home base — collect road trip gear. Tango, La Boca, San Telmo.';
         changed = true;
       }
       if(changed) localStorage.setItem('dt_stops_v10', JSON.stringify(data));
@@ -2425,6 +2450,8 @@ const TIPS = [
   { title:'🇻🇳 Vietnam Transport Hacks', text:'Vietnam has excellent inter-city transport. Sleeper buses are cheap and comfortable:', list:['Hanoi → Ha Long Bay: 3.5h bus included in cruise $8pp','Hanoi → Hue: 13h sleeper bus $20pp or fly $30pp','Hue → Hoi An: 3h bus $8pp (stop at Hai Van Pass)','Hoi An → Da Nang: $3pp taxi share','Da Nang → Ho Chi Minh City: fly 1.5h from $30pp','HCMC → Phu Quoc: fly 1h from $20pp'] },
   { title:'💰 South America Budget Reality', text:'South America is more expensive than Southeast Asia. Budget accordingly:', list:['Peru: $60-80pp/day (food+activities+transport)','Brazil: $70-90pp/day (BRL has been strong)','Argentina: near-zero cost with your apartment & car!','Long-haul flights (the big spend): book 3-4 months early'] },
   { title:'🚗 Argentina Ruta 40 Tips', text:'You have the huge advantage of a family car and Buenos Aires apartment. The Ruta 40 loop is epic:', list:['Route: BA → Bariloche → El Calafate → El Chaltén → Mendoza → BA','Total drive: ~4,500km over ~3 weeks','Fuel cost: ~$340 total combined (very cheap!)','Book hostels in Calafate+Chaltén months ahead — they fill fast','Perito Moreno glacier: book trekking online before you arrive'] },
+  { title:'⛽ Argentina Fuel Prices (2027)', text:'Argentine nafta (petrol) is subsidised — among the cheapest in South America. Budget for the Chaco→BA drive:', list:['Chaco (Resistencia) → Buenos Aires: ~1,050km via Ruta 16/9','Family car consumption: ~10L/100km = ~105L total','Nafta Super price: ~1,200–1,500 ARS/L (≈ $1.20–1.50 USD/L)','Total fuel cost: ~$120–160 USD combined (~$60–80pp NZD)','Fill up in Resistencia before leaving — fewer stations on Ruta 16','Carry a 10L jerry can through the Chaco stretch'] },
+  { title:'🗺 Argentina Northeast Loop', text:'Entry via Iguazu, through Chaco, drive home to BA — a great way to see the forgotten north:', list:['Florianópolis → Puerto Iguazú: bus across the border (~$100pp NZD)','Iguazu Falls → Resistencia (Chaco): Flecha Bus ~8h (~$25 USD pp)','Resistencia → Buenos Aires: family car drive ~11h (fuel ~$60pp NZD)','Chaco is totally off the tourist trail — very cheap, authentic Argentina','Gran Chaco National Park (El Impenetrable): UNESCO-listed, best wildlife outside Patagonia'] },
   { title:'🌍 Best Budget Airlines by Region', text:'', list:['Indonesia/Philippines: AirAsia, Cebu Pacific, Philippines Airlines','Vietnam: VietJet, Bamboo, Vietnam Airlines sales','Sri Lanka: SriLankan Airlines, AirArabia','South America: LATAM, Gol, Avianca, JetSmart (Argentina)','Long haul bargains: Emirates, Qatar, Turkish (via hub cities)'] },
   { title:'💳 Money & Exchange Tips', text:'', list:['Argentina: Use ATMs wisely, exchange rates have been volatile','Vietnam: ATM fees add up — withdraw larger amounts less often','Sri Lanka: Colombo ATMs reliable; Ella/rural carry cash','Peru/Brazil: Wise card for best exchange rates','Maldives: USD accepted widely — take cash'] },
 ];
@@ -2448,7 +2475,7 @@ const ROUTE_COORDS = [
   [-12.0464,-77.0428,'Lima'],[-13.5319,-71.9675,'Cusco'],[-13.1631,-72.5450,'Machu Picchu'],
   [-15.8402,-70.0219,'Puno'],[-3.7172,-38.5433,'Fortaleza'],[-9.6658,-35.7350,'Maceió'],
   [-8.0522,-34.9286,'Recife'],[-12.9714,-38.5014,'Salvador'],[-22.9068,-43.1729,'Rio'],
-  [-27.5969,-48.5495,'Florianópolis'],[-34.6037,-58.3816,'Buenos Aires'],
+  [-27.5969,-48.5495,'Florianópolis'],[-25.6953,-54.4367,'Iguazu Falls'],[-27.4514,-58.9867,'Chaco (Resistencia)'],[-34.6037,-58.3816,'Buenos Aires'],
   [-41.1335,-71.3103,'Bariloche'],[-50.3377,-72.2648,'El Calafate'],
   [-49.3310,-72.8860,'El Chaltén'],[-32.8908,-68.8272,'Mendoza'],
 ];

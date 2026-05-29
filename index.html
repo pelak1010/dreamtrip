@@ -2704,6 +2704,7 @@ function renderBudgetOptimizer() {
   const maxICT = ictEntries[0] ? ictEntries[0].cost : 1;
 
   // Points stops
+  const pointStops = stops.filter(s => parseInt(s.points) > 0);
   const pointsUsed = stops.reduce((a, s) => a + (parseInt(s.points) || 0), 0);
   const totalPointsValue = pointsUsed * (ACCOR_RATE_PER_1000 / 1000);
   const pointsLeft = INITIAL_ACCOR - pointsUsed;
@@ -2803,7 +2804,7 @@ function renderBudgetOptimizer() {
           <div class="bo-card-title">⭐ Accor Points — ${pointsLeft.toLocaleString()} remaining</div>
           ${pointStops.map(s => {
             const n = nightsBetween(s.checkin, s.checkout);
-            const cashVal = (parseFloat(s.costPerNight) || 0) * n;
+            const cashVal = (parseInt(s.points) || 0) * (ACCOR_RATE_PER_1000 / 1000);
             return `<div class="bo-list-row">
               <span class="bo-stop-name" style="flex:2">${s.dest} <small style="color:rgba(245,237,214,.3)">${n}n</small></span>
               <span style="color:var(--gold);font-size:.68rem">${parseInt(s.points).toLocaleString()} pts</span>

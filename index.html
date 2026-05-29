@@ -687,6 +687,7 @@ const INITIAL_AIRPOINTS = 400;
 const BUDGET_PP = 15000;
 const BUDGET_COMBINED = 30000;
 const ACTIVITY_ALLOWANCE_PP_DAY = 15;
+const COUNTRY_ACTIVITY_ALLOWANCE = { 'Argentina': 1000 };
 const ACCOR_RATE_PER_1000 = 39.38; // NZD value per 1000 Accor points
 
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
@@ -1233,6 +1234,12 @@ function calcStopCost(s) {
   return accommodationTotal + perPersonTotal*2;
 }
 function calcActivityAllowance(stopList=stops) {
+  const country = stopList.length > 0 && stopList.every(s=>s.country===stopList[0].country) ? stopList[0].country : null;
+  if(country && COUNTRY_ACTIVITY_ALLOWANCE[country] !== undefined) return COUNTRY_ACTIVITY_ALLOWANCE[country];
+  if(!country) {
+    const countries = [...new Set(stopList.map(s=>s.country))];
+    return countries.reduce((t,c)=>t+calcActivityAllowance(stopList.filter(s=>s.country===c)),0);
+  }
   return stopList.reduce((a,s)=>a+nightsBetween(s.checkin,s.checkout),0) * ACTIVITY_ALLOWANCE_PP_DAY * 2;
 }
 function parsePriceNum(str) {

@@ -1878,7 +1878,7 @@ function buildStopCard(s, idx) {
         <div class="sf"><label>Hotel / Stay</label><input value="${s.hotel||''}" onchange="updateStop('${s.id}','hotel',this.value)"></div>
         <div class="sf"><label>Check-in</label><input type="date" value="${s.checkin||''}" onchange="updateStop('${s.id}','checkin',this.value)"></div>
         <div class="sf"><label>Check-out</label><input type="date" value="${s.checkout||''}" onchange="updateStop('${s.id}','checkout',this.value)"></div>
-        <div class="sf"><label>Cost/night (total $)</label><input type="number" value="${s.costPerNight||0}" onchange="updateStop('${s.id}','costPerNight',parseFloat(this.value)||0)"></div>
+        <div class="sf"><label>Cost/night (total $)</label><input type="number" value="${s.costPerNight||0}" onchange="updateStop('${s.id}','costPerNight',parseFloat(this.value)||0)">${(()=>{const n=nightsBetween(s.checkin,s.checkout);const d=calcAccorDiscount(s);const eff=n>0?Math.max(0,(parseFloat(s.costPerNight)||0)-d/n):(parseFloat(s.costPerNight)||0);return d>0?`<div style="font-size:.6rem;color:var(--teal);margin-top:.2rem">→ ${fmtNZD(eff)}/n effective after pts</div>`:''})()}</div>
         <div class="sf"><label>Accor Points</label><input type="number" value="${s.points||0}" onchange="updateStop('${s.id}','points',parseInt(this.value)||0)"></div>
         <div class="sf"><label>🍜 Food/day (pp $) <span style="font-weight:400;opacity:.5">approx</span></label><input type="number" value="${s.foodCostPerDay||0}" onchange="updateStop('${s.id}','foodCostPerDay',parseFloat(this.value)||0)"></div>
         <div class="sf"><label>Transport cost (pp $)</label><input type="number" value="${s.transport||0}" onchange="updateStop('${s.id}','transport',parseFloat(this.value)||0)"></div>

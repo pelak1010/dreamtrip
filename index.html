@@ -1851,7 +1851,9 @@ function buildStopCard(s, idx) {
   const tTotal = calcTransportTotal(s);
   const foodTotal = (parseFloat(s.foodCostPerDay)||0)*nights;
   const accorDiscount = calcAccorDiscount(s);
-  const breakdown = nights>0 ? `${nights}n × ${fmtNZD(s.costPerNight)}${accorDiscount>0?' − '+fmtNZD(accorDiscount)+' pts':''}${tTotal>0?' + '+fmtNZD(tTotal*2)+' transport':''}${foodTotal>0?' + '+fmtNZD(foodTotal*2)+' food':''}${(s.activitiesCost||0)>0?' + '+fmtNZD(s.activitiesCost*2)+' activities':''}` : '';
+  const effectiveCPN = nights>0 ? Math.max(0, (parseFloat(s.costPerNight)||0) - accorDiscount/nights) : (parseFloat(s.costPerNight)||0);
+  const accomPart = accorDiscount>0 ? `${nights}n × ${fmtNZD(effectiveCPN)}/n (was ${fmtNZD(s.costPerNight)}, −${fmtNZD(accorDiscount)} pts)` : `${nights}n × ${fmtNZD(s.costPerNight)}`;
+  const breakdown = nights>0 ? `${accomPart}${tTotal>0?' + '+fmtNZD(tTotal*2)+' transport':''}${foodTotal>0?' + '+fmtNZD(foodTotal*2)+' food':''}${(s.activitiesCost||0)>0?' + '+fmtNZD(s.activitiesCost*2)+' activities':''}` : '';
   const accomLabel = ATYPE_LABELS[s.accommodationType||'hotel']||'🏩 Hotel';
   const hasTodo = THINGS_TO_DO[s.dest] && THINGS_TO_DO[s.dest].length>0;
   return `
@@ -2022,7 +2024,9 @@ function updateStop(id, field, value) {
     const tTotal2 = calcTransportTotal(s);
     const foodTotal2 = (parseFloat(s.foodCostPerDay)||0)*nights;
     const accorDiscount2 = calcAccorDiscount(s);
-    const breakdown = nights>0 ? `${nights}n × ${fmtNZD(s.costPerNight)}${accorDiscount2>0?' − '+fmtNZD(accorDiscount2)+' pts':''}${tTotal2>0?' + '+fmtNZD(tTotal2*2)+' transport':''}${foodTotal2>0?' + '+fmtNZD(foodTotal2*2)+' food':''}${(s.activitiesCost||0)>0?' + '+fmtNZD(s.activitiesCost*2)+' activities':''}` : '';
+    const effectiveCPN2 = nights>0 ? Math.max(0, (parseFloat(s.costPerNight)||0) - accorDiscount2/nights) : (parseFloat(s.costPerNight)||0);
+    const accomPart2 = accorDiscount2>0 ? `${nights}n × ${fmtNZD(effectiveCPN2)}/n (was ${fmtNZD(s.costPerNight)}, −${fmtNZD(accorDiscount2)} pts)` : `${nights}n × ${fmtNZD(s.costPerNight)}`;
+    const breakdown = nights>0 ? `${accomPart2}${tTotal2>0?' + '+fmtNZD(tTotal2*2)+' transport':''}${foodTotal2>0?' + '+fmtNZD(foodTotal2*2)+' food':''}${(s.activitiesCost||0)>0?' + '+fmtNZD(s.activitiesCost*2)+' activities':''}` : '';
     const dEl = card.querySelector('.stop-dates');
     if(dEl) dEl.innerHTML = `${ci}${ci&&co?' → '+co:''}${nights?' · '+nights+'n':''}<div class="stop-breakdown">${breakdown}</div>`;
     const cEl = card.querySelector('.stop-cost');

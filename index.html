@@ -1841,9 +1841,10 @@ const ATYPE_LABELS = { accor:'🏨 Accor', airbnb:'🏠 Airbnb', hostel:'🛏 Ho
 function buildStopCard(s, idx) {
   const nights = nightsBetween(s.checkin, s.checkout);
   const cost = calcStopCost(s);
+  const tTotal = calcTransportTotal(s);
+  const displayCost = cost - tTotal * 2;
   const ci = fmtDateWk(s.checkin);
   const co = fmtDateWk(s.checkout);
-  const tTotal = calcTransportTotal(s);
   const foodTotal = (parseFloat(s.foodCostPerDay)||0)*nights;
   const accorDiscount = calcAccorDiscount(s);
   const effectiveCPN = nights>0 ? Math.max(0, (parseFloat(s.costPerNight)||0) - accorDiscount/nights) : (parseFloat(s.costPerNight)||0);
@@ -1861,7 +1862,7 @@ function buildStopCard(s, idx) {
       <div class="stop-dates">${ci}${ci&&co?' → '+co:''}${nights?' · '+nights+'n':''}
         <div class="stop-breakdown">${breakdown}</div>
       </div>
-      <div class="stop-cost">${cost>0?fmtNZD(cost):cost===0&&nights===0?'—':fmtNZD(cost)}</div>
+      <div class="stop-cost">${displayCost>0?fmtNZD(displayCost):displayCost===0&&nights===0?'—':fmtNZD(displayCost)}</div>
       ${s.points>0?`<div class="stop-points-badge">⭐ ${(s.points).toLocaleString()}pts</div>`:''}
       <div class="stop-accom-type">${accomLabel}</div>
       <div class="stop-food-badge">Food ${fmtNZD(s.foodCostPerDay||0)}/day pp</div>

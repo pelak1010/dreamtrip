@@ -2743,6 +2743,7 @@ function renderBudgetOptimizer() {
         <!-- Cost per night by country -->
         <div class="bo-card">
           <div class="bo-card-title">🌍 Avg Cost / Night by Country (pp)</div>
+          <div style="font-size:0.72rem;color:var(--muted);margin:-4px 0 10px;line-height:1.4;">Accommodation only · per person · averaged across all stops in that country</div>
           ${countries.filter(c => countryAvg[c]).map(c => {
             const avg = countryAvg[c];
             const pct = Math.round(avg.ppn / maxPPN * 100);

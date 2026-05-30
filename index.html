@@ -756,8 +756,8 @@ const DEFAULT_STOPS = [
   { id:'s35', country:'Brazil', dest:'Rio de Janeiro', hotel:'Airbnb Santa Teresa', checkin:'2027-02-21', checkout:'2027-02-25', costPerNight:30,  points:12000, transport:130, transportMode:'plane', accommodationType:'airbnb',  foodCostPerDay:28, notes:'Fly Salvador→Rio ~$132pp NZD (LATAM or Azul, 2.5h). Christ the Redeemer, Sugarloaf, Ipanema, Lapa arches nightlife' },
   { id:'s36', country:'Brazil', dest:'Florianópolis', hotel:'Airbnb', checkin:'2027-02-25', checkout:'2027-02-27', costPerNight:25,  points:10000, transport:50,  transportMode:'bus',   accommodationType:'airbnb',  foodCostPerDay:32, notes:'Bus $50pp. Lagoa, Joaquina dunes, surf beaches, chill before Argentina' },
   { id:'s37', country:'Brazil', dest:'Gramado', hotel:'Airbnb', checkin:'2027-02-27', checkout:'2027-02-28', costPerNight:25, points:0, transport:57, transportMode:'bus', accommodationType:'airbnb', foodCostPerDay:15, notes:'Bus Florianópolis → Gramado ~$57pp NZD. Charming mountain town with European architecture, chocolate shops, Canela nearby.' },
-  { id:'s41', country:'Brazil', dest:'Porto Alegre', hotel:'Layover', checkin:'2027-02-28', checkout:'2027-02-28', costPerNight:0, points:0, transport:24, transportMode:'bus', accommodationType:'hotel', foodCostPerDay:10, notes:'Bus Gramado → Porto Alegre ~$24pp NZD. Transit only — no overnight stay.' },
-  { id:'s42', country:'Brazil', dest:'Foz do Iguaçu', hotel:'Layover', checkin:'2027-02-28', checkout:'2027-02-28', costPerNight:0, points:0, transport:146, transportMode:'plane', accommodationType:'hotel', foodCostPerDay:10, notes:'Fly Porto Alegre → Foz do Iguaçu ~$146pp NZD. Transit — Brazil side only, cross bridge to Puerto Iguazú Argentina.' },
+  { id:'s41', country:'Brazil', dest:'Porto Alegre', hotel:'Layover', checkin:'2027-02-28', checkout:'2027-02-28', costPerNight:0, points:0, transport:24, transportMode:'bus', accommodationType:'layover', foodCostPerDay:10, notes:'Bus Gramado → Porto Alegre ~$24pp NZD. Transit only — no overnight stay.' },
+  { id:'s42', country:'Brazil', dest:'Foz do Iguaçu', hotel:'Layover', checkin:'2027-02-28', checkout:'2027-02-28', costPerNight:0, points:0, transport:146, transportMode:'plane', accommodationType:'layover', foodCostPerDay:10, notes:'Fly Porto Alegre → Foz do Iguaçu ~$146pp NZD. Transit — Brazil side only, cross bridge to Puerto Iguazú Argentina.' },
 
   // ARGENTINA
   { id:'s43', country:'Argentina', dest:'Iguazu Falls', hotel:'Airbnb Puerto Iguazú', checkin:'2027-02-28', checkout:'2027-03-03', costPerNight:45, points:0, transport:100, transportMode:'bus', accommodationType:'airbnb', foodCostPerDay:15, notes:'Bus Florianópolis → Foz do Iguaçu (Brazil side) ~12h (~$80pp NZD via Pluma/Catarinense), then cross to Puerto Iguazú, Argentina by bridge ($5 USD). Airbnb in Puerto Iguazú town ~$40–50/night — book ahead, town is small. Food: ~$25–30pp/day — parrilla dinner ~$15–20pp, empanadas $2–3 each, market breakfast $5. Park entry ~$25 USD pp — buy online before arriving. Upper Circuit, Lower Circuit, Devil\'s Throat walkway (all 3 in 2 days easily).' },
@@ -1839,7 +1839,7 @@ function onStopDrop(e, targetId) {
 // ═══════════════════════════════════════════
 //  STOP CARD
 // ═══════════════════════════════════════════
-const ATYPE_LABELS = { accor:'🏨 Accor', airbnb:'🏠 Airbnb', hostel:'🛏 Hostel', hotel:'🏩 Hotel', free:'🆓 Free' };
+const ATYPE_LABELS = { accor:'🏨 Accor', airbnb:'🏠 Airbnb', hostel:'🛏 Hostel', hotel:'🏩 Hotel', free:'🆓 Free', layover:'✈ Layover' };
 function buildStopCard(s, idx) {
   const nights = nightsBetween(s.checkin, s.checkout);
   const cost = calcStopCost(s);

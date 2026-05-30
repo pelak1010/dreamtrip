@@ -695,7 +695,7 @@ const ACCOR_RATE_PER_1000 = 39.38; // NZD value per 1000 Accor points
 //  These are the flights/transport BETWEEN countries
 // ═══════════════════════════════════════════
 const DEFAULT_ICT = {
-  'Indonesia→Philippines': { mode:'plane', icon:'✈', label:'Flight', route:'Labuan Bajo → Bali → Cebu via KL', cost:360, notes:'Fly LBJ→Bali (~$130pp NZD, 1.5h) + AirAsia Bali→KL→Cebu (~$230pp NZD). Can overnight in Bali if connection is tight.' },
+  'Indonesia→Philippines': { mode:'plane', icon:'✈', label:'Flight', route:'Bali → Philippines', cost:249, notes:'Fly Bali→Philippines $249pp NZD.' },
   'Philippines→Vietnam':   { mode:'plane', icon:'✈', label:'Flight', route:'Coron → Manila → Vietnam', cost:300, notes:'Coron → Manila → Vietnam (Hanoi). ~$300pp NZD.' },
   'Vietnam→Sri Lanka':     { mode:'plane', icon:'✈', label:'Flight', route:'Ho Chi Minh → Colombo', cost:350, notes:'AirAsia or SriLankan via KL/indirect ~$350pp NZD. No direct flight.' },
   'Sri Lanka→Peru':        { mode:'plane', icon:'✈', label:'Flight', route:'Colombo → Lima (via Dubai/Doha)', cost:2000, notes:'Emirates via Dubai or Qatar via Doha ~$2,000pp NZD. Cheapest live price ~$1,850pp — budgeted with buffer. Book 3+ months early — use Airpoints!' },
@@ -710,8 +710,8 @@ const DEFAULT_STOPS = [
   // INDONESIA
   { id:'s1',  country:'Indonesia', dest:'Bali', hotel:'Mercure Bali Nusa Dua', checkin:'2026-10-21', checkout:'2026-10-24', costPerNight:60,  points:4000,  transport:0,   transportMode:'plane', accommodationType:'accor',   foodCostPerDay:15, notes:'Arrive 22:30. Explore Nusa Dua, Seminyak, Uluwatu' },
   { id:'s2',  country:'Indonesia', dest:'Lombok', hotel:'Pullman Lombok', checkin:'2026-10-24', checkout:'2026-10-27', costPerNight:78,  points:6000, transport:36,  transportMode:'ferry', accommodationType:'accor',   foodCostPerDay:15, notes:'Ferry $18pp each way. Gili islands day trip, Mount Rinjani views' },
-  { id:'s2b', country:'Indonesia', dest:'Bali', hotel:'', checkin:'2026-10-27', checkout:'2026-10-27', costPerNight:0, points:0, transport:72, transportMode:'ferry', accommodationType:'hotel', foodCostPerDay:15, notes:'Ferry Lombok→Bali $36pp. Transit day only — not spending the night. Connect to flight to Labuan Bajo.' },
-  { id:'s3',  country:'Indonesia', dest:'Labuan Bajo (Komodo)', hotel:'Budget Guesthouse', checkin:'2026-10-27', checkout:'2026-10-30', costPerNight:25, points:0,     transport:287, transportMode:'plane', accommodationType:'hotel',   foodCostPerDay:15, notes:'Fly Bali→Labuan Bajo $287pp NZD round trip (AirAsia or Batik Air, 1.5h). Komodo dragon tour + liveaboard snorkel' },
+  { id:'s3',  country:'Indonesia', dest:'Labuan Bajo (Komodo)', hotel:'Budget Guesthouse', checkin:'2026-10-27', checkout:'2026-10-30', costPerNight:25, points:0,     transport:180, transportMode:'plane', accommodationType:'hotel',   foodCostPerDay:15, notes:'Fly Lombok→Labuan Bajo $180pp NZD (AirAsia or Batik Air, ~2h). Komodo dragon tour + liveaboard snorkel' },
+  { id:'s3b', country:'Indonesia', dest:'Bali', hotel:'', checkin:'2026-10-30', checkout:'2026-10-31', costPerNight:0, points:0, transport:139, transportMode:'plane', accommodationType:'hotel', foodCostPerDay:10, notes:'Fly Labuan Bajo→Bali $139pp NZD. Transit/stopover before Philippines flight.' },
 
   // PHILIPPINES
   { id:'s4',  country:'Philippines', dest:'Cebu (transit)', hotel:'Hostel/Budget', checkin:'2026-10-31', checkout:'2026-11-01', costPerNight:30,  points:0,     transport:0,   transportMode:'plane', accommodationType:'hostel',  foodCostPerDay:20, notes:'Arrive 12pm via KL. Chill day, recover from travel' },
@@ -2996,7 +2996,7 @@ function renderTips() {
 // ═══════════════════════════════════════════
 let globeInited = false, globeAnimFrame;
 const ROUTE_COORDS = [
-  [-8.4095,115.1889,'Bali'],[-8.6524,116.3240,'Lombok'],[-8.4892,119.8880,'Labuan Bajo'],
+  [-8.4095,115.1889,'Bali'],[-8.6524,116.3240,'Lombok'],[-8.4892,119.8880,'Labuan Bajo'],[-8.4095,115.1889,'Bali'],
   [10.3157,123.8854,'Cebu'],[9.8500,124.1430,'Bohol'],[9.1856,123.5100,'Siquijor'],
   [9.8600,126.0478,'Siargao'],[11.9674,121.9248,'Boracay'],[11.1750,119.4105,'El Nido'],
   [21.0278,105.8342,'Hanoi'],[20.9099,107.1839,'Ha Long Bay'],[16.0544,108.2022,'Da Nang'],[10.8231,106.6297,'HCMC'],

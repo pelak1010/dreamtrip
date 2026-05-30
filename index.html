@@ -2718,6 +2718,20 @@ function renderBudgetOptimizer() {
   });
   const maxFood = Math.max(...Object.values(foodByCountry), 1);
 
+  // Accommodation-only cost by country (pp / night, net of Accor discounts)
+  const accomByCountry = {};
+  countries.forEach(c => {
+    const cs = stopCosts.filter(s => s.country === c);
+    if (!cs.length) return;
+    const nights = cs.reduce((a, s) => a + s.nights, 0);
+    const total  = cs.reduce((a, s) => {
+      const rawAccom = (parseFloat(s.costPerNight) || 0) * s.nights;
+      return a + Math.max(0, rawAccom - calcAccorDiscount(s));
+    }, 0);
+    if (nights) accomByCountry[c] = total / nights / 2;
+  });
+  const maxAccom = Math.max(...Object.values(accomByCountry), 1);
+
   return `
     <div class="budget-optimizer">
       <div class="bo-header">
@@ -2754,6 +2768,22 @@ function renderBudgetOptimizer() {
               <div class="bo-bar-val" style="color:${colour}">${fmtNZD(fpd)}</div>
             </div>`;
           }).join('')}
+        </div>
+
+        <!-- Accommodation cost by country -->
+        <div class="bo-card">
+          <div class="bo-card-title">🛏 Avg Accommodation / Night by Country (pp)</div>
+          ${countries.filter(c => accomByCountry[c] !== undefined).map(c => {
+            const apn = accomByCountry[c];
+            const pct = Math.round(apn / maxAccom * 100);
+            const colour = apn > 80 ? 'var(--coral)' : apn > 45 ? 'var(--gold)' : 'var(--green)';
+            return `<div class="bo-bar-row">
+              <div class="bo-bar-label">${COUNTRY_FLAGS[c] || '🌍'} ${c}</div>
+              <div class="bo-bar-wrap"><div class="bo-bar-fill" style="width:${pct}%;background:${colour}"></div></div>
+              <div class="bo-bar-val" style="color:${colour}">${fmtNZD(apn)}</div>
+            </div>`;
+          }).join('')}
+          <div style="margin-top:.55rem;padding-top:.45rem;border-top:1px solid var(--border);font-size:.62rem;color:rgba(245,237,214,.3);line-height:1.4">Per person · net of Accor points redemptions</div>
         </div>
 
         <!-- Most expensive stops -->

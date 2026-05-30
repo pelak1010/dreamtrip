@@ -1345,7 +1345,7 @@ const COUNTRY_META = {
     bg:'https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=1600&q=70' },
   Argentina:    { flag:'🇦🇷', color:'#5BB3D8', accent:'#FFC857', phase:'Home Base',
     visa:'NZ passport · visa-free 90d',
-    currency:'1 NZD ≈ 600 ARS · volatile, Western Union best',
+    currency:'1 NZD ≈ 830 ARS · dolar mep',
     weather:'🍂 BA 16–24°C autumn · Patagonia 0–10°C · cold!',
     bg:'https://images.unsplash.com/photo-1589909202802-8f4aadce1849?w=1600&q=70' },
 };
@@ -3219,7 +3219,7 @@ function scrollToCountry(idSlug){
   const rateCache = {};
 
   // Fallback rates relative to USD (updated May 2026 — live API tried first)
-  const FALLBACK_USD = {USD:1,EUR:0.924,GBP:0.790,AUD:1.557,NZD:1.692,IDR:16350,PHP:56.5,VND:25450,LKR:300,MVR:15.4,PEN:3.72,BRL:5.72,ARS:1065,SGD:1.347,THB:34.1,JPY:144.5};
+  const FALLBACK_USD = {USD:1,EUR:0.924,GBP:0.790,AUD:1.557,NZD:1.692,IDR:16350,PHP:56.5,VND:25450,LKR:300,MVR:15.4,PEN:3.72,BRL:5.72,ARS:1409,SGD:1.347,THB:34.1,JPY:144.5};
 
   function toUSD(amount, cur) {
     return cur === 'USD' ? amount : amount / FALLBACK_USD[cur];

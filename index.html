@@ -2733,6 +2733,16 @@ function renderBudgetOptimizer() {
   });
   const maxAccom = Math.max(...Object.values(accomByCountry), 1);
 
+  // Internal transport cost by country (pp / day, averaged across nights in that country)
+  const transportByCountry = {};
+  countries.forEach(c => {
+    const cs = stops.filter(s => s.country === c);
+    const nights = cs.reduce((a, s) => a + nightsBetween(s.checkin, s.checkout), 0);
+    const total  = cs.reduce((a, s) => a + calcTransportTotal(s), 0);
+    if (nights) transportByCountry[c] = { ppd: total / Math.max(1, nights), total };
+  });
+  const maxTransport = Math.max(...Object.values(transportByCountry).map(v => v.ppd), 1);
+
   return `
     <div class="budget-optimizer">
       <div class="bo-header">
@@ -2786,6 +2796,23 @@ function renderBudgetOptimizer() {
             </div>`;
           }).join('')}
           <div style="margin-top:.55rem;padding-top:.45rem;border-top:1px solid var(--border);font-size:.62rem;color:rgba(245,237,214,.3);line-height:1.4">Per person · net of Accor points redemptions</div>
+        </div>
+
+        <!-- Internal transport cost by country -->
+        <div class="bo-card">
+          <div class="bo-card-title">🚌 Avg Internal Transport / Day (pp)</div>
+          <div style="font-size:0.72rem;color:var(--muted);margin:-4px 0 10px;line-height:1.4;">Local transport within each country · per person · averaged across all nights in that country</div>
+          ${countries.filter(c => transportByCountry[c]).map(c => {
+            const t = transportByCountry[c];
+            const pct = Math.round(t.ppd / maxTransport * 100);
+            const colour = t.ppd > 20 ? 'var(--coral)' : t.ppd > 10 ? 'var(--gold)' : 'var(--green)';
+            return `<div class="bo-bar-row">
+              <div class="bo-bar-label">${COUNTRY_FLAGS[c] || '🌍'} ${c}</div>
+              <div class="bo-bar-wrap"><div class="bo-bar-fill" style="width:${pct}%;background:${colour}"></div></div>
+              <div class="bo-bar-val" style="color:${colour}">${fmtNZD(t.ppd)}<small>/day</small></div>
+            </div>`;
+          }).join('')}
+          <div style="margin-top:.55rem;padding-top:.45rem;border-top:1px solid var(--border);font-size:.62rem;color:rgba(245,237,214,.3);line-height:1.4">Includes all legs (flights, ferries, buses, taxis) entered per stop</div>
         </div>
 
         <!-- Most expensive stops -->

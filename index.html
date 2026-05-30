@@ -1896,6 +1896,7 @@ function buildStopCard(s, idx) {
             <option value="airbnb" ${(s.accommodationType||'')==='airbnb'?'selected':''}>Airbnb</option>
             <option value="hostel" ${(s.accommodationType||'')==='hostel'?'selected':''}>Hostel</option>
             <option value="free" ${(s.accommodationType||'')==='free'?'selected':''}>Free / Family</option>
+            <option value="layover" ${(s.accommodationType||'')==='layover'?'selected':''}>Layover / Transit</option>
           </select>
         </div>
         <div class="sf" style="grid-column:1/-1"><label>Notes & Activities</label><textarea onchange="updateStop('${s.id}','notes',this.value)">${s.notes||''}</textarea></div>

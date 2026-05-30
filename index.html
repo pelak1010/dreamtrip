@@ -700,7 +700,7 @@ const DEFAULT_ICT = {
   'Vietnam→Sri Lanka':     { mode:'plane', icon:'✈', label:'Flight', route:'Ho Chi Minh → Colombo', cost:350, notes:'AirAsia or SriLankan via KL/indirect ~$350pp NZD. No direct flight.' },
   'Sri Lanka→Peru':        { mode:'plane', icon:'✈', label:'Flight', route:'Colombo → Lima (via Dubai/Doha)', cost:2000, notes:'Emirates via Dubai or Qatar via Doha ~$2,000pp NZD. Cheapest live price ~$1,850pp — budgeted with buffer. Book 3+ months early — use Airpoints!' },
   'Peru→Brazil':           { mode:'plane', icon:'✈', label:'Flight', route:'Lima → Fortaleza', cost:510, notes:'LATAM or Avianca via Bogotá/São Paulo. Live price from ~$301 USD (~$510pp NZD). No direct — allow 1 connection.' },
-  'Brazil→Argentina':      { mode:'bus',   icon:'🚌', label:'Bus/Drive', route:'Porto Alegre → Buenos Aires', cost:120, notes:'Overnight bus from ~$71 USD (~$120pp NZD) via Busbud/Flecha Bus. ~21h. Or fly Gol/LATAM ~$200pp NZD.' },
+  'Brazil→Argentina':      { mode:'bus',   icon:'🚌', label:'Bus/Drive', route:'Florianópolis → Gramado', cost:57, notes:'Bus Florianópolis → Gramado ~$57pp NZD.' },
 };
 
 // ═══════════════════════════════════════════
@@ -748,12 +748,12 @@ const DEFAULT_STOPS = [
   { id:'s30', country:'Peru', dest:'Lake Titicaca', hotel:'Airbnb Puno', checkin:'2027-02-03', checkout:'2027-02-06', costPerNight:30,  points:0,     transport:30,  transportMode:'bus',   accommodationType:'airbnb',  foodCostPerDay:20, notes:'Overnight bus Cusco→Puno $30pp. Uros floating islands, Taquile, Bolivia day trip option' },
 
   // BRAZIL
-  { id:'s31', country:'Brazil', dest:'Fortaleza / Jericoacoara', hotel:'Airbnb', checkin:'2027-02-06', checkout:'2027-02-10', costPerNight:55,  points:0,     transport:0,   transportMode:'plane', accommodationType:'airbnb',  foodCostPerDay:30, notes:'Fly Lima→Fortaleza. Jeri dunes, lagoons, kitesurfing, sunsets' },
-  { id:'s32', country:'Brazil', dest:'Maceió / Porto de Galinhas', hotel:'Airbnb', checkin:'2027-02-10', checkout:'2027-02-14', costPerNight:50,  points:0,     transport:100, transportMode:'plane', accommodationType:'airbnb',  foodCostPerDay:28, notes:'Fly Fortaleza→Maceió ~$99pp NZD (Azul or Gol, 1.5h). Porto de Galinhas natural pools, Maragogi reefs, Maceió beaches' },
-  { id:'s33', country:'Brazil', dest:'Recife / Olinda', hotel:'Airbnb', checkin:'2027-02-14', checkout:'2027-02-17', costPerNight:45,  points:0,     transport:20,  transportMode:'bus',   accommodationType:'airbnb',  foodCostPerDay:28, notes:'Bus $20pp. Olinda colonial hilltop, Marco Zero, Caruaru day trip' },
-  { id:'s34', country:'Brazil', dest:'Salvador', hotel:'Airbnb Pelourinho', checkin:'2027-02-17', checkout:'2027-02-21', costPerNight:50,  points:0,     transport:40,  transportMode:'bus',   accommodationType:'airbnb',  foodCostPerDay:28, notes:'Bus $40pp. Pelourinho, Capoeira, Afro-Brazilian culture, Mercado Modelo' },
-  { id:'s35', country:'Brazil', dest:'Rio de Janeiro', hotel:'Airbnb Santa Teresa', checkin:'2027-02-21', checkout:'2027-02-25', costPerNight:70,  points:0,     transport:130, transportMode:'plane', accommodationType:'airbnb',  foodCostPerDay:38, notes:'Fly Salvador→Rio ~$132pp NZD (LATAM or Azul, 2.5h). Christ the Redeemer, Sugarloaf, Ipanema, Lapa arches nightlife' },
-  { id:'s36', country:'Brazil', dest:'Florianópolis', hotel:'Airbnb', checkin:'2027-02-25', checkout:'2027-02-27', costPerNight:55,  points:0,     transport:50,  transportMode:'bus',   accommodationType:'airbnb',  foodCostPerDay:32, notes:'Bus $50pp. Lagoa, Joaquina dunes, surf beaches, chill before Argentina' },
+  { id:'s31', country:'Brazil', dest:'Fortaleza / Jericoacoara', hotel:'Airbnb', checkin:'2027-02-06', checkout:'2027-02-10', costPerNight:30,  points:4000,  transport:0,   transportMode:'plane', accommodationType:'airbnb',  foodCostPerDay:20, notes:'Fly Lima→Fortaleza. Jeri dunes, lagoons, kitesurfing, sunsets' },
+  { id:'s32', country:'Brazil', dest:'Porto de Galinhas', hotel:'Airbnb', checkin:'2027-02-10', checkout:'2027-02-14', costPerNight:31,  points:0,     transport:100, transportMode:'plane', accommodationType:'airbnb',  foodCostPerDay:28, notes:'Fly Fortaleza→Porto de Galinhas area ~$99pp NZD (Azul or Gol, 1.5h). Porto de Galinhas natural pools, Maragogi reefs' },
+  { id:'s33', country:'Brazil', dest:'Maceió', hotel:'Airbnb', checkin:'2027-02-14', checkout:'2027-02-17', costPerNight:40,  points:0,     transport:20,  transportMode:'bus',   accommodationType:'airbnb',  foodCostPerDay:28, notes:'Bus $20pp. Maceió beaches, Ponta Verde, Maragogi day trip' },
+  { id:'s34', country:'Brazil', dest:'Salvador', hotel:'Airbnb Pelourinho', checkin:'2027-02-17', checkout:'2027-02-21', costPerNight:38,  points:0,     transport:40,  transportMode:'bus',   accommodationType:'airbnb',  foodCostPerDay:28, notes:'Bus $40pp. Pelourinho, Capoeira, Afro-Brazilian culture, Mercado Modelo' },
+  { id:'s35', country:'Brazil', dest:'Rio de Janeiro', hotel:'Airbnb Santa Teresa', checkin:'2027-02-21', checkout:'2027-02-25', costPerNight:30,  points:12000, transport:130, transportMode:'plane', accommodationType:'airbnb',  foodCostPerDay:38, notes:'Fly Salvador→Rio ~$132pp NZD (LATAM or Azul, 2.5h). Christ the Redeemer, Sugarloaf, Ipanema, Lapa arches nightlife' },
+  { id:'s36', country:'Brazil', dest:'Florianópolis', hotel:'Airbnb', checkin:'2027-02-25', checkout:'2027-02-27', costPerNight:25,  points:10000, transport:50,  transportMode:'bus',   accommodationType:'airbnb',  foodCostPerDay:32, notes:'Bus $50pp. Lagoa, Joaquina dunes, surf beaches, chill before Argentina' },
 
   // ARGENTINA
   { id:'s43', country:'Argentina', dest:'Iguazu Falls', hotel:'Airbnb Puerto Iguazú', checkin:'2027-02-27', checkout:'2027-03-02', costPerNight:45, points:0, transport:100, transportMode:'bus', accommodationType:'airbnb', foodCostPerDay:15, notes:'Bus Florianópolis → Foz do Iguaçu (Brazil side) ~12h (~$80pp NZD via Pluma/Catarinense), then cross to Puerto Iguazú, Argentina by bridge ($5 USD). Airbnb in Puerto Iguazú town ~$40–50/night — book ahead, town is small. Food: ~$25–30pp/day — parrilla dinner ~$15–20pp, empanadas $2–3 each, market breakfast $5. Park entry ~$25 USD pp — buy online before arriving. Upper Circuit, Lower Circuit, Devil\'s Throat walkway (all 3 in 2 days easily).' },
@@ -944,12 +944,12 @@ const THINGS_TO_DO = {
     { icon:'🏄', name:'Kitesurfing at Cumbuco or Jeri', desc:'One of the world\'s top kite destinations — steady offshore winds', price:'~$60pp 3h lesson' },
     { icon:'🚙', name:'Lençóis Maranhenses day trip', desc:'Otherworldly white dune lagoons — fly or 4WD, worth the detour', price:'~$100pp tour' },
   ],
-  'Maceió / Porto de Galinhas': [
+  'Porto de Galinhas': [
     { icon:'🐠', name:'Porto de Galinhas natural pools', desc:'Jangada (raft) to coral reef pools with tropical fish at low tide', price:'~$8pp jangada' },
     { icon:'🤿', name:'Maragogi reefs (Galés)', desc:'Snorkelling in crystal-clear water with rays and colourful fish', price:'~$20pp tour' },
     { icon:'🏖', name:'Maceió beach strip (Ponta Verde)', desc:'Urban beach promenade with fresh coconuts and seafood', price:'Free' },
   ],
-  'Recife / Olinda': [
+  'Maceió': [
     { icon:'🎨', name:'Olinda colonial hilltop walk', desc:'UNESCO colonial architecture, craft studios, Frevo dance on Sundays', price:'Free' },
     { icon:'🐟', name:'Marco Zero seafood lunch', desc:'Iconic central square with fresh lobster and tapioca crepes nearby', price:'~$15pp' },
     { icon:'🦈', name:'Boa Viagem beach (caution signs)', desc:'Urban beach but infamous for bull shark sightings — swim only within the reef', price:'Free' },
@@ -2864,7 +2864,7 @@ function renderBudgetOptimizer() {
             </div>
             <div class="bo-saving-item" style="border-color:rgba(123,110,255,.15)">
               <div class="bo-saving-title">🇧🇷 Brazil — ✓ Coastal South</div>
-              <div class="bo-saving-desc">Fortaleza → Maceió → Recife → Salvador → Rio → Florianópolis traces the coast cleanly south. No wasted legs.</div>
+              <div class="bo-saving-desc">Fortaleza → Porto de Galinhas → Maceió → Salvador → Rio → Florianópolis traces the coast cleanly south. No wasted legs.</div>
               <div class="bo-saving-amount" style="color:var(--teal)">Efficient ✓</div>
             </div>
             <div class="bo-saving-item" style="border-color:rgba(123,110,255,.15)">

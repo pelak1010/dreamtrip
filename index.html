@@ -3236,15 +3236,28 @@ function scrollToCountry(idSlug){
 
   async function fetchRates(base) {
     if (rateCache[base]) return rateCache[base];
-    try {
-      const ctrl = new AbortController();
-      const tid = setTimeout(() => ctrl.abort(), 4000);
-      const r = await fetch('https://api.frankfurter.app/latest?from='+base, {signal: ctrl.signal});
-      clearTimeout(tid);
-      const d = await r.json();
-      rateCache[base] = {...d.rates, [base]:1};
-      return rateCache[base];
-    } catch(e) { return null; }
+    const b = base.toLowerCase();
+    const urls = [
+      `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/${b}.json`,
+      `https://latest.currency-api.pages.dev/v1/currencies/${b}.json`
+    ];
+    for (const url of urls) {
+      try {
+        const ctrl = new AbortController();
+        const tid  = setTimeout(() => ctrl.abort(), 4000);
+        const r    = await fetch(url, { signal: ctrl.signal });
+        clearTimeout(tid);
+        if (!r.ok) continue;
+        const d   = await r.json();
+        const raw = d[b];
+        if (!raw) continue;
+        const normalised = Object.fromEntries(Object.entries(raw).map(([k, v]) => [k.toUpperCase(), v]));
+        normalised[base] = 1;
+        rateCache[base]  = normalised;
+        return rateCache[base];
+      } catch(e) { /* try next URL */ }
+    }
+    return null;
   }
 
   async function convert() {

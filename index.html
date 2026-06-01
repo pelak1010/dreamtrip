@@ -696,7 +696,7 @@ const ACCOR_RATE_PER_1000 = 39.38; // NZD value per 1000 Accor points
 // ═══════════════════════════════════════════
 const DEFAULT_ICT = {
   'Indonesia→Philippines': { mode:'plane', icon:'✈', label:'Flight', route:'Bali → Philippines', cost:249, notes:'Fly Bali→Philippines $249pp NZD.' },
-  'Philippines→Vietnam':   { mode:'plane', icon:'✈', label:'Flight', route:'Coron → Manila → Vietnam', cost:300, notes:'Coron → Manila → Vietnam (Hanoi). ~$300pp NZD.' },
+  'Philippines→Vietnam':   { mode:'plane', icon:'✈', label:'Flight', route:'Boracay → Manila → Vietnam', cost:300, notes:'Boracay → Manila → Vietnam (Hanoi). ~$300pp NZD.' },
   'Vietnam→Sri Lanka':     { mode:'plane', icon:'✈', label:'Flight', route:'Ho Chi Minh → Colombo', cost:350, notes:'AirAsia or SriLankan via KL/indirect ~$350pp NZD. No direct flight.' },
   'Sri Lanka→Peru':        { mode:'plane', icon:'✈', label:'Flight', route:'Colombo → Lima (via Dubai/Doha)', cost:2000, notes:'Emirates via Dubai or Qatar via Doha ~$2,000pp NZD. Cheapest live price ~$1,850pp — budgeted with buffer. Book 3+ months early — use Airpoints!' },
   'Peru→Brazil':           { mode:'plane', icon:'✈', label:'Flight', route:'Lima → Fortaleza', cost:510, notes:'LATAM or Avianca via Bogotá/São Paulo. Live price from ~$301 USD (~$510pp NZD). No direct — allow 1 connection.' },
@@ -720,8 +720,6 @@ const DEFAULT_STOPS = [
   { id:'s9',  country:'Philippines', dest:'Siquijor', hotel:'Airbnb', checkin:'2026-11-10', checkout:'2026-11-13', costPerNight:39, points:0,     transport:14,  transportMode:'ferry', accommodationType:'airbnb',  foodCostPerDay:16, notes:'Ferry $7pp. Cambugahay Falls, Salagdoong cliff diving, island scooter loop' },
   { id:'s11', country:'Philippines', dest:'Siargao', hotel:'Airbnb', checkin:'2026-11-14', checkout:'2026-11-20', costPerNight:38,  points:0,     transport:90,  transportMode:'plane', accommodationType:'airbnb',  foodCostPerDay:18, notes:'Fly Cebu→Siargao ~$90pp NZD (Cebu Pacific or Cebgo, 1h). Cloud 9 surf, island hopping, sugba lagoon' },
   { id:'s12', country:'Philippines', dest:'Boracay', hotel:'Airbnb White Beach', checkin:'2026-11-20', checkout:'2026-11-24', costPerNight:33,  points:0,     transport:110, transportMode:'plane', accommodationType:'airbnb',  foodCostPerDay:22, notes:'Fly Siargao→Caticlan ~$107pp NZD (PAL or Cebu Pacific, 1.5h). White Beach sunsets, paraw sailing, kitesurfing' },
-  { id:'s13', country:'Philippines', dest:'El Nido, Palawan', hotel:'Airbnb', checkin:'2026-11-24', checkout:'2026-11-28', costPerNight:40,  points:0,     transport:130, transportMode:'plane', accommodationType:'airbnb',  foodCostPerDay:22, notes:'Fly Caticlan→Puerto Princesa (~$83pp NZD) + van to El Nido (~$33pp NZD, 5h). Or AirSWIFT direct ~$323pp NZD. Tour A+C island hopping, hidden lagoons' },
-  { id:'s13b', country:'Philippines', dest:'Coron, Palawan', hotel:'Airbnb', checkin:'2026-11-28', checkout:'2026-12-01', costPerNight:40,  points:0,     transport:50,  transportMode:'boat',  accommodationType:'airbnb',  foodCostPerDay:22, notes:'Ferry El Nido→Coron (~$50pp NZD, 3.5h, Montenegro/Jomalia). Coron Ultimate island hopping (Kayangan Lake, Twin Lagoon, wreck snorkel), Mount Tapyas sunset' },
 
   // VIETNAM
   { id:'s14', country:'Vietnam', dest:'Hanoi', hotel:'Silk Path Hotel', checkin:'2026-12-01', checkout:'2026-12-05', costPerNight:40,  points:0,  transport:0,   transportMode:'plane', accommodationType:'hotel',   foodCostPerDay:20, notes:'Hoan Kiem Lake, Old Quarter, Banh Mi breakfast, street food tour' },
@@ -840,20 +838,6 @@ const THINGS_TO_DO = {
     { icon:'🏄', name:'Kitesurfing lesson', desc:'Bulabog Beach is a world-class kitesurfing destination', price:'~$60pp 3h lesson' },
     { icon:'🤿', name:'Crocodile Island snorkel', desc:'Colourful reef teeming with fish, a short boat ride from White Beach', price:'~$15pp' },
     { icon:'🏖', name:'Puka Shell Beach', desc:'North end, quieter, more natural and less developed than White Beach', price:'Free' },
-  ],
-  'El Nido, Palawan': [
-    { icon:'🚣', name:'Tour A — Big Lagoon & Secret Lagoon', desc:'Classic island-hopping route. Book the first departure to beat crowds', price:'~$25pp' },
-    { icon:'🚣', name:'Tour C — Helicopter Island', desc:'Snorkelling spots, hidden beaches and coral gardens', price:'~$25pp' },
-    { icon:'🤿', name:'Nacpan & Calitang twin beaches', desc:'Undeveloped twin beaches accessible by tricycle north of El Nido town', price:'~$5 tricycle' },
-    { icon:'🌅', name:'Taraw Cliff sunset hike', desc:'45min scramble for panoramic El Nido bay sunset view', price:'Free' },
-  ],
-  'Coron': [
-    { icon:'🚢', name:'WWII Japanese shipwreck diving', desc:'Okikawa Maru, Irako, Kogyo Maru — 10 wrecks, some diveable by snorkel too. Best in the world for wreck diving', price:'~$50pp dive trip' },
-    { icon:'🏞', name:'Kayangan Lake', desc:'Possibly the cleanest lake in Asia — crystal clear turquoise water inside a karst cliff. Hike up for the iconic viewpoint first', price:'~$10 island hopping tour' },
-    { icon:'🛶', name:'Island hopping tour (Coron Ultimate)', desc:'Kayangan Lake, Twin Lagoon, Skeleton Wreck snorkel, Banol Beach — full day', price:'~$25pp' },
-    { icon:'🌊', name:'Twin Lagoon', desc:'Paddle through a cave at low tide into a hidden lagoon with warm and cool water layers', price:'Included in island hopping' },
-    { icon:'🌋', name:'Mount Tapyas sunset hike', desc:'723 steps to the cross at the summit — 360° view over Coron town and bay at golden hour', price:'Free' },
-    { icon:'♨️', name:'Maquinit Hot Springs', desc:'Rare saltwater hot spring right at the ocean edge — 39°C natural pools after a day of diving', price:'~$5pp entry' },
   ],
   'Hanoi': [
     { icon:'🍜', name:'Old Quarter street food walk', desc:'Bun cha, pho, banh mi, ca phe trung (egg coffee) — all within 300m', price:'~$8pp' },
@@ -3009,7 +2993,7 @@ function renderBudget() {
 const TIPS = [
   { title:'🏨 Accor Explorer Pass Strategy', text:'Buy the Explorer Pass — gives you Red Hot Rooms (up to 50% off) at Accor properties across Asia. Check if your Amex Platinum NZ already includes this as a benefit before buying. Use points for Mercure transit nights to maximise value.', list:['Mercure Cebu: 4,000 pts × 4 stays = 16,000 pts','Novotel/Ibis Vietnam: ~7,000 pts','Ibis Sri Lanka: ~2,000 pts','Mercure Maldives: 8,000 pts'] },
   { title:'✈ Airpoints Strategy', text:'Your 400 Airpoints are best used for the big expensive legs you can\'t get cheaply:', list:['Sri Lanka → South America (~$950pp) → USE HERE','Buenos Aires → Europe → USE HERE','Never use Airpoints on short hops you can get for $30-90 on AirAsia/Cebu Pacific'] },
-  { title:'🏝 Philippines Island Hopping', text:'The best way to do the Philippines is NOT to fly everything. Use the ferry network:', list:['Cebu → Bohol: 2h fast ferry $10pp','Bohol → Siquijor: 1.5h fast ferry $7pp','Cebu → Siargao: fly (~$40pp, no ferry option)','Siargao → Boracay: fly via Manila or Cebu (~$50pp)','Boracay → El Nido: fly via Puerto Princesa (~$40pp)'] },
+  { title:'🏝 Philippines Island Hopping', text:'The best way to do the Philippines is NOT to fly everything. Use the ferry network:', list:['Cebu → Bohol: 2h fast ferry $10pp','Bohol → Siquijor: 1.5h fast ferry $7pp','Cebu → Siargao: fly (~$40pp, no ferry option)','Siargao → Boracay: fly via Manila or Cebu (~$50pp)'] },
   { title:'🇻🇳 Vietnam Transport Hacks', text:'Vietnam has excellent inter-city transport. Sleeper buses and budget flights are cheap and reliable:', list:['Hanoi → Ha Long Bay: 3.5h bus included in cruise $8pp','Hanoi → Da Nang: fly 1.5h from ~$40pp NZD (VietJet/Bamboo)','Da Nang → Ho Chi Minh City: fly 1.5h from $30pp','HCMC → Phu Quoc: fly 1h from $20pp'] },
   { title:'💰 South America Budget Reality', text:'South America is more expensive than Southeast Asia. Budget accordingly:', list:['Peru: $60-80pp/day (food+activities+transport)','Brazil: $70-90pp/day (BRL has been strong)','Argentina: near-zero cost with your apartment & car!','Long-haul flights (the big spend): book 3-4 months early'] },
   { title:'🚗 Argentina Ruta 40 Tips', text:'You have the huge advantage of a family car and Buenos Aires apartment. The Ruta 40 loop is epic:', list:['Route: BA → Bariloche → El Calafate → El Chaltén → Mendoza → BA','Total drive: ~4,500km over ~3 weeks','Fuel cost: ~$340 total combined (very cheap!)','Book hostels in Calafate+Chaltén months ahead — they fill fast','Perito Moreno glacier: book trekking online before you arrive'] },
@@ -3031,7 +3015,7 @@ let globeInited = false, globeAnimFrame;
 const ROUTE_COORDS = [
   [-8.4095,115.1889,'Bali'],[-8.6524,116.3240,'Lombok'],[-8.4892,119.8880,'Labuan Bajo'],[-8.4095,115.1889,'Bali'],
   [10.3157,123.8854,'Cebu'],[9.8500,124.1430,'Bohol'],[9.1856,123.5100,'Siquijor'],
-  [9.8600,126.0478,'Siargao'],[11.9674,121.9248,'Boracay'],[11.1750,119.4105,'El Nido'],
+  [9.8600,126.0478,'Siargao'],[11.9674,121.9248,'Boracay'],
   [21.0278,105.8342,'Hanoi'],[20.9099,107.1839,'Ha Long Bay'],[16.0544,108.2022,'Da Nang'],[10.8231,106.6297,'HCMC'],
   [10.2898,103.9840,'Phu Quoc'],[7.8731,80.7718,'Sri Lanka'],[3.2028,73.2207,'Maldives'],
   [-12.0464,-77.0428,'Lima'],[-13.5319,-71.9675,'Cusco'],[-13.1631,-72.5450,'Machu Picchu'],

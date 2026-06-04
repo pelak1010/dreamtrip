@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -752,13 +752,10 @@ const DEFAULT_STOPS = [
   { id:'s33', country:'Brazil', dest:'Maceió', hotel:'Airbnb', checkin:'2027-02-14', checkout:'2027-02-17', costPerNight:40,  points:0,     transport:20,  transportMode:'bus',   accommodationType:'airbnb',  foodCostPerDay:28, notes:'Bus $20pp. Maceió beaches, Ponta Verde, Maragogi day trip' },
   { id:'s34', country:'Brazil', dest:'Salvador', hotel:'Airbnb Pelourinho', checkin:'2027-02-17', checkout:'2027-02-21', costPerNight:38,  points:0,     transport:40,  transportMode:'bus',   accommodationType:'airbnb',  foodCostPerDay:28, notes:'Bus $40pp. Pelourinho, Capoeira, Afro-Brazilian culture, Mercado Modelo' },
   { id:'s35', country:'Brazil', dest:'Rio de Janeiro', hotel:'Airbnb Santa Teresa', checkin:'2027-02-21', checkout:'2027-02-25', costPerNight:30,  points:12000, transport:130, transportMode:'plane', accommodationType:'airbnb',  foodCostPerDay:28, notes:'Fly Salvador→Rio ~$132pp NZD (LATAM or Azul, 2.5h). Christ the Redeemer, Sugarloaf, Ipanema, Lapa arches nightlife' },
-  { id:'s36', country:'Brazil', dest:'Florianópolis', hotel:'Airbnb', checkin:'2027-02-25', checkout:'2027-02-27', costPerNight:25,  points:10000, transport:50,  transportMode:'bus',   accommodationType:'airbnb',  foodCostPerDay:32, notes:'Bus $50pp. Lagoa, Joaquina dunes, surf beaches, chill before Argentina' },
-  { id:'s37', country:'Brazil', dest:'Gramado', hotel:'Airbnb', checkin:'2027-02-27', checkout:'2027-02-28', costPerNight:25, points:0, transport:57, transportMode:'bus', accommodationType:'airbnb', foodCostPerDay:15, notes:'Bus Florianópolis → Gramado ~$57pp NZD. Charming mountain town with European architecture, chocolate shops, Canela nearby.' },
-  { id:'s41', country:'Brazil', dest:'Porto Alegre', hotel:'Layover', checkin:'2027-02-28', checkout:'2027-02-28', costPerNight:0, points:0, transport:24, transportMode:'bus', accommodationType:'layover', foodCostPerDay:10, notes:'Bus Gramado → Porto Alegre ~$24pp NZD. Transit only — no overnight stay.' },
-  { id:'s42', country:'Brazil', dest:'Foz do Iguaçu', hotel:'Layover', checkin:'2027-02-28', checkout:'2027-02-28', costPerNight:0, points:0, transport:146, transportMode:'plane', accommodationType:'layover', foodCostPerDay:10, notes:'Fly Porto Alegre → Foz do Iguaçu ~$146pp NZD. Transit — Brazil side only, cross bridge to Puerto Iguazú Argentina.' },
+  { id:'s36', country:'Brazil', dest:'Foz do Iguaçu', hotel:'Airbnb Foz do Iguaçu', checkin:'2027-02-25', checkout:'2027-02-27', costPerNight:35, points:0, transport:80, transportMode:'plane', accommodationType:'airbnb', foodCostPerDay:28, notes:'Fly Rio → Foz do Iguaçu ~$80pp NZD (Azul or Gol, ~1.5h direct). Brazil side of Iguazu Falls — visit the Brazilian panoramic walkway first day. Macuco Safari boat tour under the falls (~$30pp). Then cross the international bridge ($5 USD pp) to Puerto Iguazú Argentina next morning.' },
 
   // ARGENTINA
-  { id:'s43', country:'Argentina', dest:'Iguazu Falls', hotel:'Airbnb Puerto Iguazú', checkin:'2027-02-28', checkout:'2027-03-03', costPerNight:45, points:0, transport:100, transportMode:'bus', accommodationType:'airbnb', foodCostPerDay:30, notes:'Bus Florianópolis → Foz do Iguaçu (Brazil side) ~12h (~$80pp NZD via Pluma/Catarinense), then cross to Puerto Iguazú, Argentina by bridge ($5 USD). Airbnb in Puerto Iguazú town ~$40–50/night — book ahead, town is small. Food: ~$25–30pp/day — parrilla dinner ~$15–20pp, empanadas $2–3 each, market breakfast $5. Park entry ~$25 USD pp — buy online before arriving. Upper Circuit, Lower Circuit, Devil\'s Throat walkway (all 3 in 2 days easily).' },
+  { id:'s43', country:'Argentina', dest:'Iguazu Falls', hotel:'Airbnb Puerto Iguazú', checkin:'2027-02-27', checkout:'2027-03-02', costPerNight:45, points:0, transport:5, transportMode:'bus', accommodationType:'airbnb', foodCostPerDay:30, notes:'Cross from Foz do Iguaçu (Brazil) to Puerto Iguazú (Argentina) by international bridge — $5 USD pp, 20min. Argentina side has the best views including Devil\'s Throat up close. Upper Circuit, Lower Circuit, Devil\'s Throat walkway — all 3 circuits in 2 days easily. Park entry ~$25 USD pp — buy online before arriving. Airbnb in Puerto Iguazú town ~$40–50/night — book ahead, town is small.' },
   { id:'s44', country:'Argentina', dest:'Chaco (General San Martin)', hotel:'Family (FREE)', checkin:'2027-03-02', checkout:'2027-03-09', costPerNight:0, points:0, transport:0, transportMode:'bus', accommodationType:'free', foodCostPerDay:30, notes:'Bus Puerto Iguazú → Resistencia ~8h (~$25 USD pp via Flecha Bus or El Rápido — book day before). Airbnb in Resistencia ~$25–35/night (very affordable). Food: ~$18–25pp/day — local bodegones (set lunch $5–8), parrilla dinner ~$10pp, empanadas 3 for $2. One of the cheapest weeks of the whole trip. Resistencia has 700+ outdoor sculptures (free). Rent a remis (local taxi) for Gran Chaco National Park day trip ~$30 for the car.' },
   { id:'s45', country:'Argentina', dest:'La Quiaca', hotel:'Airbnb La Quiaca', checkin:'2027-03-09', checkout:'2027-03-11', costPerNight:30, points:0, transport:40, transportMode:'bus', accommodationType:'airbnb', foodCostPerDay:30, notes:'Bus from Resistencia to La Quiaca ~7h (~$22 USD pp, Flecha Bus via Ruta 34). Bolivia border town — gateway to Quebrada de Humahuaca (UNESCO canyon). Day trip to Purmamarca: Hill of Seven Colours, salt flats, llamas. Food: ~$18-22pp/day -- empanadas, humitas, tamales from $2, set lunch $5pp. Very affordable.' },
 { id:'s46', country:'Argentina', dest:'Salta', hotel:'Airbnb Salta Centro', checkin:'2027-03-11', checkout:'2027-03-13', costPerNight:35, points:0, transport:20, transportMode:'drive', accommodationType:'airbnb', foodCostPerDay:30, notes:'Drive from Jujuy ~100km south (~1h). "Salta La Linda" -- best-preserved colonial city in Argentina. Empanadas salteñas (best in the country). Mercado San Miguel, San Bernardo cable car ($8pp), penas (folk music) at night. Day trip to Quebrada del Toro or Cachi. Food: ~$22-28pp/day.' },
@@ -954,10 +951,11 @@ const THINGS_TO_DO = {
     { icon:'🏖', name:'Ipanema beach morning', desc:'People watching, football keepy-uppy, fresh acai bowls on the boardwalk', price:'Free' },
     { icon:'🎵', name:'Lapa arches samba night', desc:'Friday and Saturday nights — outdoor samba in the street arches district', price:'~$10pp drinks' },
   ],
-  'Florianópolis': [
-    { icon:'🏄', name:'Surf at Joaquina or Praia do Rosa', desc:'Quality Atlantic swells, less crowded than Rio, green rolling hills', price:'~$20pp lesson' },
-    { icon:'🌊', name:'Lagoa da Conceição', desc:'Beautiful saltwater lagoon — kayak, windsurf, or just a beach bar', price:'~$10pp boat' },
-    { icon:'🐧', name:'Penguin watching (July-Sept)', desc:'Magellanic penguins sometimes wash up on beaches — seasonal', price:'Free (seasonal)' },
+  'Foz do Iguaçu': [
+    { icon:'💦', name:'Brazilian side panoramic walk', desc:'Elevated walkway with sweeping views across the full 2.7km arc of falls — the widest view on earth', price:'~$25pp entry' },
+    { icon:'🚤', name:'Macuco Safari boat tour', desc:'Zodiac boat drives right under the falls — get completely drenched. One of the great experiences of the trip', price:'~$30pp' },
+    { icon:'🦜', name:'Bird Park (Parque das Aves)', desc:'Free-flight aviaries with toucans, macaws, and harpy eagles in the forest next to the park', price:'~$20pp' },
+    { icon:'⚡', name:'Itaipu Dam visit', desc:'World\'s second largest hydroelectric dam — huge engineering feat, free panoramic view or paid tour', price:'Free–$15pp' },
   ],
   'Chaco (Resistencia)': [
     { icon:'🗿', name:'Resistencia sculpture circuit', desc:'700+ outdoor sculptures scattered across the city — free open-air museum, unique in South America', price:'Free' },
@@ -2915,7 +2913,7 @@ function renderBudgetOptimizer() {
             </div>
             <div class="bo-saving-item" style="border-color:rgba(123,110,255,.15)">
               <div class="bo-saving-title">🇧🇷 Brazil — ✓ Coastal South</div>
-              <div class="bo-saving-desc">Fortaleza → Porto de Galinhas → Maceió → Salvador → Rio → Florianópolis traces the coast cleanly south. No wasted legs.</div>
+              <div class="bo-saving-desc">Fortaleza → Porto de Galinhas → Maceió → Salvador → Rio → Foz do Iguaçu is the cleanest coastal south route, finishing with the world's most spectacular waterfall.</div>
               <div class="bo-saving-amount" style="color:var(--teal)">Efficient ✓</div>
             </div>
             <div class="bo-saving-item" style="border-color:rgba(123,110,255,.15)">
@@ -2998,7 +2996,7 @@ const TIPS = [
   { title:'💰 South America Budget Reality', text:'South America is more expensive than Southeast Asia. Budget accordingly:', list:['Peru: $60-80pp/day (food+activities+transport)','Brazil: $70-90pp/day (BRL has been strong)','Argentina: near-zero cost with your apartment & car!','Long-haul flights (the big spend): book 3-4 months early'] },
   { title:'🚗 Argentina Ruta 40 Tips', text:'You have the huge advantage of a family car and Buenos Aires apartment. The Ruta 40 loop is epic:', list:['Route: BA → Bariloche → El Calafate → El Chaltén → Mendoza → BA','Total drive: ~4,500km over ~3 weeks','Fuel cost: ~$340 total combined (very cheap!)','Book hostels in Calafate+Chaltén months ahead — they fill fast','Perito Moreno glacier: book trekking online before you arrive'] },
   { title:'⛽ Argentina Fuel Prices (2027)', text:'Argentine nafta (petrol) is subsidised — among the cheapest in South America. Budget for the Chaco→BA drive:', list:['Chaco (Resistencia) → Buenos Aires: ~1,050km via Ruta 16/9','Family car consumption: ~10L/100km = ~105L total','Nafta Super price: ~1,200–1,500 ARS/L (≈ $1.20–1.50 USD/L)','Total fuel cost: ~$120–160 USD combined (~$60–80pp NZD)','Fill up in Resistencia before leaving — fewer stations on Ruta 16','Carry a 10L jerry can through the Chaco stretch'] },
-  { title:'🗺 Argentina Northeast Loop', text:'Entry via Iguazu, through Chaco, drive home to BA — a great way to see the forgotten north:', list:['Florianópolis → Puerto Iguazú: bus across the border (~$100pp NZD)','Iguazu Falls → Resistencia (Chaco): Flecha Bus ~8h (~$25 USD pp)','Resistencia → Buenos Aires: family car drive ~11h (fuel ~$60pp NZD)','Chaco is totally off the tourist trail — very cheap, authentic Argentina','Gran Chaco National Park (El Impenetrable): UNESCO-listed, best wildlife outside Patagonia'] },
+  { title:'🗺 Argentina Northeast Loop', text:'Entry via Iguazu, through Chaco, drive home to BA — a great way to see the forgotten north:', list:['Foz do Iguaçu (Brazil) → Puerto Iguazú: international bridge $5 USD pp (~20min)','Iguazu Falls → Resistencia (Chaco): Flecha Bus ~8h (~$25 USD pp)','Resistencia → Buenos Aires: family car drive ~11h (fuel ~$60pp NZD)','Chaco is totally off the tourist trail — very cheap, authentic Argentina','Gran Chaco National Park (El Impenetrable): UNESCO-listed, best wildlife outside Patagonia'] },
   { title:'🌍 Best Budget Airlines by Region', text:'', list:['Indonesia/Philippines: AirAsia, Cebu Pacific, Philippines Airlines','Vietnam: VietJet, Bamboo, Vietnam Airlines sales','Sri Lanka: SriLankan Airlines, AirArabia','South America: LATAM, Gol, Avianca, JetSmart (Argentina)','Long haul bargains: Emirates, Qatar, Turkish (via hub cities)'] },
   { title:'💳 Money & Exchange Tips', text:'', list:['Argentina: Use ATMs wisely, exchange rates have been volatile','Vietnam: ATM fees add up — withdraw larger amounts less often','Sri Lanka: Colombo ATMs reliable; Ella/rural carry cash','Peru/Brazil: Wise card for best exchange rates','Maldives: USD accepted widely — take cash'] },
 ];
@@ -3021,7 +3019,7 @@ const ROUTE_COORDS = [
   [-12.0464,-77.0428,'Lima'],[-13.5319,-71.9675,'Cusco'],[-13.1631,-72.5450,'Machu Picchu'],
   [-15.8402,-70.0219,'Puno'],[-3.7172,-38.5433,'Fortaleza'],[-9.6658,-35.7350,'Maceió'],
   [-8.0522,-34.9286,'Recife'],[-12.9714,-38.5014,'Salvador'],[-22.9068,-43.1729,'Rio'],
-  [-27.5969,-48.5495,'Florianópolis'],[-25.6953,-54.4367,'Iguazu Falls'],[-27.4514,-58.9867,'Chaco'],
+  [-25.5163,-54.5854,'Foz do Iguaçu'],[-25.6953,-54.4367,'Iguazu Falls'],[-27.4514,-58.9867,'Chaco'],
   [-24.1857,-65.2995,'Jujuy'],[-24.7829,-65.4232,'Salta'],[-26.0736,-65.9759,'Cafayate'],
   [-31.5375,-68.5364,'San Juan'],[-33.80,-69.15,'El Manzano'],[-38.8983,-70.0504,'Zapala'],
   [-40.1558,-71.3535,'San Martin'],[-40.6617,-71.3942,'Villa Traful'],[-40.7622,-71.6476,'Villa La Angostura'],

@@ -469,6 +469,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .nav-currency select option{background:#1a1c2e;color:var(--sand)}
 .cc-divider{width:1px;height:14px;background:var(--border);flex-shrink:0;margin:0 .1rem}
 .cc-arrow{color:rgba(245,237,214,.25);font-size:.68rem;flex-shrink:0}
+.cc-swap{background:transparent;border:1px solid var(--border);border-radius:8px;color:rgba(245,237,214,.45);font-size:.78rem;cursor:pointer;padding:.1rem .3rem;line-height:1;transition:all .15s;flex-shrink:0}
+.cc-swap:hover{border-color:var(--teal);color:var(--teal);background:rgba(42,191,170,.08)}
 .cc-result{color:var(--teal);font-size:.72rem;font-weight:600;min-width:52px;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
 .cc-loading{opacity:.4}
 @media(max-width:780px){.nav-currency{display:none}}
@@ -507,7 +509,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
       <option value="THB">THB – Thailand</option>
       <option value="JPY">JPY – Japan</option>
     </select>
-    <span class="cc-arrow">→</span>
+    <button class="cc-swap" onclick="swapCurrencies()" title="Swap currencies">⇄</button>
     <select id="ccTo">
       <option value="IDR">IDR – Indonesia</option>
       <option value="NZD">NZD – New Zealand</option>
@@ -3265,6 +3267,13 @@ function scrollToCountry(idSlug){
   fromEl.addEventListener('change', convert);
   toEl.addEventListener('change', convert);
   convert();
+
+  window.swapCurrencies = function() {
+    const tmp = fromEl.value;
+    fromEl.value = toEl.value;
+    toEl.value = tmp;
+    convert();
+  };
 })();
 
 // ═══════════════════════════════════════════

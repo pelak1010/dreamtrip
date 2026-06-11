@@ -1893,7 +1893,7 @@ function buildStopCard(s, idx) {
       <div class="stop-actions">
         <a class="sa-btn flights" target="_blank" rel="noopener noreferrer" style="text-decoration:none" href="https://www.google.com/travel/flights?q=cheap+flights+to+${encodeURIComponent(s.dest)}">✈ Search Flights ↗</a>
         <a class="sa-btn booking" target="_blank" rel="noopener noreferrer" style="text-decoration:none" href="https://www.booking.com/searchresults.html?ss=${encodeURIComponent(s.dest)}&checkin=${s.checkin||''}&checkout=${s.checkout||''}&group_adults=2&no_rooms=1&group_children=0">🏨 Find Hotels on Booking.com ↗</a>
-        <a class="sa-btn accor" target="_blank" rel="noopener noreferrer" style="text-decoration:none" href="https://all.accor.com/ssr/app/accor/hotels/list.en.shtml?destination=${encodeURIComponent(s.dest)}&dateIn=${s.checkin||''}&nights=${s.checkin&&s.checkout?Math.max(1,Math.round((new Date(s.checkout)-new Date(s.checkin))/86400000)):1}&adults=2&children=0">✦ Find Hotels on Accor ↗</a>
+        <a class="sa-btn accor" target="_blank" rel="noopener noreferrer" style="text-decoration:none" href="https://all.accor.com/a/en.html?q=${encodeURIComponent(s.dest)}&dateIn=${s.checkin||''}&nights=${s.checkin&&s.checkout?Math.max(1,Math.round((new Date(s.checkout)-new Date(s.checkin))/86400000)):1}&room1Adults=2&rooms=1">✦ Find Hotels on Accor ↗</a>
         ${hasTodo?`<button class="sa-btn todo" onclick="toggleTodo('${s.id}')">🎯 Things To Do</button>`:''}
         <button class="sa-btn del" onclick="deleteStop('${s.id}')">✕ Delete</button>
       </div>

@@ -177,6 +177,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .bk-noresult{text-align:center;padding:.8rem;color:rgba(245,237,214,.35);font-size:.73rem}
 .sa-btn.booking{border-color:rgba(0,200,100,.3);color:#00c864}
 .sa-btn.booking:hover{background:rgba(0,200,100,.1)}
+.sa-btn.accor{border-color:rgba(212,168,67,.3);color:var(--gold)}
+.sa-btn.accor:hover{background:rgba(212,168,67,.1)}
 
 /* MODAL */
 .modal-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);align-items:center;justify-content:center}
@@ -1891,6 +1893,7 @@ function buildStopCard(s, idx) {
       <div class="stop-actions">
         <a class="sa-btn flights" target="_blank" rel="noopener noreferrer" style="text-decoration:none" href="https://www.google.com/travel/flights?q=cheap+flights+to+${encodeURIComponent(s.dest)}">✈ Search Flights ↗</a>
         <a class="sa-btn booking" target="_blank" rel="noopener noreferrer" style="text-decoration:none" href="https://www.booking.com/searchresults.html?ss=${encodeURIComponent(s.dest)}&checkin=${s.checkin||''}&checkout=${s.checkout||''}&group_adults=2&no_rooms=1&group_children=0">🏨 Find Hotels on Booking.com ↗</a>
+        <a class="sa-btn accor" target="_blank" rel="noopener noreferrer" style="text-decoration:none" href="https://all.accor.com/ssr/app/accor/hotels/list.en.shtml?destination=${encodeURIComponent(s.dest)}&dateIn=${s.checkin||''}&nights=${s.checkin&&s.checkout?Math.max(1,Math.round((new Date(s.checkout)-new Date(s.checkin))/86400000)):1}&adults=2&children=0">✦ Find Hotels on Accor ↗</a>
         ${hasTodo?`<button class="sa-btn todo" onclick="toggleTodo('${s.id}')">🎯 Things To Do</button>`:''}
         <button class="sa-btn del" onclick="deleteStop('${s.id}')">✕ Delete</button>
       </div>

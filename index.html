@@ -761,27 +761,21 @@ const DEFAULT_STOPS = [
   // ARGENTINA
   { id:'s43', country:'Argentina', dest:'Iguazu Falls', hotel:'Airbnb Puerto Iguazú', checkin:'2027-02-27', checkout:'2027-03-02', costPerNight:45, points:0, transport:5, transportMode:'bus', accommodationType:'airbnb', foodCostPerDay:30, notes:'Cross from Foz do Iguaçu (Brazil) to Puerto Iguazú (Argentina) by international bridge — $5 USD pp, 20min. Argentina side has the best views including Devil\'s Throat up close. Upper Circuit, Lower Circuit, Devil\'s Throat walkway — all 3 circuits in 2 days easily. Park entry ~$25 USD pp — buy online before arriving. Airbnb in Puerto Iguazú town ~$40–50/night — book ahead, town is small.' },
   { id:'s44', country:'Argentina', dest:'Chaco (General San Martin)', hotel:'Family (FREE)', checkin:'2027-03-02', checkout:'2027-03-09', costPerNight:0, points:0, transport:0, transportMode:'bus', accommodationType:'free', foodCostPerDay:30, notes:'Bus Puerto Iguazú → Resistencia ~8h (~$25 USD pp via Flecha Bus or El Rápido — book day before). Airbnb in Resistencia ~$25–35/night (very affordable). Food: ~$18–25pp/day — local bodegones (set lunch $5–8), parrilla dinner ~$10pp, empanadas 3 for $2. One of the cheapest weeks of the whole trip. Resistencia has 700+ outdoor sculptures (free). Rent a remis (local taxi) for Gran Chaco National Park day trip ~$30 for the car.' },
-  { id:'s45', country:'Argentina', dest:'La Quiaca', hotel:'Airbnb La Quiaca', checkin:'2027-03-09', checkout:'2027-03-11', costPerNight:30, points:0, transport:40, transportMode:'bus', accommodationType:'airbnb', foodCostPerDay:30, notes:'Bus from Resistencia to La Quiaca ~7h (~$22 USD pp, Flecha Bus via Ruta 34). Bolivia border town — gateway to Quebrada de Humahuaca (UNESCO canyon). Day trip to Purmamarca: Hill of Seven Colours, salt flats, llamas. Food: ~$18-22pp/day -- empanadas, humitas, tamales from $2, set lunch $5pp. Very affordable.' },
-{ id:'s46', country:'Argentina', dest:'Salta', hotel:'Airbnb Salta Centro', checkin:'2027-03-11', checkout:'2027-03-13', costPerNight:35, points:0, transport:20, transportMode:'drive', accommodationType:'airbnb', foodCostPerDay:30, notes:'Drive from Jujuy ~100km south (~1h). "Salta La Linda" -- best-preserved colonial city in Argentina. Empanadas salteñas (best in the country). Mercado San Miguel, San Bernardo cable car ($8pp), penas (folk music) at night. Day trip to Quebrada del Toro or Cachi. Food: ~$22-28pp/day.' },
-  { id:'s47', country:'Argentina', dest:'Cafayate', hotel:'Airbnb Cafayate', checkin:'2027-03-13', checkout:'2027-03-15', costPerNight:30, points:0, transport:30, transportMode:'drive', accommodationType:'airbnb', foodCostPerDay:30, notes:'Drive from Salta ~190km through the Quebrada de Cafayate gorge (~2.5h -- stop for photos at the coloured canyon walls). High-altitude Torrentes and Malbec wine region. Free winery visits: Vasija Secreta, El Esteco, Bodega Nanni. Food: ~$18-22pp/day -- tamales at comedores $4pp, wine from $3/bottle.' },
-  { id:'s48', country:'Argentina', dest:'San Juan', hotel:'Airbnb San Juan Centro', checkin:'2027-03-15', checkout:'2027-03-17', costPerNight:28, points:0, transport:50, transportMode:'drive', accommodationType:'airbnb', foodCostPerDay:30, notes:'Drive from Cafayate ~350km south via Ruta 40 (~4h). Gateway to Ischigualasto (Valle de la Luna) -- book park tour online. Day trip to Talampaya National Park (UNESCO red canyon). San Juan olives, local wines, craft beer. Food: ~$18-22pp/day -- affordable city.' },
-  { id:'s49', country:'Argentina', dest:'El Manzano', hotel:'Airbnb Valle de Uco', checkin:'2027-03-17', checkout:'2027-03-19', costPerNight:35, points:0, transport:40, transportMode:'drive', accommodationType:'airbnb', foodCostPerDay:30, notes:'Drive from San Juan ~350km south on Ruta 40 through Mendoza province (~4h). El Manzano Historico -- where San Martin crossed the Andes. Valle de Uco high-altitude Malbec wine region. Airbnb in rural finca. Food: ~$22-28pp/day -- winery lunch ~$12-15pp, local wine from $3/bottle.' },
-  { id:'s50', country:'Argentina', dest:'Zapala', hotel:'Guesthouse Zapala', checkin:'2027-03-19', checkout:'2027-03-21', costPerNight:25, points:0, transport:35, transportMode:'drive', accommodationType:'hotel', foodCostPerDay:30, notes:'Drive from El Manzano ~400km south on Ruta 40 into Neuquen province (~4.5h). Gateway to Parque Nacional Laguna Blanca (flamingos, guanacos, free entry). Near dinosaur fossil sites. Very cheap town, good fuel stop. Food: ~$18-20pp/day.' },
-  { id:'s51', country:'Argentina', dest:'San Martin de los Andes', hotel:'Airbnb San Martin de los Andes', checkin:'2027-03-21', checkout:'2027-03-23', costPerNight:40, points:0, transport:25, transportMode:'drive', accommodationType:'airbnb', foodCostPerDay:30, notes:'Drive from Zapala ~160km via Ruta 234 (~2h). Charming mountain town on Lago Lacar -- less crowded and more authentic than Bariloche. Start of the Ruta de los Siete Lagos (Seven Lakes Road). Smoked meats, artisan chocolate, craft beer. Hike Cerro Bandurrias. April autumn foliage is stunning.' },
-  { id:'s52', country:'Argentina', dest:'Villa Traful', hotel:'Cabin Villa Traful', checkin:'2027-03-23', checkout:'2027-03-25', costPerNight:40, points:0, transport:25, transportMode:'drive', accommodationType:'airbnb', foodCostPerDay:30, notes:'Drive from San Martin ~100km along the Seven Lakes Road (~2h -- stop at each lake). Tiny village on one of Patagonia\'s most pristine lakes. Trout fishing, kayaking, forest waterfall walks. Very few services -- BRING food from San Martin. Lakeside cabins ~$35-45/night.' },
-  { id:'s53', country:'Argentina', dest:'Villa La Angostura', hotel:'Airbnb Villa La Angostura', checkin:'2027-03-25', checkout:'2027-03-27', costPerNight:40, points:0, transport:20, transportMode:'drive', accommodationType:'airbnb', foodCostPerDay:30, notes:'Drive from Villa Traful ~70km (~1h) along the Seven Lakes Road. Boutique resort town on Lago Nahuel Huapi. Bosque de Arrayanes myrtle forest walk (~3h, ~$5pp). Good restaurants and chocolate shops. Good fuel and supplies stop. April autumn foliage at peak.' },
-  { id:'s38', country:'Argentina', dest:'Bariloche', hotel:'Airbnb Bariloche Centro', checkin:'2027-03-27', checkout:'2027-03-31', costPerNight:45, points:0, transport:40, transportMode:'drive', accommodationType:'airbnb', foodCostPerDay:30, notes:'Drive from Villa La Angostura ~80km (~1h). April = autumn gold, ski crowds gone. Airbnb centro or Llao Llao area ~$40-55/night. Food: ~$28-35pp/day -- Rapa Nui chocolate, craft beer ~$4, parrilla ~$15-20pp. Cerro Catedral summer trail (free). Nahuel Huapi boat to Isla Victoria ~$30pp.' },
-  { id:'s54', country:'Argentina', dest:'El Bolson', hotel:'Hostel El Bolson', checkin:'2027-03-31', checkout:'2027-04-02', costPerNight:28, points:0, transport:20, transportMode:'drive', accommodationType:'hostel', foodCostPerDay:30, notes:'Drive from Bariloche ~130km south on Ruta 40 (~1.5h). Famous hippy craft market town -- cerveza artesanal, fresh fruit, artisan honey, homemade pasta. Very cheap. Hostel dorm ~$15pp or private ~$28. Hike Cerro Perito Moreno for panoramic views. Fruit pies from $4. Feria Artesanal on weekends.' },
-  { id:'s55', country:'Argentina', dest:'Esquel', hotel:'Airbnb Esquel', checkin:'2027-04-02', checkout:'2027-04-04', costPerNight:28, points:0, transport:25, transportMode:'drive', accommodationType:'airbnb', foodCostPerDay:30, notes:'Drive from El Bolson ~180km south on Ruta 40 (~2h). Gateway to Parque Nacional Los Alerces (UNESCO) -- 3,000-year-old alerce trees. La Trochita steam train (Old Patagonian Express) ~$20pp. Good fuel stop. Stock up on supplies -- towns become sparse further south.' },
-  { id:'s40', country:'Argentina', dest:'El Chaltén', hotel:'Condor de los Andes Hostel', checkin:'2027-04-04', checkout:'2027-04-06', costPerNight:35, points:0, transport:65, transportMode:'drive', accommodationType:'hostel', foodCostPerDay:30, notes:'Drive from Esquel ~730km south on Ruta 40 (~8h -- most iconic stretch of the road, open steppe and condors). BOOK hostel months ahead -- only 1,500 beds in the village. Bring groceries from last town: tiny supermarket. Fitz Roy and Cerro Torre hikes are free and world-class. April has fewer crowds.' },
-  { id:'s39', country:'Argentina', dest:'El Calafate / Perito Moreno', hotel:'Airbnb El Calafate', checkin:'2027-04-06', checkout:'2027-04-09', costPerNight:50, points:0, transport:30, transportMode:'drive', accommodationType:'airbnb', foodCostPerDay:30, notes:'Drive from El Chalten ~220km south (~2.5h). Airbnb in El Calafate ~$45-60/night. Food: ~$30-38pp/day -- groceries for breakfast/lunch, one splurge parrilla dinner. BOOK Perito Moreno glacier trek and Zodiac boat online before arriving. Park entry ~$15 USD pp. Walking on the ice is unforgettable.' },
-  { id:'s56', country:'Argentina', dest:'Rio Gallegos', hotel:'Guesthouse Rio Gallegos', checkin:'2027-04-09', checkout:'2027-04-11', costPerNight:28, points:0, transport:35, transportMode:'drive', accommodationType:'hotel', foodCostPerDay:30, notes:'Drive from El Calafate ~320km east on Ruta 3 (~3.5h). Essential logistics stop. Fill tank completely before Tierra del Fuego. Ferry to TDF via Primera Angostura (~$15pp, 30-min crossing) -- confirm schedule, take an early departure. Basic guesthouse ~$25-30/night.' },
-  { id:'s57', country:'Argentina', dest:'Ushuaia', hotel:'Hostel Ushuaia', checkin:'2027-04-11', checkout:'2027-04-13', costPerNight:40, points:0, transport:50, transportMode:'drive', accommodationType:'hostel', foodCostPerDay:30, notes:'Drive from Rio Gallegos ~580km including Primera Angostura ferry (~6h). Southernmost city on Earth. Tierra del Fuego National Park. Boat trip on Beagle Channel ~$30pp. Centolla (king crab) -- splurge once ~$25pp. Hostel ~$25pp/night. Bring warm layers: 2-10C in April.' },
-  { id:'s58', country:'Argentina', dest:'Puerto Deseado', hotel:'Airbnb Puerto Deseado', checkin:'2027-04-13', checkout:'2027-04-15', costPerNight:28, points:0, transport:60, transportMode:'drive', accommodationType:'airbnb', foodCostPerDay:30, notes:'Drive from Ushuaia back north ~870km on Ruta 3 via Rio Gallegos (~9h -- start early). Remote Atlantic port: Reserva Natural Ria Deseado -- sea lions, black-necked swans, Commerson\'s dolphins, Magellanic penguins. Virtually no other tourists. Boat tour of the ria ~$25pp.' },
-  { id:'s59', country:'Argentina', dest:'Comodoro Rivadavia', hotel:'Airbnb Comodoro Rivadavia', checkin:'2027-04-15', checkout:'2027-04-17', costPerNight:28, points:0, transport:25, transportMode:'drive', accommodationType:'airbnb', foodCostPerDay:30, notes:'Drive from Puerto Deseado ~300km north on Ruta 3 (~3h). Oil capital of Patagonia -- good services. Refuel, restock groceries, car check if needed. Day trip to Bosque Petrificado Sarmiento (65-million-year-old petrified forest, ~$8pp). Cheap food and accommodation.' },
-  { id:'s60', country:'Argentina', dest:'Puerto Madryn', hotel:'Airbnb Puerto Madryn', checkin:'2027-04-17', checkout:'2027-04-19', costPerNight:35, points:0, transport:35, transportMode:'drive', accommodationType:'airbnb', foodCostPerDay:30, notes:'Drive from Comodoro ~400km north on Ruta 3 (~4h). Wildlife capital of Patagonia. Peninsula Valdes (UNESCO) -- sea lions and elephant seals year-round. Snorkel with sea lions at Punta Loma ~$40pp. May = shoulder season, quieter and cheaper. Fresh seafood on the beachfront.' },
-  { id:'s61', country:'Argentina', dest:'Bahia Blanca', hotel:'Airbnb Bahia Blanca', checkin:'2027-04-19', checkout:'2027-04-21', costPerNight:28, points:0, transport:40, transportMode:'drive', accommodationType:'airbnb', foodCostPerDay:30, notes:'Drive from Puerto Madryn ~700km north on Ruta 3 (~7h). Last major stop before Buenos Aires. Good services: fuel, big supermarket, mechanic. Quality parrilla and pasta near the port. Food: ~$18-22pp/day. Rest before the final ~650km drive home to BA.' },
-  { id:'s42', country:'Argentina', dest:'Buenos Aires (return)', hotel:'Family Apartment (FREE)', checkin:'2027-04-21', checkout:'2027-05-03', costPerNight:0, points:0, transport:50, transportMode:'drive', accommodationType:'free', foodCostPerDay:30, notes:'Drive Bahia Blanca to BA ~650km via Ruta 3 (~7h). Free family apartment for final 12 nights. Food: ~$15-20pp/day cooking at home + farewell meals out. Final weeks: Palermo, Recoleta, Tigre delta, family asado, pack for Europe. Fly BA Ezeiza (EZE) to Europe -- LATAM, Iberia, Air Europa, KLM. Book 3+ months early.' },
+  // NORTH LOOP (1 week from San Martin/Chaco → NW Argentina → back)
+  { id:'s45', country:'Argentina', dest:'La Quiaca', hotel:'Airbnb La Quiaca', checkin:'2027-03-09', checkout:'2027-03-12', costPerNight:30, points:0, transport:35, transportMode:'drive', accommodationType:'airbnb', foodCostPerDay:25, notes:'Drive from General San Martín (Chaco) → La Quiaca ~700km via Ruta 34 (~7-8h — start early). Bolivia border town at 3,442m altitude — acclimatise slowly. Villazon border crossing into Bolivia just 2km away (day trip). Local markets, street empanadas ~$2, colourful textiles. Food: ~$18-22pp/day — very affordable.' },
+  { id:'s62', country:'Argentina', dest:'Tilcara', hotel:'Airbnb Tilcara', checkin:'2027-03-12', checkout:'2027-03-14', costPerNight:35, points:0, transport:10, transportMode:'drive', accommodationType:'airbnb', foodCostPerDay:25, notes:'Drive from La Quiaca ~100km south through the Quebrada de Humahuaca UNESCO canyon (~1.5h). Tilcara is the best base in the Quebrada — Pucará ruins (pre-Inca hilltop fortress ~$5pp), Jardin Botanico de Altura, artisan market on the main plaza. Visit Humahuaca village (24km north) and the Hand of God monument. Food: ~$18-22pp/day — humitas, tamales, locro stew from market stalls.' },
+  { id:'s63', country:'Argentina', dest:'Purmamarca', hotel:'Airbnb Purmamarca', checkin:'2027-03-14', checkout:'2027-03-16', costPerNight:38, points:0, transport:5, transportMode:'drive', accommodationType:'airbnb', foodCostPerDay:25, notes:'Drive from Tilcara ~22km south (~20min). Purmamarca sits at the foot of the famous Cerro de los Siete Colores (Hill of Seven Colours) — walk the circuit at sunrise before tour buses arrive. Salt flats, llamas, vibrant artisan stalls. Mar 16: drive back to Resistencia (~670km via Ruta 9/34, ~7h) and catch overnight bus to Buenos Aires (~14h, Flecha Bus ~$35pp). Arrive BA morning Mar 17, fly to San Martin de los Andes same day.' },
+
+  // LAKE DISTRICT — fly BA → Chapelco (SMdlosA) — 2 weeks, accom $600/2pax total, flights $400/2pax
+  { id:'s51', country:'Argentina', dest:'San Martin de los Andes', hotel:'Airbnb San Martin de los Andes', checkin:'2027-03-17', checkout:'2027-03-22', costPerNight:45, points:0, transport:200, transportMode:'plane', accommodationType:'airbnb', foodCostPerDay:35, notes:'Fly Buenos Aires → Chapelco airport (SMdlosA) — JetSmart or Aerolíneas ~$200pp NZD return (book 2+ months ahead). Charming mountain town on Lago Lácar — less crowded than Bariloche, more authentic. Ruta de los Siete Lagos (Seven Lakes Road) south to Villa La Angostura. Smoked meats, artisan chocolate, craft beer. Hike Cerro Bandurrias for panoramic views. March = end of summer, warm and green before autumn.' },
+  { id:'s53', country:'Argentina', dest:'Villa La Angostura', hotel:'Airbnb Villa La Angostura', checkin:'2027-03-22', checkout:'2027-03-27', costPerNight:42, points:0, transport:15, transportMode:'bus', accommodationType:'airbnb', foodCostPerDay:35, notes:'Bus from San Martin de los Andes along the Seven Lakes Road ~2.5h (~$12pp). Boutique resort town on Lago Nahuel Huapi — one of the most beautiful spots in Patagonia. Bosque de Arrayanes myrtle forest walk (~3h return, ~$5pp). Excellent restaurants and artisan chocolate shops. Late March autumn foliage begins turning golden. Day trip to Bariloche ~80km south is easy.' },
+  { id:'s54', country:'Argentina', dest:'El Bolson', hotel:'Airbnb El Bolson', checkin:'2027-03-27', checkout:'2027-03-31', costPerNight:40, points:0, transport:20, transportMode:'bus', accommodationType:'airbnb', foodCostPerDay:30, notes:'Bus from Villa La Angostura via Bariloche ~3h total (~$15pp). Famous hippy craft market town — cerveza artesanal, fresh berries, artisan honey, homemade pasta. Very affordable. Hike Cerro Perito Moreno for sweeping valley views. Feria Artesanal on weekends. Mar 31: bus to Bariloche (BRC airport) and fly back to Buenos Aires — then connect Buenos Aires → Ushuaia.' },
+
+  // USHUAIA — 1 week
+  { id:'s57', country:'Argentina', dest:'Ushuaia', hotel:'Hostel Ushuaia', checkin:'2027-03-31', checkout:'2027-04-07', costPerNight:50, points:0, transport:200, transportMode:'plane', accommodationType:'hostel', foodCostPerDay:35, notes:'Fly Buenos Aires (EZE) → Ushuaia (USH) — JetSmart or Aerolíneas ~$200pp NZD one-way (book early). Southernmost city on Earth. Tierra del Fuego National Park — free hiking, beaver dams, Lapataia Bay. Beagle Channel boat trip ~$30pp (sea lions, cormorants, lighthouse). Centolla (king crab) — splurge once ~$25pp. End of March: cooler (~5-10°C), fewer tourists, stunning autumn light. Hostel or Airbnb ~$40-50/night. Fly USH → BA to wrap up.' },
+
+  // BUENOS AIRES — 2-4 weeks
+  { id:'s42', country:'Argentina', dest:'Buenos Aires (return)', hotel:'Family Apartment (FREE)', checkin:'2027-04-07', checkout:'2027-05-03', costPerNight:0, points:0, transport:150, transportMode:'plane', accommodationType:'free', foodCostPerDay:25, notes:'Fly Ushuaia → Buenos Aires EZE (~$150pp NZD). Free family apartment for final ~26 nights. Food: ~$15-20pp/day cooking at home + farewell meals out. Final weeks: Palermo flea market, Recoleta cemetery, Tigre delta, family asados, San Telmo Sunday market. Fly BA Ezeiza (EZE) to Europe — LATAM, Iberia, Air Europa, KLM. Book 3+ months early.' },
 ];
 
 // ═══════════════════════════════════════════
@@ -1000,6 +994,24 @@ const THINGS_TO_DO = {
     { icon:'🏔', name:'Aconcagua viewpoint drive', desc:'Drive to Confluencia for views of the highest peak outside Asia', price:'~$5 park entry' },
     { icon:'🚣', name:'Potrerillos river rafting', desc:'Class III-IV rapids on the Mendoza River through Andean foothills', price:'~$40pp' },
   ],
+  'La Quiaca': [
+    { icon:'🇧🇴', name:'Villazon border crossing (Bolivia)', desc:'Walk across the border into Villazon, Bolivia — duty-free market, colourful chaos, and a different world', price:'Free (passport needed)' },
+    { icon:'🎨', name:'Local artisan market', desc:'Indigenous weavings, hand-dyed textiles, and carved figurines — among the most authentic in Argentina', price:'Free to browse' },
+    { icon:'🏔', name:'Yavi village day trip', desc:'18km east — preserved colonial church, ancient Marquesado hacienda, and scenic high-altitude plains', price:'~$10pp remis taxi' },
+    { icon:'🍽', name:'Border food trail', desc:'Empanadas jujeñas, api (warm purple corn drink), api with pastel — cheap Bolivian-influenced street food', price:'~$5pp' },
+  ],
+  'Tilcara': [
+    { icon:'🏯', name:'Tilcara Pucará ruins', desc:'Pre-Inca hilltop fortress with commanding views over the Quebrada de Humahuaca UNESCO canyon', price:'~$5pp' },
+    { icon:'🌄', name:'Quebrada de Humahuaca drive', desc:'Explore the gorge — Humahuaca village (24km north), the Hand of God monument, and Uquía church', price:'Free + fuel' },
+    { icon:'🌵', name:'Jardín Botánico de Altura', desc:'Cacti garden with 2,000+ specimens from the Puna and Andean highlands', price:'~$3pp' },
+    { icon:'🍽', name:'Market food', desc:'Humitas, tamales, locro stew, and empanadas from market stalls — authentic Andean flavours from $2pp', price:'~$8pp meal' },
+  ],
+  'Purmamarca': [
+    { icon:'🌈', name:'Cerro de los Siete Colores', desc:'Walk the circuit around the Hill of Seven Colours at sunrise — red, violet, white, green, yellow, pink and grey', price:'Free' },
+    { icon:'🧂', name:'Salinas Grandes salt flats', desc:'Drive 64km up the Cuesta del Lipán to vast white salt flats at 3,450m — otherworldly landscape', price:'Free' },
+    { icon:'🦙', name:'Plaza artisan market', desc:'Vibrant stalls of hand-loomed alpaca textiles, leather, and ceramics surrounding the 17th-century church', price:'Free to browse' },
+    { icon:'📸', name:'Cuesta del Lipán drive', desc:'Dramatic switchback road climbing to the Puna plateau — one of the most scenic drives in Argentina', price:'Free' },
+  ],
   'Jujuy': [
     { icon:'🌈', name:'Purmamarca & Hill of Seven Colours', desc:'30-min drive from Jujuy — multicoloured hillside, salt flats, llamas, artisan market', price:'Free entry' },
     { icon:'🏔', name:'Quebrada de Humahuaca UNESCO canyon', desc:'Drive north along the gorge stopping at Tilcara, Uquía, and Humahuaca village', price:'~$5pp ruins entry' },
@@ -1105,7 +1117,7 @@ const THINGS_TO_DO = {
 // ═══════════════════════════════════════════
 function loadStops() {
   try {
-    const d = localStorage.getItem('dt_stops_v10');
+    const d = localStorage.getItem('dt_stops_v11');
     if(d) {
       const data = JSON.parse(d);
       const dateMigrations = {
@@ -1173,14 +1185,14 @@ function loadStops() {
         baStop.notes = 'Drive Resistencia → BA ~1,050km via Ruta 16 → Ruta 9. ~11h, fuel ~$120 USD total (family car, ~100L). Arrive home base — collect road trip gear. Tango, La Boca, San Telmo.';
         changed = true;
       }
-      if(changed) localStorage.setItem('dt_stops_v10', JSON.stringify(data));
+      if(changed) localStorage.setItem('dt_stops_v11', JSON.stringify(data));
       return data;
     }
   } catch(e){}
   return DEFAULT_STOPS.map(s=>({...s}));
 }
 function saveStops(arr) {
-  try { localStorage.setItem('dt_stops_v10', JSON.stringify(arr)); } catch(e){}
+  try { localStorage.setItem('dt_stops_v11', JSON.stringify(arr)); } catch(e){}
 }
 function loadICT() {
   try {
@@ -1265,7 +1277,7 @@ function calcCountryStopsCost(country) {
 }
 function resetToDefaults() {
   if(!confirm('Reset all stop costs and transport data to file defaults? This will clear your browser cache for this app.')) return;
-  localStorage.removeItem('dt_stops_v10');
+  localStorage.removeItem('dt_stops_v11');
   localStorage.removeItem('dt_ict_v10');
   location.reload();
 }
@@ -3025,13 +3037,10 @@ const ROUTE_COORDS = [
   [-15.8402,-70.0219,'Puno'],[-3.7172,-38.5433,'Fortaleza'],[-9.6658,-35.7350,'Maceió'],
   [-8.0522,-34.9286,'Recife'],[-12.9714,-38.5014,'Salvador'],[-22.9068,-43.1729,'Rio'],
   [-25.5163,-54.5854,'Foz do Iguaçu'],[-25.6953,-54.4367,'Iguazu Falls'],[-27.4514,-58.9867,'Chaco'],
-  [-24.1857,-65.2995,'Jujuy'],[-24.7829,-65.4232,'Salta'],[-26.0736,-65.9759,'Cafayate'],
-  [-31.5375,-68.5364,'San Juan'],[-33.80,-69.15,'El Manzano'],[-38.8983,-70.0504,'Zapala'],
-  [-40.1558,-71.3535,'San Martin'],[-40.6617,-71.3942,'Villa Traful'],[-40.7622,-71.6476,'Villa La Angostura'],
-  [-41.1335,-71.3103,'Bariloche'],[-41.9600,-71.5350,'El Bolson'],[-42.9060,-71.3190,'Esquel'],
-  [-49.3310,-72.8860,'El Chalten'],[-50.3377,-72.2648,'El Calafate'],[-51.6230,-69.2168,'Rio Gallegos'],
-  [-54.8019,-68.3030,'Ushuaia'],[-47.7500,-65.9000,'Puerto Deseado'],[-45.8651,-67.4977,'Comodoro'],
-  [-42.7692,-65.0366,'Puerto Madryn'],[-38.7183,-62.2663,'Bahia Blanca'],[-34.6037,-58.3816,'Buenos Aires'],
+  [-22.1069,-65.5980,'La Quiaca'],[-23.5779,-65.3887,'Tilcara'],[-23.7416,-65.5015,'Purmamarca'],
+  [-40.1558,-71.3535,'San Martin de los Andes'],[-40.7622,-71.6476,'Villa La Angostura'],
+  [-41.9600,-71.5350,'El Bolson'],
+  [-54.8019,-68.3030,'Ushuaia'],[-34.6037,-58.3816,'Buenos Aires'],
 ];
 function latLngToVec(lat,lng,r){
   const phi=(90-lat)*Math.PI/180, th=(lng+180)*Math.PI/180;

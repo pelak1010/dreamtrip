@@ -6,9 +6,8 @@
 <title>Christian & Abi — Dream Trip 2026–27</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
 <style>
 :root {
   --sand:#F5EDD6; --deep:#1A1C2E; --coral:#E8654A; --teal:#2ABFAA;
@@ -233,8 +232,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 /* TOTAL SECTION */
 .section-h2{font-family:'Playfair Display',serif;font-size:1rem;color:var(--sand);margin-bottom:.5rem}
 
-/* HIDDEN SCROLLBAR GLOBE */
-#globe-canvas-wrap{position:relative;width:100%;height:420px}
+/* MAPBOX ATTRIBUTION STYLING */
+.mapboxgl-ctrl-logo{opacity:.4}
+.mapboxgl-ctrl-attrib{font-size:.55rem;opacity:.5}
 
 /* ═══════════════════════════════════════════════════════════
    v9 ADDITIONS
@@ -600,8 +600,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
     <div>
       <h2 class="section-h2">3D Route Globe</h2>
       <div class="globe-container" id="globe-container">
-        <div id="globe-canvas-wrap"><canvas id="globe-canvas"></canvas></div>
-        <p id="globe-hint" style="font-size:.72rem;color:rgba(245,237,214,.25);margin-top:.5rem;padding:.3rem">Click to pause · Scroll to zoom · Drag to rotate</p>
+        <div id="mapbox-globe" style="width:100%;height:420px"></div>
+        <p id="globe-hint" style="font-size:.72rem;color:rgba(245,237,214,.25);margin-top:.5rem;padding:.3rem">Drag to rotate · Scroll to zoom · Double-click to fly</p>
       </div>
     </div>
     <div>
@@ -610,7 +610,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
         <button class="gmode-btn active" id="gbtn-street" onclick="setMapMode('street')">Street</button>
         <button class="gmode-btn" id="gbtn-satellite" onclick="setMapMode('satellite')">Satellite</button>
       </div>
-      <div class="map-container" id="leaflet-map"></div>
+      <div class="map-container" id="mapbox-2d"></div>
     </div>
   </div>
 </div>
@@ -1549,7 +1549,7 @@ function switchView(v) {
   document.getElementById('view-'+v).classList.add('active');
   const btns = document.querySelectorAll('.tab-btn');
   ['itin','budg','pack','docs','globe','tips'].forEach((name,i)=>{ if(name===v) btns[i].classList.add('active'); });
-  if(v==='globe') { initGlobe(); initLeafletMap(); }
+  if(v==='globe') { initGlobe(); initMapbox2D(); }
   if(v==='budg') renderBudget();
   if(v==='tips') renderTips();
   if(v==='pack') renderPacking();
@@ -3029,9 +3029,9 @@ function renderTips() {
 }
 
 // ═══════════════════════════════════════════
-//  3D GLOBE
+//  MAPBOX TOKEN + ROUTE DATA
 // ═══════════════════════════════════════════
-let globeInited = false, globeAnimFrame;
+const MAPBOX_TOKEN = 'pk.eyJ1IjoiY2hyaXN3YWRlMjAyNyIsImEiOiJjbXEwNzFwcTUwcDduMndvaDVkc3B5cTczIn0.CRkhXAZ3SPMa5A5Rk9z0Pw';
 const ROUTE_COORDS = [
   [-8.4095,115.1889,'Bali'],[-8.6524,116.3240,'Lombok'],[-8.4892,119.8880,'Labuan Bajo'],[-8.4095,115.1889,'Bali'],
   [10.3157,123.8854,'Cebu'],[9.8500,124.1430,'Bohol'],[9.1856,123.5100,'Siquijor'],
@@ -3047,143 +3047,222 @@ const ROUTE_COORDS = [
   [-41.9600,-71.5350,'El Bolson'],
   [-54.8019,-68.3030,'Ushuaia'],[-34.6037,-58.3816,'Buenos Aires'],
 ];
-function latLngToVec(lat,lng,r){
-  const phi=(90-lat)*Math.PI/180, th=(lng+180)*Math.PI/180;
-  return new THREE.Vector3(-r*Math.sin(phi)*Math.cos(th),r*Math.cos(phi),r*Math.sin(phi)*Math.sin(th));
-}
-function initGlobe(){
-  if(globeInited) return;
-  globeInited=true;
-  const wrap=document.getElementById('globe-canvas-wrap');
-  const canvas=document.getElementById('globe-canvas');
-  const W=wrap.clientWidth, H=wrap.clientHeight||420;
-  canvas.width=W; canvas.height=H;
-  const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
-  renderer.setSize(W,H);
-  const scene=new THREE.Scene();
-  const camera=new THREE.PerspectiveCamera(50,W/H,0.1,100);
-  camera.position.z=2.8;
-  scene.add(new THREE.AmbientLight(0xffffff,0.7));
-  const dl=new THREE.DirectionalLight(0xffffff,0.8);
-  dl.position.set(5,3,5); scene.add(dl);
-  // Globe sphere
-  const geo=new THREE.SphereGeometry(1,64,64);
-  const texLoader=new THREE.TextureLoader();
-  texLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_atmos_2048.jpg',
-    tex=>{ const mat=new THREE.MeshLambertMaterial({map:tex}); scene.add(new THREE.Mesh(geo,mat)); },
-    undefined, ()=>{ const mat=new THREE.MeshLambertMaterial({color:0x1a3a5c}); scene.add(new THREE.Mesh(geo,mat)); }
-  );
-  // Determine current/next stop based on today
+
+// ═══════════════════════════════════════════
+//  3D GLOBE (Mapbox GL – globe projection)
+// ═══════════════════════════════════════════
+let mapboxGlobeInited = false, mapboxGlobeMap = null, mapboxGlobeSpinInterval = null;
+
+function initGlobe() {
+  if (mapboxGlobeInited) { if (mapboxGlobeMap) mapboxGlobeMap.resize(); return; }
+  mapboxGlobeInited = true;
+  mapboxgl.accessToken = MAPBOX_TOKEN;
+
   const todayD = new Date(); todayD.setHours(0,0,0,0);
   let activeIdx = 0;
-  for(let i=0;i<stops.length;i++){
-    const ci = stops[i].checkin ? new Date(stops[i].checkin+'T00:00:00') : null;
-    const co = stops[i].checkout ? new Date(stops[i].checkout+'T00:00:00') : null;
-    if(ci && co && todayD>=ci && todayD<co){ activeIdx=i; break; }
-    if(ci && todayD < ci){ activeIdx=i; break; }
+  for (let i = 0; i < stops.length; i++) {
+    const ci = stops[i].checkin  ? new Date(stops[i].checkin  + 'T00:00:00') : null;
+    const co = stops[i].checkout ? new Date(stops[i].checkout + 'T00:00:00') : null;
+    if (ci && co && todayD >= ci && todayD < co) { activeIdx = i; break; }
+    if (ci && todayD < ci) { activeIdx = i; break; }
+  }
+  const [actLat, actLng] = ROUTE_COORDS[activeIdx] || [-8, 115];
+
+  mapboxGlobeMap = new mapboxgl.Map({
+    container: 'mapbox-globe',
+    style: 'mapbox://styles/mapbox/satellite-streets-v12',
+    projection: 'globe',
+    center: [actLng, actLat],
+    zoom: 1.5,
+    attributionControl: false
+  });
+  mapboxGlobeMap.addControl(new mapboxgl.AttributionControl({ compact: true }), 'bottom-right');
+
+  function setupGlobeLayers() {
+    mapboxGlobeMap.setFog({
+      color: 'rgb(15,16,25)',
+      'high-color': 'rgb(26,28,46)',
+      'horizon-blend': 0.04,
+      'space-color': 'rgb(10,10,18)',
+      'star-intensity': 0.6
+    });
+
+    if (!mapboxGlobeMap.getSource('route-globe')) {
+      mapboxGlobeMap.addSource('route-globe', {
+        type: 'geojson',
+        data: { type: 'Feature', geometry: { type: 'LineString',
+          coordinates: ROUTE_COORDS.map(([lat,lng]) => [lng, lat]) } }
+      });
+    }
+    if (!mapboxGlobeMap.getLayer('route-globe-line')) {
+      mapboxGlobeMap.addLayer({ id: 'route-globe-line', type: 'line', source: 'route-globe',
+        paint: { 'line-color': '#E8654A', 'line-width': 1.8, 'line-opacity': 0.75, 'line-dasharray': [2, 1.5] } });
+    }
+
+    if (!mapboxGlobeMap.getSource('stops-globe')) {
+      mapboxGlobeMap.addSource('stops-globe', {
+        type: 'geojson',
+        data: { type: 'FeatureCollection', features: ROUTE_COORDS.map(([lat,lng,name], i) => ({
+          type: 'Feature', geometry: { type: 'Point', coordinates: [lng, lat] },
+          properties: { name, active: i === activeIdx }
+        })) }
+      });
+    }
+    if (!mapboxGlobeMap.getLayer('stops-globe-inactive')) {
+      mapboxGlobeMap.addLayer({ id: 'stops-globe-inactive', type: 'circle', source: 'stops-globe',
+        filter: ['!', ['get', 'active']],
+        paint: { 'circle-radius': 5, 'circle-color': '#2ABFAA', 'circle-stroke-width': 1.5, 'circle-stroke-color': '#fff' } });
+    }
+    if (!mapboxGlobeMap.getLayer('stops-globe-active')) {
+      mapboxGlobeMap.addLayer({ id: 'stops-globe-active', type: 'circle', source: 'stops-globe',
+        filter: ['==', ['get', 'active'], true],
+        paint: { 'circle-radius': 9, 'circle-color': '#E8654A', 'circle-stroke-width': 2, 'circle-stroke-color': '#fff', 'circle-opacity': 0.9 } });
+    }
+
+    injectMapboxPulseCSS();
+    if (!document.querySelector('.mapbox-pulse-marker')) {
+      const activeCoord = ROUTE_COORDS[activeIdx];
+      if (activeCoord) {
+        const el = document.createElement('div');
+        el.className = 'mapbox-pulse-marker';
+        new mapboxgl.Marker({ element: el }).setLngLat([activeCoord[1], activeCoord[0]]).addTo(mapboxGlobeMap);
+      }
+    }
+
+    ['stops-globe-inactive','stops-globe-active'].forEach(layerId => {
+      mapboxGlobeMap.on('click', layerId, e => {
+        new mapboxgl.Popup({ closeButton: false, className: 'mapbox-popup-dark' })
+          .setLngLat(e.features[0].geometry.coordinates.slice())
+          .setHTML(`<b>${e.features[0].properties.name}</b>`)
+          .addTo(mapboxGlobeMap);
+      });
+      mapboxGlobeMap.on('mouseenter', layerId, () => mapboxGlobeMap.getCanvas().style.cursor = 'pointer');
+      mapboxGlobeMap.on('mouseleave', layerId, () => mapboxGlobeMap.getCanvas().style.cursor = '');
+    });
+
+    startGlobeSpin();
   }
 
-  // Route line (animated draw-in)
-  const allPts=ROUTE_COORDS.map(([lat,lng])=>latLngToVec(lat,lng,1.01));
-  const lineMat = new THREE.LineBasicMaterial({color:0xE8654A});
-  const lineGeo = new THREE.BufferGeometry();
-  lineGeo.setFromPoints([allPts[0]]);
-  const routeLine = new THREE.Line(lineGeo, lineMat);
-  scene.add(routeLine);
-  let drawProgress = 1; // start to grow
-  // Stop dots (with active highlight)
-  const dots = [];
-  ROUTE_COORDS.forEach(([lat,lng,name], i)=>{
-    const pos=latLngToVec(lat,lng,1.02);
-    const isActive = (i===activeIdx);
-    const color = isActive ? 0xE8654A : 0x2ABFAA;
-    const size = isActive ? 0.022 : 0.012;
-    const dot=new THREE.Mesh(new THREE.SphereGeometry(size,12,12),new THREE.MeshBasicMaterial({color}));
-    dot.position.copy(pos); scene.add(dot);
-    dots.push({mesh:dot, isActive, basePos:pos});
-    // Pulse halo for active
-    if(isActive){
-      const haloGeo = new THREE.RingGeometry(0.025, 0.04, 32);
-      const haloMat = new THREE.MeshBasicMaterial({color:0xE8654A, side:THREE.DoubleSide, transparent:true, opacity:.5});
-      const halo = new THREE.Mesh(haloGeo, haloMat);
-      halo.position.copy(pos);
-      halo.lookAt(0,0,0);
-      scene.add(halo);
-      dots[i].halo = halo;
-    }
-  });
-  // Add label
+  let globeLayersDone = false;
+  function safeSetupGlobe() {
+    if (globeLayersDone) return;
+    if (!mapboxGlobeMap.style || !mapboxGlobeMap.style._loaded) return;
+    globeLayersDone = true;
+    setupGlobeLayers();
+  }
+  mapboxGlobeMap.on('load', safeSetupGlobe);
+  mapboxGlobeMap.on('style.load', safeSetupGlobe);
+  const _globePoll = setInterval(() => { safeSetupGlobe(); if (globeLayersDone) clearInterval(_globePoll); }, 100);
+
+  mapboxGlobeMap.on('mousedown',  stopGlobeSpin);
+  mapboxGlobeMap.on('touchstart', stopGlobeSpin);
+  mapboxGlobeMap.on('mouseup',    () => setTimeout(startGlobeSpin, 2000));
+  mapboxGlobeMap.on('touchend',   () => setTimeout(startGlobeSpin, 2000));
+
   const labelEl = document.createElement('div');
   labelEl.className = 'globe-now-label';
   const activeName = ROUTE_COORDS[activeIdx]?.[2] || 'Bali';
   const isFuture = new Date(TRIP_START+'T00:00:00') > todayD;
-  labelEl.innerHTML = `<span class="pulse-dot"></span>${isFuture?'Next up':'Currently'}: <b>${activeName}</b>`;
+  labelEl.innerHTML = `<span class="pulse-dot"></span>${isFuture ? 'Next up' : 'Currently'}: <b>${activeName}</b>`;
   document.getElementById('globe-container').appendChild(labelEl);
+}
 
-  // Spin to roughly show the active region
-  const [actLat, actLng] = ROUTE_COORDS[activeIdx] || [-8,115];
-  scene.rotation.y = -(actLng+180)*Math.PI/180 + Math.PI;
-  scene.rotation.x = actLat*Math.PI/180 * 0.5 + 0.2;
-  let isDragging=false,prevMouse={x:0,y:0},autoRotate=true;
-  canvas.addEventListener('mousedown',e=>{isDragging=true;prevMouse={x:e.clientX,y:e.clientY};autoRotate=false;});
-  window.addEventListener('mouseup',()=>isDragging=false);
-  window.addEventListener('mousemove',e=>{
-    if(!isDragging) return;
-    scene.rotation.y+=(e.clientX-prevMouse.x)*0.005;
-    scene.rotation.x+=(e.clientY-prevMouse.y)*0.005;
-    prevMouse={x:e.clientX,y:e.clientY};
-  });
-  canvas.addEventListener('wheel',e=>{ camera.position.z=Math.max(1.4,Math.min(5.5,camera.position.z+e.deltaY*0.002)); });
-  canvas.addEventListener('click',()=>{ autoRotate=!autoRotate; document.getElementById('globe-hint').textContent=autoRotate?'Click to pause · Scroll to zoom · Drag to rotate':'▶ Click to resume · Scroll to zoom · Drag to rotate'; });
-  let pulseT = 0;
-  (function animate(){
-    globeAnimFrame=requestAnimationFrame(animate);
-    if(autoRotate&&!isDragging)scene.rotation.y+=0.0012;
-    // Animate route line drawing in
-    if(drawProgress < allPts.length){
-      drawProgress += 0.08;
-      const i = Math.min(allPts.length, Math.ceil(drawProgress));
-      lineGeo.setFromPoints(allPts.slice(0, i));
-      lineGeo.attributes.position.needsUpdate = true;
-    }
-    // Pulse halo
-    pulseT += 0.04;
-    dots.forEach(d=>{
-      if(d.halo){
-        const s = 1 + Math.sin(pulseT)*0.4 + 0.4;
-        d.halo.scale.set(s,s,1);
-        d.halo.material.opacity = 0.5 - (s-1)*0.3;
-      }
+function startGlobeSpin() {
+  stopGlobeSpin();
+  mapboxGlobeSpinInterval = setInterval(() => {
+    if (!mapboxGlobeMap) return;
+    const c = mapboxGlobeMap.getCenter();
+    c.lng -= 0.07;
+    mapboxGlobeMap.setCenter(c);
+  }, 16);
+}
+function stopGlobeSpin() {
+  if (mapboxGlobeSpinInterval) { clearInterval(mapboxGlobeSpinInterval); mapboxGlobeSpinInterval = null; }
+}
+function injectMapboxPulseCSS() {
+  if (document.getElementById('mapbox-pulse-style')) return;
+  const s = document.createElement('style');
+  s.id = 'mapbox-pulse-style';
+  s.textContent = `.mapbox-pulse-marker{width:22px;height:22px;border-radius:50%;background:rgba(232,101,74,0.35);border:2px solid #E8654A;animation:mapbox-pulse 2s ease-out infinite}@keyframes mapbox-pulse{0%{transform:scale(1);opacity:1}70%{transform:scale(2.2);opacity:0}100%{transform:scale(1);opacity:0}}.mapbox-popup-dark .mapboxgl-popup-content{background:#1a1c2e;color:#F5EDD6;border:1px solid rgba(245,237,214,.15);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.82rem;padding:.4rem .65rem}.mapbox-popup-dark .mapboxgl-popup-tip{display:none}`;
+  document.head.appendChild(s);
+}
+
+// ═══════════════════════════════════════════
+//  INTERACTIVE MAP (Mapbox GL – 2D)
+// ═══════════════════════════════════════════
+let mapbox2DInited = false, mapbox2DMap = null;
+
+function addMapbox2DLayers() {
+  if (!mapbox2DMap) return;
+  if (!mapbox2DMap.getSource('route-2d')) {
+    mapbox2DMap.addSource('route-2d', {
+      type: 'geojson',
+      data: { type: 'Feature', geometry: { type: 'LineString',
+        coordinates: ROUTE_COORDS.map(([lat,lng]) => [lng, lat]) } }
     });
-    renderer.render(scene,camera);
-  })();
+  }
+  if (!mapbox2DMap.getLayer('route-2d-line')) {
+    mapbox2DMap.addLayer({ id: 'route-2d-line', type: 'line', source: 'route-2d',
+      paint: { 'line-color': '#E8654A', 'line-width': 2, 'line-opacity': 0.65, 'line-dasharray': [3, 2] } });
+  }
+  if (!mapbox2DMap.getSource('stops-2d')) {
+    mapbox2DMap.addSource('stops-2d', {
+      type: 'geojson',
+      data: { type: 'FeatureCollection', features: ROUTE_COORDS.map(([lat,lng,name]) => ({
+        type: 'Feature', geometry: { type: 'Point', coordinates: [lng, lat] },
+        properties: { name }
+      })) }
+    });
+  }
+  if (!mapbox2DMap.getLayer('stops-2d-circles')) {
+    mapbox2DMap.addLayer({ id: 'stops-2d-circles', type: 'circle', source: 'stops-2d',
+      paint: { 'circle-radius': 7, 'circle-color': '#2ABFAA', 'circle-stroke-width': 2, 'circle-stroke-color': '#E8654A' } });
+    mapbox2DMap.on('click', 'stops-2d-circles', e => {
+      new mapboxgl.Popup({ closeButton: false, className: 'mapbox-popup-dark' })
+        .setLngLat(e.features[0].geometry.coordinates.slice())
+        .setHTML(`<b>${e.features[0].properties.name}</b>`)
+        .addTo(mapbox2DMap);
+    });
+    mapbox2DMap.on('mouseenter', 'stops-2d-circles', () => mapbox2DMap.getCanvas().style.cursor = 'pointer');
+    mapbox2DMap.on('mouseleave', 'stops-2d-circles', () => mapbox2DMap.getCanvas().style.cursor = '');
+  }
 }
 
-// ═══════════════════════════════════════════
-//  LEAFLET MAP
-// ═══════════════════════════════════════════
-let leafletMap=null, currentTileLayer=null;
-function initLeafletMap(){
-  if(leafletMap){leafletMap.invalidateSize();return;}
-  leafletMap=L.map('leaflet-map').setView([10,105],3);
-  currentTileLayer=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:18}).addTo(leafletMap);
-  ROUTE_COORDS.forEach(([lat,lng,name])=>{
-    L.circleMarker([lat,lng],{radius:7,fillColor:'#2ABFAA',color:'#E8654A',weight:2,fillOpacity:0.9})
-     .bindPopup(`<b>${name}</b>`).addTo(leafletMap);
+function initMapbox2D() {
+  if (mapbox2DInited) { if (mapbox2DMap) mapbox2DMap.resize(); return; }
+  mapbox2DInited = true;
+  mapboxgl.accessToken = MAPBOX_TOKEN;
+
+  mapbox2DMap = new mapboxgl.Map({
+    container: 'mapbox-2d',
+    style: 'mapbox://styles/mapbox/streets-v12',
+    center: [105, 10],
+    zoom: 2.5,
+    attributionControl: false
   });
-  // Route polyline
-  L.polyline(ROUTE_COORDS.map(([lat,lng])=>[lat,lng]),{color:'#E8654A',weight:2,opacity:0.6,dashArray:'6 4'}).addTo(leafletMap);
-}
-function setMapMode(mode){
-  if(!leafletMap) return;
-  if(currentTileLayer) leafletMap.removeLayer(currentTileLayer);
-  if(mode==='satellite'){
-    currentTileLayer=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{attribution:'© Esri',maxZoom:18}).addTo(leafletMap);
-  } else {
-    currentTileLayer=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:18}).addTo(leafletMap);
+  mapbox2DMap.addControl(new mapboxgl.AttributionControl({ compact: true }), 'bottom-right');
+  mapbox2DMap.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-right');
+  let map2dLayersDone = false;
+  function safeSetup2D() {
+    if (map2dLayersDone) return;
+    if (!mapbox2DMap.style || !mapbox2DMap.style._loaded) return;
+    map2dLayersDone = true;
+    addMapbox2DLayers();
   }
-  document.querySelectorAll('.gmode-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('gbtn-'+mode).classList.add('active');
+  mapbox2DMap.on('load', safeSetup2D);
+  mapbox2DMap.on('style.load', safeSetup2D);
+  const _2dPoll = setInterval(() => { safeSetup2D(); if (map2dLayersDone) clearInterval(_2dPoll); }, 100);
+}
+
+function setMapMode(mode) {
+  document.querySelectorAll('.gmode-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('gbtn-' + mode).classList.add('active');
+  if (!mapbox2DMap) return;
+  const styleUrl = mode === 'satellite'
+    ? 'mapbox://styles/mapbox/satellite-streets-v12'
+    : 'mapbox://styles/mapbox/streets-v12';
+  mapbox2DMap.setStyle(styleUrl);
+  mapbox2DMap.once('style.load', addMapbox2DLayers);
 }
 
 // ═══════════════════════════════════════════

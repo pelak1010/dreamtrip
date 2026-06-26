@@ -178,6 +178,28 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .sa-btn.booking:hover{background:rgba(0,200,100,.1)}
 .sa-btn.accor{border-color:rgba(212,168,67,.3);color:var(--gold)}
 .sa-btn.accor:hover{background:rgba(212,168,67,.1)}
+.sa-btn.dailyplan{border-color:rgba(42,191,170,.3);color:var(--teal)}
+.sa-btn.dailyplan:hover{background:rgba(42,191,170,.1)}
+
+/* DAILY PLAN PANEL */
+.dp-panel{background:rgba(42,191,170,.05);border:1px solid rgba(42,191,170,.18);border-radius:10px;padding:.8rem;margin-top:.75rem}
+.dp-panel-title{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--teal);margin-bottom:.7rem;display:flex;align-items:center;justify-content:space-between}
+.dp-day{border:1px solid rgba(42,191,170,.1);border-radius:8px;margin-bottom:.4rem;overflow:hidden}
+.dp-day-header{display:flex;align-items:center;gap:.6rem;padding:.5rem .7rem;cursor:pointer;background:rgba(42,191,170,.04);user-select:none}
+.dp-day-header:hover{background:rgba(42,191,170,.08)}
+.dp-day-num{font-size:.65rem;font-weight:600;color:var(--teal);min-width:40px}
+.dp-day-date{font-size:.68rem;color:rgba(245,237,214,.4);flex:1}
+.dp-day-theme{font-size:.75rem;color:var(--sand);flex:2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dp-day-chevron{font-size:.6rem;color:rgba(245,237,214,.2);transition:transform .2s;flex-shrink:0}
+.dp-day.open .dp-day-chevron{transform:rotate(180deg)}
+.dp-day-body{display:none;padding:.6rem .7rem .7rem;border-top:1px solid rgba(42,191,170,.1);background:rgba(0,0,0,.15)}
+.dp-day.open .dp-day-body{display:block}
+.dp-row{display:flex;flex-direction:column;gap:.15rem;margin-bottom:.4rem}
+.dp-row label{font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(245,237,214,.3)}
+.dp-row input,.dp-row textarea{background:rgba(255,255,255,.04);border:1px solid rgba(42,191,170,.15);border-radius:6px;color:var(--sand);font-family:'DM Sans',sans-serif;font-size:.78rem;padding:.3rem .45rem;transition:border-color .2s;width:100%}
+.dp-row input:focus,.dp-row textarea:focus{outline:none;border-color:var(--teal)}
+.dp-row textarea{resize:vertical;min-height:54px}
+.dp-time-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem}
 
 /* MODAL */
 .modal-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);align-items:center;justify-content:center}
@@ -1912,10 +1934,12 @@ function buildStopCard(s, idx) {
         <a class="sa-btn booking" target="_blank" rel="noopener noreferrer" style="text-decoration:none" href="https://www.booking.com/searchresults.html?ss=${encodeURIComponent(s.dest)}&checkin=${s.checkin||''}&checkout=${s.checkout||''}&group_adults=2&no_rooms=1&group_children=0">🏨 Find Hotels on Booking.com ↗</a>
         <a class="sa-btn accor" target="_blank" rel="noopener noreferrer" style="text-decoration:none" href="https://all.accor.com/a/en.html?q=${encodeURIComponent(s.dest)}&dateIn=${s.checkin||''}&nights=${s.checkin&&s.checkout?Math.max(1,Math.round((new Date(s.checkout)-new Date(s.checkin))/86400000)):1}&room1Adults=2&rooms=1">✦ Find Hotels on Accor ↗</a>
         ${hasTodo?`<button class="sa-btn todo" onclick="toggleTodo('${s.id}')">🎯 Things To Do</button>`:''}
+        <button class="sa-btn dailyplan" onclick="toggleDailyPlan('${s.id}')">📅 Daily Plan</button>
         <button class="sa-btn del" onclick="deleteStop('${s.id}')">✕ Delete</button>
       </div>
       <div id="todo-${s.id}" style="display:none"></div>
       <div id="booking-${s.id}" style="display:none"></div>
+      <div id="dp-${s.id}" style="display:none"></div>
     </div>
   </div>`;
 }
@@ -1938,6 +1962,95 @@ function toggleTodo(id) {
     </div>`).join('')
   }</div>`;
 }
+// ═══════════════════════════════════════════
+//  DAILY PLAN
+// ═══════════════════════════════════════════
+function loadDailyPlan() {
+  try { const d = localStorage.getItem('dt_daily_v1'); if(d) return JSON.parse(d); } catch(e){}
+  return {};
+}
+function saveDailyPlan() {
+  try { localStorage.setItem('dt_daily_v1', JSON.stringify(dailyPlan)); } catch(e){}
+}
+let dailyPlan = loadDailyPlan();
+
+function toggleDailyPlan(sid) {
+  const el = document.getElementById('dp-'+sid);
+  if(!el) return;
+  if(el.style.display !== 'none') { el.style.display='none'; return; }
+  el.style.display='block';
+  renderDailyPlanPanel(sid);
+}
+
+function renderDailyPlanPanel(sid) {
+  const s = stops.find(s=>s.id===sid);
+  if(!s) return;
+  const el = document.getElementById('dp-'+sid);
+  if(!el) return;
+  const nights = nightsBetween(s.checkin, s.checkout);
+  const plan = dailyPlan[sid] || {};
+  const days = [];
+  if(s.checkin && nights > 0) {
+    for(let i=0; i<nights; i++) {
+      const d = new Date(s.checkin+'T00:00:00');
+      d.setDate(d.getDate()+i);
+      const label = d.toLocaleDateString('en-NZ',{weekday:'short',day:'numeric',month:'short'});
+      days.push({key:'day_'+(i+1), num:i+1, label});
+    }
+  } else {
+    for(let i=1; i<=5; i++) days.push({key:'day_'+i, num:i, label:'Day '+i});
+  }
+  el.innerHTML = `<div class="dp-panel">
+    <div class="dp-panel-title">
+      <span>📅 Daily Plan — ${s.dest}</span>
+      <span style="font-size:.62rem;color:rgba(245,237,214,.3)">${nights>0?nights+' nights · '+days.length+' days':''}</span>
+    </div>
+    ${days.map(day=>{
+      const e2 = plan[day.key]||{};
+      const themeHtml = e2.theme ? e2.theme.replace(/</g,'&lt;') : '<span style="opacity:.3">Click to add plan…</span>';
+      return `<div class="dp-day" id="dpday-${sid}-${day.key}">
+        <div class="dp-day-header" onclick="toggleDpDay('${sid}','${day.key}')">
+          <div class="dp-day-num">Day ${day.num}</div>
+          <div class="dp-day-date">${day.label}</div>
+          <div class="dp-day-theme">${themeHtml}</div>
+          <div class="dp-day-chevron">▼</div>
+        </div>
+        <div class="dp-day-body">
+          <div class="dp-row">
+            <label>Day theme / title</label>
+            <input placeholder="e.g. Temples &amp; beaches" value="${(e2.theme||'').replace(/"/g,'&quot;')}" onchange="updateDayEntry('${sid}','${day.key}','theme',this.value)">
+          </div>
+          <div class="dp-time-grid">
+            <div class="dp-row"><label>☀ Morning</label><textarea placeholder="What's planned…" onchange="updateDayEntry('${sid}','${day.key}','morning',this.value)">${e2.morning||''}</textarea></div>
+            <div class="dp-row"><label>🌤 Afternoon</label><textarea placeholder="What's planned…" onchange="updateDayEntry('${sid}','${day.key}','afternoon',this.value)">${e2.afternoon||''}</textarea></div>
+            <div class="dp-row"><label>🌙 Evening</label><textarea placeholder="What's planned…" onchange="updateDayEntry('${sid}','${day.key}','evening',this.value)">${e2.evening||''}</textarea></div>
+          </div>
+          <div class="dp-row">
+            <label>Notes / Tips</label>
+            <textarea placeholder="Bookings, reminders, tips…" onchange="updateDayEntry('${sid}','${day.key}','notes',this.value)">${e2.notes||''}</textarea>
+          </div>
+        </div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+function toggleDpDay(sid, dayKey) {
+  const el = document.getElementById('dpday-'+sid+'-'+dayKey);
+  if(el) el.classList.toggle('open');
+}
+
+function updateDayEntry(sid, dayKey, field, value) {
+  if(!dailyPlan[sid]) dailyPlan[sid]={};
+  if(!dailyPlan[sid][dayKey]) dailyPlan[sid][dayKey]={};
+  dailyPlan[sid][dayKey][field]=value;
+  saveDailyPlan();
+  if(field==='theme') {
+    const hdr = document.querySelector(`#dpday-${sid}-${dayKey} .dp-day-theme`);
+    if(hdr) hdr.textContent = value||'';
+  }
+}
+
 let _daysModalData = null;
 
 function addTodoToNotes(sid, tIdx) {

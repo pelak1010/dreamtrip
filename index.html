@@ -1140,6 +1140,210 @@ const THINGS_TO_DO = {
 };
 
 // ═══════════════════════════════════════════
+//  DEFAULT DAILY PLAN — Philippines itinerary (from PDF)
+//  Prices in NZD pp (1 NZD ≈ 35 PHP)
+// ═══════════════════════════════════════════
+const DEFAULT_DAILY_PLAN = {
+  // ── Cebu City (1 night) ──────────────────────────────────────────────
+  's4': {
+    'day_1': {
+      theme: 'Colonial Heritage & Cebu Lechon',
+      morning: "Visit Magellan's Cross & Basilica del Sto. Niño — free entry (donations accepted). Active city centre; dress code enforced (cover shoulders & knees). 30–45 min.",
+      afternoon: "Explore Fort San Pedro — oldest triangular bastion fort built by Spanish forces in the Philippines (₱50 entry, ~1 hour). Go in the afternoon to beat the midday heat.",
+      evening: "Try Authentic Cebu Lechon at House of Lechon or CNT Lechon — widely considered a classic regional culinary gem (₱250–₱400 pp).",
+      notes: "Fort San Pedro ₱50 entry. Lechon ₱250–400 pp. Arrive 12pm — chill day to recover from travel.",
+      price: 10
+    }
+  },
+  // ── Moalboal (2 nights) ──────────────────────────────────────────────
+  's5': {
+    'day_1': {
+      theme: 'Sardine Run & Sea Turtles',
+      morning: "Experience the Panagsama Sardine Run — swim with millions of schooling sardines just metres from shore. Best at 7:00 AM for maximum underwater clarity. Guided boat loop option ₱500.",
+      afternoon: "Snorkel with Sea Turtles at Talisay Point — spot massive resident green sea turtles grazing along shallow coral reef walls (free shore swim).",
+      evening: "Relax along Panagsama beachfront. Cheap eats and sunset views.",
+      notes: "Sardine run guided boat ₱500 pp. Sea turtle snorkel free from shore. Shared van from Cebu ~₱16 pp.",
+      price: 14
+    },
+    'day_2': {
+      theme: 'White Beach & Sunset',
+      morning: "Morning at leisure in Panagsama — explore the dive shops and beachfront cafes.",
+      afternoon: "Relax at White Beach (Basdaku) — expansive white sand perfect for catching the sunset. 15-minute tricycle ride from Panagsama (₱20 environmental fee).",
+      evening: "Sunset at Basdaku Beach. Early night — depart early tomorrow for Oslob.",
+      notes: "₱20 environmental fee. Tricycle to Basdaku ~₱20 each way.",
+      price: 1
+    }
+  },
+  // ── Oslob (1 night) ──────────────────────────────────────────────────
+  's6': {
+    'day_1': {
+      theme: 'Whale Sharks & Tumalog Falls',
+      morning: "Whale Shark Snorkeling Encounter — arrive by 5:30 AM to queue. Strict 30-min interaction limit. Mandatory environmental briefing (no sunscreen, stay 3 m away). ₱1,500 pp.",
+      afternoon: "Cool Off at Tumalog Falls — massive curtain-like sheer waterfall (₱50 entry). Steep walk down; optional habal-habal motorbike ₱50 each way.",
+      evening: "Explore the Cuartel and Stone Church Ruins — hand-carved coral stone blocks from the Spanish era (free entry, 30–45 min). Dinner in Oslob town.",
+      notes: "Whale shark: ₱1,500 pp — arrive 5:30 AM! Tumalog: ₱50 entry. Ruins: free.",
+      price: 44
+    }
+  },
+  // ── Bohol (5 nights) ─────────────────────────────────────────────────
+  's8': {
+    'day_1': {
+      theme: 'Chocolate Hills & Tarsier Sanctuary',
+      morning: "View the Chocolate Hills — climb the main viewing steps to see over 1,200 perfectly symmetrical conical hills (₱100 entry). Spectacular at sunrise when low mist settles.",
+      afternoon: "Visit the Tarsier Sanctuary (Corella) — world's smallest primates in a heavily protected habitat loop (₱150 entry). Absolute silence strictly enforced.",
+      evening: "Arrive Panglao / Alona Beach area. Explore and dinner.",
+      notes: "Chocolate Hills ₱100. Tarsier Sanctuary ₱150. Ferry Cebu → Tagbilaran ₱10 pp.",
+      price: 7
+    },
+    'day_2': {
+      theme: 'Loboc River Cruise',
+      morning: "Explore Tagbilaran town or Alona Beach morning swim.",
+      afternoon: "Loboc River Cruise & Buffet Lunch — floating platform restaurant through a deep tropical jungle canyon with live folk music (₱1,000 pp, 1.5–2 hours).",
+      evening: "Sunset at Alona Beach. Panglao island dinner.",
+      notes: "Loboc River Cruise ₱1,000 pp. Book in advance or join a shared group.",
+      price: 29
+    },
+    'day_3': {
+      theme: 'Balicasag Reef & Virgin Island Sandbar',
+      morning: "Island Hopping to Balicasag Reef Wall — world-class snorkelling with huge sea turtle populations. Private boat ₱1,500–₱2,500 (est. ₱2,000 split 2 pax). 4–5 hours.",
+      afternoon: "Walk the Virgin Island exposed crescent sandbar — completely surrounded by turquoise water at low tide.",
+      evening: "Return to Panglao. Beachfront seafood dinner.",
+      notes: "Private boat ₱1,500–₱2,500 split. Stunning turtle snorkelling + pristine sandbar walk.",
+      price: 57
+    },
+    'day_4': {
+      theme: 'Alona Beach Free Day',
+      morning: "Morning snorkel off Alona Beach house reef.",
+      afternoon: "Optional dive with local dive shop, or relax on the beach.",
+      evening: "Explore Alona Beach restaurants and bars at leisure.",
+      notes: "Free / optional day — dive shop available on Alona Beach.",
+      price: 0
+    },
+    'day_5': {
+      theme: 'Departure to Siquijor',
+      morning: "Final swim and pack up.",
+      afternoon: "Depart Bohol for Siquijor via fast ferry from Tagbilaran (~1.5 h, ₱7 pp).",
+      evening: "Arrive Siquijor. Settle in.",
+      notes: "Bohol → Siquijor fast ferry ₱7 pp. Check ferry schedule ahead of time.",
+      price: 0
+    }
+  },
+  // ── Siquijor (3 nights) ──────────────────────────────────────────────
+  's9': {
+    'day_1': {
+      theme: 'Cambugahay Falls & Balete Tree',
+      morning: "Tarzan Swing at Cambugahay Falls — stunning three-tiered bright turquoise waterfall. Arrive at 8:00 AM sharp before large groups arrive (₱30 entry + ₱50 unlimited rope swing pass).",
+      afternoon: "Visit the 400-Year-Old Enchanted Balete Tree — dip feet into the cold natural spring for a natural fish spa (₱20 entry).",
+      evening: "Explore Siquijor town and waterfront.",
+      notes: "Cambugahay: ₱80 pp total (entry + swing). Balete Tree: ₱20 pp.",
+      price: 3
+    },
+    'day_2': {
+      theme: 'Cliff Diving & Island Scooter Loop',
+      morning: "Cliff Jump at Salagdoong Beach — 5m and 10m platforms built into rock outcroppings (₱50 environmental fee). Always verify tide tables locally before jumping.",
+      afternoon: "Island scooter circumnavigation — full 72km loop: beaches, balete tree, mystical villages (~₱300 scooter rental per day).",
+      evening: "Sunset from the beach after the island loop.",
+      notes: "Salagdoong: ₱50 pp. Scooter rental ~₱300/day (shared between 2). Full loop is 72km.",
+      price: 1
+    },
+    'day_3': {
+      theme: 'Paliton Beach & Departure',
+      morning: "Final swim at Paliton Beach — quiet white sand, arrive before 10am to beat day trippers (free).",
+      afternoon: "Pack up and travel to Siargao (via Cebu — ferry + flight).",
+      evening: "Travel day.",
+      notes: "Paliton Beach: free. Travel to Siargao via Cebu Pacific flight.",
+      price: 0
+    }
+  },
+  // ── Siargao (6 nights) ───────────────────────────────────────────────
+  's11': {
+    'day_1': {
+      theme: 'Arrival & Cloud 9 Boardwalk',
+      morning: "Arrive Siargao. Settle in General Luna.",
+      afternoon: "Surf or Watch from Cloud 9 Boardwalk — watch local and international surfers ride iconic right-hand barrels. Best at sunrise or high-tide golden hour (₱100 boardwalk entry).",
+      evening: "Explore General Luna restaurants and night market.",
+      notes: "Cloud 9 boardwalk: ₱100 pp. Best surf: sunrise or high-tide golden hour.",
+      price: 3
+    },
+    'day_2': {
+      theme: 'Sugba Lagoon Expedition',
+      morning: "Take an Outrigger to Sugba Lagoon — bright blue lagoon surrounded by isolated limestone peaks. 4–5 hours round trip (₱1,750 per boat group, est. ₱875 pp for 2 pax).",
+      afternoon: "Rent stand-up paddleboards or dive from the wooden diving tower at Sugba Lagoon.",
+      evening: "Return to General Luna. Sunset dinner.",
+      notes: "Sugba Lagoon: ₱1,750 per boat (split). Bring own food/drinks. Allow full morning and afternoon.",
+      price: 25
+    },
+    'day_3': {
+      theme: 'Palm-Lined Road & River Rope Swing',
+      morning: "Scooter to The Palm-Lined Road (Coconut Road) — capture the iconic viewpoint showing millions of coconut palms stretching to the horizon.",
+      afternoon: "Maasin River Rope Swing — swing off a distinct bent palm over the river (₱50 swing ticket, ~1 hour stop).",
+      evening: "Explore Pacifico beach town or return to General Luna for dinner.",
+      notes: "Rope swing: ₱50 pp. Rent a scooter for the day to explore these spots.",
+      price: 1
+    },
+    'day_4': {
+      theme: 'Tri-Island Day Tour',
+      morning: "Siargao Tri-Island Day Tour (Naked, Daku, and Guyam Islands) — 9:00 AM–4:00 PM (₱1,250 group tour pp). Naked is a bare sandbar; Daku is palm-filled with fresh fish lunch.",
+      afternoon: "Fresh fish lunch at Daku Island. Then tiny private coral islet at Guyam.",
+      evening: "Return to General Luna. Sunset celebration dinner.",
+      notes: "Tri-island: ₱1,250 pp group package. Includes Naked sandbar, Daku fish lunch, Guyam islet.",
+      price: 36
+    },
+    'day_5': {
+      theme: 'Surf & Rock Pools',
+      morning: "Surfing session at Cloud 9 or Jacking Horse break.",
+      afternoon: "Scooter to Magpupungko Rock Pools — tidal pools revealed at low tide, stunning natural swimming (₱30 entry). Check low tide times before going!",
+      evening: "Relaxed dinner in General Luna.",
+      notes: "Magpupungko: ₱30 pp. Only accessible at low tide — check tide schedule the night before.",
+      price: 1
+    },
+    'day_6': {
+      theme: 'Last Morning & Departure to Boracay',
+      morning: "Final morning at Cloud 9 or the beach. Coffee and explore the boardwalk one last time.",
+      afternoon: "Pack up and depart Siargao for Boracay via flight to Caticlan.",
+      evening: "Arrive Boracay. Walk White Beach at sunset.",
+      notes: "Fly Siargao → Caticlan ~$107 pp NZD. Ferry to Boracay island after landing.",
+      price: 0
+    }
+  },
+  // ── Boracay (4 nights) ───────────────────────────────────────────────
+  's12': {
+    'day_1': {
+      theme: 'White Beach Discovery',
+      morning: "Stroll White Beach (Stations 1, 2, and 3) — 4km continuous loop. Station 1: softest sand + Willy's Rock. Station 2: lively dining strip. Station 3: quiet palms (free).",
+      afternoon: "Swim and sunbathe at Station 1 — the finest stretch of sand.",
+      evening: "Sunset at Willy's Rock. Dinner along the White Beach strip.",
+      notes: "White Beach walk is free. Station 1 has the softest sand and best sunset views.",
+      price: 0
+    },
+    'day_2': {
+      theme: 'Sunset Paraw Sailing',
+      morning: "Explore White Beach at leisure. Relax, snorkel, or visit the local town.",
+      afternoon: "Sunset Paraw Sailing — sit on the webbed outriggers of a traditional double-hulled sailboat as the sun sinks below the horizon (₱1,250 shared/private, 30–45 min).",
+      evening: "Dinner on the White Beach strip. Night market and bars.",
+      notes: "Paraw sailing: ₱1,250 pp. Book directly on the beach — dozens of operators at Station 2.",
+      price: 36
+    },
+    'day_3': {
+      theme: "Ariel's Point Cliff Diving",
+      morning: "Ariel's Point Cliff Diving Excursion — boat ride to the point, BBQ buffet lunch included, 5 platforms from 3 to 15 metres high (₱3,000 full day, ~5 hours total).",
+      afternoon: "Continue at Ariel's Point — unlimited jumping from all platforms throughout the day.",
+      evening: "Return to White Beach. Recovery dinner — try Dos Mestizos or any beachfront restaurant.",
+      notes: "Ariel's Point: ₱3,000 pp full day (all-inclusive: boat + BBQ lunch + unlimited cliff jumping). Book via the beach.",
+      price: 86
+    },
+    'day_4': {
+      theme: 'Last Morning & Departure to Vietnam',
+      morning: "Final White Beach swim at Station 1 — best sand at low tide.",
+      afternoon: "Pack and depart for Caticlan airport → Manila → Vietnam (Hanoi).",
+      evening: "Travel day — Manila connection to Vietnam.",
+      notes: "Depart Caticlan → Manila → Vietnam. Budget ~$300 pp NZD for this leg.",
+      price: 0
+    }
+  }
+};
+
+// ═══════════════════════════════════════════
 //  STORAGE HELPERS
 // ═══════════════════════════════════════════
 function loadStops() {
@@ -1265,6 +1469,17 @@ function calcStopCost(s) {
   const perPersonTotal = calcTransportTotal(s) + (parseFloat(s.activitiesCost)||0) + (parseFloat(s.foodCostPerDay)||0)*n;
   return accommodationTotal + perPersonTotal*2;
 }
+function calcStopDailyPlanCost(sid) {
+  const defaults = DEFAULT_DAILY_PLAN[sid] || {};
+  const saved = dailyPlan ? (dailyPlan[sid] || {}) : {};
+  const allKeys = new Set([...Object.keys(defaults), ...Object.keys(saved)]);
+  let total = 0;
+  allKeys.forEach(dayKey => {
+    const entry = {...(defaults[dayKey]||{}), ...(saved[dayKey]||{})};
+    total += parseFloat(entry.price) || 0;
+  });
+  return total;
+}
 function calcActivityAllowance(stopList=stops) {
   const country = stopList.length > 0 && stopList.every(s=>s.country===stopList[0].country) ? stopList[0].country : null;
   if(country && COUNTRY_ACTIVITY_ALLOWANCE[country] !== undefined) return COUNTRY_ACTIVITY_ALLOWANCE[country];
@@ -1272,6 +1487,8 @@ function calcActivityAllowance(stopList=stops) {
     const countries = [...new Set(stopList.map(s=>s.country))];
     return countries.reduce((t,c)=>t+calcActivityAllowance(stopList.filter(s=>s.country===c)),0);
   }
+  const dpTotal = stopList.reduce((a,s) => a + calcStopDailyPlanCost(s.id), 0);
+  if(dpTotal > 0) return dpTotal * 2;
   return stopList.reduce((a,s)=>a+nightsBetween(s.checkin,s.checkout),0) * ACTIVITY_ALLOWANCE_PP_DAY * 2;
 }
 function parsePriceNum(str) {
@@ -2006,13 +2223,16 @@ function renderDailyPlanPanel(sid) {
       <span style="font-size:.62rem;color:rgba(245,237,214,.3)">${nights>0?nights+' nights · '+days.length+' days':''}</span>
     </div>
     ${days.map(day=>{
-      const e2 = plan[day.key]||{};
+      const defDay = (DEFAULT_DAILY_PLAN[sid]||{})[day.key]||{};
+      const e2 = {...defDay, ...(plan[day.key]||{})};
       const themeHtml = e2.theme ? e2.theme.replace(/</g,'&lt;') : '<span style="opacity:.3">Click to add plan…</span>';
+      const priceVal = e2.price !== undefined && e2.price !== '' ? e2.price : '';
       return `<div class="dp-day" id="dpday-${sid}-${day.key}">
         <div class="dp-day-header" onclick="toggleDpDay('${sid}','${day.key}')">
           <div class="dp-day-num">Day ${day.num}</div>
           <div class="dp-day-date">${day.label}</div>
           <div class="dp-day-theme">${themeHtml}</div>
+          ${priceVal!=='' && parseFloat(priceVal)>0 ? `<div style="font-size:.62rem;color:var(--green);white-space:nowrap;flex-shrink:0">$${parseFloat(priceVal).toFixed(0)} NZD pp</div>` : ''}
           <div class="dp-day-chevron">▼</div>
         </div>
         <div class="dp-day-body">
@@ -2028,6 +2248,10 @@ function renderDailyPlanPanel(sid) {
           <div class="dp-row">
             <label>Notes / Tips</label>
             <textarea placeholder="Bookings, reminders, tips…" onchange="updateDayEntry('${sid}','${day.key}','notes',this.value)">${e2.notes||''}</textarea>
+          </div>
+          <div class="dp-row" style="margin-top:.5rem;border-top:1px solid rgba(42,191,170,.12);padding-top:.5rem">
+            <label style="color:var(--green)">💰 Price (NZD pp)</label>
+            <input type="number" min="0" step="1" placeholder="0" value="${priceVal}" style="border-color:rgba(82,201,122,.25)" onchange="updateDayEntry('${sid}','${day.key}','price',this.value)">
           </div>
         </div>
       </div>`;
@@ -3083,7 +3307,10 @@ function renderBudget() {
     const cActivityAllowance = calcActivityAllowance(cStops);
     grandTotal+=cActivityAllowance;
     const cTotal = cStops.reduce((a,s)=>a+calcStopCost(s),0) + cActivityAllowance;
-    const allowanceRow = `<div class="bc-row"><span class="bc-dest">Activities buffer (${fmtNZD(ACTIVITY_ALLOWANCE_PP_DAY)}/day pp)</span><span class="bc-amt" style="color:var(--purple)">${fmtNZD(cActivityAllowance)}</span></div>`;
+    const cDpTotal = cStops.reduce((a,s)=>a+calcStopDailyPlanCost(s.id),0);
+    const allowanceRow = cDpTotal > 0
+      ? `<div class="bc-row"><span class="bc-dest">Planned experiences (${fmtNZD(cDpTotal)} pp)</span><span class="bc-amt" style="color:var(--purple)">${fmtNZD(cActivityAllowance)}</span></div>`
+      : `<div class="bc-row"><span class="bc-dest">Activities buffer (${fmtNZD(ACTIVITY_ALLOWANCE_PP_DAY)}/day pp)</span><span class="bc-amt" style="color:var(--purple)">${fmtNZD(cActivityAllowance)}</span></div>`;
     html+=`<div class="budget-card"><div class="bc-title">${COUNTRY_FLAGS[country]||'🌍'} ${country}</div>${rows.join('')}${allowanceRow}<div class="bc-row" style="margin-top:.3rem;border-top:1px solid var(--border);padding-top:.4rem"><span class="bc-dest">Subtotal</span><span class="bc-amt" style="color:var(--teal)">${fmtNZD(cTotal)}</span></div></div>`;
   });
 

@@ -747,16 +747,18 @@ const DEFAULT_STOPS = [
   { id:'s11', country:'Philippines', dest:'Siargao', hotel:'Airbnb', checkin:'2026-10-15', checkout:'2026-10-21', costPerNight:38,  points:0,     transport:90,  transportMode:'plane', accommodationType:'airbnb',  foodCostPerDay:18, notes:'Fly Cebu→Siargao ~$90pp NZD (Cebu Pacific or Cebgo, 1h). Cloud 9 surf, island hopping, sugba lagoon' },
   { id:'s12', country:'Philippines', dest:'Boracay', hotel:'Airbnb White Beach', checkin:'2026-10-21', checkout:'2026-10-25', costPerNight:33,  points:0,     transport:110, transportMode:'plane', accommodationType:'airbnb',  foodCostPerDay:22, notes:'Fly Siargao→Caticlan ~$107pp NZD (PAL or Cebu Pacific, 1.5h). White Beach sunsets, paraw sailing, kitesurfing' },
 
-  // VIETNAM
-  { id:'s14', country:'Vietnam', dest:'Hanoi', hotel:'Silk Path Hotel', checkin:'2026-11-01', checkout:'2026-11-05', costPerNight:31,  points:0,  transport:0,   transportMode:'plane', accommodationType:'hotel',   foodCostPerDay:20, notes:'Hoan Kiem Lake, Old Quarter, Banh Mi breakfast, street food tour' },
-  { id:'s15', country:'Vietnam', dest:'Ha Long Bay', hotel:'Day Trip', checkin:'2026-11-04', checkout:'2026-11-04', costPerNight:0,    points:0,     transport:94,  transportMode:'bus',   accommodationType:'hotel',   foodCostPerDay:0,  notes:'Day trip $74pp NZD. Bus from Hanoi $20pp. Limestone karsts, kayaking, emerald caves' },
-  { id:'s18', country:'Vietnam', dest:'Da Nang', hotel:'Airbnb', checkin:'2026-11-05', checkout:'2026-11-12', costPerNight:25,  points:0,     transport:50,  transportMode:'plane', accommodationType:'airbnb',  foodCostPerDay:18, notes:'Fly Hanoi→Da Nang ~$50pp NZD (VietJet, 1.5h). Marble Mountains, Dragon Bridge fire show, My Khe Beach, Ba Na Hills, Son Tra Peninsula, street food in Con Market' },
-  { id:'s184', country:'Vietnam', dest:'Quy Nhon', hotel:'Airbnb', checkin:'2026-11-12', checkout:'2026-11-14', costPerNight:25,  points:0,     transport:6,   transportMode:'bus',   accommodationType:'airbnb',  foodCostPerDay:15, notes:'Hidden gem coastal town. Eo Gio cape, Ky Co beach, seafood, less touristy than Da Nang' },
-  { id:'s185', country:'Vietnam', dest:'Mui Ne', hotel:'Airbnb', checkin:'2026-11-14', checkout:'2026-11-16', costPerNight:23,  points:0,     transport:43,  transportMode:'plane',   accommodationType:'airbnb',  foodCostPerDay:15, notes:'Mui Ne fishing village, red & white sand dunes, fairy stream, kite surfing beach' },
-  { id:'s186', country:'Vietnam', dest:'Dalat', hotel:'Airbnb', checkin:'2026-11-16', checkout:'2026-11-20', costPerNight:23,  points:0,     transport:7,   transportMode:'bus',   accommodationType:'airbnb',  foodCostPerDay:15, notes:'Cool mountain escape at 1500m. Crazy House, Datanla Falls, Elephant Falls, Valley of Love, coffee farms, night market, canyoning' },
-  { id:'s19', country:'Vietnam', dest:'Ho Chi Minh City', hotel:'Airbnb', checkin:'2026-11-20', checkout:'2026-11-25', costPerNight:30,  points:0,  transport:8,   transportMode:'bus', accommodationType:'airbnb',   foodCostPerDay:18, notes:'Fly Da Nang→HCMC ~$66pp NZD (VietJet or Bamboo, 1.5h). Cu Chi Tunnels, Mekong Delta, War Remnants Museum' },
-  { id:'s195', country:'Vietnam', dest:'Ha Tien', hotel:'Airbnb', checkin:'2026-11-25', checkout:'2026-11-26', costPerNight:25,  points:0,     transport:0,   transportMode:'bus',   accommodationType:'airbnb',  foodCostPerDay:15, notes:'Sleepy riverside town near Cambodia border. Mui Nai beach, Thach Dong cave pagoda, fresh seafood' },
-  { id:'s20', country:'Vietnam', dest:'Phu Quoc', hotel:'Airbnb', checkin:'2026-11-26', checkout:'2026-12-03', costPerNight:35,  points:0,     transport:55,  transportMode:'plane', accommodationType:'airbnb',  foodCostPerDay:20, notes:'Fly HCMC→Phu Quoc ~$58pp NZD (VietJet or Bamboo, 1h). Beach time, snorkelling, New Year celebration' },
+  // VIETNAM — North to South (PDF: 26 Oct – 3 Dec, 38 nights)
+  { id:'s14',  country:'Vietnam', dest:'Hanoi',                     hotel:'', checkin:'2026-10-26', checkout:'2026-10-31', costPerNight:0, points:0, transport:0,   transportMode:'plane', accommodationType:'hostel', foodCostPerDay:15, notes:'Ancient capital. Old Quarter night life, Hoa Lo Prison, Hoan Kiem Lake, Vietnam Military Museum, egg coffee at Café Giảng, St. Joseph\'s Cathedral, Bach Ma Temple.' },
+  { id:'s14b', country:'Vietnam', dest:'Sapa',                      hotel:'', checkin:'2026-10-31', checkout:'2026-11-04', costPerNight:0, points:0, transport:30,  transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Overnight sleeper bus from Hanoi ~$30pp NZD (~7h). Fansipan Cable Car (₫850,000 return), Summit Pagoda Complex, H\'Mong village treks, Muong Hoa Valley loop with guide (~$33pp), alpine coaster.' },
+  { id:'s15',  country:'Vietnam', dest:'Halong Bay (Cat Ba Island)', hotel:'', checkin:'2026-11-04', checkout:'2026-11-08', costPerNight:0, points:0, transport:35,  transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Bus + ferry Sapa via Hanoi → Cat Ba ~$35pp NZD. 2–3 day Lan Ha Bay cruise ($150–250pp NZD), Wartime Hospital Cave, Ngu Lam Peak hike, Viet Hai Village trek, Kim Giao Forest Trail.' },
+  { id:'s15b', country:'Vietnam', dest:'Ninh Binh',                 hotel:'', checkin:'2026-11-08', checkout:'2026-11-10', costPerNight:0, points:0, transport:15,  transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Bus from Cat Ba ~$15pp NZD. "Halong Bay on land." Tam Coc rowboat cave ride (₫390,000/boat), Mua Cave viewpoint (₫100,000, 482 steps), Bich Dong Pagoda, Van Long Nature Reserve.' },
+  { id:'s15c', country:'Vietnam', dest:'Phong Nha',                 hotel:'', checkin:'2026-11-10', checkout:'2026-11-13', costPerNight:0, points:0, transport:20,  transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Sleeper bus from Ninh Binh ~$20pp NZD. Phong Nha-Ke Bang National Park. Dark Cave (₫450,000 pp — zipline, mud bath, kayak), Paradise Cave, Phong Nha Cave by boat, Eight Ladies Cave.' },
+  { id:'s15d', country:'Vietnam', dest:'Hue',                       hotel:'', checkin:'2026-11-13', checkout:'2026-11-16', costPerNight:0, points:0, transport:10,  transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Bus from Phong Nha ~$10pp NZD (~3h). Imperial Citadel (₫200,000), Royal Tombs (₫150,000 each), Thien Mu Pagoda (free), abandoned Thuy Tien Waterpark, Perfume River walking street.' },
+  { id:'s18',  country:'Vietnam', dest:'Da Nang',                   hotel:'', checkin:'2026-11-16', checkout:'2026-11-18', costPerNight:0, points:0, transport:8,   transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Bus from Hue ~$8pp NZD (~3h). Ba Na Hills & Golden Bridge (₫900,000–950,000), Marble Mountains (₫40,000), My Khe Beach (free), Dragon Bridge fire show Sat/Sun 9pm (free).' },
+  { id:'s18b', country:'Vietnam', dest:'Hoi An',                    hotel:'', checkin:'2026-11-18', checkout:'2026-11-21', costPerNight:0, points:0, transport:5,   transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Bus from Da Nang ~$5pp NZD (45 min). Lantern-lit ancient town at night, bicycle rental (₫50,000–100,000/day), An Bang Beach, tailor shops for custom clothing (1–2 day turnaround).' },
+  { id:'s186', country:'Vietnam', dest:'Da Lat',                    hotel:'', checkin:'2026-11-21', checkout:'2026-11-25', costPerNight:0, points:0, transport:20,  transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Overnight bus from Da Nang ~$20pp NZD. Cool highlands at 1,500m. Canyoning ($65–115pp NZD), Crazy House (₫80,000), Da Lat Flower Park, Truc Lam Temple, Linh Son Pagoda, coffee plantations.' },
+  { id:'s185', country:'Vietnam', dest:'Mui Ne',                    hotel:'', checkin:'2026-11-25', checkout:'2026-11-28', costPerNight:0, points:0, transport:10,  transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Bus from Da Lat ~$10pp NZD (~4h). Red sand dunes (sunrise sled rental), White Sand Dunes (₫35,000–40,000, 35–45 min out), Fairy Stream (free), local fishing village, beach relaxation.' },
+  { id:'s19',  country:'Vietnam', dest:'Ho Chi Minh City',          hotel:'', checkin:'2026-11-28', checkout:'2026-12-03', costPerNight:0, points:0, transport:8,   transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Bus from Mui Ne ~$8pp NZD (~5h). Cu Chi Tunnels (₫400,000–700,000 pp, morning tours), War Remnants Museum (₫40,000), Mekong Delta day trip, Bui Vien walking street, rooftop sky bar.' },
 
   // SRI LANKA
   { id:'s21', country:'Sri Lanka', dest:'Colombo / Negombo', hotel:'', checkin:'2026-12-03', checkout:'2026-12-04', costPerNight:22,  points:0,     transport:0,   transportMode:'plane', accommodationType:'hostel',  foodCostPerDay:10, notes:'Arrive Colombo. Negombo fish market, Pettah bazaar, Galle Face Green' },
@@ -1338,6 +1340,354 @@ const DEFAULT_DAILY_PLAN = {
       afternoon: "Pack and depart for Caticlan airport → Manila → Vietnam (Hanoi).",
       evening: "Travel day — Manila connection to Vietnam.",
       notes: "Depart Caticlan → Manila → Vietnam. Budget ~$300 pp NZD for this leg.",
+      price: 0
+    }
+  },
+
+  // ── Hanoi (5 nights) ────────────────────────────────────────────────────
+  's14': {
+    'day_1': {
+      theme: 'Arrival & Old Quarter Orientation',
+      morning: "Arrive Hanoi. Settle in. Walk the 1.6-mile Hoàn Kiếm Lake loop — passes Thê Húc Bridge and Turtle Tower (free, 30–45 min).",
+      afternoon: "Explore the Old Quarter on foot. Visit Bạch Mã Temple — the oldest temple in Hanoi, free entry (20–30 min). Temple dress code applies.",
+      evening: "If Friday–Sunday: Old Quarter Walking Street opens at 7pm — roads close to traffic for street performers, food stalls and live music (free). Try Egg Coffee at Café Giảng (~₫35,000 = ~$2.30 NZD).",
+      notes: "Hoan Kiem lake walk free. Bach Ma Temple free. Old Quarter street food area free Fri–Sun 7pm. Egg coffee ~$2.30 NZD.",
+      price: 3
+    },
+    'day_2': {
+      theme: 'War History Day',
+      morning: "Visit Hoa Lò Prison Museum (₫50,000 = ~$3.30 NZD, 1–2 hours) — arrive early before tour groups. Sobering look at wartime history.",
+      afternoon: "Visit the Vietnam Military Museum (₫40,000 = ~$2.65 NZD, 2.5–3 hours) — open Tue, Wed, Thu, Sat, Sun 8am–4:30pm. Check the day before visiting.",
+      evening: "Street food walk through the Old Quarter. Bún chả, phở, bánh mì all within 300m of each other.",
+      notes: "Hoa Lo Prison $3.30 NZD — go early. Military Museum $2.65 NZD — closed Mon & Fri.",
+      price: 6
+    },
+    'day_3': {
+      theme: 'Temples, Cathedral & Café Culture',
+      morning: "Visit Ngọc Sơn Temple on Hoàn Kiếm Lake (₫30,000 = ~$2 NZD, open 8am–6pm, 30–45 min). Sits directly on the lake walk.",
+      afternoon: "Step inside St. Joseph's Cathedral — Gothic facade, free entry but restricted to Mass times (6:15pm Mon–Fri). Shoulders and knees must be covered. Café Cộng opposite gives good views.",
+      evening: "Visit 'Always' Harry Potter-Themed Café in the Old Quarter (~₫90,000 cap = ~$5.90 NZD, 1–1.5 hours) — best experienced at night.",
+      notes: "Ngoc Son Temple $2 NZD. Cathedral free (Mass times). Harry Potter café ~$5.90 NZD — best at night.",
+      price: 8
+    },
+    'day_4': {
+      theme: 'Ho Chi Minh Complex & Night Walk',
+      morning: "Visit Ho Chi Minh Mausoleum complex — Mausoleum, One Pillar Pagoda, Ho Chi Minh Museum (free, dress code applies, arrive before 10am).",
+      afternoon: "Explore the French Quarter streets and Hoan Kiem lakeside at leisure.",
+      evening: "Old Quarter Night Walk (Fri–Sun 7pm) — final evening in Hanoi, street performers, food stalls, live music. Try a bia hơi (fresh draft beer, ~₫5,000).",
+      notes: "Ho Chi Minh complex free. Old Quarter walking street free. Bia hơi draft beer ~$0.35 NZD.",
+      price: 2
+    },
+    'day_5': {
+      theme: 'Departure to Sapa',
+      morning: "Final Old Quarter coffee and breakfast. Pack bags.",
+      afternoon: "Check out and prepare for overnight journey.",
+      evening: "Overnight sleeper bus departs Hanoi ~9–10pm for Sapa (~7 hours, ~$30pp NZD). Book Fansipan or Hung Thanh bus — seats convert to bunks.",
+      notes: "Sleeper bus to Sapa $30 NZD pp — book 1–2 days ahead. Arrives Sapa early morning.",
+      price: 0
+    }
+  },
+
+  // ── Sapa (4 nights) ─────────────────────────────────────────────────────
+  's14b': {
+    'day_1': {
+      theme: 'Arrival & Cat Cat Village',
+      morning: "Arrive Sapa from overnight bus. Check in and rest for 1–2 hours.",
+      afternoon: "Trek to Cat Cat H'Mong Village — suspension bridges, waterfalls, and traditional Black H'Mong homes (entry fee varies ~$3–5 NZD). About 2km downhill each way.",
+      evening: "Explore Sapa town, local night market. Try thắng cố (horse stew) or Sapa barbecue from street stalls.",
+      notes: "Cat Cat village entry ~$3–5 NZD. Easy half-day walk — good introduction to the hill tribes.",
+      price: 5
+    },
+    'day_2': {
+      theme: 'Fansipan Cable Car & Summit',
+      morning: "Ride the Fansipan Cable Car (₫850,000 return = ~$56 NZD, 15 min each way) — soars 3,143m to Vietnam's highest peak. Go early for clear skies.",
+      afternoon: "Explore Summit Pagoda Complex (included in cable car ticket, 1–2 hours) — 600 steep stone steps lead to the Great Amitabha Buddha (21m bronze). Optional Do Quyên Summit Funicular direct to top (₫150,000 = ~$10 NZD).",
+      evening: "Return to Sapa. Rest after the altitude. Hot pot dinner to warm up.",
+      notes: "Fansipan cable car $56 NZD return. Summit funicular optional extra $10 NZD. Go early — clouds build after 11am.",
+      price: 56
+    },
+    'day_3': {
+      theme: 'Muong Hoa Valley Trek',
+      morning: "Trek the Muong Hoa Valley Loop with a local H'Mong or Red Dao guide (~$33 NZD pp) — 13km loop, 600m elevation gain, passing waterfalls, suspension bridges, and terraced rice paddies.",
+      afternoon: "Complete the valley loop through H'Mong and Red Dao villages. Pass Ta Van village on the return.",
+      evening: "Optional Red Dao Herbal Bath back in town (₫80,000–100,000 = ~$5–7 NZD) — a traditional healing ritual perfect after a day of trekking.",
+      notes: "Valley trek with guide ~$33 NZD pp. Herbal bath optional ~$5–7 NZD. Hiring a local guide is strongly recommended.",
+      price: 33
+    },
+    'day_4': {
+      theme: 'Market Day & Departure',
+      morning: "If it's a Sunday: day trip to Bac Ha weekly market (~1.5h from Sapa, free to browse) — Tay, Dao, and H'Mong communities in traditional dress. Spectacular and very authentic.",
+      afternoon: "If not Sunday: ride the Mong Village Alpine Coaster (₫70,000–250,000 = ~$4.60–16.45 NZD, 5–7 min ride) — go early to avoid the 10am–3pm queue. Visit Thac Bac Silver Waterfall nearby (small entry fee).",
+      evening: "Overnight bus or train back to Hanoi to connect to Cat Ba Island the following morning.",
+      notes: "Bac Ha market Sundays only — free entry. Alpine Coaster $4.60–16.45 NZD. Silver Waterfall small fee.",
+      price: 10
+    }
+  },
+
+  // ── Halong Bay / Cat Ba Island (4 nights) ───────────────────────────────
+  's15': {
+    'day_1': {
+      theme: 'Arrive Cat Ba & Wartime Hospital Cave',
+      morning: "Bus and ferry from Hanoi to Cat Ba Island (~$35pp NZD total). Arrive Cat Ba Town and settle in.",
+      afternoon: "Visit the Wartime Hospital Cave (₫40,000 = ~$2.65 NZD, 30–45 min) — a WWII-era hospital hidden inside a mountain, inside Cat Ba National Park (20-min taxi from Cat Ba Town). Guided tours recommended.",
+      evening: "Explore Cat Ba Town waterfront. Fresh seafood dinner — the town is famous for squid and crab at local restaurants.",
+      notes: "Hospital Cave $2.65 NZD. Book cruise for tomorrow through hostel or Cat Ba Town operator.",
+      price: 3
+    },
+    'day_2': {
+      theme: 'Lan Ha Bay Cruise — Day 1',
+      morning: "Board a Lan Ha Bay / Cat Ba cruise (mid-range $150–250 NZD pp for 2-day, 1-night — Vietnam Backpackers Ha Long Bay tour or Vega Cruise are well-reviewed). Depart 8am. Kayak through limestone arches.",
+      afternoon: "Swim, kayak, and explore sea caves. Visit a floating fishing village on the bay.",
+      evening: "Sunset on deck over the karst seascape. Cooking class and dinner aboard the cruise boat.",
+      notes: "Mid-range cruise $150–250 NZD pp covers transport, meals, and activities. Premium options (Rosa Cruise, Elite of the Seas) are a once-in-a-lifetime splurge.",
+      price: 200
+    },
+    'day_3': {
+      theme: 'Lan Ha Bay — Day 2 & Ngu Lam Peak',
+      morning: "Wake at 5:30am for sunrise over the karsts from the top deck. Morning kayak and swim before returning to Cat Ba.",
+      afternoon: "Hike Ngu Lam Peak (₫80,000 = ~$5.25 NZD, 1.4km one-way, 225m elevation gain, 12km north of Cat Ba Town) — moderate-to-hard trail with sweeping bay views.",
+      evening: "Walk the Kim Giao Forest Trail (included in national park entry, 2.5km easy boardwalk) if time allows. Early night ahead of tomorrow's departure.",
+      notes: "Ngu Lam Peak $5.25 NZD — moderate hike. Kim Giao Trail free with park entry.",
+      price: 5
+    },
+    'day_4': {
+      theme: 'Viet Hai Village & Departure to Ninh Binh',
+      morning: "Hike to Viet Hai Village through Cat Ba National Park — hard 6km one-way trail; many hikers pay ₫50,000–100,000 (~$3.30–6.55 NZD) for a scenic boat ride back through Lan Ha Bay.",
+      afternoon: "Ferry and bus from Cat Ba to Ninh Binh (~$15pp NZD, allow 3–4 hours).",
+      evening: "Arrive Ninh Binh. Check in and settle.",
+      notes: "Viet Hai hike free, boat return $3.30–6.55 NZD. Bus to Ninh Binh $15 NZD pp.",
+      price: 7
+    }
+  },
+
+  // ── Ninh Binh (2 nights) ────────────────────────────────────────────────
+  's15b': {
+    'day_1': {
+      theme: 'Tam Coc River Ride & Mua Cave',
+      morning: "Take a Tam Coc River Ride — foot-pedaled rowboat glides through rice fields and three river caves (₫390,000 per boat for 2 = ~$12.80 NZD pp, 1.5–2 hours). Buy tickets at the Tam Coc – Bich Dong ticket office. Go early to avoid midday heat.",
+      afternoon: "Hike to Mua Cave (Hang Múc) Viewpoint (₫100,000 = ~$6.55 NZD) — 482 steps up to Dragon Peak for panoramic karst views. Open 6am–7pm; go late afternoon to avoid the crowds.",
+      evening: "Visit Hoa Lu Ancient Capital Temples (₫20,000 = ~$1.31 NZD, open 7am–5pm) — two ancient temples from Vietnam's first independent dynasties. Temple dress code applies.",
+      notes: "Tam Coc boat $12.80 NZD pp. Mua Cave $6.55 NZD. Hoa Lu $1.31 NZD. Rent a bicycle (~$3–5 NZD/day) to connect all three sites easily.",
+      price: 21
+    },
+    'day_2': {
+      theme: 'Van Long Reserve & Bich Dong Pagoda',
+      morning: "Boat the Van Long Nature Reserve (₫100,000 = ~$6.55 NZD pp, 1–2 hours) — peaceful wetland reserve with langur monkey sightings. Best November–April. Book early as boat capacity is limited.",
+      afternoon: "Explore Bich Dong Pagoda (free or ₫250,000 depending on access level, 1–1.5 hours) — three ancient pagodas built into a limestone cliff: Ha Pagoda at the base, Trung Pagoda through a cave, Thuong Pagoda at the summit.",
+      evening: "Sleeper bus from Ninh Binh to Phong Nha (~$20pp NZD, allow 5–6 hours overnight).",
+      notes: "Van Long boat $6.55 NZD. Bich Dong free (outer area) or $16.45 NZD (full access). Bus to Phong Nha $20 NZD pp.",
+      price: 7
+    }
+  },
+
+  // ── Phong Nha (3 nights) ────────────────────────────────────────────────
+  's15c': {
+    'day_1': {
+      theme: 'Phong Nha Cave & Eight Ladies Cave',
+      morning: "Visit Phong Nha Cave & Tien Son Cave by boat from the town pier (combined boat + entry ticket, half-day) — the park's most famous river cave, explored by traditional wooden boat through cathedral-like chambers.",
+      afternoon: "Visit Eight Ladies Cave (free or small donation, 30–45 min) — a small, historically significant wartime shrine honoring eight young female soldiers killed during the war. Moving and uncrowded.",
+      evening: "Settle into Phong Nha town. The village is tiny — local restaurants along the river. Try local BBQ and fresh-caught river fish.",
+      notes: "Phong Nha Cave combined boat + entry ticket. Eight Ladies Cave free. Town is very small — book activities the day before.",
+      price: 15
+    },
+    'day_2': {
+      theme: 'Dark Cave Adventure',
+      morning: "Dark Cave Adventure Tour (₫450,000 = ~$29.60 NZD pp, all-inclusive, half-day) — zipline across the river into the cave mouth, swim through pitch-black cave to a mud bath, kayak out. All equipment included. Go early morning to avoid afternoon queues.",
+      afternoon: "Recover poolside. Optional: rent a motorbike (~$6–8 NZD) and ride the jungle road through the national park independently.",
+      evening: "Sunset drinks by the Son River. Early night ahead of tomorrow's cave and departure.",
+      notes: "Dark Cave $29.60 NZD pp — all-inclusive (zipline, mud bath, kayak, equipment). Book at the park gate or through accommodation.",
+      price: 30
+    },
+    'day_3': {
+      theme: 'Paradise Cave & Botanical Garden',
+      morning: "Explore Paradise Cave (entry fee + optional electric buggy) — one of the most spectacular dry caves in the park, with well-lit walkways through 7km of cathedral formations (2–3 hours). The electric buggy saves 3km of walking each way.",
+      afternoon: "Hike the Botanical Garden Trail (small park entry fee, 1–2 hours) — an easy jungle trek through a section of the national park, ideal for a lighter activity day.",
+      evening: "Bus from Phong Nha to Hue (~$10pp NZD, ~3 hours).",
+      notes: "Paradise Cave entry + optional buggy. Botanical Garden small fee. Bus to Hue $10 NZD pp.",
+      price: 15
+    }
+  },
+
+  // ── Hue (3 nights) ──────────────────────────────────────────────────────
+  's15d': {
+    'day_1': {
+      theme: 'Imperial Citadel & Thien Mu Pagoda',
+      morning: "Walk Through the Imperial City Citadel (₫200,000 = ~$13.15 NZD, 2.5–3 hours) — UNESCO-listed fortress covering the Ngo Mon Gate, Thai Hoa Palace, Forbidden Purple City, and the Nine Holy Cannons. Temple dress code applies.",
+      afternoon: "Explore Thien Mu Pagoda (free, 1–1.5 hours) — Vietnam's iconic seven-story pagoda, best reached by dragon boat from the city center (~$3–5 NZD boat). Visit late afternoon to catch monks chanting at sunset.",
+      evening: "Stroll Nguyen Dinh Chieu Walking Street along the Perfume River (free) — Truong Tien Bridge changes color at night, the street is packed with art, cafes, street food, and musicians.",
+      notes: "Imperial Citadel $13.15 NZD. Thien Mu Pagoda free. Walking street free — considered a Hue must.",
+      price: 13
+    },
+    'day_2': {
+      theme: 'Imperial Tombs of the Emperors',
+      morning: "Visit Minh Mạng Tomb (₫150,000 = ~$9.85 NZD) — the most architecturally complete, set in pine forest with lakes. Then Tự Đức Tomb (₫150,000) — the most romantic, with pavilions and ponds.",
+      afternoon: "Visit Khải Định Tomb (₫150,000) — the most elaborate and ornate, covered in dragon mosaics and glass. All three are easily covered in a half-day by motorbike or local tour.",
+      evening: "Explore Hue's local food scene: bún bò Huế (spicy beef noodle soup) and bánh khoái (crispy crepes) are the local specialties.",
+      notes: "Main tombs $9.85 NZD each (Minh Mang, Tu Duc, Khai Dinh). Reach by motorbike, car, or river cruise. Combo tickets available.",
+      price: 30
+    },
+    'day_3': {
+      theme: 'Abandoned Thuy Tien Waterpark & Departure',
+      morning: "Explore the Abandoned Thủy Tiên Waterpark (no official fee, locals may ask ₫10,000–20,000 = ~$0.65–1.31 NZD) — a derelict waterpark dominated by a giant dragon structure with shattered aquarium glass. Wear closed shoes. Allow 1–2 hours.",
+      afternoon: "Final stroll along the Perfume River. Last bowl of bún bò Huế.",
+      evening: "Bus from Hue to Da Nang (~$8pp NZD, ~3 hours — one of the most scenic coastal road routes in Vietnam).",
+      notes: "Thuy Tien Waterpark essentially free (small local tip). Bus to Da Nang $8 NZD pp — scenic Hai Van Pass route.",
+      price: 1
+    }
+  },
+
+  // ── Da Nang (2 nights) ──────────────────────────────────────────────────
+  's18': {
+    'day_1': {
+      theme: 'Ba Na Hills & Golden Bridge',
+      morning: "Ride the Cable Car to Ba Na Hills & the Golden Bridge (₫900,000–950,000 = ~$59–62 NZD pp, entry + return cable car). Go early — 8am open — to beat the worst of the crowds and heat.",
+      afternoon: "Explore the Golden Bridge (two giant stone hands), French Village, Fantasy Park, and Linh Ung Pagoda. Full day 8am–5pm. Everything included in the ticket.",
+      evening: "Dragon Bridge Fire & Water Show — every Saturday and Sunday at 9pm (free). Worth timing the evening around this if dates align.",
+      notes: "Ba Na Hills $59–62 NZD pp. Private car transfer from Da Nang ₫600,000–900,000 return. Dragon Bridge show free Sat/Sun 9pm.",
+      price: 60
+    },
+    'day_2': {
+      theme: 'Marble Mountains & My Khe Beach',
+      morning: "Explore the Marble Mountains (₫40,000 = ~$2.63 NZD, 2–3 hours) — five limestone-and-marble peaks with caves, pagodas, and Buddhist sculptures. Thuy Son is the only peak open to visitors. Optional elevator skips 108 steps (₫15,000 = ~$1 NZD, one-way).",
+      afternoon: "Relax at My Khe Beach (free, half-day) — Da Nang's wide, sandy city beach, a short ride from most hotels. Good lower-key afternoon between sightseeing days.",
+      evening: "Stroll the Han River Bridges at night (free) — Han River Bridge rotates on weekends; Love Bridge and the riverside promenade make an easy free evening walk. Bus to Hoi An the following morning.",
+      notes: "Marble Mountains $2.63 NZD. Optional elevator $1 NZD one-way. My Khe Beach free. Han River walk free.",
+      price: 3
+    }
+  },
+
+  // ── Hoi An (3 nights) ───────────────────────────────────────────────────
+  's18b': {
+    'day_1': {
+      theme: 'Old Town by Bicycle & Tailoring',
+      morning: "Rent a Bicycle (₫50,000–100,000 = ~$3.30–6.55 NZD/day) and ride the flat, easy streets between the Ancient Town, tailor shops, and riverside cafes. Get clothing measurements taken early for maximum turnaround time.",
+      afternoon: "Continue cycling — explore the Japanese Covered Bridge, merchant houses, and local markets. Browse the many tailor shops and place any custom orders (allow 1–2 days for pickup).",
+      evening: "Wander the Lantern-Lit Old Town at Night (free to walk, some heritage sites charge entry) — hundreds of silk lanterns light the historic center after dark. The signature Hoi An experience.",
+      notes: "Bicycle $3.30–6.55 NZD/day. Old Town lantern walk free. Place tailor orders on Day 1 for Day 2 or 3 pickup.",
+      price: 5
+    },
+    'day_2': {
+      theme: 'An Bang Beach & Local Food',
+      morning: "Relax at An Bang Beach (free, sunbed rental optional) — the closest sandy stretch to the Old Town, a short bicycle or taxi ride. Calmer and less crowded than Da Nang.",
+      afternoon: "Return to tailor shops for fittings and collection. Explore Hoi An Central Market for local spices, silk, and ceramics.",
+      evening: "Try Hoi An specialties: Cao Lầu noodles, white rose dumplings, and bánh mì from Phượng (considered one of Vietnam's best). Walk the Old Town lanterns again at dusk.",
+      notes: "An Bang Beach free. Cao Lau, white rose, banh mi all available for ~$2–5 NZD each.",
+      price: 5
+    },
+    'day_3': {
+      theme: 'Final Morning & Departure to Da Lat',
+      morning: "Final stroll through the Old Town at dawn — before the crowds arrive. Pick up any remaining tailored items.",
+      afternoon: "Bus from Da Nang (45-min taxi/bus from Hoi An) to Da Lat overnight (~$20pp NZD, ~8–10 hours including transfer).",
+      evening: "Overnight bus arrives Da Lat early morning.",
+      notes: "Overnight bus from Da Nang to Da Lat $20 NZD pp. Allow 45 min to get from Hoi An to Da Nang bus station.",
+      price: 0
+    }
+  },
+
+  // ── Da Lat (4 nights) ───────────────────────────────────────────────────
+  's186': {
+    'day_1': {
+      theme: 'Crazy House, Flower Park & Temple',
+      morning: "Explore the Crazy House (₫80,000 = ~$5.25 NZD, 8:30am–7pm, 2 hours) — a surreal maze-like guesthouse five minutes from the central market. Visit early morning (before 10am) or after 4:30pm to avoid the 10am–3pm peak.",
+      afternoon: "Visit the Da Lat Flower Park (₫40,000–100,000 = ~$2.63–6.55 NZD, 6:30am–6pm) — orchid garden, topiary sculptures, and lakeside views. Highlights include the bonsai collection and the waterfall section.",
+      evening: "Visit Truc Lam Temple (free or small donation, 1 hour) — a peaceful Zen Buddhist monastery overlooking Tuyen Lam Lake, best at dusk. Night market for local produce.",
+      notes: "Crazy House $5.25 NZD — visit before 10am or after 4:30pm. Flower Park $2.63–6.55 NZD. Truc Lam Temple free.",
+      price: 8
+    },
+    'day_2': {
+      theme: 'Canyoning Adventure',
+      morning: "Go Canyoning with a local operator ($65–115 NZD pp for half-day to full-day) — Da Lat's signature adventure activity. Abseiling down waterfalls, natural water slides, cliff jumps and swimming in mountain pools.",
+      afternoon: "Continue canyoning for full-day tours. Half-day tours finish by 1pm.",
+      evening: "Rest and recovery. Da Lat's cool climate (~15–20°C) makes dinner outdoors genuinely pleasant. Try local hotpot.",
+      notes: "Canyoning $65–115 NZD pp. Book through accommodation — several reputable operators in town. Full-day includes lunch.",
+      price: 90
+    },
+    'day_3': {
+      theme: 'Coffee Plantations & Linh Son Pagoda',
+      morning: "Sample Coffee at a Local Plantation (cost of a tasting flight, 1–2 hours) — Da Lat's surrounding hills are home to numerous coffee farms open for casual tastings. Weasel coffee and single-origin arabica are local specialties.",
+      afternoon: "See the Giant Buddha at Linh Son Pagoda (free, open 6am–8pm, best visited 4–6pm) — features a Monastic Bell, Temple of the Ancestors, and a striking Shakyamuni Buddha statue with mountain views.",
+      evening: "Da Lat Central Market night section — strawberry wine, artisan produce, hotpot stalls.",
+      notes: "Coffee plantation tasting ~$5 NZD. Linh Son Pagoda free — best at golden hour (4–6pm).",
+      price: 5
+    },
+    'day_4': {
+      theme: 'Relaxed Morning & Departure to Mui Ne',
+      morning: "Morning walk around Xuan Huong Lake in the city center (free). Browse the Da Lat artisan market one last time.",
+      afternoon: "Bus from Da Lat to Mui Ne (~$10pp NZD, ~4 hours).",
+      evening: "Arrive Mui Ne. Settle in and explore the beach strip.",
+      notes: "Bus to Mui Ne $10 NZD pp, ~4 hours.",
+      price: 0
+    }
+  },
+
+  // ── Mui Ne (3 nights) ───────────────────────────────────────────────────
+  's185': {
+    'day_1': {
+      theme: 'Red Dunes at Sunrise & Fairy Stream',
+      morning: "Watch sunrise at the Red Sand Dunes (sled rental small fee, 30–45 mins) — just 10–15 minutes north along the main strip. Rent a plastic sled and slide down the glowing orange slopes. Best light before 7am.",
+      afternoon: "Walk the Fairy Stream (free, 45–60 mins one-way) — a shallow, ankle-deep stream winding through orange-red clay canyons and bamboo forest. Often includes as part of a half-day jeep tour.",
+      evening: "Sunset on Mui Ne's main beach strip. Fresh seafood dinner at a local beachfront restaurant.",
+      notes: "Red Dunes sled rental small fee ($1–2 NZD). Fairy Stream free — walk barefoot.",
+      price: 3
+    },
+    'day_2': {
+      theme: 'White Sand Dunes & Fishing Village',
+      morning: "Visit the White Sand Dunes at sunrise (₫35,000–40,000 = ~$2.30–2.62 NZD transport/entry, 1–1.5 hours) — the more impressive dune field, 35–45 min drive out. Quad bike/ATV rentals available on site.",
+      afternoon: "Visit the Local Fishing Village (free to explore, 1–2 hours) — rows of colorful round basket boats, fish sauce production, glimpse of Mui Ne's working coastline before tourism arrived.",
+      evening: "Beach evening — watch kite surfers on the water at Bai Bien beach (free to watch). The consistent offshore wind makes Mui Ne one of Southeast Asia's top kite-surfing spots.",
+      notes: "White Dunes $2.30–2.62 NZD. Fishing village free. Kite surf lessons ~$40–60 NZD pp if interested.",
+      price: 3
+    },
+    'day_3': {
+      theme: 'Beach Day & Departure to Saigon',
+      morning: "Mui Ne's main appeal is slowing down. Relaxed beach morning — pool or beach.",
+      afternoon: "Bus from Mui Ne to Ho Chi Minh City (~$8pp NZD, ~5–6 hours).",
+      evening: "Arrive Ho Chi Minh City. Settle in and explore the neighborhood.",
+      notes: "Bus Mui Ne to HCMC $8 NZD pp, ~5–6 hours. Several departures per day.",
+      price: 0
+    }
+  },
+
+  // ── Ho Chi Minh City / Saigon (5 nights) ────────────────────────────────
+  's19': {
+    'day_1': {
+      theme: 'War Remnants Museum & Colonial Landmarks',
+      morning: "Visit the War Remnants Museum (₫40,000 = ~$2.63 NZD, 2–3 hours) — a confronting but essential look at the war from the Vietnamese perspective. Some graphic content — allow time and emotional energy.",
+      afternoon: "See the Saigon Notre-Dame Basilica & the Central Post Office (free, side-by-side French colonial landmarks in the city center, 30–45 mins combined).",
+      evening: "Explore Ben Thanh Market surrounds. Street food dinner in the backpacker quarter.",
+      notes: "War Museum $2.63 NZD. Notre-Dame and Post Office free. Both are optional/low priority if the Cu Chi day gets rescheduled here.",
+      price: 3
+    },
+    'day_2': {
+      theme: 'Cu Chi Tunnels',
+      morning: "Tour the Cu Chi Tunnels — morning tours strongly advised 7am–noon (₫400,000–700,000 = ~$26–46 NZD pp including guide and entry). Ben Duoc section (2hr from city, less crowded, original tunnel system) is more authentic than Ben Dinh.",
+      afternoon: "Return to the city. Optional: Independence Palace visit (low priority, can skip).",
+      evening: "Watch sunset from a Rooftop Sky Bar (cost of drinks, ~$10–15 NZD) — several high-rise bars give panoramic views over the city. A perfect way to decompress after the tunnels.",
+      notes: "Cu Chi $26–46 NZD pp — morning tours advised. Ben Duoc is 2hrs from city but worth it. Rooftop bar $10–15 NZD drinks.",
+      price: 40
+    },
+    'day_3': {
+      theme: 'Chinatown & Bui Vien Walking Street',
+      morning: "Explore Chinatown (Chợ Lớn) district — Thien Hau Pagoda, Binh Tay Market, wet markets. A very different face of Ho Chi Minh City from the tourist center.",
+      afternoon: "Wander the French colonial streets. Visit Jade Emperor Pagoda (free) — a Taoist temple filled with incense and detailed wooden sculptures.",
+      evening: "Bui Vien Walking Street (the backpacker strip) — loud, colorful, $0.50 bia hơi draft beer, starts after 8pm. Good for a cheap, chaotic last night experience.",
+      notes: "Chinatown free. Jade Emperor Pagoda free. Bui Vien evening budget ~$10 NZD drinks.",
+      price: 10
+    },
+    'day_4': {
+      theme: 'Mekong Delta Day Trip',
+      morning: "Mekong Delta day trip — sampan through canals, floating markets, coconut candy workshops, local lunch (~$25pp NZD from HCMC, full day). Book through hostel or local operator the night before.",
+      afternoon: "Continue the Mekong tour. Return to HCMC by late afternoon.",
+      evening: "Final dinner out in Saigon. Try phở sate or bánh mì Huynh Hoa (the best in the city, queue expected).",
+      notes: "Mekong Delta day trip ~$25 NZD pp — all-inclusive (transport, boat, lunch). Book through accommodation.",
+      price: 25
+    },
+    'day_5': {
+      theme: 'Final Morning & Departure to Sri Lanka',
+      morning: "Last café stop on a rooftop — order a Vietnamese iced coffee (cà phê sữa đá) and watch the morning motorbike chaos one last time.",
+      afternoon: "Head to Tan Son Nhat International Airport for onward flight to Colombo, Sri Lanka.",
+      evening: "Depart Ho Chi Minh City. Grab a bánh mì for the road.",
+      notes: "Flight to Sri Lanka (Colombo) via AirAsia, SriLankan, or indirect route ~$350pp NZD. No direct flight — expect one connection via KL or Bangkok.",
       price: 0
     }
   }

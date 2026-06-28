@@ -734,9 +734,10 @@ const DEFAULT_ICT = {
 const DEFAULT_STOPS = [
   // INDONESIA
   { id:'s1',  country:'Indonesia', dest:'Bali', hotel:'Mercure Bali Nusa Dua', checkin:'2026-09-20', checkout:'2026-09-24', costPerNight:114.56,  points:6000,  transport:0,   transportMode:'plane', accommodationType:'accor',   foodCostPerDay:15, notes:'Arrive 22:30. Explore Nusa Dua, Seminyak, Uluwatu' },
-  { id:'s2',  country:'Indonesia', dest:'Lombok', hotel:'Novotel Lombok', checkin:'2026-09-24', checkout:'2026-09-28', costPerNight:105.34,  points:8000, transport:36,  transportMode:'ferry', accommodationType:'accor',   foodCostPerDay:15, notes:'Ferry $18pp each way. Gili islands day trip, Mount Rinjani views' },
-  { id:'s3',  country:'Indonesia', dest:'Labuan Bajo (Komodo)', hotel:'Budget Guesthouse', checkin:'2026-09-28', checkout:'2026-10-01', costPerNight:25, points:0,     transport:180, transportMode:'plane', accommodationType:'hotel',   foodCostPerDay:15, notes:'Fly Lombok→Labuan Bajo $180pp NZD (AirAsia or Batik Air, ~2h). Komodo dragon tour + liveaboard snorkel' },
-  { id:'s3b', country:'Indonesia', dest:'Bali', hotel:'', checkin:'2026-09-30', checkout:'2026-10-01', costPerNight:0, points:0, transport:139, transportMode:'plane', accommodationType:'hotel', foodCostPerDay:10, notes:'Fly Labuan Bajo→Bali $139pp NZD. Transit/stopover before Philippines flight.' },
+  { id:'s1b', country:'Indonesia', dest:'Ubud', hotel:'', checkin:'2026-09-24', checkout:'2026-09-26', costPerNight:0, points:0, transport:50, transportMode:'car', accommodationType:'hotel', foodCostPerDay:15, notes:'Private car from Nusa Dua $50pp. Rice terraces, Tegallalang, Monkey Forest, Ubud Palace, cooking class.' },
+  { id:'s2',  country:'Indonesia', dest:'Lombok', hotel:'Novotel Lombok', checkin:'2026-09-26', checkout:'2026-09-30', costPerNight:105.34,  points:8000, transport:86,  transportMode:'ferry', accommodationType:'accor',   foodCostPerDay:15, notes:'Car Ubud→Bali ferry port $50pp + Ferry $18pp each way. Gili islands day trip, Mount Rinjani views' },
+  { id:'s3',  country:'Indonesia', dest:'Labuan Bajo (Komodo)', hotel:'Budget Guesthouse', checkin:'2026-09-30', checkout:'2026-10-03', costPerNight:25, points:0,     transport:180, transportMode:'plane', accommodationType:'hotel',   foodCostPerDay:15, notes:'Fly Lombok→Labuan Bajo $180pp NZD (AirAsia or Batik Air, ~2h). Komodo dragon tour + liveaboard snorkel' },
+  { id:'s3b', country:'Indonesia', dest:'Bali', hotel:'', checkin:'2026-10-02', checkout:'2026-10-03', costPerNight:0, points:0, transport:139, transportMode:'plane', accommodationType:'hotel', foodCostPerDay:10, notes:'Fly Labuan Bajo→Bali $139pp NZD. Transit/stopover before Philippines flight.' },
 
   // PHILIPPINES
   { id:'s4',  country:'Philippines', dest:'Cebu (transit)', hotel:'Hostel/Budget', checkin:'2026-10-01', checkout:'2026-10-02', costPerNight:30,  points:0,     transport:0,   transportMode:'plane', accommodationType:'hostel',  foodCostPerDay:20, notes:'Arrive 12pm via KL. Chill day, recover from travel' },
@@ -817,6 +818,13 @@ const THINGS_TO_DO = {
     { icon:'🏄', name:'Surfboard rental', desc:'Hire a board for the day at Canggu or Kuta — dozens of rental shops on the beach', price:'~$10pp/day', priceNum:10, perDay:true },
     { icon:'🍜', name:'Seminyak street food tour', desc:'Evening walk through warungs sampling nasi goreng, satay, martabak', price:'~$20pp' },
     { icon:'🛵', name:'Rice terrace scooter loop', desc:'Jatiluwih UNESCO terraces → Tegallalang → Ubud coffee plantation', price:'~$8 scooter/day' },
+  ],
+  'Ubud': [
+    { icon:'🌿', name:'Tegallalang Rice Terraces', desc:'Iconic tiered rice paddies — best at sunrise or golden hour, short trek through the terraces', price:'~$2 entry' },
+    { icon:'🐒', name:'Sacred Monkey Forest Sanctuary', desc:'Ancient Hindu temples surrounded by jungle and 700+ macaques', price:'~$5pp' },
+    { icon:'🏛', name:'Ubud Palace & Art Market', desc:'Nightly Legong dance at Puri Saren, plus batik, woodcarving, silver at the morning market', price:'~$10 show' },
+    { icon:'🍳', name:'Ubud cooking class', desc:'Morning market tour then hands-on Balinese cooking — make satay, lawar, black rice pudding', price:'~$35pp' },
+    { icon:'🧘', name:'Yoga & wellness', desc:'Ubud is Bali\'s spiritual hub — half-day yoga, sound healing, or rice paddy walk meditation', price:'~$15pp' },
   ],
   'Lombok': [
     { icon:'⛵', name:'Gili Island day trip', desc:'Gili T snorkelling, turtles, beach bars — no motorised vehicles', price:'~$20pp boat' },
@@ -3612,7 +3620,7 @@ function renderBudgetOptimizer() {
           <div class="bo-savings-list">
             <div class="bo-saving-item" style="border-color:rgba(123,110,255,.15)">
               <div class="bo-saving-title">🇮🇩 Indonesia — ✓ Optimal</div>
-              <div class="bo-saving-desc">Bali hub → Lombok (ferry) → Labuan Bajo (flight, one-way) → exit direct to Philippines. Clean linear flow, no backtracking.</div>
+              <div class="bo-saving-desc">Bali (Nusa Dua) → Ubud (car, 2 nights) → Lombok (ferry) → Labuan Bajo (flight, one-way) → exit direct to Philippines. Clean linear flow, no backtracking.</div>
               <div class="bo-saving-amount" style="color:var(--teal)">Efficient ✓</div>
             </div>
             <div class="bo-saving-item" style="border-color:rgba(123,110,255,.15)">
@@ -3723,7 +3731,7 @@ function renderTips() {
 // ═══════════════════════════════════════════
 const MAPBOX_TOKEN = 'pk.eyJ1IjoiY2hyaXN3YWRlMjAyNyIsImEiOiJjbXEwNzFwcTUwcDduMndvaDVkc3B5cTczIn0.CRkhXAZ3SPMa5A5Rk9z0Pw';
 const ROUTE_COORDS = [
-  [-8.4095,115.1889,'Bali'],[-8.6524,116.3240,'Lombok'],[-8.4892,119.8880,'Labuan Bajo'],[-8.4095,115.1889,'Bali'],
+  [-8.4095,115.1889,'Bali'],[-8.5069,115.2625,'Ubud'],[-8.6524,116.3240,'Lombok'],[-8.4892,119.8880,'Labuan Bajo'],[-8.4095,115.1889,'Bali'],
   [10.3157,123.8854,'Cebu'],[9.8500,124.1430,'Bohol'],[9.1856,123.5100,'Siquijor'],
   [9.8600,126.0478,'Siargao'],[11.9674,121.9248,'Boracay'],
   [21.0278,105.8342,'Hanoi'],[20.9099,107.1839,'Ha Long Bay'],[16.0544,108.2022,'Da Nang'],[10.8231,106.6297,'HCMC'],

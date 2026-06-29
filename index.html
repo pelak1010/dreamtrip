@@ -722,7 +722,7 @@ const ACCOR_RATE_PER_1000 = 43.905; // NZD value per 1000 Accor points
 // ═══════════════════════════════════════════
 const DEFAULT_ICT = {
   'Indonesia→Philippines': { mode:'plane', icon:'✈', label:'Flight', route:'Bali → Philippines', cost:249, notes:'Fly Bali→Philippines $249pp NZD.' },
-  'Philippines→Vietnam':   { mode:'plane', icon:'✈', label:'Flight', route:'Boracay → Manila → Vietnam', cost:300, notes:'Boracay → Manila → Vietnam (Hanoi). ~$300pp NZD.' },
+  'Philippines→Vietnam':   { mode:'plane', icon:'✈', label:'Flight', route:'Puerto Princesa → Manila → Vietnam', cost:300, notes:'Puerto Princesa → Manila → Vietnam (Hanoi). ~$300pp NZD.' },
   'Vietnam→Sri Lanka':     { mode:'plane', icon:'✈', label:'Flight', route:'Ho Chi Minh → Colombo', cost:350, notes:'AirAsia or SriLankan via KL/indirect ~$350pp NZD. No direct flight.' },
   'Sri Lanka→Peru':        { mode:'plane', icon:'✈', label:'Flight', route:'Colombo → Lima (via Dubai/Doha)', cost:2000, notes:'Emirates via Dubai or Qatar via Doha ~$2,000pp NZD. Cheapest live price ~$1,850pp — budgeted with buffer. Book 3+ months early — use Airpoints!' },
   'Peru→Brazil':           { mode:'plane', icon:'✈', label:'Flight', route:'Lima → Fortaleza', cost:510, notes:'LATAM or Avianca via Bogotá/São Paulo. Live price from ~$301 USD (~$510pp NZD). No direct — allow 1 connection.' },
@@ -740,13 +740,17 @@ const DEFAULT_STOPS = [
   { id:'s3b', country:'Indonesia', dest:'Bali', hotel:'', checkin:'2026-10-02', checkout:'2026-10-03', costPerNight:0, points:0, transport:139, transportMode:'plane', accommodationType:'hotel', foodCostPerDay:10, notes:'Fly Labuan Bajo→Bali $139pp NZD. Transit/stopover before Philippines flight.' },
 
   // PHILIPPINES
-  { id:'s4',  country:'Philippines', dest:'Cebu (transit)', hotel:'Hostel/Budget', checkin:'2026-10-01', checkout:'2026-10-02', costPerNight:30,  points:0,     transport:0,   transportMode:'plane', accommodationType:'hostel',  foodCostPerDay:20, notes:'Arrive 12pm via KL. Chill day, recover from travel' },
-  { id:'s5',  country:'Philippines', dest:'Moalboal', hotel:'TopBudz Hostel (pvt)', checkin:'2026-10-02', checkout:'2026-10-04', costPerNight:30,  points:0,     transport:32,  transportMode:'bus',   accommodationType:'hostel',  foodCostPerDay:16, notes:'Shared van $16pp. Sardine run, Kawasan Falls canyoneering, turtle snorkel' },
-  { id:'s6',  country:'Philippines', dest:'Oslob', hotel:'Guesthouse', checkin:'2026-10-04', checkout:'2026-10-05', costPerNight:37,  points:0,     transport:10,  transportMode:'bus',   accommodationType:'hostel',  foodCostPerDay:15, notes:'Whale shark swimming 5am. Tumalog Falls, Sumilon Island' },
-  { id:'s8',  country:'Philippines', dest:'Bohol', hotel:'Airbnb Panglao area', checkin:'2026-10-06', checkout:'2026-10-11', costPerNight:27,  points:0,     transport:20,  transportMode:'ferry', accommodationType:'airbnb',  foodCostPerDay:17, notes:'Ferry Cebu→Tagbilaran $10pp. Chocolate Hills, tarsiers, Loboc River cruise' },
-  { id:'s9',  country:'Philippines', dest:'Siquijor', hotel:'Airbnb', checkin:'2026-10-11', checkout:'2026-10-14', costPerNight:39, points:0,     transport:14,  transportMode:'ferry', accommodationType:'airbnb',  foodCostPerDay:16, notes:'Ferry $7pp. Cambugahay Falls, Salagdoong cliff diving, island scooter loop' },
-  { id:'s11', country:'Philippines', dest:'Siargao', hotel:'Airbnb', checkin:'2026-10-15', checkout:'2026-10-21', costPerNight:38,  points:0,     transport:90,  transportMode:'plane', accommodationType:'airbnb',  foodCostPerDay:18, notes:'Fly Cebu→Siargao ~$90pp NZD (Cebu Pacific or Cebgo, 1h). Cloud 9 surf, island hopping, sugba lagoon' },
-  { id:'s12', country:'Philippines', dest:'Boracay', hotel:'Airbnb White Beach', checkin:'2026-10-21', checkout:'2026-10-25', costPerNight:33,  points:0,     transport:110, transportMode:'plane', accommodationType:'airbnb',  foodCostPerDay:22, notes:'Fly Siargao→Caticlan ~$107pp NZD (PAL or Cebu Pacific, 1.5h). White Beach sunsets, paraw sailing, kitesurfing' },
+  { id:'s4',  country:'Philippines', dest:'Cebu (transit)', hotel:'Hostel/Budget', checkin:'2026-10-03', checkout:'2026-10-04', costPerNight:30,  points:0,     transport:0,   transportMode:'plane', accommodationType:'hostel',  foodCostPerDay:20, notes:'Arrive 12pm via KL. Chill day, recover from travel' },
+  { id:'s5',  country:'Philippines', dest:'Moalboal', hotel:'TopBudz Hostel (pvt)', checkin:'2026-10-04', checkout:'2026-10-06', costPerNight:30,  points:0,     transport:32,  transportMode:'bus',   accommodationType:'hostel',  foodCostPerDay:16, notes:'Shared van $16pp. Sardine run, Kawasan Falls canyoneering, turtle snorkel' },
+  { id:'s6',  country:'Philippines', dest:'Oslob', hotel:'Guesthouse', checkin:'2026-10-06', checkout:'2026-10-08', costPerNight:37,  points:0,     transport:10,  transportMode:'bus',   accommodationType:'hostel',  foodCostPerDay:15, notes:'Whale shark swimming 5am. Tumalog Falls, Sumilon Island, Cuartel ruins' },
+  { id:'s8',  country:'Philippines', dest:'Bohol', hotel:'Airbnb Panglao area', checkin:'2026-10-08', checkout:'2026-10-13', costPerNight:27,  points:0,     transport:20,  transportMode:'ferry', accommodationType:'airbnb',  foodCostPerDay:17, notes:'Ferry Cebu→Tagbilaran $10pp. Chocolate Hills, tarsiers, Loboc River cruise' },
+  { id:'s9',  country:'Philippines', dest:'Siquijor', hotel:'Airbnb', checkin:'2026-10-13', checkout:'2026-10-16', costPerNight:39, points:0,     transport:14,  transportMode:'ferry', accommodationType:'airbnb',  foodCostPerDay:16, notes:'Ferry $7pp. Cambugahay Falls, Salagdoong cliff diving, island scooter loop' },
+  { id:'s11', country:'Philippines', dest:'Siargao', hotel:'Airbnb', checkin:'2026-10-16', checkout:'2026-10-22', costPerNight:38,  points:0,     transport:90,  transportMode:'plane', accommodationType:'airbnb',  foodCostPerDay:18, notes:'Fly Cebu→Siargao ~$90pp NZD (Cebu Pacific or Cebgo, 1h). Cloud 9 surf, island hopping, sugba lagoon' },
+  { id:'s12', country:'Philippines', dest:'Boracay', hotel:'Airbnb White Beach', checkin:'2026-10-22', checkout:'2026-10-26', costPerNight:33,  points:0,     transport:110, transportMode:'plane', accommodationType:'airbnb',  foodCostPerDay:22, notes:'Fly Siargao→Caticlan ~$107pp NZD (PAL or Cebu Pacific, 1.5h). White Beach sunsets, paraw sailing, kitesurfing' },
+  { id:'s13a', country:'Philippines', dest:'Port Barton', hotel:'Eco-lodge', checkin:'2026-10-26', checkout:'2026-10-28', costPerNight:28, points:0, transport:25, transportMode:'van', accommodationType:'hostel', foodCostPerDay:14, notes:'Shared van from San Jose/Puerto Princesa ~4h (~$25pp). Hammock-lined shores, Inaladelan island, Pamuayan waterfall hike.' },
+  { id:'s13b', country:'Philippines', dest:'El Nido', hotel:'Airbnb', checkin:'2026-10-28', checkout:'2026-10-31', costPerNight:40, points:0, transport:15, transportMode:'van', accommodationType:'airbnb', foodCostPerDay:18, notes:'Shared van Port Barton→El Nido ~3h (~$15pp). Tour A & Tour C island hopping, Taraw cliff Via Ferrata, Las Cabañas sunset.' },
+  { id:'s13c', country:'Philippines', dest:'Coron', hotel:'Airbnb', checkin:'2026-10-31', checkout:'2026-11-02', costPerNight:35, points:0, transport:52, transportMode:'ferry', accommodationType:'airbnb', foodCostPerDay:16, notes:'Fastcraft El Nido→Coron ~4h (~₱1,800pp ~$52pp NZD). Kayangan Lake, Barracuda Lake, WWII shipwreck snorkel, Mt. Tapyas.' },
+  { id:'s13d', country:'Philippines', dest:'Puerto Princesa', hotel:'Budget hotel', checkin:'2026-11-02', checkout:'2026-11-03', costPerNight:30, points:0, transport:20, transportMode:'bus', accommodationType:'hotel', foodCostPerDay:15, notes:'Van/bus Coron→Puerto Princesa ~5–6h. Underground River World Wonder, Kalui Restaurant dinner.' },
 
   // VIETNAM — North to South (PDF: 26 Oct – 3 Dec, 38 nights)
   { id:'s14',  country:'Vietnam', dest:'Hanoi',                     hotel:'', checkin:'2026-10-26', checkout:'2026-10-31', costPerNight:0, points:0, transport:0,   transportMode:'plane', accommodationType:'hostel', foodCostPerDay:15, notes:'Ancient capital. Old Quarter night life, Hoa Lo Prison, Hoan Kiem Lake, Vietnam Military Museum, egg coffee at Café Giảng, St. Joseph\'s Cathedral, Bach Ma Temple.' },
@@ -870,6 +874,27 @@ const THINGS_TO_DO = {
     { icon:'🏄', name:'Kitesurfing lesson', desc:'Bulabog Beach is a world-class kitesurfing destination', price:'~$60pp 3h lesson' },
     { icon:'🤿', name:'Crocodile Island snorkel', desc:'Colourful reef teeming with fish, a short boat ride from White Beach', price:'~$15pp' },
     { icon:'🏖', name:'Puka Shell Beach', desc:'North end, quieter, more natural and less developed than White Beach', price:'Free' },
+  ],
+  'Port Barton': [
+    { icon:'🏝', name:'Inaladelan Island', desc:'Hammocks between palm trees, crystal water, near-zero crowds — the perfect off-grid beach', price:'~₱50 boat/entry' },
+    { icon:'💦', name:'Pamuayan Waterfalls hike', desc:'Jungle path to a hidden freshwater plunge basin — refreshing and completely free', price:'Free (donation)' },
+    { icon:'🤿', name:'Island snorkel tour', desc:'Multi-island boat tour through Port Barton Bay — pristine reefs, fish, and total peace', price:'~₱800pp' },
+  ],
+  'El Nido': [
+    { icon:'🚣', name:'Island Hopping Tour A', desc:'Big Lagoon & Secret Lagoon — paddle through karst cliffs by kayak', price:'~₱1,500pp incl. eco-fee' },
+    { icon:'🏖', name:'Island Hopping Tour C', desc:'Secret Beach & Hidden Beach — only reachable by swimming through rock gaps', price:'~₱1,500pp incl. eco-fee' },
+    { icon:'🧗', name:'Taraw Cliff Via Ferrata', desc:'Engineered harness walkway to bird\'s-eye views over the bay — best at dusk', price:'~₱400pp' },
+    { icon:'🌅', name:'Las Cabañas Beach sunset', desc:'Bean-bag bars on the shore + optional 750m inter-island zipline', price:'Free (zipline ₱500–700)' },
+  ],
+  'Coron': [
+    { icon:'🏊', name:'Kayangan Lake tour', desc:'150-step ridge climb to the cleanest lake in Asia — volcanic aquamarine water', price:'~₱1,650pp group boat' },
+    { icon:'🌡', name:'Barracuda Lake swim', desc:'Thermally layered brackish volcanic lake — eerie visibility through temperature zones', price:'Included in island tour' },
+    { icon:'⚓', name:'WWII shipwreck snorkel', desc:'Lusong Gunboat and Skeleton Wreck — coral-covered warships visible without scuba', price:'Included in boat tours' },
+    { icon:'🏔', name:'Mt. Tapyas sunset climb', desc:'721 concrete steps to a giant illuminated cross with panoramic bay views', price:'Free' },
+  ],
+  'Puerto Princesa': [
+    { icon:'🛶', name:'Underground River World Wonder', desc:'Paddleboat through an immense subterranean cave river system — UNESCO World Heritage', price:'~₱2,250pp all-incl.' },
+    { icon:'🍽', name:'Kalui Restaurant dinner', desc:'Footwear-free native hardwood dining room — set seafood menus, advance booking essential', price:'~₱300–600pp' },
   ],
   'Hanoi': [
     { icon:'🍜', name:'Old Quarter street food walk', desc:'Bun cha, pho, banh mi, ca phe trung (egg coffee) — all within 300m', price:'~$8pp' },
@@ -1184,7 +1209,7 @@ const DEFAULT_DAILY_PLAN = {
       price: 1
     }
   },
-  // ── Oslob (1 night) ──────────────────────────────────────────────────
+  // ── Oslob (2 nights) ──────────────────────────────────────────────────
   's6': {
     'day_1': {
       theme: 'Whale Sharks & Tumalog Falls',
@@ -1193,6 +1218,14 @@ const DEFAULT_DAILY_PLAN = {
       evening: "Explore the Cuartel and Stone Church Ruins — hand-carved coral stone blocks from the Spanish era (free entry, 30–45 min). Dinner in Oslob town.",
       notes: "Whale shark: ₱1,500 pp — arrive 5:30 AM! Tumalog: ₱50 entry. Ruins: free.",
       price: 44
+    },
+    'day_2': {
+      theme: 'Sumilon Island & Rest Day',
+      morning: "Relaxed morning in Oslob. Optional second whale shark viewing or walk along the coastal road.",
+      afternoon: "Boat trip to Sumilon Island — stunning exposed sandbar with excellent snorkeling (~₱350 pp boat from Oslob wharf). One of Cebu's best-kept secrets.",
+      evening: "Dinner in Oslob town. Early night — ferry to Bohol tomorrow morning.",
+      notes: "Sumilon Island boat ~₱350 pp. Check departure times at the wharf. Arrive Bohol via ferry tomorrow.",
+      price: 10
     }
   },
   // ── Bohol (5 nights) ─────────────────────────────────────────────────
@@ -1343,12 +1376,92 @@ const DEFAULT_DAILY_PLAN = {
       price: 86
     },
     'day_4': {
-      theme: 'Last Morning & Departure to Vietnam',
+      theme: 'Last Morning & Departure to Palawan',
       morning: "Final White Beach swim at Station 1 — best sand at low tide.",
-      afternoon: "Pack and depart for Caticlan airport → Manila → Vietnam (Hanoi).",
-      evening: "Travel day — Manila connection to Vietnam.",
-      notes: "Depart Caticlan → Manila → Vietnam. Budget ~$300 pp NZD for this leg.",
+      afternoon: "Pack and depart Boracay → Caticlan airport → fly to Puerto Princesa or connect via Manila for Port Barton.",
+      evening: "Travel day toward Palawan.",
+      notes: "Depart Caticlan toward Palawan (Port Barton). Book van transfer from Puerto Princesa in advance.",
       price: 0
+    }
+  },
+
+  // ── Port Barton (2 nights) ────────────────────────────────────────────
+  's13a': {
+    'day_1': {
+      theme: 'Arrival & Inaladelan Island',
+      morning: "Arrive Port Barton — a quiet, off-the-grid eco-conscious village with hammock-lined shores. Settle in.",
+      afternoon: "Unwind at Isolated White Beach / Inaladelan Island — hammocks strung between tall palms, incredibly low crowds and completely peaceful surroundings (₱50 boat/entry fee, half-day).",
+      evening: "Beachfront dinner in Port Barton village. Slow-paced, relaxed evening — one of the most peaceful spots in the Philippines.",
+      notes: "Inaladelan Island ₱50 pp boat/entry. Port Barton is off-the-grid — bring cash, limited ATMs.",
+      price: 1
+    },
+    'day_2': {
+      theme: 'Pamuayan Waterfalls & Departure to El Nido',
+      morning: "Hike to Pamuayan Waterfalls — walk through a clearly marked inland jungle path to discover a hidden freshwater plunge basin (free entry; voluntary registration donation; 1.5–2h round trip trek).",
+      afternoon: "Pack up and travel to El Nido by shared van (~3h, ~₱350 pp).",
+      evening: "Arrive El Nido. Settle in and explore the town strip.",
+      notes: "Pamuayan Falls: free (voluntary donation). Shared van to El Nido ~₱350 pp, ~3h — book the night before.",
+      price: 0
+    }
+  },
+
+  // ── El Nido (3 nights) ───────────────────────────────────────────────
+  's13b': {
+    'day_1': {
+      theme: 'Island Hopping Tour A — Big Lagoon & Secret Lagoon',
+      morning: "Book El Nido Island Hopping Tour A — enters Big Lagoon and Secret Lagoon through towering karst limestone formations (₱1,300 pp + ₱200 uniform eco-fee). Departs 9:00 AM sharp — book the night before.",
+      afternoon: "Continue Tour A — paddle through hidden lagoons and swim beneath sheer cliff walls. Kayak rental at entry points ₱300.",
+      evening: "Sunset at Las Cabañas Beach — laid-back beach bars with bean bags right on the shoreline. Optional 750m inter-island zipline (₱500–₱700).",
+      notes: "Tour A: ₱1,500 pp total (₱1,300 + ₱200 eco-fee). Kayak ₱300 extra. Book night before — departs 9am.",
+      price: 43
+    },
+    'day_2': {
+      theme: 'Island Hopping Tour C — Secret Beach & Hidden Beach',
+      morning: "Book El Nido Island Hopping Tour C — targets Secret Beach and Hidden Beach only accessible through narrow rock gaps by small boat (₱1,300 pp + ₱200 eco-fee). Departs 9:00 AM.",
+      afternoon: "Continue Tour C exploring remote neon-turquoise coves and sunset beaches inaccessible on foot.",
+      evening: "Climb Taraw Cliff (Via Ferrata Canopy Walk) — engineered walkway and safety harness navigating jagged limestone peaks for bird's-eye views over the bay (₱400, 1 hour). Best at dusk.",
+      notes: "Tour C: ₱1,500 pp total. Taraw Cliff: ₱400 pp — safety harness provided. Attempt at dusk for golden bay views.",
+      price: 43
+    },
+    'day_3': {
+      theme: 'Sunrise Walk & Departure to Coron',
+      morning: "Early sunrise walk at Las Cabañas Beach. Final coffee in El Nido town.",
+      afternoon: "Travel to Coron by fastcraft ferry (~4h, ~₱1,800 pp). Book in advance — popular route fills fast.",
+      evening: "Arrive Coron. Climb Mt. Tapyas for first sunset views — 721 concrete steps from the town center to the giant illuminated cross (free, ~1–1.5h round trip).",
+      notes: "El Nido → Coron fastcraft ~₱1,800 pp, ~4h — book 1–2 days ahead online. Mt. Tapyas: free.",
+      price: 51
+    }
+  },
+
+  // ── Coron (2 nights) ─────────────────────────────────────────────────
+  's13c': {
+    'day_1': {
+      theme: 'Coron Ultimate Island Tour — Kayangan & Barracuda Lakes',
+      morning: "Coron Ultimate Island Tour (₱1,650 group boat tour, full day). Climb the famous 150-step volcanic ridge overlooking crystal-clear Kayangan Lake — consistently rated one of the cleanest lakes in Asia.",
+      afternoon: "Swim in Barracuda Lake — unique brackish, thermally layered volcanic water with dramatic visibility and eerie underwater rock formations (included in tour).",
+      evening: "Sunset from the town pier. Dinner at a local seafood restaurant in Coron town.",
+      notes: "Coron island tour: ₱1,650 pp group boat. Includes Kayangan Lake, Barracuda Lake, and Twin Lagoons.",
+      price: 47
+    },
+    'day_2': {
+      theme: 'WWII Shipwrecks & Departure to Puerto Princesa',
+      morning: "Snorkel a Sunken WWII Japanese Vessel — Skeleton Wreck / Lusong Gunboat. Historical shipwrecks encrusted with rich coral systems, easily visible via mask and snorkel without scuba gear (included in standard adventure tour loops).",
+      afternoon: "Explore Coron town market — buy local honey and tablea chocolate. Pack for departure.",
+      evening: "Depart for Puerto Princesa by van/bus (~5–6h). Arrive Puerto Princesa late evening.",
+      notes: "WWII wreck snorkel included in most standard boat tours. Van to Puerto Princesa ~5–6h — book the day before.",
+      price: 0
+    }
+  },
+
+  // ── Puerto Princesa (1 night) ─────────────────────────────────────────
+  's13d': {
+    'day_1': {
+      theme: 'Underground River World Wonder & Kalui Dinner',
+      morning: "Navigate the Puerto Princesa Underground River World Wonder — board a small paddleboat equipped with spotlamps to journey inside one of the world's most extensive subterranean river cave systems. Full-day trip including a 2-hour overland drive to Sabang Wharf (₱2,250 fully managed package — transfers, environmental permits, outrigger, and lunch all included).",
+      afternoon: "Return from the underground river. Rest and freshen up in Puerto Princesa.",
+      evening: "Dine at Kalui Restaurant — iconic footwear-free dining room crafted entirely of polished native hardwood. Serves set seafood menus of exceptional quality; advance booking mandatory (₱300–₱600 pp).",
+      notes: "Underground River: ₱2,250 pp all-inclusive — book 1–2 days ahead. Permits have daily limits. Kalui: advance reservation essential.",
+      price: 64
     }
   },
 
@@ -3732,8 +3845,11 @@ function renderTips() {
 const MAPBOX_TOKEN = 'pk.eyJ1IjoiY2hyaXN3YWRlMjAyNyIsImEiOiJjbXEwNzFwcTUwcDduMndvaDVkc3B5cTczIn0.CRkhXAZ3SPMa5A5Rk9z0Pw';
 const ROUTE_COORDS = [
   [-8.4095,115.1889,'Bali'],[-8.5069,115.2625,'Ubud'],[-8.6524,116.3240,'Lombok'],[-8.4892,119.8880,'Labuan Bajo'],[-8.4095,115.1889,'Bali'],
-  [10.3157,123.8854,'Cebu'],[9.8500,124.1430,'Bohol'],[9.1856,123.5100,'Siquijor'],
+  [10.3157,123.8854,'Cebu'],[9.3833,123.3667,'Moalboal'],[9.4833,123.4333,'Oslob'],
+  [9.8500,124.1430,'Bohol'],[9.1856,123.5100,'Siquijor'],
   [9.8600,126.0478,'Siargao'],[11.9674,121.9248,'Boracay'],
+  [10.7667,119.2833,'Port Barton'],[11.1784,119.3871,'El Nido'],
+  [11.9993,120.2043,'Coron'],[9.7392,118.7353,'Puerto Princesa'],
   [21.0278,105.8342,'Hanoi'],[20.9099,107.1839,'Ha Long Bay'],[16.0544,108.2022,'Da Nang'],[10.8231,106.6297,'HCMC'],
   [10.2898,103.9840,'Phu Quoc'],[7.8731,80.7718,'Sri Lanka'],[3.2028,73.2207,'Maldives'],
   [-12.0464,-77.0428,'Lima'],[-13.5319,-71.9675,'Cusco'],[-13.1631,-72.5450,'Machu Picchu'],

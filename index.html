@@ -525,7 +525,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
       <option value="PHP">PHP – Philippines</option>
       <option value="VND">VND – Vietnam</option>
       <option value="LKR">LKR – Sri Lanka</option>
-      <option value="MVR">MVR – Maldives</option>
       <option value="PEN">PEN – Peru</option>
       <option value="BRL">BRL – Brazil</option>
       <option value="ARS">ARS – Argentina</option>
@@ -544,7 +543,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
       <option value="PHP">PHP – Philippines</option>
       <option value="VND">VND – Vietnam</option>
       <option value="LKR">LKR – Sri Lanka</option>
-      <option value="MVR">MVR – Maldives</option>
       <option value="PEN">PEN – Peru</option>
       <option value="BRL">BRL – Brazil</option>
       <option value="ARS">ARS – Argentina</option>
@@ -770,8 +768,6 @@ const DEFAULT_STOPS = [
   { id:'s25', country:'Sri Lanka', dest:'Mirissa / Unawatuna', hotel:'Airbnb', checkin:'2026-12-12', checkout:'2026-12-26', costPerNight:0,  points:0,     transport:15,  transportMode:'bus',   accommodationType:'airbnb',  foodCostPerDay:22, notes:'Whale watching (blue whales Jan!), Galle Fort, beach chill, surf lessons' },
   { id:'s26', country:'Sri Lanka', dest:'Colombo', hotel:'', checkin:'2026-12-26', checkout:'2026-12-27', costPerNight:0,  points:0,     transport:15,  transportMode:'bus',   accommodationType:'hostel',  foodCostPerDay:10, notes:'Transit stop back through Colombo' },
 
-  // MALDIVES (optional)
-  // PAUSED: { id:'s26', country:'Maldives', dest:'Kooddoo / Huvadhoo', hotel:'Mercure Maldives Kooddoo', checkin:'2026-12-23', checkout:'2026-12-26', costPerNight:200, points:0,  transport:200, transportMode:'plane', accommodationType:'accor',   foodCostPerDay:50, notes:'Fly Colombo→Malé (SriLankan ~$215pp NZD) then Maldivian domestic to Kooddoo (~$198pp NZD). House reef snorkel, sandbar picnic, dolphins' },
 
   // PERU
   { id:'s27', country:'Peru', dest:'Lima', hotel:'ibis Lima Miraflores', checkin:'2027-01-02', checkout:'2027-01-05', costPerNight:50,  points:4000,  transport:0,   transportMode:'plane', accommodationType:'accor',   foodCostPerDay:30, notes:'Miraflores cliffs, Larco Museum, Lima food scene (best in SA!), Barranco' },
@@ -1933,8 +1929,6 @@ function loadICT() {
     const d = localStorage.getItem('dt_ict_v10');
     if(d) {
       const data = JSON.parse(d);
-      delete data['Sri Lanka→Maldives'];
-      delete data['Maldives→Peru'];
       localStorage.setItem('dt_ict_v10', JSON.stringify(data));
       return data;
     }
@@ -2073,11 +2067,6 @@ const COUNTRY_META = {
     currency:'1 NZD ≈ 195 LKR',
     weather:'☀ 26–30°C · dry SW + south coast',
     bg:'https://images.unsplash.com/photo-1586183189334-1f2b91dc6f06?w=1600&q=70' },
-  Maldives:     { flag:'🇲🇻', color:'#1A8FBF', accent:'#F2D2A1', phase:'Indian Ocean',
-    visa:'Visa on Arrival · 30d · free',
-    currency:'1 NZD ≈ 9.4 MVR · USD widely accepted',
-    weather:'☀ 28–31°C · dry season, perfect',
-    bg:'https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=1600&q=70' },
   Peru:         { flag:'🇵🇪', color:'#9B3838', accent:'#F2D2A1', phase:'South America',
     visa:'NZ passport · visa-free 90d',
     currency:'1 NZD ≈ 2.3 PEN',
@@ -2163,7 +2152,7 @@ function renderPhaseRibbon(){
   if(!el) return;
   const phases = [
     { id:'sea', name:'Southeast Asia', countries:['Indonesia','Philippines','Vietnam'], emoji:'🏝' },
-    { id:'io',  name:'Indian Ocean',   countries:['Sri Lanka','Maldives'],              emoji:'🌊' },
+    { id:'io',  name:'Indian Ocean',   countries:['Sri Lanka'],                          emoji:'🌊' },
     { id:'sa',  name:'South America',  countries:['Peru','Brazil'],                     emoji:'⛰' },
     { id:'home',name:'Argentina',      countries:['Argentina'],                          emoji:'🍷' },
   ];
@@ -2894,8 +2883,8 @@ function updateStop(id, field, value) {
 // ═══════════════════════════════════════════
 //  RENDER ITINERARY
 // ═══════════════════════════════════════════
-const COUNTRY_ORDER = ['Indonesia','Philippines','Vietnam','Sri Lanka','Maldives','Peru','Brazil','Argentina'];
-const COUNTRY_FLAGS = { Indonesia:'🇮🇩', Philippines:'🇵🇭', Vietnam:'🇻🇳', 'Sri Lanka':'🇱🇰', Maldives:'🇲🇻', Peru:'🇵🇪', Brazil:'🇧🇷', Argentina:'🇦🇷' };
+const COUNTRY_ORDER = ['Indonesia','Philippines','Vietnam','Sri Lanka','Peru','Brazil','Argentina'];
+const COUNTRY_FLAGS = { Indonesia:'🇮🇩', Philippines:'🇵🇭', Vietnam:'🇻🇳', 'Sri Lanka':'🇱🇰', Peru:'🇵🇪', Brazil:'🇧🇷', Argentina:'🇦🇷' };
 // ICT keys between consecutive countries
 const ICT_KEYS = [
   'Indonesia→Philippines',
@@ -3322,7 +3311,6 @@ const DOC_TEMPLATES = [
     {k:'vn_evisa', label:'Vietnam e-Visa'},
     {k:'lk_eta', label:'Sri Lanka ETA'},
     {k:'id_voa', label:'Indonesia VoA'},
-    {k:'mv_voa', label:'Maldives VoA'},
     {k:'visa_notes', label:'Visa notes', type:'textarea'},
   ]},
   { id:'flights', title:'✈ Booked Flights', fields:[
@@ -3442,7 +3430,7 @@ function renderRouteOptimizer() {
         country: `${c1} → ${c2}`,
         title: `${gap}-day unplanned gap (${c1End} → ${c2Start})`,
         detail: gap >= 8
-          ? `${gap} days unaccounted between ${c1} and ${c2}. The paused Maldives stop (3 nights Jan 22–25) was designed to fill part of this. Consider re-enabling it or adding a transit hub.`
+          ? `${gap} days unaccounted between ${c1} and ${c2}. Consider adding a transit hub or extra stop to fill this gap.`
           : `${gap} days with no planned stops. Add a transit night or slow travel here to avoid scrambling.`,
         saving: 0,
       });
@@ -3794,7 +3782,7 @@ function renderBudgetOptimizer() {
 //  BUDGET VIEW
 // ═══════════════════════════════════════════
 function renderBudget() {
-  const COUNTRY_ORDER2 = ['Indonesia','Philippines','Vietnam','Sri Lanka','Maldives','Peru','Brazil','Argentina'];
+  const COUNTRY_ORDER2 = ['Indonesia','Philippines','Vietnam','Sri Lanka','Peru','Brazil','Argentina'];
   let html = renderRouteOptimizer() + renderBudgetOptimizer() + '<div class="budget-grid">';
   let grandTotal = 0;
 
@@ -3854,7 +3842,7 @@ function renderBudget() {
 //  TIPS
 // ═══════════════════════════════════════════
 const TIPS = [
-  { title:'🏨 Accor Explorer Pass Strategy', text:'Buy the Explorer Pass — gives you Red Hot Rooms (up to 50% off) at Accor properties across Asia. Check if your Amex Platinum NZ already includes this as a benefit before buying. Use points for Mercure transit nights to maximise value.', list:['Mercure Cebu: 4,000 pts × 4 stays = 16,000 pts','Novotel/Ibis Vietnam: ~7,000 pts','Ibis Sri Lanka: ~2,000 pts','Mercure Maldives: 8,000 pts'] },
+  { title:'🏨 Accor Explorer Pass Strategy', text:'Buy the Explorer Pass — gives you Red Hot Rooms (up to 50% off) at Accor properties across Asia. Check if your Amex Platinum NZ already includes this as a benefit before buying. Use points for Mercure transit nights to maximise value.', list:['Mercure Cebu: 4,000 pts × 4 stays = 16,000 pts','Novotel/Ibis Vietnam: ~7,000 pts','Ibis Sri Lanka: ~2,000 pts'] },
   { title:'✈ Airpoints Strategy', text:'Your 400 Airpoints are best used for the big expensive legs you can\'t get cheaply:', list:['Sri Lanka → South America (~$950pp) → USE HERE','Buenos Aires → Europe → USE HERE','Never use Airpoints on short hops you can get for $30-90 on AirAsia/Cebu Pacific'] },
   { title:'🏝 Philippines Island Hopping', text:'The best way to do the Philippines is NOT to fly everything. Use the ferry network:', list:['Cebu → Bohol: 2h fast ferry $10pp','Bohol → Siquijor: 1.5h fast ferry $7pp','Cebu → Siargao: fly (~$40pp, no ferry option)','Siargao → Boracay: fly via Manila or Cebu (~$50pp)'] },
   { title:'🇻🇳 Vietnam Transport Hacks', text:'Vietnam has excellent inter-city transport. Sleeper buses and budget flights are cheap and reliable:', list:['Hanoi → Ha Long Bay: 3.5h bus included in cruise $8pp','Hanoi → Da Nang: fly 1.5h from ~$40pp NZD (VietJet/Bamboo)','Da Nang → Ho Chi Minh City: fly 1.5h from $30pp','HCMC → Phu Quoc: fly 1h from $20pp'] },
@@ -3863,7 +3851,7 @@ const TIPS = [
   { title:'⛽ Argentina Fuel Prices (2027)', text:'Argentine nafta (petrol) is subsidised — among the cheapest in South America. Budget for the Chaco→BA drive:', list:['Chaco (Resistencia) → Buenos Aires: ~1,050km via Ruta 16/9','Family car consumption: ~10L/100km = ~105L total','Nafta Super price: ~1,200–1,500 ARS/L (≈ $1.20–1.50 USD/L)','Total fuel cost: ~$120–160 USD combined (~$60–80pp NZD)','Fill up in Resistencia before leaving — fewer stations on Ruta 16','Carry a 10L jerry can through the Chaco stretch'] },
   { title:'🗺 Argentina Northeast Loop', text:'Entry via Iguazu, through Chaco, drive home to BA — a great way to see the forgotten north:', list:['Foz do Iguaçu (Brazil) → Puerto Iguazú: international bridge $5 USD pp (~20min)','Iguazu Falls → Resistencia (Chaco): Flecha Bus ~8h (~$25 USD pp)','Resistencia → Buenos Aires: family car drive ~11h (fuel ~$60pp NZD)','Chaco is totally off the tourist trail — very cheap, authentic Argentina','Gran Chaco National Park (El Impenetrable): UNESCO-listed, best wildlife outside Patagonia'] },
   { title:'🌍 Best Budget Airlines by Region', text:'', list:['Indonesia/Philippines: AirAsia, Cebu Pacific, Philippines Airlines','Vietnam: VietJet, Bamboo, Vietnam Airlines sales','Sri Lanka: SriLankan Airlines, AirArabia','South America: LATAM, Gol, Avianca, JetSmart (Argentina)','Long haul bargains: Emirates, Qatar, Turkish (via hub cities)'] },
-  { title:'💳 Money & Exchange Tips', text:'', list:['Argentina: Use ATMs wisely, exchange rates have been volatile','Vietnam: ATM fees add up — withdraw larger amounts less often','Sri Lanka: Colombo ATMs reliable; Ella/rural carry cash','Peru/Brazil: Wise card for best exchange rates','Maldives: USD accepted widely — take cash'] },
+  { title:'💳 Money & Exchange Tips', text:'', list:['Argentina: Use ATMs wisely, exchange rates have been volatile','Vietnam: ATM fees add up — withdraw larger amounts less often','Sri Lanka: Colombo ATMs reliable; Ella/rural carry cash','Peru/Brazil: Wise card for best exchange rates'] },
 ];
 function renderTips() {
   document.getElementById('tips-content').innerHTML = `<div class="tips-grid">${
@@ -3883,7 +3871,7 @@ const ROUTE_COORDS = [
   [10.7667,119.2833,'Port Barton'],[11.1784,119.3871,'El Nido'],
   [11.9993,120.2043,'Coron'],[9.7392,118.7353,'Puerto Princesa'],
   [21.0278,105.8342,'Hanoi'],[20.9099,107.1839,'Ha Long Bay'],[16.0544,108.2022,'Da Nang'],[10.8231,106.6297,'HCMC'],
-  [10.2898,103.9840,'Phu Quoc'],[7.8731,80.7718,'Sri Lanka'],[3.2028,73.2207,'Maldives'],
+  [10.2898,103.9840,'Phu Quoc'],[7.8731,80.7718,'Sri Lanka'],
   [-12.0464,-77.0428,'Lima'],[-13.5319,-71.9675,'Cusco'],[-13.1631,-72.5450,'Machu Picchu'],
   [-15.8402,-70.0219,'Puno'],[-3.7172,-38.5433,'Fortaleza'],[-9.6658,-35.7350,'Maceió'],
   [-8.0522,-34.9286,'Recife'],[-12.9714,-38.5014,'Salvador'],[-22.9068,-43.1729,'Rio'],

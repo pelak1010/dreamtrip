@@ -760,8 +760,8 @@ const DEFAULT_STOPS = [
   { id:'s18',  country:'Vietnam', dest:'Da Nang',                   hotel:'', checkin:'2026-11-24', checkout:'2026-11-26', costPerNight:30, points:0, transport:8,   transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Bus from Hue ~$8pp NZD (~3h). Ba Na Hills & Golden Bridge (₫900,000–950,000), Marble Mountains (₫40,000), My Khe Beach (free), Dragon Bridge fire show Sat/Sun 9pm (free).' },
   { id:'s18b', country:'Vietnam', dest:'Hoi An',                    hotel:'', checkin:'2026-11-26', checkout:'2026-11-29', costPerNight:30, points:0, transport:5,   transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Bus from Da Nang ~$5pp NZD (45 min). Lantern-lit ancient town at night, bicycle rental (₫50,000–100,000/day), An Bang Beach, tailor shops for custom clothing (1–2 day turnaround).' },
   { id:'s186', country:'Vietnam', dest:'Da Lat',                    hotel:'', checkin:'2026-11-29', checkout:'2026-12-03', costPerNight:30, points:0, transport:20,  transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Overnight bus from Da Nang ~$20pp NZD. Cool highlands at 1,500m. Canyoning ($65–115pp NZD), Crazy House (₫80,000), Da Lat Flower Park, Truc Lam Temple, Linh Son Pagoda, coffee plantations.' },
-  { id:'s185', country:'Vietnam', dest:'Mui Ne',                    hotel:'', checkin:'2026-12-03', checkout:'2026-12-06', costPerNight:30, points:0, transport:10,  transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Bus from Da Lat ~$10pp NZD (~4h). Red sand dunes (sunrise sled rental), White Sand Dunes (₫35,000–40,000, 35–45 min out), Fairy Stream (free), local fishing village, beach relaxation.' },
-  { id:'s19',  country:'Vietnam', dest:'Ho Chi Minh City',          hotel:'', checkin:'2026-12-06', checkout:'2026-12-11', costPerNight:30, points:0, transport:8,   transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Bus from Mui Ne ~$8pp NZD (~5h). Cu Chi Tunnels (₫400,000–700,000 pp, morning tours), War Remnants Museum (₫40,000), Mekong Delta day trip, Bui Vien walking street, rooftop sky bar.' },
+  { id:'s185', country:'Vietnam', dest:'Phan Thiet',                 hotel:'Movenpick Resort Waterbay Phan Thiet', checkin:'2026-12-03', checkout:'2026-12-06', costPerNight:30, points:0, transport:10,  transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Bus from Da Lat ~$10pp NZD (~4h). Staying in Phan Thiet city — Red Sand Dunes, White Sand Dunes, Fairy Stream and the fishing village are ~15–20 min further drive than from the Mui Ne strip. Red sand dunes (sunrise sled rental), White Sand Dunes (₫35,000–40,000, ~1h out), Fairy Stream (free), local fishing village, beach relaxation.' },
+  { id:'s19',  country:'Vietnam', dest:'Ho Chi Minh City',          hotel:'', checkin:'2026-12-06', checkout:'2026-12-11', costPerNight:30, points:0, transport:8,   transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Bus from Phan Thiet ~$8pp NZD (~5h). Cu Chi Tunnels (₫400,000–700,000 pp, morning tours), War Remnants Museum (₫40,000), Mekong Delta day trip, Bui Vien walking street, rooftop sky bar.' },
 
   // SRI LANKA
   { id:'s21', country:'Sri Lanka', dest:'Colombo / Negombo', hotel:'', checkin:'2026-12-11', checkout:'2026-12-12', costPerNight:22,  points:0,     transport:0,   transportMode:'plane', accommodationType:'hostel',  foodCostPerDay:10, notes:'Arrive Colombo. Negombo fish market, Pettah bazaar, Galle Face Green' },
@@ -1728,39 +1728,39 @@ const DEFAULT_DAILY_PLAN = {
       price: 5
     },
     'day_4': {
-      theme: 'Relaxed Morning & Departure to Mui Ne',
+      theme: 'Relaxed Morning & Departure to Phan Thiet',
       morning: "Morning walk around Xuan Huong Lake in the city center (free). Browse the Da Lat artisan market one last time.",
-      afternoon: "Bus from Da Lat to Mui Ne (~$10pp NZD, ~4 hours).",
-      evening: "Arrive Mui Ne. Settle in and explore the beach strip.",
-      notes: "Bus to Mui Ne $10 NZD pp, ~4 hours.",
+      afternoon: "Bus from Da Lat to Phan Thiet (~$10pp NZD, ~4 hours).",
+      evening: "Arrive Phan Thiet. Settle in at the resort and explore the area.",
+      notes: "Bus to Phan Thiet $10 NZD pp, ~4 hours.",
       price: 0
     }
   },
 
-  // ── Mui Ne (3 nights) ───────────────────────────────────────────────────
+  // ── Phan Thiet (3 nights) ───────────────────────────────────────────────
   's185': {
     'day_1': {
       theme: 'Red Dunes at Sunrise & Fairy Stream',
-      morning: "Watch sunrise at the Red Sand Dunes (sled rental small fee, 30–45 mins) — just 10–15 minutes north along the main strip. Rent a plastic sled and slide down the glowing orange slopes. Best light before 7am.",
-      afternoon: "Walk the Fairy Stream (free, 45–60 mins one-way) — a shallow, ankle-deep stream winding through orange-red clay canyons and bamboo forest. Often includes as part of a half-day jeep tour.",
-      evening: "Sunset on Mui Ne's main beach strip. Fresh seafood dinner at a local beachfront restaurant.",
-      notes: "Red Dunes sled rental small fee ($1–2 NZD). Fairy Stream free — walk barefoot.",
+      morning: "Watch sunrise at the Red Sand Dunes (sled rental small fee, 30–45 mins) — about 15–20 minutes from the Movenpick, just north of the Mui Ne strip. Rent a plastic sled and slide down the glowing orange slopes. Best light before 7am.",
+      afternoon: "Walk the Fairy Stream (free, 45–60 mins one-way) — a shallow, ankle-deep stream winding through orange-red clay canyons and bamboo forest, on the Mui Ne strip. Often includes as part of a half-day jeep tour.",
+      evening: "Sunset back at the resort, or head to the Mui Ne beach strip for fresh seafood at a local beachfront restaurant.",
+      notes: "Red Dunes sled rental small fee ($1–2 NZD). Fairy Stream free — walk barefoot. ~15–20 min drive further from Phan Thiet than the Mui Ne strip hotels.",
       price: 3
     },
     'day_2': {
       theme: 'White Sand Dunes & Fishing Village',
-      morning: "Visit the White Sand Dunes at sunrise (₫35,000–40,000 = ~$2.30–2.62 NZD transport/entry, 1–1.5 hours) — the more impressive dune field, 35–45 min drive out. Quad bike/ATV rentals available on site.",
-      afternoon: "Visit the Local Fishing Village (free to explore, 1–2 hours) — rows of colorful round basket boats, fish sauce production, glimpse of Mui Ne's working coastline before tourism arrived.",
-      evening: "Beach evening — watch kite surfers on the water at Bai Bien beach (free to watch). The consistent offshore wind makes Mui Ne one of Southeast Asia's top kite-surfing spots.",
+      morning: "Visit the White Sand Dunes at sunrise (₫35,000–40,000 = ~$2.30–2.62 NZD transport/entry, ~1 hour drive from Phan Thiet) — the more impressive dune field. Quad bike/ATV rentals available on site.",
+      afternoon: "Visit the Local Fishing Village (free to explore, 1–2 hours) — rows of colorful round basket boats, fish sauce production, glimpse of the region's working coastline before tourism arrived.",
+      evening: "Beach evening at the resort — watch kite surfers on the water off Bai Bien beach (free to watch). The consistent offshore wind makes this coastline one of Southeast Asia's top kite-surfing spots.",
       notes: "White Dunes $2.30–2.62 NZD. Fishing village free. Kite surf lessons ~$40–60 NZD pp if interested.",
       price: 3
     },
     'day_3': {
-      theme: 'Beach Day & Departure to Saigon',
-      morning: "Mui Ne's main appeal is slowing down. Relaxed beach morning — pool or beach.",
-      afternoon: "Bus from Mui Ne to Ho Chi Minh City (~$8pp NZD, ~5–6 hours).",
+      theme: 'Resort Day & Departure to Saigon',
+      morning: "Phan Thiet's main appeal is slowing down. Relaxed resort morning — pool or beach at the Movenpick.",
+      afternoon: "Bus from Phan Thiet to Ho Chi Minh City (~$8pp NZD, ~5–6 hours).",
       evening: "Arrive Ho Chi Minh City. Settle in and explore the neighborhood.",
-      notes: "Bus Mui Ne to HCMC $8 NZD pp, ~5–6 hours. Several departures per day.",
+      notes: "Bus Phan Thiet to HCMC $8 NZD pp, ~5–6 hours. Several departures per day.",
       price: 0
     }
   },

@@ -1175,6 +1175,133 @@ const THINGS_TO_DO = {
 //  Prices in NZD pp (1 NZD ≈ 35 PHP)
 // ═══════════════════════════════════════════
 const DEFAULT_DAILY_PLAN = {
+  // ── Bali - Nusa Dua (4 nights) ───────────────────────────────────────
+  's1': {
+    'day_1': {
+      theme: 'Arrival & Nusa Dua Settle-In',
+      morning: "In transit — long-haul flight to Bali.",
+      afternoon: "Still in transit — connecting flight/layover.",
+      evening: "Land Bali 22:30. Quick transfer to Nusa Dua, check in, light dinner nearby — arrival is late, so keep it simple.",
+      notes: "Flight lands 22:30 — deliberately no activities booked. Recover before day 2.",
+      price: 0
+    },
+    'day_2': {
+      theme: 'Uluwatu Temple & Kecak Fire Dance',
+      morning: "Relax and swim at Nusa Dua's calm, reef-protected beach — one of Bali's cleanest and safest swimming beaches (free).",
+      afternoon: "Visit Uluwatu Temple — clifftop temple perched 70m above the Indian Ocean, one of Bali's six key directional temples (IDR 50,000 ≈ ~$5 NZD entry, sarong provided, watch for cheeky macaques).",
+      evening: "Watch the Kecak Fire &amp; Trance Dance at the temple's clifftop amphitheatre at sunset — a hypnotic chant performance re-enacting the Ramayana (IDR 150,000 ≈ ~$15 NZD, book ahead in high season).",
+      notes: "Uluwatu entry ~$5 NZD. Kecak dance ~$15 NZD — arrive 30 min early for good seats.",
+      price: 20
+    },
+    'day_3': {
+      theme: 'Water Sports & GWK Cultural Park',
+      morning: "Water sports at Nusa Dua beach — snorkeling, parasailing, or banana boat at the beach watersports centre (~IDR 200,000–350,000 ≈ ~$20–35 NZD depending on activity).",
+      afternoon: "Visit Garuda Wisnu Kencana (GWK) Cultural Park — home to the 121m Garuda Wisnu Kencana statue, one of the tallest statues in the world (IDR 125,000 ≈ ~$12 NZD entry, 2–3 hours).",
+      evening: "Dinner in Nusa Dua or Jimbaran — try Jimbaran's beachfront seafood grills with your feet in the sand (~IDR 200,000 ≈ ~$20 NZD pp).",
+      notes: "Watersports ~$25 NZD avg. GWK entry ~$12 NZD. Jimbaran seafood dinner ~$20 NZD pp.",
+      price: 57
+    },
+    'day_4': {
+      theme: 'Seminyak Beach Clubs & Final Relax',
+      morning: "Morning at leisure in Nusa Dua — final swim or spa treatment before heading north.",
+      afternoon: "Explore Seminyak — boutique shopping strip and beachfront cafes (~1h drive/taxi from Nusa Dua).",
+      evening: "Sunset drinks at a Seminyak beach club (La Plancha or Potato Head Beach Club — colourful bean bags right on the sand, ~$15 NZD drinks). Pack for Ubud transfer tomorrow.",
+      notes: "Seminyak beach club drinks ~$15 NZD. Private car to Ubud booked for tomorrow ($50 total, both).",
+      price: 15
+    }
+  },
+  // ── Ubud (2 nights) ──────────────────────────────────────────────────
+  's1b': {
+    'day_1': {
+      theme: 'Tegallalang Rice Terraces & Ubud Palace',
+      morning: "Private car from Nusa Dua to Ubud (~1.5h, $50 total both — booked in advance). Check in and settle.",
+      afternoon: "Visit the Tegallalang Rice Terraces — iconic Jatiluwih-style stepped emerald terraces carved into the hillside (IDR 15,000 ≈ ~$1.50 NZD voluntary donation). Go mid-afternoon to avoid the busiest tour-bus window.",
+      evening: "Explore Ubud Palace (Puri Saren Agung) — traditional Balinese architecture in the town centre, free to wander the courtyards (often has free evening dance performances, ~IDR 100,000 for a ticketed show). Browse the adjacent Ubud Art Market for local crafts.",
+      notes: "Tegallalang ~$1.50 NZD donation. Ubud Palace free to explore. Art Market — haggle, start at half the asking price.",
+      price: 2
+    },
+    'day_2': {
+      theme: 'Tirta Empul Water Temple & Cooking Class',
+      morning: "Visit Tirta Empul Water Temple — sacred spring-water temple where locals and visitors perform ritual purification under carved fountain spouts (IDR 50,000 ≈ ~$5 NZD entry, sarong required — provided on site).",
+      afternoon: "Balinese cooking class — market visit followed by hands-on cooking of classic dishes like bebek betutu and sambal (~$35 NZD pp, 3–4 hours, includes lunch).",
+      evening: "Campuhan Ridge Walk at sunset — easy 2–3km ridge trail through open grassland with sweeping valley views, one of Ubud's best free activities (free, ~1 hour).",
+      notes: "Tirta Empul ~$5 NZD. Cooking class ~$35 NZD pp. Campuhan Ridge Walk free — best 1 hour before sunset.",
+      price: 40
+    }
+  },
+  // ── Lombok (4 nights) ────────────────────────────────────────────────
+  's2': {
+    'day_1': {
+      theme: 'Arrival & Kuta Lombok Settle-In',
+      morning: "Car from Ubud to Bali ferry port ($50 total, both) then ferry Padang Bai → Lombok (~$18pp each way, ~4–5h).",
+      afternoon: "Arrive Lombok, transfer to Kuta Lombok. Check in and unwind.",
+      evening: "Beach evening at Kuta Lombok — relaxed surf-town strip, quieter than its Bali namesake. Dinner at a beachfront warung.",
+      notes: "Ferry ~$18pp each way + $50 car (both) to the port. Travel day — keep it light.",
+      price: 18
+    },
+    'day_2': {
+      theme: 'Gili Trawangan Day Trip',
+      morning: "Speedboat to Gili Trawangan (~$25 NZD return boat + gear) — snorkel with resident sea turtles just off the north-east coast.",
+      afternoon: "Glass-bottom boat tour around the Gili Islands, or rent a bicycle to circle car-free Gili Trawangan (~1h loop, no motor vehicles on the island).",
+      evening: "Return to Kuta Lombok. Dinner at the Kuta Lombok night market food stalls.",
+      notes: "Gili Trawangan boat + snorkel gear ~$25 NZD. No cars/motorbikes on the Gilis — bicycle or horse cart only.",
+      price: 25
+    },
+    'day_3': {
+      theme: 'Sendang Gile & Tiu Kelep Waterfalls',
+      morning: "Drive to the Mount Rinjani foothills (~1.5h) for Sendang Gile Waterfall — an easy, short walk to a powerful curtain waterfall (IDR 30,000 ≈ ~$3 NZD entry).",
+      afternoon: "Continue on to Tiu Kelep Waterfall — a further 30–45 min river-crossing trek to a taller, more secluded falls with swimming pool (included in same entry fee). Sweeping Mount Rinjani viewpoints along the drive.",
+      evening: "Return to Kuta Lombok. Relaxed dinner and early night.",
+      notes: "Combined Sendang Gile + Tiu Kelep entry ~$3 NZD. Wear proper footwear — river crossings can be slippery.",
+      price: 3
+    },
+    'day_4': {
+      theme: 'Pink Beach Boat Trip & Departure Prep',
+      morning: "Boat trip to Pink Beach (Tangsi Beach) — pale pink-tinged sand from red coral fragments, with excellent snorkeling just offshore (~$30 NZD boat + snorkel gear, half-day).",
+      afternoon: "Final swim and pack up in Kuta Lombok.",
+      evening: "Early night — flight to Labuan Bajo departs tomorrow.",
+      notes: "Pink Beach boat trip ~$30 NZD. Flight Lombok→Labuan Bajo booked for tomorrow ($180pp NZD).",
+      price: 30
+    }
+  },
+  // ── Labuan Bajo / Komodo (3 nights) ─────────────────────────────────
+  's3': {
+    'day_1': {
+      theme: 'Arrival & Puncak Waringin Sunset',
+      morning: "Fly Lombok → Labuan Bajo (~2h, $180pp NZD via AirAsia or Batik Air).",
+      afternoon: "Arrive Labuan Bajo, check in and settle into town.",
+      evening: "Sunset at Puncak Waringin viewpoint — a short uphill walk from town centre for panoramic views over the harbour and surrounding islands (free).",
+      notes: "Puncak Waringin viewpoint free — arrive ~30 min before sunset. Book tomorrow's Komodo boat tour tonight through your accommodation.",
+      price: 0
+    },
+    'day_2': {
+      theme: 'Komodo National Park — Dragons, Padar & Pink Beach',
+      morning: "Full-day Komodo National Park boat tour departs early (~7am). Trek Rinca or Komodo Island with a ranger guide to see wild Komodo dragons up close (~$45 NZD combined park fee + ranger guide).",
+      afternoon: "Hike Padar Island viewpoint — steep 20-min climb to the iconic three-bay panorama that's become Indonesia's most photographed view. Snorkel at Pink Beach — sand tinted pink from red coral fragments, with vibrant coral reef just offshore.",
+      evening: "Return to Labuan Bajo by boat as the sun sets over the harbour. Seafood dinner in town.",
+      notes: "Full-day boat tour ~$45 NZD pp (park fee + guide, boat/lunch often bundled — confirm when booking). Bring reef-safe sunscreen and a hat.",
+      price: 45
+    },
+    'day_3': {
+      theme: 'Manta Point Snorkel & Departure to Bali',
+      morning: "Morning boat trip to Manta Point or Kanawa Island for a final snorkel — manta ray sightings are common at cleaning stations near Karang Makassar (~$20 NZD boat + gear, half-day).",
+      afternoon: "Return to Labuan Bajo, pack up, transfer to the airport.",
+      evening: "Fly Labuan Bajo → Bali ($139pp NZD) — arrive Bali for a transit night before flying onward to the Philippines.",
+      notes: "Manta Point/Kanawa half-day snorkel ~$20 NZD. Flight to Bali $139pp NZD — allow buffer time before departure.",
+      price: 20
+    }
+  },
+  // ── Bali - Transit (1 night) ─────────────────────────────────────────
+  's3b': {
+    'day_1': {
+      theme: 'Transit Day & Final Bali Evening',
+      morning: "Arrive Bali from Labuan Bajo. Check in near the airport.",
+      afternoon: "Light day — last walk along Kuta Beach or a final Balinese massage (~$15 NZD/hour) before the long onward journey.",
+      evening: "Pack and an early dinner near the airport ahead of tomorrow's flight to the Philippines.",
+      notes: "Deliberately unplanned — a buffer/transit day before the $249pp flight to the Philippines. Optional massage ~$15 NZD/hour.",
+      price: 0
+    }
+  },
   // ── Cebu City (1 night) ──────────────────────────────────────────────
   's4': {
     'day_1': {

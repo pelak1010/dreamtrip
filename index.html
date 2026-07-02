@@ -2401,7 +2401,9 @@ function preloadCountryBgs(){
     img.src = meta.bg;
   });
 }
+let currentView = 'itin';
 function switchView(v) {
+  currentView = v;
   document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(el=>el.classList.remove('active'));
   document.getElementById('view-'+v).classList.add('active');
@@ -2851,7 +2853,7 @@ function renderDailyPlanPanel(sid) {
           <div class="dp-day-num">Day ${day.num}</div>
           <div class="dp-day-date">${day.label}</div>
           <div class="dp-day-theme">${themeHtml}</div>
-          ${priceVal!=='' && parseFloat(priceVal)>0 ? `<div style="font-size:.62rem;color:var(--green);white-space:nowrap;flex-shrink:0">$${parseFloat(priceVal).toFixed(0)} NZD pp</div>` : ''}
+          <div class="dp-day-price-badge" style="font-size:.62rem;color:var(--green);white-space:nowrap;flex-shrink:0${priceVal!=='' && parseFloat(priceVal)>0 ? '' : ';display:none'}">$${priceVal!=='' ? parseFloat(priceVal).toFixed(0) : '0'} NZD pp</div>
           <div class="dp-day-chevron">▼</div>
         </div>
         <div class="dp-day-body">
@@ -2891,6 +2893,15 @@ function updateDayEntry(sid, dayKey, field, value) {
   if(field==='theme') {
     const hdr = document.querySelector(`#dpday-${sid}-${dayKey} .dp-day-theme`);
     if(hdr) hdr.textContent = value||'';
+  }
+  if(field==='price') {
+    const badge = document.querySelector(`#dpday-${sid}-${dayKey} .dp-day-price-badge`);
+    if(badge) {
+      const n = parseFloat(value)||0;
+      badge.textContent = '$'+n.toFixed(0)+' NZD pp';
+      badge.style.display = n>0 ? '' : 'none';
+    }
+    if(currentView==='budg') renderBudget();
   }
 }
 

@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "dreamtrip",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", ".", "--no-clipboard"],
+      "port": 3033,
+      "autoPort": true
+    }
+  ]
+}

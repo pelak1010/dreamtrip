@@ -3452,7 +3452,7 @@ const DOC_TEMPLATES = [
     {k:'visa_notes', label:'Visa notes', type:'textarea'},
   ]},
   { id:'flights', title:'✈ Booked Flights', fields:[
-    {k:'fl_akl_dps', label:'AKL → Bali (date + ref)'},
+    {k:'fl_akl_dps', label:'Queenstown → Bali (date + ref)'},
     {k:'fl_long_haul', label:'Long-haul Asia → Lima'},
     {k:'fl_back', label:'Buenos Aires → Home'},
     {k:'fl_notes', label:'Other bookings', type:'textarea'},
@@ -3487,9 +3487,16 @@ const DOC_TEMPLATES = [
   ]},
 ];
 
+const DEFAULT_DOCS = {
+  christian_pp: 'AAM390658',
+  christian_pp_exp: '2036-01-25',
+  abi_pp: '156661950',
+  abi_pp_exp: '2035-07-30',
+  fl_akl_dps: 'WVYBIY',
+};
 function loadDocs(){
-  try{ const d = localStorage.getItem('dt_docs_v9'); if(d) return JSON.parse(d); }catch(e){}
-  return {};
+  try{ const d = localStorage.getItem('dt_docs_v9'); if(d) return {...DEFAULT_DOCS, ...JSON.parse(d)}; }catch(e){}
+  return {...DEFAULT_DOCS};
 }
 function saveDocs(o){ try{ localStorage.setItem('dt_docs_v9', JSON.stringify(o)); }catch(e){} }
 let docsData = loadDocs();

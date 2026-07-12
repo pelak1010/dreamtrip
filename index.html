@@ -228,6 +228,30 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .bc-dest{color:rgba(245,237,214,.7)}
 .bc-amt{color:var(--sand)}
 
+.spend-total-banner{display:flex;flex-wrap:wrap;gap:1.4rem;background:var(--card);border:1px solid var(--teal);border-radius:14px;padding:1rem 1.4rem;margin-bottom:1rem}
+.spend-total-banner .st-item{min-width:110px}
+.spend-total-banner .st-label{font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(245,237,214,.4)}
+.spend-total-banner .st-val{font-family:'Playfair Display',serif;font-size:1.35rem;color:var(--sand)}
+.spend-type-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.6rem;margin-bottom:1.4rem}
+.spend-type-card{background:var(--fog);border:1px solid var(--border);border-radius:10px;padding:.55rem .8rem}
+.spend-type-card .stc-label{font-size:.66rem;color:rgba(245,237,214,.5)}
+.spend-type-card .stc-val{font-size:.95rem;font-weight:600;color:var(--sand);margin-top:.15rem}
+.spend-country{margin-bottom:1.6rem}
+.spend-country-head{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--border);padding-bottom:.4rem;margin-bottom:.7rem}
+.spend-country-head h3{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--sand)}
+.spend-country-total{color:var(--teal);font-weight:600;font-size:.85rem}
+.spend-dest-block{margin-bottom:.9rem}
+.spend-dest-head{display:flex;justify-content:space-between;font-size:.72rem;color:rgba(245,237,214,.5);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.06em}
+.exp-row{display:flex;align-items:center;gap:.6rem;padding:.4rem .6rem;border-radius:8px;background:var(--card);border:1px solid var(--border);margin-bottom:.3rem;font-size:.8rem}
+.exp-row .exp-type-badge{font-size:.9rem}
+.exp-row .exp-date{font-size:.65rem;color:rgba(245,237,214,.35);white-space:nowrap}
+.exp-row .exp-desc{flex:1;color:rgba(245,237,214,.7)}
+.exp-row .exp-amt{color:var(--sand);font-weight:600;white-space:nowrap}
+.exp-row .exp-actions{display:flex;gap:.2rem}
+.exp-row .exp-actions button{background:none;border:none;color:rgba(245,237,214,.35);cursor:pointer;font-size:.85rem;padding:.1rem .3rem}
+.exp-row .exp-actions button:hover{color:var(--coral)}
+.spend-empty{font-size:.8rem;color:rgba(245,237,214,.3);padding:1rem 0}
+
 /* GLOBE TAB */
 .globe-wrap{padding:1.5rem 2rem;display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
 @media(max-width:768px){.globe-wrap{grid-template-columns:1fr}}
@@ -507,6 +531,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
   <div class="nav-tabs">
     <button class="tab-btn active" onclick="switchView('itin')">✈ Itinerary</button>
     <button class="tab-btn" onclick="switchView('budg')">💰 Budget</button>
+    <button class="tab-btn" onclick="switchView('spend')">💵 Spending</button>
     <button class="tab-btn" onclick="switchView('pack')">🎒 Packing</button>
     <button class="tab-btn" onclick="switchView('docs')">📋 Docs</button>
     <button class="tab-btn" onclick="switchView('globe')">🌍 Globe</button>
@@ -583,6 +608,19 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
   <div class="budget-wrap">
     <h2 class="section-h2">Budget Breakdown</h2>
     <div id="budget-content"></div>
+  </div>
+</div>
+
+<!-- ════════════ SPENDING VIEW ════════════ -->
+<div class="view" id="view-spend">
+  <div class="budget-wrap">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.6rem;margin-bottom:.4rem">
+      <h2 class="section-h2" style="margin-bottom:0">Daily Spending Tracker</h2>
+      <button class="pa-btn" onclick="openExpenseModal()" style="background:var(--teal);color:#0f1019;border:none;font-weight:600">+ Add Expense</button>
+    </div>
+    <p style="font-size:.78rem;color:rgba(245,237,214,.4);margin-bottom:1.2rem;max-width:620px">Log every dollar spent on the road — organized by country and destination, totalled automatically. Saved locally to this device.</p>
+    <div id="spend-summary"></div>
+    <div id="spend-content"></div>
   </div>
 </div>
 
@@ -698,6 +736,37 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
     <div class="modal-actions">
       <button class="m-btn cancel" onclick="closeModal()">Cancel</button>
       <button class="m-btn save" onclick="saveNewStop()">Add Stop</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD EXPENSE MODAL -->
+<div class="modal-overlay" id="expense-modal">
+  <div class="modal">
+    <h3 id="expense-modal-title">Add Expense</h3>
+    <div class="modal-fields">
+      <div class="modal-field"><label>Date</label><input type="date" id="e-date"></div>
+      <div class="modal-field"><label>Type</label>
+        <select id="e-type">
+          <option value="accommodation">🏨 Accommodation</option>
+          <option value="food">🍜 Food</option>
+          <option value="experience">🎟 Experience</option>
+          <option value="transport">🚌 Transport</option>
+          <option value="shopping">🛍 Shopping</option>
+          <option value="other">📦 Other</option>
+        </select>
+      </div>
+      <div class="modal-field"><label>Country</label>
+        <select id="e-country" onchange="updateExpenseDestOptions()"></select>
+      </div>
+      <div class="modal-field"><label>Destination</label><input list="e-dest-list" id="e-dest" placeholder="e.g. Ubud"><datalist id="e-dest-list"></datalist></div>
+      <div class="modal-field"><label>Amount ($NZD)</label><input type="number" step="0.01" id="e-amount" placeholder="0"></div>
+      <div class="modal-field"><label>Paid by / for</label><input id="e-who" placeholder="e.g. Both, Christian, Abi"></div>
+      <div class="modal-field full"><label>Notes</label><textarea id="e-notes" rows="2" placeholder="What was it for?"></textarea></div>
+    </div>
+    <div class="modal-actions">
+      <button class="m-btn cancel" onclick="closeExpenseModal()">Cancel</button>
+      <button class="m-btn save" onclick="saveExpenseModal()">Save Expense</button>
     </div>
   </div>
 </div>
@@ -2408,9 +2477,10 @@ function switchView(v) {
   document.querySelectorAll('.tab-btn').forEach(el=>el.classList.remove('active'));
   document.getElementById('view-'+v).classList.add('active');
   const btns = document.querySelectorAll('.tab-btn');
-  ['itin','budg','pack','docs','globe','tips'].forEach((name,i)=>{ if(name===v) btns[i].classList.add('active'); });
+  ['itin','budg','spend','pack','docs','globe','tips'].forEach((name,i)=>{ if(name===v) btns[i].classList.add('active'); });
   if(v==='globe') { initGlobe(); initMapbox2D(); }
   if(v==='budg') renderBudget();
+  if(v==='spend') renderSpending();
   if(v==='tips') renderTips();
   if(v==='pack') renderPacking();
   if(v==='docs') renderDocs();
@@ -3525,6 +3595,152 @@ function renderDocs(){
 function updateDoc(key, val){ docsData[key] = val; saveDocs(docsData); }
 
 // ═══════════════════════════════════════════
+//  DAILY SPENDING TRACKER
+// ═══════════════════════════════════════════
+const EXPENSE_TYPES = {
+  accommodation: { icon:'🏨', label:'Accommodation' },
+  food:           { icon:'🍜', label:'Food' },
+  experience:     { icon:'🎟', label:'Experience' },
+  transport:      { icon:'🚌', label:'Transport' },
+  shopping:       { icon:'🛍', label:'Shopping' },
+  other:          { icon:'📦', label:'Other' },
+};
+function loadExpenses(){
+  try{ const d = localStorage.getItem('dt_expenses_v1'); if(d) return JSON.parse(d); }catch(e){}
+  return [];
+}
+function saveExpensesData(){ try{ localStorage.setItem('dt_expenses_v1', JSON.stringify(expenses)); }catch(e){} }
+let expenses = loadExpenses();
+let editingExpenseId = null;
+
+function populateExpenseCountrySelect(){
+  const sel = document.getElementById('e-country');
+  if(!sel) return;
+  const countries = Object.keys(COUNTRY_FLAGS);
+  sel.innerHTML = countries.map(c=>`<option value="${c}">${COUNTRY_FLAGS[c]} ${c}</option>`).join('');
+}
+function updateExpenseDestOptions(){
+  const country = document.getElementById('e-country').value;
+  const dl = document.getElementById('e-dest-list');
+  const dests = [...new Set(stops.filter(s=>s.country===country).map(s=>s.dest))];
+  dl.innerHTML = dests.map(d=>`<option value="${d.replace(/"/g,'&quot;')}">`).join('');
+}
+function openExpenseModal(id){
+  populateExpenseCountrySelect();
+  editingExpenseId = id || null;
+  if(id){
+    const exp = expenses.find(e=>e.id===id);
+    if(!exp) return;
+    document.getElementById('expense-modal-title').textContent = 'Edit Expense';
+    document.getElementById('e-date').value = exp.date;
+    document.getElementById('e-type').value = exp.type;
+    document.getElementById('e-country').value = exp.country;
+    updateExpenseDestOptions();
+    document.getElementById('e-dest').value = exp.dest;
+    document.getElementById('e-amount').value = exp.amount;
+    document.getElementById('e-who').value = exp.who||'';
+    document.getElementById('e-notes').value = exp.notes||'';
+  } else {
+    document.getElementById('expense-modal-title').textContent = 'Add Expense';
+    document.getElementById('e-date').value = new Date().toISOString().slice(0,10);
+    document.getElementById('e-type').value = 'food';
+    document.getElementById('e-country').selectedIndex = 0;
+    updateExpenseDestOptions();
+    document.getElementById('e-dest').value = '';
+    document.getElementById('e-amount').value = '';
+    document.getElementById('e-who').value = '';
+    document.getElementById('e-notes').value = '';
+  }
+  document.getElementById('expense-modal').classList.add('open');
+}
+function closeExpenseModal(){ document.getElementById('expense-modal').classList.remove('open'); editingExpenseId=null; }
+function saveExpenseModal(){
+  const date = document.getElementById('e-date').value || new Date().toISOString().slice(0,10);
+  const type = document.getElementById('e-type').value;
+  const country = document.getElementById('e-country').value;
+  const dest = document.getElementById('e-dest').value.trim();
+  const amount = parseFloat(document.getElementById('e-amount').value) || 0;
+  const who = document.getElementById('e-who').value.trim();
+  const notes = document.getElementById('e-notes').value.trim();
+  if(!dest || amount<=0){ showToast('Add a destination and an amount'); return; }
+  if(editingExpenseId){
+    const exp = expenses.find(e=>e.id===editingExpenseId);
+    if(exp) Object.assign(exp,{date,type,country,dest,amount,who,notes});
+  } else {
+    expenses.push({ id:'exp'+Date.now()+Math.floor(Math.random()*1000), date, type, country, dest, amount, who, notes });
+  }
+  saveExpensesData();
+  closeExpenseModal();
+  renderSpending();
+  showToast('Expense saved');
+}
+function deleteExpense(id){
+  if(!confirm('Delete this expense?')) return;
+  expenses = expenses.filter(e=>e.id!==id);
+  saveExpensesData();
+  renderSpending();
+}
+function renderSpending(){
+  const summaryEl = document.getElementById('spend-summary');
+  const contentEl = document.getElementById('spend-content');
+  if(!summaryEl || !contentEl) return;
+
+  const grandTotal = expenses.reduce((a,e)=>a+(parseFloat(e.amount)||0),0);
+  const byType = {};
+  Object.keys(EXPENSE_TYPES).forEach(t=>byType[t]=0);
+  expenses.forEach(e=>{ byType[e.type] = (byType[e.type]||0) + (parseFloat(e.amount)||0); });
+
+  summaryEl.innerHTML = `
+    <div class="spend-total-banner">
+      <div class="st-item"><div class="st-label">Total Spent</div><div class="st-val" style="color:var(--coral)">${fmtNZD(grandTotal)}</div></div>
+      <div class="st-item"><div class="st-label">Per Person</div><div class="st-val" style="color:var(--teal)">${fmtNZD(grandTotal/2)}</div></div>
+      <div class="st-item"><div class="st-label">Entries Logged</div><div class="st-val">${expenses.length}</div></div>
+    </div>
+    <div class="spend-type-grid">
+      ${Object.entries(EXPENSE_TYPES).map(([k,v])=>`<div class="spend-type-card"><div class="stc-label">${v.icon} ${v.label}</div><div class="stc-val">${fmtNZD(byType[k]||0)}</div></div>`).join('')}
+    </div>`;
+
+  if(expenses.length===0){
+    contentEl.innerHTML = '<div class="spend-empty">No expenses logged yet — click "+ Add Expense" to start tracking.</div>';
+    return;
+  }
+
+  const COUNTRY_ORDER3 = ['Indonesia','Philippines','Vietnam','Sri Lanka','Peru','Brazil','Argentina'];
+  const countries = [...new Set(expenses.map(e=>e.country))].sort((a,b)=>COUNTRY_ORDER3.indexOf(a)-COUNTRY_ORDER3.indexOf(b));
+
+  contentEl.innerHTML = countries.map(country=>{
+    const cExpenses = expenses.filter(e=>e.country===country);
+    const cTotal = cExpenses.reduce((a,e)=>a+(parseFloat(e.amount)||0),0);
+    const dests = [...new Set(cExpenses.map(e=>e.dest))];
+    const destBlocks = dests.map(dest=>{
+      const dExpenses = cExpenses.filter(e=>e.dest===dest).sort((a,b)=>b.date.localeCompare(a.date));
+      const dTotal = dExpenses.reduce((a,e)=>a+(parseFloat(e.amount)||0),0);
+      const rows = dExpenses.map(e=>{
+        const t = EXPENSE_TYPES[e.type]||EXPENSE_TYPES.other;
+        return `<div class="exp-row">
+          <span class="exp-type-badge" title="${t.label}">${t.icon}</span>
+          <span class="exp-date">${e.date}</span>
+          <span class="exp-desc">${(e.notes||t.label)}${e.who?` <small style="opacity:.5">(${e.who})</small>`:''}</span>
+          <span class="exp-amt">${fmtNZD(e.amount)}</span>
+          <span class="exp-actions">
+            <button onclick="openExpenseModal('${e.id}')" title="Edit">✎</button>
+            <button onclick="deleteExpense('${e.id}')" title="Delete">✕</button>
+          </span>
+        </div>`;
+      }).join('');
+      return `<div class="spend-dest-block">
+        <div class="spend-dest-head"><span>${dest}</span><span>${fmtNZD(dTotal)}</span></div>
+        ${rows}
+      </div>`;
+    }).join('');
+    return `<div class="spend-country">
+      <div class="spend-country-head"><h3>${COUNTRY_FLAGS[country]||'🌍'} ${country}</h3><span class="spend-country-total">${fmtNZD(cTotal)}</span></div>
+      ${destBlocks}
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════
 //  EXPORT
 // ═══════════════════════════════════════════
 function exportHTML() {
@@ -4255,6 +4471,7 @@ document.addEventListener('click', e=>{
     document.querySelectorAll('.ict-popover.open').forEach(p=>p.classList.remove('open'));
   }
   if(e.target===document.getElementById('modal-overlay')) closeModal();
+  if(e.target===document.getElementById('expense-modal')) closeExpenseModal();
 });
 
 // ═══════════════════════════════════════════

@@ -800,7 +800,7 @@ const DEFAULT_ICT = {
 // ═══════════════════════════════════════════
 const DEFAULT_STOPS = [
   // INDONESIA
-  { id:'s1',  country:'Indonesia', dest:'Bali', hotel:'Mercure Bali Nusa Dua', checkin:'2026-09-20', checkout:'2026-09-24', costPerNight:114.56,  points:6000,  transport:0,   transportMode:'plane', accommodationType:'accor',   foodCostPerDay:15, notes:'Arrive 22:30. Explore Nusa Dua, Seminyak, Uluwatu' },
+  { id:'s1',  country:'Indonesia', dest:'Bali', hotel:'Mercure Bali Nusa Dua', checkin:'2026-09-20', checkout:'2026-09-24', costPerNight:25.9975,  points:6000,  transport:503,   transportMode:'plane', accommodationType:'accor',   foodCostPerDay:15, notes:'Flight Queenstown (QT) → Bali $503pp. Arrive 22:30. Explore Nusa Dua, Seminyak, Uluwatu' },
   { id:'s1b', country:'Indonesia', dest:'Ubud', hotel:'', checkin:'2026-09-24', checkout:'2026-09-26', costPerNight:30, points:0, transport:50, transportMode:'car', accommodationType:'hotel', foodCostPerDay:15, notes:'Private car from Nusa Dua $50 (both). Rice terraces, Tegallalang, Monkey Forest, Ubud Palace, cooking class.' },
   { id:'s2',  country:'Indonesia', dest:'Lombok', hotel:'Novotel Lombok', checkin:'2026-09-26', checkout:'2026-09-30', costPerNight:105.34,  points:8000, transport:86,  transportMode:'ferry', accommodationType:'accor',   foodCostPerDay:15, notes:'Car Ubud→Bali ferry port $50 (both) + Ferry $18pp each way. Gili islands day trip, Mount Rinjani views' },
   { id:'s3',  country:'Indonesia', dest:'Labuan Bajo (Komodo)', hotel:'Budget Guesthouse', checkin:'2026-09-30', checkout:'2026-10-03', costPerNight:25, points:0,     transport:180, transportMode:'plane', accommodationType:'hotel',   foodCostPerDay:15, notes:'Fly Lombok→Labuan Bajo $180pp NZD (AirAsia or Batik Air, ~2h). Komodo dragon tour + liveaboard snorkel' },
@@ -3605,9 +3605,24 @@ const EXPENSE_TYPES = {
   shopping:       { icon:'🛍', label:'Shopping' },
   other:          { icon:'📦', label:'Other' },
 };
+const DEFAULT_EXPENSES = [
+  { id:'exp-qt-bali-flight', date:'2026-09-19', type:'transport', country:'Indonesia', dest:'Bali', amount:1006, who:'Both', notes:'Flight Queenstown (QT) → Bali, $503pp' },
+  { id:'exp-mercure-bali',   date:'2026-09-20', type:'accommodation', country:'Indonesia', dest:'Bali', amount:103.99, who:'Both', notes:'Mercure Bali Nusa Dua, Sep 20–24 (4 nights)' },
+];
 function loadExpenses(){
-  try{ const d = localStorage.getItem('dt_expenses_v1'); if(d) return JSON.parse(d); }catch(e){}
-  return [];
+  try{
+    const d = localStorage.getItem('dt_expenses_v1');
+    if(d){
+      const data = JSON.parse(d);
+      let changed = false;
+      DEFAULT_EXPENSES.forEach(def=>{
+        if(!data.some(e=>e.id===def.id)){ data.push({...def}); changed = true; }
+      });
+      if(changed) localStorage.setItem('dt_expenses_v1', JSON.stringify(data));
+      return data;
+    }
+  }catch(e){}
+  return DEFAULT_EXPENSES.map(e=>({...e}));
 }
 function saveExpensesData(){ try{ localStorage.setItem('dt_expenses_v1', JSON.stringify(expenses)); }catch(e){} }
 let expenses = loadExpenses();
@@ -3690,14 +3705,33 @@ function renderSpending(){
   Object.keys(EXPENSE_TYPES).forEach(t=>byType[t]=0);
   expenses.forEach(e=>{ byType[e.type] = (byType[e.type]||0) + (parseFloat(e.amount)||0); });
 
+  const accorStops = stops.filter(s=>parseInt(s.points)>0);
+  const accorUsed = accorStops.reduce((a,s)=>a+(parseInt(s.points)||0),0);
+  const accorLeft = INITIAL_ACCOR - accorUsed;
+
   summaryEl.innerHTML = `
     <div class="spend-total-banner">
       <div class="st-item"><div class="st-label">Total Spent</div><div class="st-val" style="color:var(--coral)">${fmtNZD(grandTotal)}</div></div>
       <div class="st-item"><div class="st-label">Per Person</div><div class="st-val" style="color:var(--teal)">${fmtNZD(grandTotal/2)}</div></div>
       <div class="st-item"><div class="st-label">Entries Logged</div><div class="st-val">${expenses.length}</div></div>
+      <div class="st-item"><div class="st-label">Accor Points Left</div><div class="st-val" style="color:var(--gold)">${accorLeft.toLocaleString()}</div></div>
     </div>
     <div class="spend-type-grid">
       ${Object.entries(EXPENSE_TYPES).map(([k,v])=>`<div class="spend-type-card"><div class="stc-label">${v.icon} ${v.label}</div><div class="stc-val">${fmtNZD(byType[k]||0)}</div></div>`).join('')}
+    </div>
+    <div class="spend-country" style="margin-top:1rem">
+      <div class="spend-country-head"><h3>🏆 Accor Points Tracker</h3><span class="spend-country-total" style="color:var(--gold)">${accorUsed.toLocaleString()} used / ${INITIAL_ACCOR.toLocaleString()} start</span></div>
+      ${accorStops.length ? accorStops.map(s=>`<div class="exp-row">
+          <span class="exp-type-badge" title="Accor">🏨</span>
+          <span class="exp-date">${s.checkin||''}</span>
+          <span class="exp-desc">${s.hotel||s.dest} <small style="opacity:.5">(${s.dest}, ${s.country})</small></span>
+          <span class="exp-amt" style="color:var(--gold)">${(parseInt(s.points)||0).toLocaleString()} pts</span>
+        </div>`).join('') : '<div class="spend-empty">No Accor points redeemed yet.</div>'}
+      <div class="exp-row" style="border-top:1px solid var(--border);margin-top:.3rem;padding-top:.5rem">
+        <span class="exp-type-badge">Σ</span><span class="exp-date"></span>
+        <span class="exp-desc"><strong>Remaining balance</strong></span>
+        <span class="exp-amt" style="color:var(--gold)">${accorLeft.toLocaleString()} pts</span>
+      </div>
     </div>`;
 
   if(expenses.length===0){

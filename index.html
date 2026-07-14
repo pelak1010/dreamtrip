@@ -3818,37 +3818,27 @@ function renderSpending(){
     return;
   }
 
-  const COUNTRY_ORDER3 = ['Indonesia','Philippines','Vietnam','Sri Lanka','Peru','Brazil','Argentina'];
-  const countries = [...new Set(expenses.map(e=>e.country))].sort((a,b)=>COUNTRY_ORDER3.indexOf(a)-COUNTRY_ORDER3.indexOf(b));
+  const dates = [...new Set(expenses.map(e=>e.date))].sort((a,b)=>b.localeCompare(a));
 
-  contentEl.innerHTML = countries.map(country=>{
-    const cExpenses = expenses.filter(e=>e.country===country);
-    const cTotal = cExpenses.reduce((a,e)=>a+(parseFloat(e.amount)||0),0);
-    const dests = [...new Set(cExpenses.map(e=>e.dest))];
-    const destBlocks = dests.map(dest=>{
-      const dExpenses = cExpenses.filter(e=>e.dest===dest).sort((a,b)=>b.date.localeCompare(a.date));
-      const dTotal = dExpenses.reduce((a,e)=>a+(parseFloat(e.amount)||0),0);
-      const rows = dExpenses.map(e=>{
-        const t = EXPENSE_TYPES[e.type]||EXPENSE_TYPES.other;
-        return `<div class="exp-row">
-          <span class="exp-type-badge" title="${t.label}">${t.icon}</span>
-          <span class="exp-date">${e.date}</span>
-          <span class="exp-desc">${(e.notes||t.label)}${e.who?` <small style="opacity:.5">(${e.who})</small>`:''}</span>
-          <span class="exp-amt">${fmtNZD(e.amount)}</span>
-          <span class="exp-actions">
-            <button onclick="openExpenseModal('${e.id}')" title="Edit">✎</button>
-            <button onclick="deleteExpense('${e.id}')" title="Delete">✕</button>
-          </span>
-        </div>`;
-      }).join('');
-      return `<div class="spend-dest-block">
-        <div class="spend-dest-head"><span>${dest}</span><span>${fmtNZD(dTotal)}</span></div>
-        ${rows}
+  contentEl.innerHTML = dates.map(date=>{
+    const dExpenses = expenses.filter(e=>e.date===date);
+    const dTotal = dExpenses.reduce((a,e)=>a+(parseFloat(e.amount)||0),0);
+    const rows = dExpenses.map(e=>{
+      const t = EXPENSE_TYPES[e.type]||EXPENSE_TYPES.other;
+      return `<div class="exp-row">
+        <span class="exp-type-badge" title="${t.label}">${t.icon}</span>
+        <span class="exp-date">${COUNTRY_FLAGS[e.country]||'🌍'} ${e.dest}</span>
+        <span class="exp-desc">${(e.notes||t.label)}${e.who?` <small style="opacity:.5">(${e.who})</small>`:''}</span>
+        <span class="exp-amt">${fmtNZD(e.amount)}</span>
+        <span class="exp-actions">
+          <button onclick="openExpenseModal('${e.id}')" title="Edit">✎</button>
+          <button onclick="deleteExpense('${e.id}')" title="Delete">✕</button>
+        </span>
       </div>`;
     }).join('');
     return `<div class="spend-country">
-      <div class="spend-country-head"><h3>${COUNTRY_FLAGS[country]||'🌍'} ${country}</h3><span class="spend-country-total">${fmtNZD(cTotal)}</span></div>
-      ${destBlocks}
+      <div class="spend-country-head"><h3>📅 ${fmtDateLong(date)}</h3><span class="spend-country-total">${fmtNZD(dTotal)}</span></div>
+      ${rows}
     </div>`;
   }).join('');
 }

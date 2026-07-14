@@ -2594,12 +2594,12 @@ function renderBanner() {
 //  INTER-COUNTRY TRANSPORT CONNECTOR
 // ═══════════════════════════════════════════
 function buildICT(key) {
-  const d = ictData[key] || { mode:'plane', icon:'✈', label:'Flight', route:'', cost:0, notes:'', flightNumber:'', flightTime:'', flightArrival:'' };
+  const d = ictData[key] || { mode:'plane', icon:'✈', label:'Flight', route:'', cost:0, notes:'', flightNumber:'', flightDate:'', flightTime:'', flightArrival:'' };
   const mm = modeMeta(d.mode);
   const totalCost = (parseFloat(d.cost)||0)*2;
   const eachCost = parseFloat(d.cost)||0;
   const pid = 'ict-pop-'+key.replace(/[^a-zA-Z0-9]/g,'_');
-  const flightBits = [d.flightNumber, d.flightTime, d.flightArrival?('→ '+d.flightArrival):''].filter(Boolean).join(' · ');
+  const flightBits = [d.flightNumber, d.flightDate, d.flightTime, d.flightArrival?('→ '+d.flightArrival):''].filter(Boolean).join(' · ');
   return `
     <div class="inter-country-transport" style="position:relative">
       <div class="ict-line"></div>
@@ -2624,6 +2624,7 @@ function buildICT(key) {
         </div>
         <div class="ict-pop-row"><label>Route</label><input id="${pid}-route" value="${d.route||''}" placeholder="e.g. Bali → Cebu"></div>
         <div class="ict-pop-row"><label>Flight No.</label><input id="${pid}-flightnumber" value="${d.flightNumber||''}" placeholder="e.g. QF123"></div>
+        <div class="ict-pop-row"><label>Date</label><input type="date" id="${pid}-flightdate" value="${d.flightDate||''}"></div>
         <div class="ict-pop-row"><label>Departs</label><input id="${pid}-flighttime" value="${d.flightTime||''}" placeholder="e.g. 22:30"></div>
         <div class="ict-pop-row"><label>Arrives</label><input id="${pid}-flightarrival" value="${d.flightArrival||''}" placeholder="e.g. 06:10 +1"></div>
         <div class="ict-pop-row"><label>Cost pp ($)</label><input type="number" id="${pid}-cost" value="${eachCost}"></div>
@@ -2642,11 +2643,12 @@ function saveICTPop(pid, key) {
   const mode = document.getElementById(pid+'-mode').value;
   const route = document.getElementById(pid+'-route').value;
   const flightNumber = document.getElementById(pid+'-flightnumber').value;
+  const flightDate = document.getElementById(pid+'-flightdate').value;
   const flightTime = document.getElementById(pid+'-flighttime').value;
   const flightArrival = document.getElementById(pid+'-flightarrival').value;
   const cost = parseFloat(document.getElementById(pid+'-cost').value)||0;
   const notes = document.getElementById(pid+'-notes').value;
-  ictData[key] = { mode, icon: modeMeta(mode).icon, label: modeMeta(mode).label, route, flightNumber, flightTime, flightArrival, cost, notes };
+  ictData[key] = { mode, icon: modeMeta(mode).icon, label: modeMeta(mode).label, route, flightNumber, flightDate, flightTime, flightArrival, cost, notes };
   saveICT(ictData);
   document.getElementById(pid).classList.remove('open');
   renderItinerary();

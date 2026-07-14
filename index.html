@@ -803,7 +803,7 @@ const DEFAULT_STOPS = [
   { id:'s1',  country:'Indonesia', dest:'Bali', hotel:'Mercure Bali Nusa Dua', checkin:'2026-09-20', checkout:'2026-09-24', costPerNight:25.9975,  points:6000,  transport:503,   transportMode:'plane', accommodationType:'accor',   foodCostPerDay:15, notes:'Flight Queenstown (QT) → Bali $503pp. Arrive 22:30. Explore Nusa Dua, Seminyak, Uluwatu' },
   { id:'s1b', country:'Indonesia', dest:'Ubud', hotel:'', checkin:'2026-09-24', checkout:'2026-09-27', costPerNight:30, points:0, transport:50, transportMode:'car', accommodationType:'hotel', foodCostPerDay:15, notes:'Private car from Nusa Dua $50 (both). Rice terraces, Tegallalang, Monkey Forest, Ubud Palace, cooking class.' },
   { id:'s2',  country:'Indonesia', dest:'Lombok', hotel:'Novotel Lombok Resort & Villas', checkin:'2026-09-27', checkout:'2026-10-01', costPerNight:47.5,  points:8000, transport:86,  transportMode:'ferry', accommodationType:'accor',   foodCostPerDay:15, notes:'Car Ubud→Bali ferry port $50 (both) + Ferry $18pp each way. Gili islands day trip, Mount Rinjani views' },
-  { id:'s3',  country:'Indonesia', dest:'Labuan Bajo (Komodo)', hotel:'Centro Bajo Hotel', checkin:'2026-10-02', checkout:'2026-10-05', costPerNight:78.15, points:0,     transport:35, transportMode:'bus', accommodationType:'hotel',   foodCostPerDay:15, notes:'Overland public bus + ferry Lombok→Labuan Bajo ~$35pp NZD (est., confirm on booking) — board bus at Terminal Mandalika, Mataram ~2–3pm Oct 1, overnight ferry + drive across Sumbawa, final ferry from Sape ~7–8h, arrive Labuan Bajo ~4–7pm Oct 2. Komodo dragon tour + liveaboard snorkel' },
+  { id:'s3',  country:'Indonesia', dest:'Labuan Bajo (Komodo)', hotel:'Centro Bajo Hotel', checkin:'2026-10-02', checkout:'2026-10-05', costPerNight:26.05, points:0,     transport:35, transportMode:'bus', accommodationType:'hotel',   foodCostPerDay:15, notes:'Overland public bus + ferry Lombok→Labuan Bajo ~$35pp NZD (est., confirm on booking) — board bus at Terminal Mandalika, Mataram ~2–3pm Oct 1, overnight ferry + drive across Sumbawa, final ferry from Sape ~7–8h, arrive Labuan Bajo ~4–7pm Oct 2. Komodo dragon tour + liveaboard snorkel' },
   { id:'s3b', country:'Indonesia', dest:'Bali', hotel:'', checkin:'2026-10-05', checkout:'2026-10-05', costPerNight:0, points:0, transport:139, transportMode:'plane', accommodationType:'hotel', foodCostPerDay:0, notes:'Fly Labuan Bajo→Bali $139pp NZD, same-day connection onward to Cebu. No overnight in Bali.' },
 
   // PHILIPPINES
@@ -3687,7 +3687,7 @@ const DEFAULT_EXPENSES = [
   { id:'exp-mercure-bali',   date:'2026-09-20', type:'accommodation', country:'Indonesia', dest:'Bali', amount:103.99, who:'Both', notes:'Mercure Bali Nusa Dua, Sep 20–24 (4 nights)' },
   { id:'exp-novotel-lombok', date:'2026-09-27', type:'accommodation', country:'Indonesia', dest:'Lombok', amount:190, who:'Both', notes:'Novotel Lombok Resort & Villas, Sep 27–Oct 1 (4 nights), 8,000 points also used' },
   { id:'exp-airbnb-ubud', date:'2026-09-24', type:'accommodation', country:'Indonesia', dest:'Ubud', amount:70.26, who:'Both', notes:'Airbnb, Ubud (Sep 24–27, 3 nights)' },
-  { id:'exp-centro-bajo', date:'2026-10-02', type:'accommodation', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:234.45, who:'Both', notes:'Centro Bajo Hotel, Oct 2–5 (3 nights)' },
+  { id:'exp-centro-bajo', date:'2026-10-02', type:'accommodation', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:78.15, who:'Both', notes:'Centro Bajo Hotel, Oct 2–5 (3 nights, total stay)' },
 ];
 function loadExpenses(){
   try{

@@ -3893,6 +3893,7 @@ function renderSpending(){
   const accorStops = stops.filter(s=>parseInt(s.points)>0);
   const accorUsed = accorStops.reduce((a,s)=>a+(parseInt(s.points)||0),0);
   const accorLeft = INITIAL_ACCOR - accorUsed;
+  const avgAccomCost = stops.length ? stops.reduce((a,s)=>a+(parseFloat(s.costPerNight)||0),0) / stops.length : 0;
 
   summaryEl.innerHTML = `
     <div class="spend-total-banner">
@@ -3900,6 +3901,7 @@ function renderSpending(){
       <div class="st-item"><div class="st-label">Per Person</div><div class="st-val" style="color:var(--teal)">${fmtNZD(grandTotal/2)}</div></div>
       <div class="st-item"><div class="st-label">Entries Logged</div><div class="st-val">${expenses.length}</div></div>
       <div class="st-item"><div class="st-label">Accor Points Left</div><div class="st-val" style="color:var(--gold)">${accorLeft.toLocaleString()}</div></div>
+      <div class="st-item"><div class="st-label">Avg Accom Cost/Night</div><div class="st-val" style="color:var(--teal)">${fmtNZD(avgAccomCost)}</div></div>
     </div>
     <div class="spend-type-grid">
       ${Object.entries(EXPENSE_TYPES).map(([k,v])=>`<div class="spend-type-card"><div class="stc-label">${v.icon} ${v.label}</div><div class="stc-val">${fmtNZD(byType[k]||0)}</div></div>`).join('')}

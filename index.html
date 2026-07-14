@@ -804,8 +804,8 @@ const DEFAULT_STOPS = [
   { id:'s1',  country:'Indonesia', dest:'Bali', hotel:'Mercure Bali Nusa Dua', checkin:'2026-09-20', checkout:'2026-09-24', costPerNight:25.9975,  points:6000,  transport:503,   transportMode:'plane', accommodationType:'accor',   foodCostPerDay:15, notes:'Flight Queenstown (QT) → Bali $503pp. Arrive 22:30. Explore Nusa Dua, Seminyak, Uluwatu' },
   { id:'s1b', country:'Indonesia', dest:'Ubud', hotel:'', checkin:'2026-09-24', checkout:'2026-09-27', costPerNight:30, points:0, transport:50, transportMode:'car', accommodationType:'hotel', foodCostPerDay:15, notes:'Private car from Nusa Dua $50 (both). Rice terraces, Tegallalang, Monkey Forest, Ubud Palace, cooking class.' },
   { id:'s2',  country:'Indonesia', dest:'Lombok', hotel:'Novotel Lombok Resort & Villas', checkin:'2026-09-27', checkout:'2026-10-01', costPerNight:47.5,  points:8000, transport:86,  transportMode:'ferry', accommodationType:'accor',   foodCostPerDay:15, notes:'Car Ubud→Bali ferry port $50 (both) + Ferry $18pp each way. Gili islands day trip, Mount Rinjani views' },
-  { id:'s3',  country:'Indonesia', dest:'Labuan Bajo (Komodo)', hotel:'Centro Bajo Hotel', checkin:'2026-10-02', checkout:'2026-10-07', costPerNight:26.05, points:0,     transport:35, transportMode:'bus', accommodationType:'hotel',   foodCostPerDay:15, notes:'Overland public bus + ferry Lombok→Labuan Bajo ~$35pp NZD (est., confirm on booking) — board bus at Terminal Mandalika, Mataram ~2–3pm Oct 1, overnight ferry + drive across Sumbawa, final ferry from Sape ~7–8h, arrive Labuan Bajo ~4–7pm Oct 2. Komodo dragon tour + liveaboard snorkel' },
-  { id:'s3b', country:'Indonesia', dest:'Bali', hotel:'', checkin:'2026-10-07', checkout:'2026-10-07', costPerNight:0, points:0, transport:139, transportMode:'plane', accommodationType:'hotel', foodCostPerDay:0, notes:'Fly Labuan Bajo→Bali $139pp NZD, same-day connection onward to Cebu. No overnight in Bali.' },
+  { id:'s3',  country:'Indonesia', dest:'Labuan Bajo (Komodo)', hotel:'Centro Bajo Hotel', checkin:'2026-10-02', checkout:'2026-10-05', costPerNight:26.05, points:0,     transport:35, transportMode:'bus', accommodationType:'hotel',   foodCostPerDay:15, notes:'Overland public bus + ferry Lombok→Labuan Bajo ~$35pp NZD (est., confirm on booking) — board bus at Terminal Mandalika, Mataram ~2–3pm Oct 1, overnight ferry + drive across Sumbawa, final ferry from Sape ~7–8h, arrive Labuan Bajo ~4–7pm Oct 2. Komodo dragon tour + liveaboard snorkel' },
+  { id:'s3b', country:'Indonesia', dest:'Bali', hotel:'', checkin:'2026-10-06', checkout:'2026-10-07', costPerNight:0, points:0, transport:35, transportMode:'bus', accommodationType:'hotel', foodCostPerDay:0, notes:'Same overland route back, reversed: bus + ferries Labuan Bajo→Sape→across Sumbawa→Lombok, then ferry Lombok→Bali ~$35pp NZD (est.), leave Labuan Bajo Oct 5, arrive Bali Oct 6. One night in Bali (hotel TBC) before flying to Cebu Oct 7.' },
 
   // PHILIPPINES
   { id:'s4',  country:'Philippines', dest:'Cebu (transit)', hotel:'Hostel/Budget', checkin:'2026-10-07', checkout:'2026-10-08', costPerNight:30,  points:0,     transport:0,   transportMode:'plane', accommodationType:'hostel',  foodCostPerDay:20, notes:'Arrive via Bali same-day connection. Chill day, recover from travel' },
@@ -2140,8 +2140,8 @@ function loadStops() {
       };
       // Bali→Cebu flight rebooked for Oct 7 (was Oct 5) — cascades +2 days through end of trip
       const dateMigrationsV2 = {
-        s3:{ oldIn:'2026-10-02', oldOut:'2026-10-05', checkin:'2026-10-02', checkout:'2026-10-07' },
-        s3b:{ oldIn:'2026-10-05', oldOut:'2026-10-05', checkin:'2026-10-07', checkout:'2026-10-07' },
+        s3:{ oldIn:'2026-10-02', oldOut:'2026-10-05', checkin:'2026-10-02', checkout:'2026-10-05' },
+        s3b:{ oldIn:'2026-10-05', oldOut:'2026-10-05', checkin:'2026-10-06', checkout:'2026-10-07' },
         s4:{ oldIn:'2026-10-05', oldOut:'2026-10-06', checkin:'2026-10-07', checkout:'2026-10-08' },
         s5:{ oldIn:'2026-10-06', oldOut:'2026-10-08', checkin:'2026-10-08', checkout:'2026-10-10' },
         s6:{ oldIn:'2026-10-08', oldOut:'2026-10-10', checkin:'2026-10-10', checkout:'2026-10-12' },
@@ -2193,6 +2193,12 @@ function loadStops() {
         s57:{ oldIn:'2027-03-12', oldOut:'2027-03-19', checkin:'2027-03-14', checkout:'2027-03-21' },
         s42:{ oldIn:'2027-03-19', oldOut:'2027-04-14', checkin:'2027-03-21', checkout:'2027-04-16' },
       };
+      // Correction: Labuan Bajo→Bali return is overland (reversed outbound route), not a same-day flight —
+      // leave Labuan Bajo Oct 5, arrive Bali Oct 6, fly to Cebu Oct 7. Fixes a brief incorrect deploy.
+      const dateMigrationsV3 = {
+        s3:{ oldIn:'2026-10-02', oldOut:'2026-10-07', checkin:'2026-10-02', checkout:'2026-10-05' },
+        s3b:{ oldIn:'2026-10-07', oldOut:'2026-10-07', checkin:'2026-10-06', checkout:'2026-10-07' },
+      };
       let changed = false;
       data.forEach(s => {
         const migration = dateMigrations[s.id];
@@ -2205,6 +2211,12 @@ function loadStops() {
         if(migrationV2 && s.checkin === migrationV2.oldIn && s.checkout === migrationV2.oldOut) {
           s.checkin = migrationV2.checkin;
           s.checkout = migrationV2.checkout;
+          changed = true;
+        }
+        const migrationV3 = dateMigrationsV3[s.id];
+        if(migrationV3 && s.checkin === migrationV3.oldIn && s.checkout === migrationV3.oldOut) {
+          s.checkin = migrationV3.checkin;
+          s.checkout = migrationV3.checkout;
           changed = true;
         }
         const def = DEFAULT_STOPS.find(ds => ds.id === s.id || (ds.country === s.country && ds.dest.toLowerCase() === (s.dest||'').toLowerCase()));

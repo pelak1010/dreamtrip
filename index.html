@@ -789,7 +789,7 @@ const ACCOR_RATE_PER_1000 = 43.905; // NZD value per 1000 Accor points
 //  These are the flights/transport BETWEEN countries
 // ═══════════════════════════════════════════
 const DEFAULT_ICT = {
-  'Indonesia→Philippines': { mode:'plane', icon:'✈', label:'Flight', route:'Bali → Cebu', cost:249, notes:'Fly Bali→Cebu $249pp NZD.', airline:'', bookingRef:'CETFWI', flightDate:'2026-10-07', flightTime:'8:35am', flightArrival:'8pm' },
+  'Indonesia→Philippines': { mode:'plane', icon:'✈', label:'Flight', route:'Bali → Cebu', cost:350, notes:'Fly Bali→Cebu $350pp NZD.', airline:'', bookingRef:'CETFWI', flightDate:'2026-10-07', flightTime:'8:35am', flightArrival:'8pm' },
   'Philippines→Vietnam':   { mode:'plane', icon:'✈', label:'Flight', route:'Puerto Princesa → Manila → Vietnam', cost:300, notes:'Puerto Princesa → Manila → Vietnam (Hanoi). ~$300pp NZD.' },
   'Vietnam→Sri Lanka':     { mode:'plane', icon:'✈', label:'Flight', route:'Ho Chi Minh → Colombo', cost:350, notes:'AirAsia or SriLankan via KL/indirect ~$350pp NZD. No direct flight.' },
   'Sri Lanka→Peru':        { mode:'plane', icon:'✈', label:'Flight', route:'Colombo → Lima (via Dubai/Doha)', cost:1850, notes:'Emirates via Dubai or Qatar via Doha. Budgeted at live price ~$1,850pp NZD. Book 4–6 months early to target $1,650–1,750pp — use Airpoints on this leg for extra savings!' },
@@ -3792,6 +3792,7 @@ const DEFAULT_EXPENSES = [
   { id:'exp-airbnb-ubud', date:'2026-09-24', type:'accommodation', country:'Indonesia', dest:'Ubud', amount:70.26, who:'Both', notes:'Airbnb, Ubud (Sep 24–27, 3 nights)' },
   { id:'exp-centro-bajo', date:'2026-10-02', type:'accommodation', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:78.15, who:'Both', notes:'Centro Bajo Hotel, Oct 2–5 (3 nights, total stay)' },
   { id:'exp-airbnb-cebu', date:'2026-10-07', type:'accommodation', country:'Philippines', dest:'Cebu (transit)', amount:30, who:'Both', notes:'Airbnb' },
+  { id:'exp-bali-cebu-flight', date:'2026-10-07', type:'transport', country:'Philippines', dest:'Cebu (transit)', amount:700, who:'Both', notes:'Flight Bali → Cebu, $350pp' },
 ];
 function loadExpenses(){
   try{

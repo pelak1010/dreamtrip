@@ -827,8 +827,7 @@ const DEFAULT_STOPS = [
   { id:'s15b', country:'Vietnam', dest:'Ninh Binh',                 hotel:'', checkin:'2026-11-16', checkout:'2026-11-18', costPerNight:30, points:0, transport:15,  transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Bus from Cat Ba ~$15pp NZD. "Halong Bay on land." Tam Coc rowboat cave ride (₫390,000/boat), Mua Cave viewpoint (₫100,000, 482 steps), Bich Dong Pagoda, Van Long Nature Reserve.' },
   { id:'s15c', country:'Vietnam', dest:'Phong Nha',                 hotel:'', checkin:'2026-11-18', checkout:'2026-11-20', costPerNight:30, points:0, transport:20,  transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Sleeper bus from Ninh Binh ~$20pp NZD. Phong Nha-Ke Bang National Park. Dark Cave (₫450,000 pp — zipline, mud bath, kayak), Paradise Cave, Phong Nha Cave by boat, Eight Ladies Cave.' },
   { id:'s15d', country:'Vietnam', dest:'Hue',                       hotel:'', checkin:'2026-11-20', checkout:'2026-11-23', costPerNight:30, points:0, transport:10,  transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Bus from Phong Nha ~$10pp NZD (~3h). Imperial Citadel (₫200,000), Royal Tombs (₫150,000 each), Thien Mu Pagoda (free), abandoned Thuy Tien Waterpark, Perfume River walking street.' },
-  { id:'s18',  country:'Vietnam', dest:'Da Nang',                   hotel:'', checkin:'2026-11-23', checkout:'2026-11-25', costPerNight:30, points:0, transport:8,   transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Bus from Hue ~$8pp NZD (~3h). Ba Na Hills & Golden Bridge (₫900,000–950,000), Marble Mountains (₫40,000), My Khe Beach (free), Dragon Bridge fire show Sat/Sun 9pm (free).' },
-  { id:'s18b', country:'Vietnam', dest:'Hoi An',                    hotel:'', checkin:'2026-11-25', checkout:'2026-11-26', costPerNight:30, points:0, transport:5,   transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Bus from Da Nang ~$5pp NZD (45 min). Lantern-lit ancient town at night, bicycle rental (₫50,000–100,000/day), An Bang Beach, tailor shops for custom clothing (1–2 day turnaround).' },
+  { id:'s18',  country:'Vietnam', dest:'Da Nang',                   hotel:'Grand Mercure Danang', checkin:'2026-11-23', checkout:'2026-11-26', costPerNight:107.1433, points:6000, transport:8,   transportMode:'bus',   accommodationType:'accor', foodCostPerDay:15, notes:'Bus from Hue ~$8pp NZD (~3h). Ba Na Hills & Golden Bridge (₫900,000–950,000), Marble Mountains (₫40,000), My Khe Beach (free), Dragon Bridge fire show Sat/Sun 9pm (free). Based here for Hoi An too — Grab/bus to the lantern-lit Old Town in the evening (~30–40 min, ~$5–8pp NZD each way) then return to sleep in Da Nang. 6,000 Accor points, ~$58 NZD total for the stay.' },
   { id:'s186', country:'Vietnam', dest:'Da Lat',                    hotel:'', checkin:'2026-11-26', checkout:'2026-11-28', costPerNight:30, points:0, transport:20,  transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Overnight bus from Da Nang ~$20pp NZD. Cool highlands at 1,500m. Canyoning ($65–115pp NZD), Crazy House (₫80,000), Da Lat Flower Park, Truc Lam Temple, Linh Son Pagoda, coffee plantations.' },
   { id:'s185', country:'Vietnam', dest:'Phan Thiet',                 hotel:'Movenpick Resort Waterbay Phan Thiet', checkin:'2026-11-28', checkout:'2026-11-30', costPerNight:30, points:0, transport:10,  transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Bus from Da Lat ~$10pp NZD (~4h). Staying in Phan Thiet city — Red Sand Dunes, White Sand Dunes, Fairy Stream and the fishing village are ~15–20 min further drive than from the Mui Ne strip. Red sand dunes (sunrise sled rental), White Sand Dunes (₫35,000–40,000, ~1h out), Fairy Stream (free), local fishing village, beach relaxation.' },
   { id:'s19',  country:'Vietnam', dest:'Ho Chi Minh City',          hotel:'', checkin:'2026-11-30', checkout:'2026-12-02', costPerNight:30, points:0, transport:8,   transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Bus from Phan Thiet ~$8pp NZD (~5h). Cu Chi Tunnels (₫400,000–700,000 pp, morning tours), War Remnants Museum (₫40,000), Mekong Delta day trip, Bui Vien walking street, rooftop sky bar.' },
@@ -979,6 +978,7 @@ const THINGS_TO_DO = {
     { icon:'⛰', name:'Marble Mountains', desc:'Five marble/limestone hills with caves, pagodas and war history', price:'~$2 entry' },
     { icon:'🏖', name:'My Khe Beach morning swim', desc:'Clean, long beach voted one of the world\'s best — swim before 8am', price:'Free' },
     { icon:'🌉', name:'Golden Bridge (Ba Na Hills)', desc:'Two giant stone hands holding a golden bridge — touristy but worth it', price:'~$25pp cable car' },
+    { icon:'🏮', name:'Hoi An lantern-lit Old Town (day trip)', desc:'~30–40 min Grab/bus from Da Nang — silk lanterns light the historic center after dark, tailor shops, Japanese Covered Bridge', price:'~$5–8pp NZD each way' },
   ],
   'Ho Chi Minh City': [
     { icon:'🕳', name:'Cu Chi Tunnels', desc:'Crawl through Viet Cong tunnels — half-day tour from HCMC', price:'~$15pp' },
@@ -1874,7 +1874,7 @@ const DEFAULT_DAILY_PLAN = {
     }
   },
 
-  // ── Da Nang (2 nights) ──────────────────────────────────────────────────
+  // ── Da Nang (3 nights, incl. Hoi An day trip) ────────────────────────────
   's18': {
     'day_1': {
       theme: 'Ba Na Hills & Golden Bridge',
@@ -1888,37 +1888,17 @@ const DEFAULT_DAILY_PLAN = {
       theme: 'Marble Mountains & My Khe Beach',
       morning: "Explore the Marble Mountains (₫40,000 = ~$2.63 NZD, 2–3 hours) — five limestone-and-marble peaks with caves, pagodas, and Buddhist sculptures. Thuy Son is the only peak open to visitors. Optional elevator skips 108 steps (₫15,000 = ~$1 NZD, one-way).",
       afternoon: "Relax at My Khe Beach (free, half-day) — Da Nang's wide, sandy city beach, a short ride from most hotels. Good lower-key afternoon between sightseeing days.",
-      evening: "Stroll the Han River Bridges at night (free) — Han River Bridge rotates on weekends; Love Bridge and the riverside promenade make an easy free evening walk. Bus to Hoi An the following morning.",
+      evening: "Stroll the Han River Bridges at night (free) — Han River Bridge rotates on weekends; Love Bridge and the riverside promenade make an easy free evening walk.",
       notes: "Marble Mountains $2.63 NZD. Optional elevator $1 NZD one-way. My Khe Beach free. Han River walk free.",
       price: 3
-    }
-  },
-
-  // ── Hoi An (3 nights) ───────────────────────────────────────────────────
-  's18b': {
-    'day_1': {
-      theme: 'Old Town by Bicycle & Tailoring',
-      morning: "Rent a Bicycle (₫50,000–100,000 = ~$3.30–6.55 NZD/day) and ride the flat, easy streets between the Ancient Town, tailor shops, and riverside cafes. Get clothing measurements taken early for maximum turnaround time.",
-      afternoon: "Continue cycling — explore the Japanese Covered Bridge, merchant houses, and local markets. Browse the many tailor shops and place any custom orders (allow 1–2 days for pickup).",
-      evening: "Wander the Lantern-Lit Old Town at Night (free to walk, some heritage sites charge entry) — hundreds of silk lanterns light the historic center after dark. The signature Hoi An experience.",
-      notes: "Bicycle $3.30–6.55 NZD/day. Old Town lantern walk free. Place tailor orders on Day 1 for Day 2 or 3 pickup.",
-      price: 5
-    },
-    'day_2': {
-      theme: 'An Bang Beach & Local Food',
-      morning: "Relax at An Bang Beach (free, sunbed rental optional) — the closest sandy stretch to the Old Town, a short bicycle or taxi ride. Calmer and less crowded than Da Nang.",
-      afternoon: "Return to tailor shops for fittings and collection. Explore Hoi An Central Market for local spices, silk, and ceramics.",
-      evening: "Try Hoi An specialties: Cao Lầu noodles, white rose dumplings, and bánh mì from Phượng (considered one of Vietnam's best). Walk the Old Town lanterns again at dusk.",
-      notes: "An Bang Beach free. Cao Lau, white rose, banh mi all available for ~$2–5 NZD each.",
-      price: 5
     },
     'day_3': {
-      theme: 'Final Morning & Departure to Da Lat',
-      morning: "Final stroll through the Old Town at dawn — before the crowds arrive. Pick up any remaining tailored items.",
-      afternoon: "Bus from Da Nang (45-min taxi/bus from Hoi An) to Da Lat overnight (~$20pp NZD, ~8–10 hours including transfer).",
-      evening: "Overnight bus arrives Da Lat early morning.",
-      notes: "Overnight bus from Da Nang to Da Lat $20 NZD pp. Allow 45 min to get from Hoi An to Da Nang bus station.",
-      price: 0
+      theme: 'Hoi An Day Trip: Old Town, Tailors & Lanterns',
+      morning: "Grab or bus to Hoi An (~30–40 min, ~$5–8pp NZD each way, or local bus ~$1–2pp). Rent a Bicycle (₫50,000–100,000 = ~$3.30–6.55 NZD/day) and ride between the Ancient Town, tailor shops, and riverside cafes. Get clothing measurements taken early for turnaround.",
+      afternoon: "Continue exploring — Japanese Covered Bridge, merchant houses, Hoi An Central Market. Relax at An Bang Beach if there's time. Return to tailor shops for fittings and collection.",
+      evening: "Wander the Lantern-Lit Old Town at Night (free to walk, some heritage sites charge entry) — hundreds of silk lanterns light the historic center after dark. Grab or bus back to Da Nang (~30–40 min) to sleep.",
+      notes: "Grab Da Nang↔Hoi An ~$5–8pp NZD each way (or local bus ~$1–2pp). Bicycle $3.30–6.55 NZD/day. Old Town lantern walk free. Sleeping in Da Nang, not Hoi An.",
+      price: 8
     }
   },
 

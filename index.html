@@ -790,7 +790,7 @@ const ACCOR_RATE_PER_1000 = 43.905; // NZD value per 1000 Accor points
 // ═══════════════════════════════════════════
 const DEFAULT_ICT = {
   'Indonesia→Philippines': { mode:'plane', icon:'✈', label:'Flight', route:'Bali → Cebu', cost:350, notes:'Fly Bali→Cebu $350pp NZD.', airline:'', bookingRef:'CETFWI', flightDate:'2026-10-07', flightTime:'8:35am', flightArrival:'8pm' },
-  'Philippines→Vietnam':   { mode:'plane', icon:'✈', label:'Flight', route:'Puerto Princesa → Manila → Vietnam', cost:300, notes:'Puerto Princesa → Manila → Vietnam (Hanoi). ~$300pp NZD.' },
+  'Philippines→Vietnam':   { mode:'plane', icon:'✈', label:'Flight', route:'Coron → Hanoi', cost:450, notes:'Coron → Hanoi. $900 total (both), booking ref YEWJ7N.', airline:'', bookingRef:'YEWJ7N', flightDate:'2026-11-07', flightTime:'14:30', flightArrival:'01:25 (+1, Nov 8)' },
   'Vietnam→China':         { mode:'plane', icon:'✈', label:'Flight', route:'Ho Chi Minh → Guangzhou', cost:330, notes:'~$330pp NZD.', flightDate:'2026-12-02', flightTime:'9:45pm', flightArrival:'1:30am (Dec 3)' },
   'China→United Kingdom':  { mode:'plane', icon:'✈', label:'Flight', route:'Guangzhou → London', cost:0, notes:'Price TBC.', flightDate:'2026-12-10', flightTime:'8:00am', flightArrival:'3:55pm (same day)' },
   'United Kingdom→Argentina': { mode:'plane', icon:'✈', label:'Flight', route:'London → Buenos Aires', cost:2100, notes:'Booking ref NCZHRF.', airline:'', bookingRef:'NCZHRF', flightDate:'2026-12-13', flightTime:'4:40pm', flightArrival:'10:45am (Dec 14)' },
@@ -818,12 +818,11 @@ const DEFAULT_STOPS = [
   { id:'s11', country:'Philippines', dest:'Siargao', hotel:'Airbnb', checkin:'2026-10-20', checkout:'2026-10-26', costPerNight:38,  points:0,     transport:90,  transportMode:'plane', accommodationType:'airbnb',  foodCostPerDay:18, notes:'Fly Cebu→Siargao ~$90pp NZD (Cebu Pacific or Cebgo, 1h). Cloud 9 surf, island hopping, sugba lagoon' },
   { id:'s12', country:'Philippines', dest:'Boracay', hotel:'Airbnb White Beach', checkin:'2026-10-26', checkout:'2026-10-30', costPerNight:33,  points:0,     transport:110, transportMode:'plane', accommodationType:'airbnb',  foodCostPerDay:22, notes:'Fly Siargao→Caticlan ~$107pp NZD (PAL or Cebu Pacific, 1.5h). White Beach sunsets, paraw sailing, kitesurfing' },
   { id:'s13a', country:'Philippines', dest:'Port Barton', hotel:'Eco-lodge', checkin:'2026-10-30', checkout:'2026-11-01', costPerNight:28, points:0, transport:25, transportMode:'van', accommodationType:'hostel', foodCostPerDay:14, notes:'Shared van from San Jose/Puerto Princesa ~4h (~$25pp). Hammock-lined shores, Inaladelan island, Pamuayan waterfall hike.' },
-  { id:'s13b', country:'Philippines', dest:'Coron', hotel:'Airbnb', checkin:'2026-11-01', checkout:'2026-11-03', costPerNight:35, points:0, transport:67, transportMode:'ferry', accommodationType:'airbnb', foodCostPerDay:16, notes:'Van Port Barton→El Nido ~3h then fastcraft→Coron ~4h (~$67pp NZD total). Kayangan Lake, Barracuda Lake, WWII shipwreck snorkel, Mt. Tapyas.' },
-  { id:'s13c', country:'Philippines', dest:'El Nido', hotel:'Airbnb', checkin:'2026-11-03', checkout:'2026-11-06', costPerNight:40, points:0, transport:52, transportMode:'ferry', accommodationType:'airbnb', foodCostPerDay:18, notes:'Fastcraft Coron→El Nido ~4h (~₱1,800pp ~$52pp NZD). Tour A & Tour C island hopping, Taraw cliff Via Ferrata, Las Cabañas sunset.' },
-  { id:'s13d', country:'Philippines', dest:'Puerto Princesa', hotel:'Budget hotel', checkin:'2026-11-06', checkout:'2026-11-07', costPerNight:30, points:0, transport:20, transportMode:'bus', accommodationType:'hotel', foodCostPerDay:15, notes:'Shared van El Nido→Puerto Princesa ~5–6h (~$20pp). Underground River World Wonder, Kalui Restaurant dinner.' },
+  { id:'s13c', country:'Philippines', dest:'El Nido', hotel:'Airbnb', checkin:'2026-11-01', checkout:'2026-11-04', costPerNight:40, points:0, transport:25, transportMode:'van', accommodationType:'airbnb', foodCostPerDay:18, notes:'Van Port Barton→El Nido ~3h (~$25pp NZD). Tour A & Tour C island hopping, Taraw cliff Via Ferrata, Las Cabañas sunset.' },
+  { id:'s13b', country:'Philippines', dest:'Coron', hotel:'Airbnb', checkin:'2026-11-04', checkout:'2026-11-07', costPerNight:35, points:0, transport:52, transportMode:'ferry', accommodationType:'airbnb', foodCostPerDay:16, notes:'Fastcraft El Nido→Coron ~4h (~₱1,800pp ~$52pp NZD). Kayangan Lake, Barracuda Lake, WWII shipwreck snorkel, Mt. Tapyas. Fly out to Hanoi (booking ref YEWJ7N).' },
 
   // VIETNAM — North to South (PDF: 26 Oct – 3 Dec, 38 nights)
-  { id:'s14',  country:'Vietnam', dest:'Hanoi',                     hotel:'', checkin:'2026-11-07', checkout:'2026-11-10', costPerNight:30, points:0, transport:0,   transportMode:'plane', accommodationType:'hostel', foodCostPerDay:15, notes:'Ancient capital. Old Quarter night life, Hoa Lo Prison, Hoan Kiem Lake, Vietnam Military Museum, egg coffee at Café Giảng, St. Joseph\'s Cathedral, Bach Ma Temple.' },
+  { id:'s14',  country:'Vietnam', dest:'Hanoi',                     hotel:'', checkin:'2026-11-08', checkout:'2026-11-10', costPerNight:30, points:0, transport:0,   transportMode:'plane', accommodationType:'hostel', foodCostPerDay:15, notes:'Arrive from Coron 01:25 (+1) — flight ref YEWJ7N. Ancient capital. Old Quarter night life, Hoa Lo Prison, Hoan Kiem Lake, Vietnam Military Museum, egg coffee at Café Giảng, St. Joseph\'s Cathedral, Bach Ma Temple.' },
   { id:'s14b', country:'Vietnam', dest:'Sapa',                      hotel:'', checkin:'2026-11-10', checkout:'2026-11-14', costPerNight:30, points:0, transport:30,  transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Overnight sleeper bus from Hanoi ~$30pp NZD (~7h). Fansipan Cable Car (₫850,000 return), Summit Pagoda Complex, H\'Mong village treks, Muong Hoa Valley loop with guide (~$33pp), alpine coaster.' },
   { id:'s15',  country:'Vietnam', dest:'Halong Bay (Cat Ba Island)', hotel:'', checkin:'2026-11-14', checkout:'2026-11-16', costPerNight:30, points:0, transport:35,  transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Bus + ferry Sapa via Hanoi → Cat Ba ~$35pp NZD. 2–3 day Lan Ha Bay cruise ($150–250pp NZD), Wartime Hospital Cave, Ngu Lam Peak hike, Viet Hai Village trek, Kim Giao Forest Trail.' },
   { id:'s15b', country:'Vietnam', dest:'Ninh Binh',                 hotel:'', checkin:'2026-11-16', checkout:'2026-11-18', costPerNight:30, points:0, transport:15,  transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Bus from Cat Ba ~$15pp NZD. "Halong Bay on land." Tam Coc rowboat cave ride (₫390,000/boat), Mua Cave viewpoint (₫100,000, 482 steps), Bich Dong Pagoda, Van Long Nature Reserve.' },
@@ -1625,31 +1624,11 @@ const DEFAULT_DAILY_PLAN = {
     }
   },
 
-  // ── Coron (2 nights) ─────────────────────────────────────────────────
-  's13b': {
-    'day_1': {
-      theme: 'Coron Ultimate Island Tour — Kayangan & Barracuda Lakes',
-      morning: "Arrive Coron by fastcraft. Check in and freshen up. Coron Ultimate Island Tour (₱1,650 group boat tour, full day). Climb the famous 150-step volcanic ridge overlooking crystal-clear Kayangan Lake — consistently rated one of the cleanest lakes in Asia.",
-      afternoon: "Swim in Barracuda Lake — unique brackish, thermally layered volcanic water with dramatic visibility and eerie underwater rock formations (included in tour).",
-      evening: "Climb Mt. Tapyas for sunset views — 721 concrete steps from the town center to the giant illuminated cross (free, ~1–1.5h round trip). Dinner at a local seafood restaurant in Coron town.",
-      notes: "Coron island tour: ₱1,650 pp group boat. Includes Kayangan Lake, Barracuda Lake, and Twin Lagoons. Mt. Tapyas: free.",
-      price: 47
-    },
-    'day_2': {
-      theme: 'WWII Shipwrecks & Departure to El Nido',
-      morning: "Snorkel a Sunken WWII Japanese Vessel — Skeleton Wreck / Lusong Gunboat. Historical shipwrecks encrusted with rich coral systems, easily visible via mask and snorkel without scuba gear (included in standard adventure tour loops).",
-      afternoon: "Explore Coron town market — buy local honey and tablea chocolate. Pack for departure.",
-      evening: "Depart Coron for El Nido by fastcraft (~4h, ~₱1,800 pp). Book in advance — popular route fills fast.",
-      notes: "WWII wreck snorkel included in most standard boat tours. Fastcraft Coron→El Nido ~₱1,800 pp, ~4h — book 1–2 days ahead online.",
-      price: 51
-    }
-  },
-
   // ── El Nido (3 nights) ───────────────────────────────────────────────
   's13c': {
     'day_1': {
       theme: 'Arrival & Island Hopping Tour A — Big Lagoon & Secret Lagoon',
-      morning: "Arrive El Nido by fastcraft from Coron. Check in and settle. Book El Nido Island Hopping Tour A — enters Big Lagoon and Secret Lagoon through towering karst limestone formations (₱1,300 pp + ₱200 uniform eco-fee). Departs 9:00 AM sharp — book the night before.",
+      morning: "Arrive El Nido by shared van from Port Barton (~3h, ~₱350 pp). Check in and settle. Book El Nido Island Hopping Tour A — enters Big Lagoon and Secret Lagoon through towering karst limestone formations (₱1,300 pp + ₱200 uniform eco-fee). Departs 9:00 AM sharp — book the night before.",
       afternoon: "Continue Tour A — paddle through hidden lagoons and swim beneath sheer cliff walls. Kayak rental at entry points ₱300.",
       evening: "Sunset at Las Cabañas Beach — laid-back beach bars with bean bags right on the shoreline. Optional 750m inter-island zipline (₱500–₱700).",
       notes: "Tour A: ₱1,500 pp total (₱1,300 + ₱200 eco-fee). Kayak ₱300 extra. Book night before — departs 9am.",
@@ -1664,24 +1643,40 @@ const DEFAULT_DAILY_PLAN = {
       price: 43
     },
     'day_3': {
-      theme: 'Sunrise Walk & Departure to Puerto Princesa',
+      theme: 'Sunrise Walk & Departure to Coron',
       morning: "Early sunrise walk at Las Cabañas Beach. Final coffee in El Nido town.",
       afternoon: "Pack and prepare for departure.",
-      evening: "Depart El Nido for Puerto Princesa by shared van (~5–6h, ~₱600 pp). Arrive Puerto Princesa late evening.",
-      notes: "Shared van El Nido→Puerto Princesa ~₱600 pp, ~5–6h — book the day before at your guesthouse.",
-      price: 20
+      evening: "Depart El Nido for Coron by fastcraft (~4h, ~₱1,800 pp). Book in advance — popular route fills fast.",
+      notes: "Fastcraft El Nido→Coron ~₱1,800 pp, ~4h — book 1–2 days ahead online.",
+      price: 52
     }
   },
 
-  // ── Puerto Princesa (1 night) ─────────────────────────────────────────
-  's13d': {
+  // ── Coron (3 nights) ─────────────────────────────────────────────────
+  's13b': {
     'day_1': {
-      theme: 'Underground River World Wonder & Kalui Dinner',
-      morning: "Navigate the Puerto Princesa Underground River World Wonder — board a small paddleboat equipped with spotlamps to journey inside one of the world's most extensive subterranean river cave systems. Full-day trip including a 2-hour overland drive to Sabang Wharf (₱2,250 fully managed package — transfers, environmental permits, outrigger, and lunch all included).",
-      afternoon: "Return from the underground river. Rest and freshen up in Puerto Princesa.",
-      evening: "Dine at Kalui Restaurant — iconic footwear-free dining room crafted entirely of polished native hardwood. Serves set seafood menus of exceptional quality; advance booking mandatory (₱300–₱600 pp).",
-      notes: "Underground River: ₱2,250 pp all-inclusive — book 1–2 days ahead. Permits have daily limits. Kalui: advance reservation essential.",
-      price: 64
+      theme: 'Coron Ultimate Island Tour — Kayangan & Barracuda Lakes',
+      morning: "Arrive Coron by fastcraft from El Nido. Check in and freshen up. Coron Ultimate Island Tour (₱1,650 group boat tour, full day). Climb the famous 150-step volcanic ridge overlooking crystal-clear Kayangan Lake — consistently rated one of the cleanest lakes in Asia.",
+      afternoon: "Swim in Barracuda Lake — unique brackish, thermally layered volcanic water with dramatic visibility and eerie underwater rock formations (included in tour).",
+      evening: "Dinner at a local seafood restaurant in Coron town.",
+      notes: "Coron island tour: ₱1,650 pp group boat. Includes Kayangan Lake, Barracuda Lake, and Twin Lagoons.",
+      price: 47
+    },
+    'day_2': {
+      theme: 'WWII Shipwrecks & Mt. Tapyas Sunset',
+      morning: "Snorkel a Sunken WWII Japanese Vessel — Skeleton Wreck / Lusong Gunboat. Historical shipwrecks encrusted with rich coral systems, easily visible via mask and snorkel without scuba gear (included in standard adventure tour loops).",
+      afternoon: "Explore Coron town market — buy local honey and tablea chocolate.",
+      evening: "Climb Mt. Tapyas for sunset views — 721 concrete steps from the town center to the giant illuminated cross (free, ~1–1.5h round trip).",
+      notes: "WWII wreck snorkel included in most standard boat tours. Mt. Tapyas: free.",
+      price: 51
+    },
+    'day_3': {
+      theme: 'Last Morning & Departure to Hanoi',
+      morning: "Free morning — last-minute souvenir shopping or a relaxed swim before heading to the airport.",
+      afternoon: "Pack up and head to Busuanga (Coron) Airport for the 14:30 departure to Hanoi (booking ref YEWJ7N).",
+      evening: "In flight — arrive Hanoi 01:25 (+1 day).",
+      notes: "Coron → Hanoi, departs 14:30, arrives 01:25 (+1). Booking ref YEWJ7N. $900 total (both).",
+      price: 0
     }
   },
 

@@ -834,9 +834,9 @@ const DEFAULT_STOPS = [
   { id:'s19',  country:'Vietnam', dest:'Ho Chi Minh City',          hotel:'', checkin:'2026-11-30', checkout:'2026-12-02', costPerNight:30, points:0, transport:8,   transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Bus from Phan Thiet ~$8pp NZD (~5h). Cu Chi Tunnels (₫400,000–700,000 pp, morning tours), War Remnants Museum (₫40,000), Mekong Delta day trip, Bui Vien walking street, rooftop sky bar.' },
 
   // CHINA
-  { id:'s20', country:'China', dest:'Guangzhou (arrival)', hotel:'Grand Mercure Guangzhou Baiyun International Airport', checkin:'2026-12-02', checkout:'2026-12-03', costPerNight:33, points:2000, transport:0, transportMode:'plane', accommodationType:'accor', foodCostPerDay:20, notes:'Arrive from Ho Chi Minh City 1:30am Dec 3 — book the night of Dec 2 to cover the early arrival. $33 to pay + 2,000 Accor points.' },
-  { id:'s20z', country:'China', dest:'Zhangjiajie', hotel:'Pullman Zhangjiajie', checkin:'2026-12-03', checkout:'2026-12-08', costPerNight:16.4, points:10000, transport:140, transportMode:'train', accommodationType:'accor', foodCostPerDay:20, notes:'Fast train Guangzhou → Zhangjiajie ~$140pp. Pullman Zhangjiajie, 5 nights, $82 total paid + 10,000 Accor points.' },
-  { id:'s20c', country:'China', dest:'Guangzhou', hotel:'Mercure Guangzhou Baiyun', checkin:'2026-12-08', checkout:'2026-12-09', costPerNight:15, points:1000, transport:140, transportMode:'train', accommodationType:'accor', foodCostPerDay:20, notes:'Return fast train Zhangjiajie → Guangzhou ~$140pp. $15 to pay + 1,000 Accor points.' },
+  { id:'s20', country:'China', dest:'Guangzhou (arrival)', hotel:'Grand Mercure Guangzhou Baiyun International Airport', checkin:'2026-12-02', checkout:'2026-12-03', costPerNight:33, points:2000, costIsCashOwed:true, transport:0, transportMode:'plane', accommodationType:'accor', foodCostPerDay:20, notes:'Arrive from Ho Chi Minh City 1:30am Dec 3 — book the night of Dec 2 to cover the early arrival. $33 to pay + 2,000 Accor points.' },
+  { id:'s20z', country:'China', dest:'Zhangjiajie', hotel:'Pullman Zhangjiajie', checkin:'2026-12-03', checkout:'2026-12-08', costPerNight:16.4, points:10000, costIsCashOwed:true, transport:140, transportMode:'train', accommodationType:'accor', foodCostPerDay:20, notes:'Fast train Guangzhou → Zhangjiajie ~$140pp. Pullman Zhangjiajie, 5 nights, $82 total paid + 10,000 Accor points.' },
+  { id:'s20c', country:'China', dest:'Guangzhou', hotel:'Mercure Guangzhou Baiyun', checkin:'2026-12-08', checkout:'2026-12-09', costPerNight:15, points:1000, costIsCashOwed:true, transport:140, transportMode:'train', accommodationType:'accor', foodCostPerDay:20, notes:'Return fast train Zhangjiajie → Guangzhou ~$140pp. $15 to pay + 1,000 Accor points.' },
   { id:'s20d', country:'China', dest:'Guangzhou', hotel:'Pullman Guangzhou Baiyun Airport', checkin:'2026-12-09', checkout:'2026-12-10', costPerNight:0, points:0, transport:0, transportMode:'car', accommodationType:'accor', foodCostPerDay:20, notes:'Free night. Fly to London Dec 10.' },
 
   // UNITED KINGDOM
@@ -2214,6 +2214,7 @@ function loadStops() {
         if(parseFloat(s.transport) === 0 && def.transport > 0) { s.transport = def.transport; changed = true; }
         if(!s.transportMode && def.transportMode) { s.transportMode = def.transportMode; changed = true; }
         if(!s.notes && def.notes) { s.notes = def.notes; changed = true; }
+        if(s.costIsCashOwed === undefined && def.costIsCashOwed) { s.costIsCashOwed = true; changed = true; }
       });
       // Rename Jujuy → La Quiaca
       const jujuyStop = data.find(s => s.id === 's45' || (s.dest && s.dest.toLowerCase() === 'jujuy'));
@@ -2268,6 +2269,24 @@ function loadStops() {
         data.splice(s20idx + 1, 0,
           { id:'s20z', country:'China', dest:'Zhangjiajie', hotel:'Pullman Zhangjiajie', checkin:'2026-12-03', checkout:'2026-12-08', costPerNight:16.4, points:10000, transport:140, transportMode:'train', accommodationType:'accor', foodCostPerDay:20, notes:'Fast train Guangzhou → Zhangjiajie ~$140pp. Pullman Zhangjiajie, 5 nights, $82 total paid + 10,000 Accor points.' },
           { id:'s20c', country:'China', dest:'Guangzhou', hotel:'', checkin:'2026-12-08', checkout:'2026-12-10', costPerNight:30, points:0, transport:140, transportMode:'train', accommodationType:'hotel', foodCostPerDay:20, notes:'Return fast train Zhangjiajie → Guangzhou ~$140pp. Hotel TBC, not yet booked. Fly to London Dec 10.' }
+        );
+        changed = true;
+      }
+      // v15: China Accor bookings confirmed — Guangzhou arrival + Zhangjiajie are cash+points
+      // packages (real cash owed on top of points, not a rack-rate points discount), and the
+      // Guangzhou pre-departure placeholder split into a booked Mercure night + a free Pullman night.
+      const s20arr = data.find(s => s.id === 's20');
+      if (s20arr && !s20arr.hotel && s20arr.accommodationType === 'hotel') {
+        Object.assign(s20arr, { dest:'Guangzhou (arrival)', hotel:'Grand Mercure Guangzhou Baiyun International Airport', costPerNight:33, points:2000, costIsCashOwed:true, accommodationType:'accor', notes:'Arrive from Ho Chi Minh City 1:30am Dec 3 — book the night of Dec 2 to cover the early arrival. $33 to pay + 2,000 Accor points.' });
+        changed = true;
+      }
+      const s20zStop = data.find(s => s.id === 's20z');
+      if (s20zStop && s20zStop.costIsCashOwed === undefined) { s20zStop.costIsCashOwed = true; changed = true; }
+      const s20cIdx = data.findIndex(s => s.id === 's20c');
+      if (s20cIdx !== -1 && data[s20cIdx].checkout === '2026-12-10') {
+        data[s20cIdx] = { id:'s20c', country:'China', dest:'Guangzhou', hotel:'Mercure Guangzhou Baiyun', checkin:'2026-12-08', checkout:'2026-12-09', costPerNight:15, points:1000, costIsCashOwed:true, transport:140, transportMode:'train', accommodationType:'accor', foodCostPerDay:20, notes:'Return fast train Zhangjiajie → Guangzhou ~$140pp. $15 to pay + 1,000 Accor points.' };
+        data.splice(s20cIdx + 1, 0,
+          { id:'s20d', country:'China', dest:'Guangzhou', hotel:'Pullman Guangzhou Baiyun Airport', checkin:'2026-12-09', checkout:'2026-12-10', costPerNight:0, points:0, transport:0, transportMode:'car', accommodationType:'accor', foodCostPerDay:20, notes:'Free night. Fly to London Dec 10.' }
         );
         changed = true;
       }
@@ -2400,6 +2419,7 @@ function calcTransportTotal(s) {
   return parseFloat(s.transport) || 0;
 }
 function calcAccorDiscount(s) {
+  if (s.costIsCashOwed) return 0;
   return (parseInt(s.points)||0) * (ACCOR_RATE_PER_1000 / 1000);
 }
 function calcStopCost(s) {
@@ -3880,9 +3900,11 @@ const DEFAULT_EXPENSES = [
   { id:'exp-airbnb-cebu', date:'2026-10-07', type:'accommodation', country:'Philippines', dest:'Cebu (transit)', amount:30, who:'Both', notes:'Airbnb' },
   { id:'exp-bali-cebu-flight', date:'2026-10-07', type:'transport', country:'Philippines', dest:'Cebu (transit)', amount:700, who:'Both', notes:'Flight Bali → Cebu, $350pp' },
   { id:'exp-hcm-guangzhou-flight', date:'2026-12-03', type:'transport', country:'China', dest:'Guangzhou', amount:660, who:'Both', notes:'Flight Ho Chi Minh → Guangzhou, $330pp. Dep Dec 2 9:45pm, arr Dec 3 1:30am.' },
+  { id:'exp-mercure-guangzhou-arrival', date:'2026-12-02', type:'accommodation', country:'China', dest:'Guangzhou', amount:33, who:'Both', notes:'Grand Mercure Guangzhou Baiyun International Airport, Dec 2–3 (1 night), 2,000 points also used' },
   { id:'exp-guangzhou-zhangjiajie-train', date:'2026-12-03', type:'transport', country:'China', dest:'Zhangjiajie', amount:280, who:'Both', notes:'Fast train Guangzhou → Zhangjiajie, $140pp' },
   { id:'exp-pullman-zhangjiajie', date:'2026-12-03', type:'accommodation', country:'China', dest:'Zhangjiajie', amount:82, who:'Both', notes:'Pullman Zhangjiajie, Dec 3–8 (5 nights), 10,000 points also used' },
   { id:'exp-zhangjiajie-guangzhou-train', date:'2026-12-08', type:'transport', country:'China', dest:'Guangzhou', amount:280, who:'Both', notes:'Fast train Zhangjiajie → Guangzhou (return), $140pp' },
+  { id:'exp-mercure-guangzhou-return', date:'2026-12-08', type:'accommodation', country:'China', dest:'Guangzhou', amount:15, who:'Both', notes:'Mercure Guangzhou Baiyun, Dec 8–9 (1 night), 1,000 points also used' },
   { id:'exp-guangzhou-london-flight', date:'2026-12-10', type:'transport', country:'China', dest:'Guangzhou', amount:903, who:'Both', notes:'Flight Guangzhou → London. Order Number (Flight Network): 1146-801-347. Dep 8:00am, arr 3:55pm same day.' },
   { id:'exp-london-ba-flight', date:'2026-12-13', type:'transport', country:'Argentina', dest:'Buenos Aires', amount:2100, who:'Both', notes:'Flight London → Buenos Aires (NCZHRF). Dep Sun Dec 13 4:40PM, arr Mon Dec 14 10:45AM. Assumed 50/50 split of $4,200 total for both legs — adjust if actual one-way cost differs.' },
   { id:'exp-ba-london-return-flight', date:'2027-05-01', type:'transport', country:'Argentina', dest:'Buenos Aires', amount:2100, who:'Both', notes:'Return flight Buenos Aires → London (NCZHRF). Dep Sat May 1 7:00AM, arr Sat May 1 10:10PM 2027. Assumed 50/50 split of $4,200 total for both legs — adjust if actual one-way cost differs.' },

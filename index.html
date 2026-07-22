@@ -792,7 +792,7 @@ const DEFAULT_ICT = {
   'Indonesia→Philippines': { mode:'plane', icon:'✈', label:'Flight', route:'Bali → Cebu', cost:350, notes:'Fly Bali→Cebu $350pp NZD.', airline:'', bookingRef:'CETFWI', flightDate:'2026-10-07', flightTime:'8:35am', flightArrival:'8pm' },
   'Philippines→Vietnam':   { mode:'plane', icon:'✈', label:'Flight', route:'Coron → Hanoi', cost:450, notes:'Coron → Hanoi. $900 total (both), booking ref YEWJ7N.', airline:'', bookingRef:'YEWJ7N', flightDate:'2026-11-07', flightTime:'14:30', flightArrival:'01:25 (+1, Nov 8)' },
   'Vietnam→China':         { mode:'plane', icon:'✈', label:'Flight', route:'Ho Chi Minh → Guangzhou', cost:330, notes:'~$330pp NZD.', flightDate:'2026-12-02', flightTime:'9:45pm', flightArrival:'1:30am (Dec 3)' },
-  'China→United Kingdom':  { mode:'plane', icon:'✈', label:'Flight', route:'Guangzhou → London', cost:0, notes:'Price TBC.', flightDate:'2026-12-10', flightTime:'8:00am', flightArrival:'3:55pm (same day)' },
+  'China→United Kingdom':  { mode:'plane', icon:'✈', label:'Flight', route:'Guangzhou → London', cost:451.5, notes:'Order Number (Flight Network): 1146-801-347. $903 total (both).', airline:'', bookingRef:'1146-801-347', flightDate:'2026-12-10', flightTime:'8:00am', flightArrival:'3:55pm (same day)' },
   'United Kingdom→Argentina': { mode:'plane', icon:'✈', label:'Flight', route:'London → Buenos Aires', cost:2100, notes:'Booking ref NCZHRF.', airline:'', bookingRef:'NCZHRF', flightDate:'2026-12-13', flightTime:'4:40pm', flightArrival:'10:45am (Dec 14)' },
   'Argentina→Peru':        { mode:'plane', icon:'✈', label:'Flight', route:'Puerto Iguazú/Foz do Iguaçu → Lima', cost:0, notes:'Price and exact routing TBC — book closer to date.', flightDate:'2027-01-09' },
   'Peru→Brazil':           { mode:'plane', icon:'✈', label:'Flight', route:'Lima → Fortaleza', cost:510, notes:'LATAM or Avianca via Bogotá/São Paulo. Live price from ~$301 USD (~$510pp NZD). No direct — allow 1 connection.' },
@@ -834,7 +834,9 @@ const DEFAULT_STOPS = [
   { id:'s19',  country:'Vietnam', dest:'Ho Chi Minh City',          hotel:'', checkin:'2026-11-30', checkout:'2026-12-02', costPerNight:30, points:0, transport:8,   transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Bus from Phan Thiet ~$8pp NZD (~5h). Cu Chi Tunnels (₫400,000–700,000 pp, morning tours), War Remnants Museum (₫40,000), Mekong Delta day trip, Bui Vien walking street, rooftop sky bar.' },
 
   // CHINA
-  { id:'s20', country:'China', dest:'Guangzhou', hotel:'', checkin:'2026-12-03', checkout:'2026-12-10', costPerNight:30, points:0, transport:0, transportMode:'plane', accommodationType:'hotel', foodCostPerDay:20, notes:'Arrive from Ho Chi Minh City 1:30am. Placeholder costs — hotel, activities and food budget all TBC. 7 nights before flying to London.' },
+  { id:'s20', country:'China', dest:'Guangzhou (arrival)', hotel:'', checkin:'2026-12-02', checkout:'2026-12-03', costPerNight:30, points:0, transport:0, transportMode:'plane', accommodationType:'hotel', foodCostPerDay:20, notes:'Arrive from Ho Chi Minh City 1:30am Dec 3 — book the night of Dec 2 to cover the early arrival. Hotel TBC, not yet booked.' },
+  { id:'s20z', country:'China', dest:'Zhangjiajie', hotel:'Pullman Zhangjiajie', checkin:'2026-12-03', checkout:'2026-12-08', costPerNight:16.4, points:10000, transport:140, transportMode:'train', accommodationType:'accor', foodCostPerDay:20, notes:'Fast train Guangzhou → Zhangjiajie ~$140pp. Pullman Zhangjiajie, 5 nights, $82 total paid + 10,000 Accor points.' },
+  { id:'s20c', country:'China', dest:'Guangzhou', hotel:'', checkin:'2026-12-08', checkout:'2026-12-10', costPerNight:30, points:0, transport:140, transportMode:'train', accommodationType:'hotel', foodCostPerDay:20, notes:'Return fast train Zhangjiajie → Guangzhou ~$140pp. Hotel TBC, not yet booked. Fly to London Dec 10.' },
 
   // UNITED KINGDOM
   { id:'s20b', country:'United Kingdom', dest:'London', hotel:'', checkin:'2026-12-10', checkout:'2026-12-13', costPerNight:0, points:0, transport:0, transportMode:'plane', accommodationType:'hotel', foodCostPerDay:30, notes:'Arrive from Guangzhou 3:55pm same day. Placeholder — just budgeting $30pp/day in expenses for now, no accommodation or activity details added yet.' },
@@ -2257,6 +2259,17 @@ function loadStops() {
           { id:'s20b', country:'United Kingdom', dest:'London', hotel:'', checkin:'2026-12-10', checkout:'2026-12-13', costPerNight:0, points:0, transport:0, transportMode:'plane', accommodationType:'hotel', foodCostPerDay:30, notes:'Arrive from Guangzhou 3:55pm same day. Placeholder — just budgeting $30pp/day in expenses for now, no accommodation or activity details added yet.' });
         changed = true;
       }
+      // v14: China restructured — split single Guangzhou placeholder into arrival night (unbooked),
+      // Zhangjiajie via fast train (Pullman booked), and Guangzhou pre-departure night (unbooked).
+      const s20idx = data.findIndex(s => s.id === 's20');
+      if (s20idx !== -1 && data[s20idx].checkin === '2026-12-03' && data[s20idx].checkout === '2026-12-10') {
+        data[s20idx] = { id:'s20', country:'China', dest:'Guangzhou (arrival)', hotel:'', checkin:'2026-12-02', checkout:'2026-12-03', costPerNight:30, points:0, transport:0, transportMode:'plane', accommodationType:'hotel', foodCostPerDay:20, notes:'Arrive from Ho Chi Minh City 1:30am Dec 3 — book the night of Dec 2 to cover the early arrival. Hotel TBC, not yet booked.' };
+        data.splice(s20idx + 1, 0,
+          { id:'s20z', country:'China', dest:'Zhangjiajie', hotel:'Pullman Zhangjiajie', checkin:'2026-12-03', checkout:'2026-12-08', costPerNight:16.4, points:10000, transport:140, transportMode:'train', accommodationType:'accor', foodCostPerDay:20, notes:'Fast train Guangzhou → Zhangjiajie ~$140pp. Pullman Zhangjiajie, 5 nights, $82 total paid + 10,000 Accor points.' },
+          { id:'s20c', country:'China', dest:'Guangzhou', hotel:'', checkin:'2026-12-08', checkout:'2026-12-10', costPerNight:30, points:0, transport:140, transportMode:'train', accommodationType:'hotel', foodCostPerDay:20, notes:'Return fast train Zhangjiajie → Guangzhou ~$140pp. Hotel TBC, not yet booked. Fly to London Dec 10.' }
+        );
+        changed = true;
+      }
       if (!data.some(s => s.id === 's41a')) {
         const ukIdx = data.findIndex(s => s.id === 's20b');
         data.splice(ukIdx !== -1 ? ukIdx + 1 : data.length, 0,
@@ -2347,6 +2360,11 @@ function loadICT() {
           changed = true;
         }
       });
+      // China→UK flight now booked — fill in price/booking details for cached users who still have the TBC placeholder
+      if(data['China→United Kingdom'] && !data['China→United Kingdom'].bookingRef) {
+        data['China→United Kingdom'] = {...DEFAULT_ICT['China→United Kingdom']};
+        changed = true;
+      }
       // Add newly-added legs (China/UK/Argentina→Peru restructure) that a cached user won't have yet
       Object.keys(DEFAULT_ICT).forEach(key => {
         if(!data[key]) { data[key] = {...DEFAULT_ICT[key]}; changed = true; }
@@ -3861,6 +3879,10 @@ const DEFAULT_EXPENSES = [
   { id:'exp-airbnb-cebu', date:'2026-10-07', type:'accommodation', country:'Philippines', dest:'Cebu (transit)', amount:30, who:'Both', notes:'Airbnb' },
   { id:'exp-bali-cebu-flight', date:'2026-10-07', type:'transport', country:'Philippines', dest:'Cebu (transit)', amount:700, who:'Both', notes:'Flight Bali → Cebu, $350pp' },
   { id:'exp-hcm-guangzhou-flight', date:'2026-12-03', type:'transport', country:'China', dest:'Guangzhou', amount:660, who:'Both', notes:'Flight Ho Chi Minh → Guangzhou, $330pp. Dep Dec 2 9:45pm, arr Dec 3 1:30am.' },
+  { id:'exp-guangzhou-zhangjiajie-train', date:'2026-12-03', type:'transport', country:'China', dest:'Zhangjiajie', amount:280, who:'Both', notes:'Fast train Guangzhou → Zhangjiajie, $140pp' },
+  { id:'exp-pullman-zhangjiajie', date:'2026-12-03', type:'accommodation', country:'China', dest:'Zhangjiajie', amount:82, who:'Both', notes:'Pullman Zhangjiajie, Dec 3–8 (5 nights), 10,000 points also used' },
+  { id:'exp-zhangjiajie-guangzhou-train', date:'2026-12-08', type:'transport', country:'China', dest:'Guangzhou', amount:280, who:'Both', notes:'Fast train Zhangjiajie → Guangzhou (return), $140pp' },
+  { id:'exp-guangzhou-london-flight', date:'2026-12-10', type:'transport', country:'China', dest:'Guangzhou', amount:903, who:'Both', notes:'Flight Guangzhou → London. Order Number (Flight Network): 1146-801-347. Dep 8:00am, arr 3:55pm same day.' },
   { id:'exp-london-ba-flight', date:'2026-12-13', type:'transport', country:'Argentina', dest:'Buenos Aires', amount:2100, who:'Both', notes:'Flight London → Buenos Aires (NCZHRF). Dep Sun Dec 13 4:40PM, arr Mon Dec 14 10:45AM. Assumed 50/50 split of $4,200 total for both legs — adjust if actual one-way cost differs.' },
   { id:'exp-ba-london-return-flight', date:'2027-05-01', type:'transport', country:'Argentina', dest:'Buenos Aires', amount:2100, who:'Both', notes:'Return flight Buenos Aires → London (NCZHRF). Dep Sat May 1 7:00AM, arr Sat May 1 10:10PM 2027. Assumed 50/50 split of $4,200 total for both legs — adjust if actual one-way cost differs.' },
 ];

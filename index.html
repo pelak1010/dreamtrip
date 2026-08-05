@@ -794,8 +794,9 @@ const DEFAULT_ICT = {
   'Vietnam→China':         { mode:'plane', icon:'✈', label:'Flight', route:'Ho Chi Minh → Guangzhou', cost:330, notes:'~$330pp NZD.', flightDate:'2026-12-02', flightTime:'9:45pm', flightArrival:'1:30am (Dec 3)' },
   'China→United Kingdom':  { mode:'plane', icon:'✈', label:'Flight', route:'Guangzhou → London', cost:451.5, notes:'Order Number (Flight Network): 1146-801-347. $903 total (both).', airline:'', bookingRef:'1146-801-347', flightDate:'2026-12-10', flightTime:'8:00am', flightArrival:'3:55pm (same day)' },
   'United Kingdom→Argentina': { mode:'plane', icon:'✈', label:'Flight', route:'London → Buenos Aires', cost:2100, notes:'Booking ref NCZHRF.', airline:'', bookingRef:'NCZHRF', flightDate:'2026-12-13', flightTime:'4:40pm', flightArrival:'10:45am (Dec 14)' },
-  'Argentina→Peru':        { mode:'plane', icon:'✈', label:'Flight', route:'Puerto Iguazú/Foz do Iguaçu → Lima', cost:0, notes:'Price and exact routing TBC — book closer to date.', flightDate:'2027-01-09' },
-  'Peru→Brazil':           { mode:'plane', icon:'✈', label:'Flight', route:'Lima → Fortaleza', cost:510, notes:'LATAM or Avianca via Bogotá/São Paulo. Live price from ~$301 USD (~$510pp NZD). No direct — allow 1 connection.' },
+  'Argentina→Brazil':      { mode:'plane', icon:'✈', label:'Flight', route:'Puerto Iguazú/Foz do Iguaçu → Florianópolis', cost:510, notes:'Price and exact routing TBC — book closer to date.', flightDate:'2027-01-14' },
+  'Brazil→Peru':           { mode:'plane', icon:'✈', label:'Flight', route:'Foz do Iguaçu → Lima', cost:0, notes:'Price and exact routing TBC — book closer to date.', flightDate:'2027-02-09' },
+  'Peru→Argentina':        { mode:'plane', icon:'✈', label:'Flight', route:'Puno/Juliaca → Buenos Aires', cost:0, notes:'Price and exact routing TBC — book closer to date, rejoining the North Loop in Salta.' },
 };
 
 // ═══════════════════════════════════════════
@@ -845,43 +846,40 @@ const DEFAULT_STOPS = [
   // ARGENTINA — arrival, Christmas & New Year with family, then Iguazu before flying to Peru
   { id:'s41a', country:'Argentina', dest:'Buenos Aires (arrival)', hotel:'Family Apartment (FREE)', checkin:'2026-12-14', checkout:'2026-12-20', costPerNight:0, points:0, transport:0, transportMode:'plane', accommodationType:'free', foodCostPerDay:15, notes:'Arrive from London 10:45am (flight ref NCZHRF). Reconnect with family in Buenos Aires before heading to Chaco for Christmas.' },
   { id:'s44', country:'Argentina', dest:'Chaco (General San Martin)', hotel:'Family (FREE)', checkin:'2026-12-20', checkout:'2027-01-06', costPerNight:0, points:0, transport:0, transportMode:'bus', accommodationType:'free', foodCostPerDay:0, notes:'Christmas & New Year\'s Eve at home with family in General San Martín, Chaco. Transport Buenos Aires → Resistencia TBC (overnight bus ~14-18h or short flight). One of the cheapest stretches of the whole trip.' },
-  { id:'s43', country:'Argentina', dest:'Iguazu Falls', hotel:'Airbnb Puerto Iguazú', checkin:'2027-01-06', checkout:'2027-01-10', costPerNight:45, points:0, transport:0, transportMode:'drive', accommodationType:'airbnb', foodCostPerDay:30, notes:'Drive/bus from Chaco to Puerto Iguazú. Argentina side has the best views including Devil\'s Throat up close — Upper Circuit, Lower Circuit, Devil\'s Throat walkway. Park entry ~$25 USD pp — buy online before arriving. Fly out to Lima, Peru on Jan 10 (routing and price TBC).' },
-
-  // PERU
-  { id:'s27', country:'Peru', dest:'Lima', hotel:'ibis Lima Miraflores', checkin:'2027-01-10', checkout:'2027-01-13', costPerNight:50,  points:0,  transport:0,   transportMode:'plane', accommodationType:'accor',   foodCostPerDay:30, notes:'Arrive from Puerto Iguazú/Foz do Iguaçu. Miraflores cliffs, Larco Museum, Lima food scene (best in SA!), Barranco' },
-  { id:'s28', country:'Peru', dest:'Cusco', hotel:'Airbnb', checkin:'2027-01-13', checkout:'2027-01-16', costPerNight:40,  points:0,     transport:95,  transportMode:'plane', accommodationType:'airbnb',  foodCostPerDay:25, notes:'Fly Lima→Cusco ~$96pp NZD (JetSMART or Sky Airline, 1.5h). Acclimatise, Sacsayhuamán, San Pedro Market, Centro Histórico' },
-  { id:'s29', country:'Peru', dest:'Machu Picchu', hotel:'Aguas Calientes hostel', checkin:'2027-01-16', checkout:'2027-01-17', costPerNight:50,  points:0,     transport:100, transportMode:'train', accommodationType:'hostel',  foodCostPerDay:30, notes:'Peru Rail Expedition Cusco→Aguas Calientes ~$124pp NZD (1.5h). Book online months ahead — fills fast. Sunrise at Machu Picchu, Sun Gate hike, Huayna Picchu option' },
-  { id:'s30', country:'Peru', dest:'Lake Titicaca', hotel:'Airbnb Puno', checkin:'2027-01-17', checkout:'2027-01-19', costPerNight:30,  points:0,     transport:30,  transportMode:'bus',   accommodationType:'airbnb',  foodCostPerDay:20, notes:'Overnight bus Cusco→Puno $30pp. Uros floating islands, Taquile, Bolivia day trip option' },
+  { id:'s43', country:'Argentina', dest:'Iguazu Falls', hotel:'Airbnb Puerto Iguazú', checkin:'2027-01-06', checkout:'2027-01-10', costPerNight:45, points:0, transport:0, transportMode:'drive', accommodationType:'airbnb', foodCostPerDay:30, notes:'Drive/bus from Chaco to Puerto Iguazú. Argentina side has the best views including Devil\'s Throat up close — Upper Circuit, Lower Circuit, Devil\'s Throat walkway. Park entry ~$25 USD pp — buy online before arriving. Fly out to Florianópolis, Brazil (routing and price TBC).' },
 
   // BRAZIL
-  { id:'s31', country:'Brazil', dest:'Fortaleza / Jericoacoara', hotel:'Airbnb', checkin:'2027-01-20', checkout:'2027-01-24', costPerNight:30,  points:0,  transport:0,   transportMode:'plane', accommodationType:'airbnb',  foodCostPerDay:20, notes:'Fly Lima→Fortaleza. Jeri dunes, lagoons, kitesurfing, sunsets' },
-  { id:'s32', country:'Brazil', dest:'Porto de Galinhas', hotel:'Airbnb', checkin:'2027-01-24', checkout:'2027-01-28', costPerNight:31,  points:0,     transport:67, transportMode:'bus', accommodationType:'airbnb',  foodCostPerDay:28, notes:'Fly Fortaleza→Porto de Galinhas area ~$99pp NZD (Azul or Gol, 1.5h). Porto de Galinhas natural pools, Maragogi reefs' },
-  { id:'s33', country:'Brazil', dest:'Maceió', hotel:'Airbnb', checkin:'2027-01-28', checkout:'2027-01-31', costPerNight:40,  points:0,     transport:20,  transportMode:'bus',   accommodationType:'airbnb',  foodCostPerDay:28, notes:'Bus $20pp. Maceió beaches, Ponta Verde, Maragogi day trip' },
-  { id:'s34', country:'Brazil', dest:'Salvador', hotel:'Airbnb Pelourinho', checkin:'2027-01-31', checkout:'2027-02-04', costPerNight:38,  points:0,     transport:40,  transportMode:'bus',   accommodationType:'airbnb',  foodCostPerDay:28, notes:'Bus $40pp. Pelourinho, Capoeira, Afro-Brazilian culture, Mercado Modelo' },
-  { id:'s35', country:'Brazil', dest:'Rio de Janeiro', hotel:'Airbnb Santa Teresa', checkin:'2027-02-04', checkout:'2027-02-08', costPerNight:30,  points:0, transport:130, transportMode:'plane', accommodationType:'airbnb',  foodCostPerDay:28, notes:'Fly Salvador→Rio ~$132pp NZD (LATAM or Azul, 2.5h). Christ the Redeemer, Sugarloaf, Ipanema, Lapa arches nightlife' },
-  { id:'s36', country:'Brazil', dest:'Foz do Iguaçu', hotel:'Airbnb Foz do Iguaçu', checkin:'2027-02-08', checkout:'2027-02-10', costPerNight:35, points:0, transport:80, transportMode:'plane', accommodationType:'airbnb', foodCostPerDay:28, notes:'Fly Rio → Foz do Iguaçu ~$80pp NZD (Azul or Gol, ~1.5h direct). Brazil side of Iguazu Falls — visit the Brazilian panoramic walkway first day. Macuco Safari boat tour under the falls (~$30pp). Then cross the international bridge ($5 USD pp) back into Argentina to continue the North Loop.' },
+  { id:'s31', country:'Brazil', dest:'Florianópolis', hotel:'', checkin:'2027-01-15', checkout:'2027-02-04', costPerNight:0, points:0, transport:0, transportMode:'plane', accommodationType:'airbnb', foodCostPerDay:20, notes:'Fly Puerto Iguazú/Foz do Iguaçu→Florianópolis. General expenses only ($20pp/day) — no accommodation cost or activities budgeted yet.' },
+  { id:'s32', country:'Brazil', dest:'Gramado', hotel:'', checkin:'2027-02-04', checkout:'2027-02-07', costPerNight:60, points:0, transport:30, transportMode:'bus', accommodationType:'airbnb', foodCostPerDay:30, notes:'Bus from Florianópolis via Caxias do Sul ~$30pp. 3 nights, 4 days.' },
+  { id:'s36', country:'Brazil', dest:'Foz do Iguaçu', hotel:'Airbnb Foz do Iguaçu', checkin:'2027-02-07', checkout:'2027-02-10', costPerNight:35, points:0, transport:150, transportMode:'bus', accommodationType:'airbnb', foodCostPerDay:28, notes:'Bus Gramado → Foz do Iguaçu ~$150pp. Brazil side of Iguazu Falls — visit the Brazilian panoramic walkway first day. Macuco Safari boat tour under the falls (~$30pp). Then fly on to Lima, Peru.' },
+
+  // PERU
+  { id:'s27', country:'Peru', dest:'Lima', hotel:'ibis Lima Miraflores', checkin:'2027-02-10', checkout:'2027-02-13', costPerNight:50,  points:0,  transport:0,   transportMode:'plane', accommodationType:'accor',   foodCostPerDay:30, notes:'Arrive from Foz do Iguaçu, Brazil. Miraflores cliffs, Larco Museum, Lima food scene (best in SA!), Barranco' },
+  { id:'s28', country:'Peru', dest:'Cusco', hotel:'Airbnb', checkin:'2027-02-13', checkout:'2027-02-16', costPerNight:40,  points:0,     transport:95,  transportMode:'plane', accommodationType:'airbnb',  foodCostPerDay:25, notes:'Fly Lima→Cusco ~$96pp NZD (JetSMART or Sky Airline, 1.5h). Acclimatise, Sacsayhuamán, San Pedro Market, Centro Histórico' },
+  { id:'s29', country:'Peru', dest:'Machu Picchu', hotel:'Aguas Calientes hostel', checkin:'2027-02-16', checkout:'2027-02-17', costPerNight:50,  points:0,     transport:100, transportMode:'train', accommodationType:'hostel',  foodCostPerDay:30, notes:'Peru Rail Expedition Cusco→Aguas Calientes ~$124pp NZD (1.5h). Book online months ahead — fills fast. Sunrise at Machu Picchu, Sun Gate hike, Huayna Picchu option' },
+  { id:'s30', country:'Peru', dest:'Lake Titicaca', hotel:'Airbnb Puno', checkin:'2027-02-17', checkout:'2027-02-19', costPerNight:30,  points:0,     transport:30,  transportMode:'bus',   accommodationType:'airbnb',  foodCostPerDay:20, notes:'Overnight bus Cusco→Puno $30pp. Uros floating islands, Taquile, Bolivia day trip option. Fly out to Buenos Aires to rejoin Argentina North Loop.' },
 
   // ARGENTINA — North Loop, Patagonia, Ushuaia, final Buenos Aires
   // NORTH LOOP — Salta → Quebrada de Humahuaca → Cafayate → home → BA → Bariloche
-  { id:'s64', country:'Argentina', dest:'Salta', hotel:'Airbnb Salta', checkin:'2027-02-10', checkout:'2027-02-11', costPerNight:45, points:0, transport:65, transportMode:'drive', accommodationType:'airbnb', foodCostPerDay:30, notes:'Drive from General San Martín (Chaco) → Salta ~590km via Ruta 34/9 (~6-7h — start early). Vibrant colonial city — Plaza 9 de Julio, Catedral, MAAM museum (Inca mummies ~$5pp). San Bernardo cable car for panoramic views. Excellent empanadas and locro stew. Peña folk music in the evening. Food: ~$20-25pp/day.' },
-  { id:'s65', country:'Argentina', dest:'Purmamarca', hotel:'Airbnb Purmamarca', checkin:'2027-02-11', checkout:'2027-02-12', costPerNight:38, points:0, transport:5, transportMode:'drive', accommodationType:'airbnb', foodCostPerDay:25, notes:'Drive from Salta ~65km north via RN9, ~1h. Purmamarca sits at the foot of the famous Cerro de los Siete Colores (Hill of Seven Colours) — walk the circuit at sunrise before tour buses arrive (~45min loop). Salt flats, llamas, vibrant artisan stalls around the plaza. Stunning evening light on the coloured hills.' },
-  { id:'s66', country:'Argentina', dest:'Tilcara', hotel:'Airbnb Tilcara', checkin:'2027-02-12', checkout:'2027-02-13', costPerNight:35, points:0, transport:5, transportMode:'drive', accommodationType:'airbnb', foodCostPerDay:25, notes:'Drive from Purmamarca ~22km north, ~20min. Tilcara is the best base in the Quebrada — Pucará ruins (pre-Inca hilltop fortress ~$5pp), Jardin Botánico de Altura, artisan market on the main plaza. Food: ~$18-22pp/day — humitas, tamales, locro stew from market stalls.' },
-  { id:'s67', country:'Argentina', dest:'Humahuaca', hotel:'Airbnb Humahuaca', checkin:'2027-02-13', checkout:'2027-02-14', costPerNight:30, points:0, transport:5, transportMode:'drive', accommodationType:'airbnb', foodCostPerDay:25, notes:'Drive from Tilcara ~24km north, ~25min. Humahuaca is the northern anchor of the UNESCO Quebrada canyon. The Independence Monument and the Hand of God (Manos Poderosas) hilltop sculpture are the highlights. Local market for tamales and humitas — very authentic, far fewer tourists than Tilcara and Purmamarca.' },
-  { id:'s68', country:'Argentina', dest:'Salta', hotel:'Airbnb Salta', checkin:'2027-02-14', checkout:'2027-02-15', costPerNight:45, points:0, transport:5, transportMode:'drive', accommodationType:'airbnb', foodCostPerDay:30, notes:'Drive back south from Humahuaca to Salta ~150km via RN9, ~2h. Night in Salta before tomorrow\'s drive to Cafayate. Good opportunity for a peña folk night and proper parrilla dinner — Balcarce street for bars and restaurants.' },
-  { id:'s69', country:'Argentina', dest:'Cafayate', hotel:'Airbnb Cafayate', checkin:'2027-02-15', checkout:'2027-02-17', costPerNight:35, points:0, transport:5, transportMode:'drive', accommodationType:'airbnb', foodCostPerDay:25, notes:'Drive from Salta ~180km south via the Quebrada de Cafayate — one of Argentina\'s most scenic gorge drives. Stop at Garganta del Diablo, Anfiteatro, and the Castillos rock formations. High-altitude wine region famous for Torrontés. Free bodega tastings at Vasija Secreta, El Esteco, Bodega Nanni. Bike the bodegas (~$8pp rental). Food: ~$18-22pp/day.' },
-  { id:'s70', country:'Argentina', dest:'Chaco (General San Martín)', hotel:'Family (FREE)', checkin:'2027-02-17', checkout:'2027-02-18', costPerNight:0, points:0, transport:0, transportMode:'drive', accommodationType:'free', foodCostPerDay:0, notes:'Drive from Cafayate back to General San Martín (Chaco) ~530km via Ruta 68/16/9 (~6h). One night at the family home before the bus to Buenos Aires. Pack for the bus — fill up fuel in Cafayate before leaving.' },
-  { id:'s71', country:'Argentina', dest:'Buenos Aires (via bus)', hotel:'Family Apartment (FREE)', checkin:'2027-02-18', checkout:'2027-02-20', costPerNight:0, points:0, transport:35, transportMode:'bus', accommodationType:'free', foodCostPerDay:25, notes:'Bus from Resistencia → Buenos Aires overnight ~14h (Flecha Bus or El Rápido ~$35pp — book ahead). Arrive BA morning. Two days in the capital before the Bariloche flight — Palermo, San Telmo market, Recoleta. Free family apartment. Food: ~$15-20pp/day.' },
+  { id:'s64', country:'Argentina', dest:'Salta', hotel:'Airbnb Salta', checkin:'2027-02-19', checkout:'2027-02-20', costPerNight:45, points:0, transport:65, transportMode:'drive', accommodationType:'airbnb', foodCostPerDay:30, notes:'Drive from General San Martín (Chaco) → Salta ~590km via Ruta 34/9 (~6-7h — start early). Vibrant colonial city — Plaza 9 de Julio, Catedral, MAAM museum (Inca mummies ~$5pp). San Bernardo cable car for panoramic views. Excellent empanadas and locro stew. Peña folk music in the evening. Food: ~$20-25pp/day.' },
+  { id:'s65', country:'Argentina', dest:'Purmamarca', hotel:'Airbnb Purmamarca', checkin:'2027-02-20', checkout:'2027-02-21', costPerNight:38, points:0, transport:5, transportMode:'drive', accommodationType:'airbnb', foodCostPerDay:25, notes:'Drive from Salta ~65km north via RN9, ~1h. Purmamarca sits at the foot of the famous Cerro de los Siete Colores (Hill of Seven Colours) — walk the circuit at sunrise before tour buses arrive (~45min loop). Salt flats, llamas, vibrant artisan stalls around the plaza. Stunning evening light on the coloured hills.' },
+  { id:'s66', country:'Argentina', dest:'Tilcara', hotel:'Airbnb Tilcara', checkin:'2027-02-21', checkout:'2027-02-22', costPerNight:35, points:0, transport:5, transportMode:'drive', accommodationType:'airbnb', foodCostPerDay:25, notes:'Drive from Purmamarca ~22km north, ~20min. Tilcara is the best base in the Quebrada — Pucará ruins (pre-Inca hilltop fortress ~$5pp), Jardin Botánico de Altura, artisan market on the main plaza. Food: ~$18-22pp/day — humitas, tamales, locro stew from market stalls.' },
+  { id:'s67', country:'Argentina', dest:'Humahuaca', hotel:'Airbnb Humahuaca', checkin:'2027-02-22', checkout:'2027-02-23', costPerNight:30, points:0, transport:5, transportMode:'drive', accommodationType:'airbnb', foodCostPerDay:25, notes:'Drive from Tilcara ~24km north, ~25min. Humahuaca is the northern anchor of the UNESCO Quebrada canyon. The Independence Monument and the Hand of God (Manos Poderosas) hilltop sculpture are the highlights. Local market for tamales and humitas — very authentic, far fewer tourists than Tilcara and Purmamarca.' },
+  { id:'s68', country:'Argentina', dest:'Salta', hotel:'Airbnb Salta', checkin:'2027-02-23', checkout:'2027-02-24', costPerNight:45, points:0, transport:5, transportMode:'drive', accommodationType:'airbnb', foodCostPerDay:30, notes:'Drive back south from Humahuaca to Salta ~150km via RN9, ~2h. Night in Salta before tomorrow\'s drive to Cafayate. Good opportunity for a peña folk night and proper parrilla dinner — Balcarce street for bars and restaurants.' },
+  { id:'s69', country:'Argentina', dest:'Cafayate', hotel:'Airbnb Cafayate', checkin:'2027-02-24', checkout:'2027-02-26', costPerNight:35, points:0, transport:5, transportMode:'drive', accommodationType:'airbnb', foodCostPerDay:25, notes:'Drive from Salta ~180km south via the Quebrada de Cafayate — one of Argentina\'s most scenic gorge drives. Stop at Garganta del Diablo, Anfiteatro, and the Castillos rock formations. High-altitude wine region famous for Torrontés. Free bodega tastings at Vasija Secreta, El Esteco, Bodega Nanni. Bike the bodegas (~$8pp rental). Food: ~$18-22pp/day.' },
+  { id:'s70', country:'Argentina', dest:'Chaco (General San Martín)', hotel:'Family (FREE)', checkin:'2027-02-26', checkout:'2027-02-27', costPerNight:0, points:0, transport:0, transportMode:'drive', accommodationType:'free', foodCostPerDay:0, notes:'Drive from Cafayate back to General San Martín (Chaco) ~530km via Ruta 68/16/9 (~6h). One night at the family home before the bus to Buenos Aires. Pack for the bus — fill up fuel in Cafayate before leaving.' },
+  { id:'s71', country:'Argentina', dest:'Buenos Aires (via bus)', hotel:'Family Apartment (FREE)', checkin:'2027-02-27', checkout:'2027-03-01', costPerNight:0, points:0, transport:35, transportMode:'bus', accommodationType:'free', foodCostPerDay:25, notes:'Bus from Resistencia → Buenos Aires overnight ~14h (Flecha Bus or El Rápido ~$35pp — book ahead). Arrive BA morning. Two days in the capital before the Bariloche flight — Palermo, San Telmo market, Recoleta. Free family apartment. Food: ~$15-20pp/day.' },
 
   // LAKE DISTRICT — fly BA → Chapelco (SMdlosA) — 2 weeks, accom $600/2pax total, flights $400/2pax
-  { id:'s51', country:'Argentina', dest:'Bariloche', hotel:'Airbnb Bariloche', checkin:'2027-02-20', checkout:'2027-02-25', costPerNight:45, points:0, transport:65, transportMode:'bus', accommodationType:'airbnb', foodCostPerDay:35, notes:'Bus Buenos Aires → Bariloche — Andesmar / Vía Bariloche semi-cama ~$65pp NZD, ~22h overnight (vs ~$200pp flight — saves ~$135pp and a hotel night). Gateway to the Patagonian lake district on Lago Nahuel Huapi. Chocolate shops, craft beer, smoked meats. Drive the Circuito Chico (~60km loop). Hike Cerro Catedral for panoramic views. March/April = end of summer, autumn foliage beginning. Base for the Seven Lakes Road north to Villa La Angostura.' },
-  { id:'s53', country:'Argentina', dest:'Villa La Angostura', hotel:'Airbnb Villa La Angostura', checkin:'2027-02-25', checkout:'2027-03-02', costPerNight:42, points:0, transport:15, transportMode:'bus', accommodationType:'airbnb', foodCostPerDay:35, notes:'Drive or bus from Bariloche ~80km north along the Seven Lakes Road, ~1h. Boutique resort town on Lago Nahuel Huapi — one of the most beautiful spots in Patagonia. Bosque de Arrayanes myrtle forest walk (~3h return, ~$5pp). Excellent restaurants and artisan chocolate shops. Late March/early April autumn foliage begins turning golden.' },
-  { id:'s54', country:'Argentina', dest:'El Bolson', hotel:'Airbnb El Bolson', checkin:'2027-03-02', checkout:'2027-03-06', costPerNight:40, points:0, transport:20, transportMode:'bus', accommodationType:'airbnb', foodCostPerDay:30, notes:'Bus from Villa La Angostura via Bariloche ~3h total (~$15pp). Famous hippy craft market town — cerveza artesanal, fresh berries, artisan honey, homemade pasta. Very affordable. Hike Cerro Perito Moreno for sweeping valley views. Feria Artesanal on weekends. Bus to Bariloche (BRC airport) and fly back to Buenos Aires — then connect Buenos Aires → Ushuaia.' },
+  { id:'s51', country:'Argentina', dest:'Bariloche', hotel:'Airbnb Bariloche', checkin:'2027-03-01', checkout:'2027-03-06', costPerNight:45, points:0, transport:65, transportMode:'bus', accommodationType:'airbnb', foodCostPerDay:35, notes:'Bus Buenos Aires → Bariloche — Andesmar / Vía Bariloche semi-cama ~$65pp NZD, ~22h overnight (vs ~$200pp flight — saves ~$135pp and a hotel night). Gateway to the Patagonian lake district on Lago Nahuel Huapi. Chocolate shops, craft beer, smoked meats. Drive the Circuito Chico (~60km loop). Hike Cerro Catedral for panoramic views. March/April = end of summer, autumn foliage beginning. Base for the Seven Lakes Road north to Villa La Angostura.' },
+  { id:'s53', country:'Argentina', dest:'Villa La Angostura', hotel:'Airbnb Villa La Angostura', checkin:'2027-03-06', checkout:'2027-03-11', costPerNight:42, points:0, transport:15, transportMode:'bus', accommodationType:'airbnb', foodCostPerDay:35, notes:'Drive or bus from Bariloche ~80km north along the Seven Lakes Road, ~1h. Boutique resort town on Lago Nahuel Huapi — one of the most beautiful spots in Patagonia. Bosque de Arrayanes myrtle forest walk (~3h return, ~$5pp). Excellent restaurants and artisan chocolate shops. Late March/early April autumn foliage begins turning golden.' },
+  { id:'s54', country:'Argentina', dest:'El Bolson', hotel:'Airbnb El Bolson', checkin:'2027-03-11', checkout:'2027-03-15', costPerNight:40, points:0, transport:20, transportMode:'bus', accommodationType:'airbnb', foodCostPerDay:30, notes:'Bus from Villa La Angostura via Bariloche ~3h total (~$15pp). Famous hippy craft market town — cerveza artesanal, fresh berries, artisan honey, homemade pasta. Very affordable. Hike Cerro Perito Moreno for sweeping valley views. Feria Artesanal on weekends. Bus to Bariloche (BRC airport) and fly back to Buenos Aires — then connect Buenos Aires → Ushuaia.' },
 
   // USHUAIA — 1 week
-  { id:'s57', country:'Argentina', dest:'Ushuaia', hotel:'Hostel Ushuaia', checkin:'2027-03-06', checkout:'2027-03-13', costPerNight:50, points:0, transport:200, transportMode:'plane', accommodationType:'hostel', foodCostPerDay:35, notes:'Fly Buenos Aires (EZE) → Ushuaia (USH) — JetSmart or Aerolíneas ~$200pp NZD one-way (book early). Southernmost city on Earth. Tierra del Fuego National Park — free hiking, beaver dams, Lapataia Bay. Beagle Channel boat trip ~$30pp (sea lions, cormorants, lighthouse). Centolla (king crab) — splurge once ~$25pp. End of March: cooler (~5-10°C), fewer tourists, stunning autumn light. Hostel or Airbnb ~$40-50/night. Fly USH → BA to wrap up.' },
+  { id:'s57', country:'Argentina', dest:'Ushuaia', hotel:'Hostel Ushuaia', checkin:'2027-03-15', checkout:'2027-03-22', costPerNight:50, points:0, transport:200, transportMode:'plane', accommodationType:'hostel', foodCostPerDay:35, notes:'Fly Buenos Aires (EZE) → Ushuaia (USH) — JetSmart or Aerolíneas ~$200pp NZD one-way (book early). Southernmost city on Earth. Tierra del Fuego National Park — free hiking, beaver dams, Lapataia Bay. Beagle Channel boat trip ~$30pp (sea lions, cormorants, lighthouse). Centolla (king crab) — splurge once ~$25pp. End of March: cooler (~5-10°C), fewer tourists, stunning autumn light. Hostel or Airbnb ~$40-50/night. Fly USH → BA to wrap up.' },
 
   // BUENOS AIRES — 2-4 weeks
-  { id:'s42', country:'Argentina', dest:'Buenos Aires (return)', hotel:'Family Apartment (FREE)', checkin:'2027-03-13', checkout:'2027-04-08', costPerNight:0, points:0, transport:150, transportMode:'plane', accommodationType:'free', foodCostPerDay:10, notes:'Fly Ushuaia → Buenos Aires EZE (~$150pp NZD). Free family apartment for final weeks. Food: ~$600/month total (both) — cooking at home, local markets, farewell meals out. Final weeks: Palermo flea market, Recoleta cemetery, Tigre delta, family asados, San Telmo Sunday market. Fly BA Ezeiza (EZE) to Europe — LATAM, Iberia, Air Europa, KLM. Book 3+ months early.' },
+  { id:'s42', country:'Argentina', dest:'Buenos Aires (return)', hotel:'Family Apartment (FREE)', checkin:'2027-03-22', checkout:'2027-04-17', costPerNight:0, points:0, transport:150, transportMode:'plane', accommodationType:'free', foodCostPerDay:10, notes:'Fly Ushuaia → Buenos Aires EZE (~$150pp NZD). Free family apartment for final weeks. Food: ~$600/month total (both) — cooking at home, local markets, farewell meals out. Final weeks: Palermo flea market, Recoleta cemetery, Tigre delta, family asados, San Telmo Sunday market. Fly BA Ezeiza (EZE) to Europe — LATAM, Iberia, Air Europa, KLM. Book 3+ months early.' },
 ];
 
 // ═══════════════════════════════════════════
@@ -1055,32 +1053,15 @@ const THINGS_TO_DO = {
     { icon:'🌅', name:'Taquile Island overnight', desc:'Stay with a local family, traditional textiles UNESCO-listed crafts', price:'~$30pp w/food' },
     { icon:'🚌', name:'Copacabana + Bolivia day trip', desc:'Cross to Bolivia for Isla del Sol and the sacred rock', price:'~$20pp day trip' },
   ],
-  'Fortaleza / Jericoacoara': [
-    { icon:'🏜', name:'Jeri dune sunset (Lagoa do Por do Sol)', desc:'Walk 45min through dunes to a lagoon perfectly timed for sunset', price:'Free' },
-    { icon:'🏄', name:'Kitesurfing at Cumbuco or Jeri', desc:'One of the world\'s top kite destinations — steady offshore winds', price:'~$60pp 3h lesson' },
-    { icon:'🚙', name:'Lençóis Maranhenses day trip', desc:'Otherworldly white dune lagoons — fly or 4WD, worth the detour', price:'~$100pp tour' },
+  'Florianópolis': [
+    { icon:'🏖', name:'Praia Mole & Joaquina beaches', desc:'Island beach-hopping — surf breaks, dunes, and lagoon-side bars', price:'Free' },
+    { icon:'🏰', name:'Lagoa da Conceição', desc:'Central lagoon with kitesurfing, SUP rental, and sunset restaurants', price:'~$20pp rental' },
+    { icon:'🌉', name:'Hercílio Luz Bridge & old town', desc:'Historic suspension bridge and colonial Mercado Público', price:'Free' },
   ],
-  'Porto de Galinhas': [
-    { icon:'🐠', name:'Porto de Galinhas natural pools', desc:'Jangada (raft) to coral reef pools with tropical fish at low tide', price:'~$8pp jangada' },
-    { icon:'🤿', name:'Maragogi reefs (Galés)', desc:'Snorkelling in crystal-clear water with rays and colourful fish', price:'~$20pp tour' },
-    { icon:'🏖', name:'Maceió beach strip (Ponta Verde)', desc:'Urban beach promenade with fresh coconuts and seafood', price:'Free' },
-  ],
-  'Maceió': [
-    { icon:'🎨', name:'Olinda colonial hilltop walk', desc:'UNESCO colonial architecture, craft studios, Frevo dance on Sundays', price:'Free' },
-    { icon:'🐟', name:'Marco Zero seafood lunch', desc:'Iconic central square with fresh lobster and tapioca crepes nearby', price:'~$15pp' },
-    { icon:'🦈', name:'Boa Viagem beach (caution signs)', desc:'Urban beach but infamous for bull shark sightings — swim only within the reef', price:'Free' },
-  ],
-  'Salvador': [
-    { icon:'🥁', name:'Capoeira roda in Pelourinho', desc:'Watch or join a capoeira circle in the cobblestone squares', price:'Free' },
-    { icon:'🏛', name:'Pelourinho UNESCO walk', desc:'Colourful colonial buildings, Baroque churches, Brazilian African heritage', price:'Free' },
-    { icon:'⛵', name:'Ferry to Ilha de Itaparica', desc:'Day trip to car-free beach island across the Bay of All Saints', price:'~$5pp ferry' },
-    { icon:'🍽', name:'Moqueca at Solar dos Românticos', desc:'Traditional Bahian coconut and dendê oil seafood stew', price:'~$20pp' },
-  ],
-  'Rio de Janeiro': [
-    { icon:'✝', name:'Christ the Redeemer at sunrise', desc:'Book the first tram 8am — clouds clear, near-empty with golden light', price:'~$25pp' },
-    { icon:'🚡', name:'Sugarloaf at sunset', desc:'Two cable cars to 396m summit — Rio\'s skyline at golden hour', price:'~$22pp' },
-    { icon:'🏖', name:'Ipanema beach morning', desc:'People watching, football keepy-uppy, fresh acai bowls on the boardwalk', price:'Free' },
-    { icon:'🎵', name:'Lapa arches samba night', desc:'Friday and Saturday nights — outdoor samba in the street arches district', price:'~$10pp drinks' },
+  'Gramado': [
+    { icon:'🌲', name:'Rua Coberta & Gramado town centre', desc:'Alpine-style architecture, chocolate shops, and hydrangea-lined streets', price:'Free' },
+    { icon:'💧', name:'Cascata do Caracol', desc:'131m waterfall viewpoint a short drive from town, in the Serra Gaúcha hills', price:'~$5pp entry' },
+    { icon:'🍫', name:'Chocolate & wine tasting', desc:'Gramado is the chocolate capital of Brazil — factory tours and Serra Gaúcha wine tastings nearby', price:'~$15pp tasting' },
   ],
   'Foz do Iguaçu': [
     { icon:'💦', name:'Brazilian side panoramic walk', desc:'Elevated walkway with sweeping views across the full 2.7km arc of falls — the widest view on earth', price:'~$25pp entry' },
@@ -2664,7 +2645,7 @@ function renderPhaseRibbon(){
   const phases = [
     { id:'sea', name:'Southeast Asia', countries:['Indonesia','Philippines','Vietnam'], emoji:'🏝' },
     { id:'ea',  name:'East Asia & UK', countries:['China','United Kingdom'],             emoji:'🌆' },
-    { id:'sa',  name:'South America',  countries:['Peru','Brazil'],                     emoji:'⛰' },
+    { id:'sa',  name:'South America',  countries:['Brazil','Peru'],                     emoji:'⛰' },
     { id:'home',name:'Argentina',      countries:['Argentina'],                          emoji:'🍷' },
   ];
   const today = new Date(); today.setHours(0,0,0,0);
@@ -3418,7 +3399,7 @@ function updateStop(id, field, value) {
 // ═══════════════════════════════════════════
 //  RENDER ITINERARY
 // ═══════════════════════════════════════════
-const COUNTRY_ORDER = ['Indonesia','Philippines','Vietnam','China','United Kingdom','Argentina','Peru','Brazil'];
+const COUNTRY_ORDER = ['Indonesia','Philippines','Vietnam','China','United Kingdom','Argentina','Brazil','Peru'];
 const COUNTRY_FLAGS = { Indonesia:'🇮🇩', Philippines:'🇵🇭', Vietnam:'🇻🇳', China:'🇨🇳', 'United Kingdom':'🇬🇧', Peru:'🇵🇪', Brazil:'🇧🇷', Argentina:'🇦🇷' };
 // ICT keys between consecutive countries
 const ICT_KEYS = [
@@ -3427,9 +3408,9 @@ const ICT_KEYS = [
   'Vietnam→China',
   'China→United Kingdom',
   'United Kingdom→Argentina',
-  'Argentina→Peru',
-  'Peru→Brazil',
-  'Brazil→Argentina',
+  'Argentina→Brazil',
+  'Brazil→Peru',
+  'Peru→Argentina',
 ];
 
 function renderItinerary() {
@@ -4454,9 +4435,9 @@ function renderBudgetOptimizer() {
           <div class="bo-card-title">💰 Top Saving Opportunities</div>
           <div class="bo-savings-list">
             <div class="bo-saving-item">
-              <div class="bo-saving-title">🎟 Book Argentina → Peru 3+ months early</div>
-              <div class="bo-saving-desc">Current budget ${fmtNZD((parseFloat((ictData['Argentina→Peru']||{}).cost)||0)*2)} combined. Booking early can save 15–20% — check advance prices as the routing firms up.</div>
-              <div class="bo-saving-amount" style="color:var(--green)">Save ~${fmtNZD(Math.round(((parseFloat((ictData['Argentina→Peru']||{}).cost)||0)*2)*0.15))}</div>
+              <div class="bo-saving-title">🎟 Book Brazil → Peru 3+ months early</div>
+              <div class="bo-saving-desc">Current budget ${fmtNZD((parseFloat((ictData['Brazil→Peru']||{}).cost)||0)*2)} combined. Booking early can save 15–20% — check advance prices as the routing firms up.</div>
+              <div class="bo-saving-amount" style="color:var(--green)">Save ~${fmtNZD(Math.round(((parseFloat((ictData['Brazil→Peru']||{}).cost)||0)*2)*0.15))}</div>
             </div>
             <div class="bo-saving-item">
               <div class="bo-saving-title">🛂 Use Airpoints for the long-haul leg</div>
@@ -4496,8 +4477,8 @@ function renderBudgetOptimizer() {
               <div class="bo-saving-amount" style="color:var(--teal)">Efficient ✓</div>
             </div>
             <div class="bo-saving-item" style="border-color:rgba(123,110,255,.15)">
-              <div class="bo-saving-title">🇧🇷 Brazil — ✓ Coastal South</div>
-              <div class="bo-saving-desc">Fortaleza → Porto de Galinhas → Maceió → Salvador → Rio → Foz do Iguaçu is the cleanest coastal south route, finishing with the world's most spectacular waterfall.</div>
+              <div class="bo-saving-title">🇧🇷 Brazil — ✓ South loop</div>
+              <div class="bo-saving-desc">Florianópolis → Gramado (via Caxias do Sul) → Foz do Iguaçu is a simple south-to-west route, finishing with the world's most spectacular waterfall.</div>
               <div class="bo-saving-amount" style="color:var(--teal)">Efficient ✓</div>
             </div>
             <div class="bo-saving-item" style="border-color:rgba(123,110,255,.15)">
@@ -4516,7 +4497,7 @@ function renderBudgetOptimizer() {
 //  BUDGET VIEW
 // ═══════════════════════════════════════════
 function renderBudget() {
-  const COUNTRY_ORDER2 = ['Indonesia','Philippines','Vietnam','China','United Kingdom','Argentina','Peru','Brazil'];
+  const COUNTRY_ORDER2 = ['Indonesia','Philippines','Vietnam','China','United Kingdom','Argentina','Brazil','Peru'];
   let html = renderRouteOptimizer() + renderBudgetOptimizer() + '<div class="budget-grid">';
   let grandTotal = 0;
 
@@ -4608,8 +4589,7 @@ const ROUTE_COORDS = [
   [10.2898,103.9840,'Phu Quoc'],[23.1291,113.2644,'Guangzhou'],[51.5072,-0.1276,'London'],
   [-34.6037,-58.3816,'Buenos Aires'],[-27.4514,-58.9867,'Chaco'],[-25.6953,-54.4367,'Iguazu Falls'],
   [-12.0464,-77.0428,'Lima'],[-13.5319,-71.9675,'Cusco'],[-13.1631,-72.5450,'Machu Picchu'],
-  [-15.8402,-70.0219,'Puno'],[-3.7172,-38.5433,'Fortaleza'],[-9.6658,-35.7350,'Maceió'],
-  [-8.0522,-34.9286,'Recife'],[-12.9714,-38.5014,'Salvador'],[-22.9068,-43.1729,'Rio'],
+  [-15.8402,-70.0219,'Puno'],[-27.5954,-48.5480,'Florianópolis'],[-29.3788,-50.8756,'Gramado'],
   [-25.5163,-54.5854,'Foz do Iguaçu'],[-25.6953,-54.4367,'Iguazu Falls'],[-27.4514,-58.9867,'Chaco'],
   [-24.7821,-65.4232,'Salta'],[-23.7416,-65.5015,'Purmamarca'],[-23.5779,-65.3887,'Tilcara'],[-23.2044,-65.3499,'Humahuaca'],[-26.0719,-65.9733,'Cafayate'],
   [-41.1335,-71.3103,'Bariloche'],[-40.7622,-71.6476,'Villa La Angostura'],

@@ -812,8 +812,8 @@ const DEFAULT_STOPS = [
   // PHILIPPINES
   { id:'s4',  country:'Philippines', dest:'Cebu (transit)', hotel:'Hostel/Budget', checkin:'2026-10-07', checkout:'2026-10-08', costPerNight:30,  points:0,     transport:0,   transportMode:'plane', accommodationType:'hostel',  foodCostPerDay:20, notes:'Arrive via Bali same-day connection. Chill day, recover from travel' },
   { id:'s5',  country:'Philippines', dest:'Moalboal', hotel:"Allba's Homestay", checkin:'2026-10-08', checkout:'2026-10-10', costPerNight:27.5,  points:0,     transport:32,  transportMode:'bus',   accommodationType:'hostel',  foodCostPerDay:16, notes:'Booked: NZD 55 total / 2 nights, Budget Double Room. Shared van $16pp. Sardine run, Kawasan Falls canyoneering, turtle snorkel' },
-  { id:'s6',  country:'Philippines', dest:'Oslob', hotel:'Aloha', checkin:'2026-10-10', checkout:'2026-10-12', costPerNight:41,  points:0,     transport:10,  transportMode:'bus',   accommodationType:'hostel',  foodCostPerDay:15, notes:'Booked: NZD 82 total / 2 nights, Budget Double Room. Whale shark swimming 5am. Tumalog Falls, Sumilon Island, Cuartel ruins' },
-  { id:'s8',  country:'Philippines', dest:'Bohol', hotel:'Bananaland Cottages', checkin:'2026-10-12', checkout:'2026-10-17', costPerNight:40.4,  points:0,     transport:20,  transportMode:'ferry', accommodationType:'airbnb',  foodCostPerDay:17, notes:'Booked: NZD 202 total / 5 nights, 2 adults, 1 apartment. Banana Land, Panglao Island. Ferry Cebu→Tagbilaran $10pp. Chocolate Hills, tarsiers, Loboc River cruise' },
+  { id:'s7',  country:'Philippines', dest:'Panglao (Bohol)', hotel:'South Palms Resort and Spa Panglao - MGallery Collection', checkin:'2026-10-11', checkout:'2026-10-13', costPerNight:274.72, points:1104, transport:20,  transportMode:'ferry', accommodationType:'accor',   foodCostPerDay:20, notes:'Booked: NZD 549.44 total / 2 nights, 2 adults, 1 room. Booking QPGPCBBD. Ferry Cebu→Tagbilaran ~$10pp then transfer to Panglao. +1,104 est. Reward pts / +627 est. Status pts. Chocolate Hills, tarsiers' },
+  { id:'s8',  country:'Philippines', dest:'Bohol', hotel:'Bananaland Cottages', checkin:'2026-10-13', checkout:'2026-10-17', costPerNight:40.4,  points:0,     transport:5,   transportMode:'car',   accommodationType:'airbnb',  foodCostPerDay:17, notes:'Booked: NZD 202 total / 5 nights, reduced to 4 nights used (NZD 161.60), 2 adults, 1 apartment. Banana Land, Panglao Island. Arriving 13th from South Palms. Loboc River cruise' },
   { id:'s9',  country:'Philippines', dest:'Siquijor', hotel:'The Bruce Beach Resort', checkin:'2026-10-17', checkout:'2026-10-20', costPerNight:38.9, points:0,     transport:14,  transportMode:'ferry', accommodationType:'hotel',  foodCostPerDay:16, notes:'Booked: NZD 116.70 total / 3 nights, Tropical Treehouse (Fan Only). Massage room, parking, airport pick-up. Ferry $7pp. Cambugahay Falls, Salagdoong cliff diving, island scooter loop' },
   { id:'s11', country:'Philippines', dest:'Siargao', hotel:'Airbnb', checkin:'2026-10-20', checkout:'2026-10-26', costPerNight:38,  points:0,     transport:90,  transportMode:'plane', accommodationType:'airbnb',  foodCostPerDay:18, notes:'Fly Cebu→Siargao ~$90pp NZD (Cebu Pacific or Cebgo, 1h). Cloud 9 surf, island hopping, sugba lagoon' },
   { id:'s12', country:'Philippines', dest:'Boracay', hotel:'Airbnb White Beach', checkin:'2026-10-26', checkout:'2026-10-30', costPerNight:33,  points:0,     transport:110, transportMode:'plane', accommodationType:'airbnb',  foodCostPerDay:22, notes:'Fly Siargao→Caticlan ~$107pp NZD (PAL or Cebu Pacific, 1.5h). White Beach sunsets, paraw sailing, kitesurfing' },
@@ -914,11 +914,6 @@ const THINGS_TO_DO = {
     { icon:'🐢', name:'Sea turtle snorkel', desc:'Resident sea turtles at Tongo Point — almost guaranteed sighting', price:'Free with snorkel' },
     { icon:'🏞', name:'Kawasan Falls canyoneering', desc:'Full-day canyoneering with jumps, slides, and cliff sections', price:'~$35pp' },
     { icon:'🤿', name:'Pescador Island dive', desc:'Wall dive with barracuda, reef sharks, and huge biodiversity', price:'~$30pp 2 dives' },
-  ],
-  'Oslob': [
-    { icon:'🐋', name:'Whale shark swim', desc:'Book the 5am slot before feeding starts — better whale shark behavior', price:'~$20pp' },
-    { icon:'🏝', name:'Sumilon Island', desc:'Stunning sandbar + snorkel — take the boat from Oslob wharf', price:'~$10pp boat' },
-    { icon:'💦', name:'Tumalog Falls', desc:'Ethereal curtain waterfall through moss and ferns', price:'~$3 entry' },
   ],
   'Bohol': [
     { icon:'⛰', name:'Chocolate Hills viewpoint', desc:'1,776 perfectly conical hills turning chocolate-brown in dry season', price:'~$5 entry' },
@@ -1406,49 +1401,41 @@ const DEFAULT_DAILY_PLAN = {
       theme: 'White Beach & Sunset',
       morning: "Morning at leisure in Panagsama — explore the dive shops and beachfront cafes.",
       afternoon: "Relax at White Beach (Basdaku) — expansive white sand perfect for catching the sunset. 15-minute tricycle ride from Panagsama (₱20 environmental fee).",
-      evening: "Sunset at Basdaku Beach. Early night — depart early tomorrow for Oslob.",
+      evening: "Sunset at Basdaku Beach. Early night — depart early tomorrow for Panglao.",
       notes: "₱20 environmental fee. Tricycle to Basdaku ~₱20 each way.",
       price: 1
     }
   },
-  // ── Oslob (2 nights) ──────────────────────────────────────────────────
-  's6': {
-    'day_1': {
-      theme: 'Whale Sharks & Tumalog Falls',
-      morning: "Whale Shark Snorkeling Encounter — arrive by 5:30 AM to queue. Strict 30-min interaction limit. Mandatory environmental briefing (no sunscreen, stay 3 m away). ₱1,500 pp.",
-      afternoon: "Cool Off at Tumalog Falls — massive curtain-like sheer waterfall (₱50 entry). Steep walk down; optional habal-habal motorbike ₱50 each way.",
-      evening: "Explore the Cuartel and Stone Church Ruins — hand-carved coral stone blocks from the Spanish era (free entry, 30–45 min). Dinner in Oslob town.",
-      notes: "Whale shark: ₱1,500 pp — arrive 5:30 AM! Tumalog: ₱50 entry. Ruins: free.",
-      price: 44
-    },
-    'day_2': {
-      theme: 'Sumilon Island & Rest Day',
-      morning: "Relaxed morning in Oslob. Optional second whale shark viewing or walk along the coastal road.",
-      afternoon: "Boat trip to Sumilon Island — stunning exposed sandbar with excellent snorkeling (~₱350 pp boat from Oslob wharf). One of Cebu's best-kept secrets.",
-      evening: "Dinner in Oslob town. Early night — ferry to Bohol tomorrow morning.",
-      notes: "Sumilon Island boat ~₱350 pp. Check departure times at the wharf. Arrive Bohol via ferry tomorrow.",
-      price: 10
-    }
-  },
-  // ── Bohol (5 nights) ─────────────────────────────────────────────────
-  's8': {
+  // ── Panglao / South Palms Resort (2 nights) ───────────────────────────
+  's7': {
     'day_1': {
       theme: 'Chocolate Hills & Tarsier Sanctuary',
       morning: "View the Chocolate Hills — climb the main viewing steps to see over 1,200 perfectly symmetrical conical hills (₱100 entry). Spectacular at sunrise when low mist settles.",
       afternoon: "Visit the Tarsier Sanctuary (Corella) — world's smallest primates in a heavily protected habitat loop (₱150 entry). Absolute silence strictly enforced.",
-      evening: "Arrive Panglao / Alona Beach area. Explore and dinner.",
+      evening: "Arrive South Palms Resort, Panglao. Settle in and dinner.",
       notes: "Chocolate Hills ₱100. Tarsier Sanctuary ₱150. Ferry Cebu → Tagbilaran ₱10 pp.",
       price: 7
     },
     'day_2': {
+      theme: 'Resort Day at South Palms',
+      morning: "Relax at the resort's private beach and pools — enjoy the 5-star grounds.",
+      afternoon: "Optional spa treatment or snorkel off the resort's house reef.",
+      evening: "Sunset dinner at the resort. Early night — checkout tomorrow to Bananaland Cottages.",
+      notes: "Resort day — no major activity spend. Optional spa/snorkel extra.",
+      price: 0
+    }
+  },
+  // ── Bohol / Bananaland Cottages (4 nights) ────────────────────────────
+  's8': {
+    'day_1': {
       theme: 'Loboc River Cruise',
-      morning: "Explore Tagbilaran town or Alona Beach morning swim.",
+      morning: "Check in to Bananaland Cottages. Explore Tagbilaran town or Alona Beach morning swim.",
       afternoon: "Loboc River Cruise & Buffet Lunch — floating platform restaurant through a deep tropical jungle canyon with live folk music (₱1,000 pp, 1.5–2 hours).",
       evening: "Sunset at Alona Beach. Panglao island dinner.",
       notes: "Loboc River Cruise ₱1,000 pp. Book in advance or join a shared group.",
       price: 29
     },
-    'day_3': {
+    'day_2': {
       theme: 'Balicasag Reef & Virgin Island Sandbar',
       morning: "Island Hopping to Balicasag Reef Wall — world-class snorkelling with huge sea turtle populations. Private boat ₱1,500–₱2,500 (est. ₱2,000 split 2 pax). 4–5 hours.",
       afternoon: "Walk the Virgin Island exposed crescent sandbar — completely surrounded by turquoise water at low tide.",
@@ -1456,7 +1443,7 @@ const DEFAULT_DAILY_PLAN = {
       notes: "Private boat ₱1,500–₱2,500 split. Stunning turtle snorkelling + pristine sandbar walk.",
       price: 57
     },
-    'day_4': {
+    'day_3': {
       theme: 'Alona Beach Free Day',
       morning: "Morning snorkel off Alona Beach house reef.",
       afternoon: "Optional dive with local dive shop, or relax on the beach.",
@@ -1464,7 +1451,7 @@ const DEFAULT_DAILY_PLAN = {
       notes: "Free / optional day — dive shop available on Alona Beach.",
       price: 0
     },
-    'day_5': {
+    'day_4': {
       theme: 'Departure to Siquijor',
       morning: "Final swim and pack up.",
       afternoon: "Depart Bohol for Siquijor via fast ferry from Tagbilaran (~1.5 h, ₱7 pp).",
@@ -3922,8 +3909,8 @@ const DEFAULT_EXPENSES = [
   { id:'exp-centro-bajo', date:'2026-10-02', type:'accommodation', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:78.15, who:'Both', notes:'Centro Bajo Hotel, Oct 2–5 (3 nights, total stay)' },
   { id:'exp-airbnb-cebu', date:'2026-10-07', type:'accommodation', country:'Philippines', dest:'Cebu (transit)', amount:30, who:'Both', notes:'Airbnb' },
   { id:'exp-bali-cebu-flight', date:'2026-10-07', type:'transport', country:'Philippines', dest:'Cebu (transit)', amount:700, who:'Both', notes:'Flight Bali → Cebu, $350pp' },
-  { id:'exp-aloha-oslob', date:'2026-10-10', type:'accommodation', country:'Philippines', dest:'Oslob', amount:82, who:'Both', notes:'Aloha, Oct 10–12 (2 nights), Budget Double Room' },
-  { id:'exp-bananaland-bohol', date:'2026-10-12', type:'accommodation', country:'Philippines', dest:'Bohol', amount:202, who:'Both', notes:'Bananaland Cottages, Oct 12–17 (5 nights), 2 adults, 1 apartment' },
+  { id:'exp-southpalms-panglao', date:'2026-10-11', type:'accommodation', country:'Philippines', dest:'Panglao (Bohol)', amount:549.44, who:'Both', notes:'South Palms Resort and Spa Panglao - MGallery Collection, Oct 11–13 (2 nights), Booking QPGPCBBD, 2 adults, 1 room' },
+  { id:'exp-bananaland-bohol', date:'2026-10-13', type:'accommodation', country:'Philippines', dest:'Bohol', amount:161.60, who:'Both', notes:'Bananaland Cottages, Oct 13–17 (4 nights used of 5 booked), 2 adults, 1 apartment' },
   { id:'exp-brucebeach-siquijor', date:'2026-10-17', type:'accommodation', country:'Philippines', dest:'Siquijor', amount:116.70, who:'Both', notes:'The Bruce Beach Resort, Oct 17–20 (3 nights), Tropical Treehouse (Fan Only). Booking #1578948933808308' },
   { id:'exp-hcm-guangzhou-flight', date:'2026-12-03', type:'transport', country:'China', dest:'Guangzhou', amount:660, who:'Both', notes:'Flight Ho Chi Minh → Guangzhou, $330pp. Dep Dec 2 9:45pm, arr Dec 3 1:30am.' },
   { id:'exp-mercure-guangzhou-arrival', date:'2026-12-02', type:'accommodation', country:'China', dest:'Guangzhou', amount:33, who:'Both', notes:'Grand Mercure Guangzhou Baiyun International Airport, Dec 2–3 (1 night), 2,000 points also used' },
@@ -4579,7 +4566,7 @@ function renderTips() {
 const MAPBOX_TOKEN = 'pk.eyJ1IjoiY2hyaXN3YWRlMjAyNyIsImEiOiJjbXEwNzFwcTUwcDduMndvaDVkc3B5cTczIn0.CRkhXAZ3SPMa5A5Rk9z0Pw';
 const ROUTE_COORDS = [
   [-8.4095,115.1889,'Bali'],[-8.5069,115.2625,'Ubud'],[-8.6524,116.3240,'Lombok'],[-8.4892,119.8880,'Labuan Bajo'],[-8.4095,115.1889,'Bali'],
-  [10.3157,123.8854,'Cebu'],[9.3833,123.3667,'Moalboal'],[9.4833,123.4333,'Oslob'],
+  [10.3157,123.8854,'Cebu'],[9.3833,123.3667,'Moalboal'],
   [9.8500,124.1430,'Bohol'],[9.1856,123.5100,'Siquijor'],
   [9.8600,126.0478,'Siargao'],[11.9674,121.9248,'Boracay'],
   [10.7667,119.2833,'Port Barton'],[11.1784,119.3871,'El Nido'],

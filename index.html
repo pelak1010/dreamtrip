@@ -806,8 +806,9 @@ const DEFAULT_STOPS = [
   { id:'s1',  country:'Indonesia', dest:'Bali', hotel:'Mercure Bali Nusa Dua', checkin:'2026-09-20', checkout:'2026-09-24', costPerNight:25.9975,  points:6000,  transport:503,   transportMode:'plane', accommodationType:'accor',   foodCostPerDay:15, notes:'Flight Queenstown (QT) → Bali $503pp. Arrive 22:30. Explore Nusa Dua, Seminyak, Uluwatu' },
   { id:'s1b', country:'Indonesia', dest:'Ubud', hotel:'', checkin:'2026-09-24', checkout:'2026-09-27', costPerNight:30, points:0, transport:50, transportMode:'car', accommodationType:'hotel', foodCostPerDay:15, notes:'Private car from Nusa Dua $50 (both). Rice terraces, Tegallalang, Monkey Forest, Ubud Palace, cooking class.' },
   { id:'s2',  country:'Indonesia', dest:'Lombok', hotel:'Novotel Lombok Resort & Villas', checkin:'2026-09-27', checkout:'2026-10-01', costPerNight:47.5,  points:8000, transport:86,  transportMode:'ferry', accommodationType:'accor',   foodCostPerDay:15, notes:'Car Ubud→Bali ferry port $50 (both) + Ferry $18pp each way. Gili islands day trip, Mount Rinjani views' },
-  { id:'s3',  country:'Indonesia', dest:'Labuan Bajo (Komodo)', hotel:'Centro Bajo Hotel', checkin:'2026-10-02', checkout:'2026-10-05', costPerNight:26.05, points:0,     transport:35, transportMode:'bus', accommodationType:'hotel',   foodCostPerDay:15, notes:'Overland public bus + ferry Lombok→Labuan Bajo ~$35pp NZD (est., confirm on booking) — board bus at Terminal Mandalika, Mataram ~2–3pm Oct 1, overnight ferry + drive across Sumbawa, final ferry from Sape ~7–8h, arrive Labuan Bajo ~4–7pm Oct 2. Komodo dragon tour + liveaboard snorkel' },
-  { id:'s3b', country:'Indonesia', dest:'Bali', hotel:'', checkin:'2026-10-06', checkout:'2026-10-07', costPerNight:0, points:0, transport:35, transportMode:'bus', accommodationType:'hotel', foodCostPerDay:0, notes:'Same overland route back, reversed: bus + ferries Labuan Bajo→Sape→across Sumbawa→Lombok, then ferry Lombok→Bali ~$35pp NZD (est.), leave Labuan Bajo Oct 5, arrive Bali Oct 6. One night in Bali (hotel TBC) before flying to Cebu Oct 7.' },
+  { id:'s2b', country:'Indonesia', dest:'Bali', hotel:'', checkin:'2026-10-01', checkout:'2026-10-02', costPerNight:50, points:0, transport:18, transportMode:'ferry', accommodationType:'hotel', foodCostPerDay:15, notes:'Ferry back Lombok→Bali (~$18pp) after Lombok checkout. One night in Bali (hotel TBC) before flying to Labuan Bajo early the next morning.' },
+  { id:'s3',  country:'Indonesia', dest:'Labuan Bajo (Komodo)', hotel:'Centro Bajo Hotel', checkin:'2026-10-02', checkout:'2026-10-06', costPerNight:26.05, points:0,     transport:145, transportMode:'plane', accommodationType:'hotel',   foodCostPerDay:15, notes:'Flight KE2DVJ, Denpasar → Labuan Bajo, $290 total (both) / $145pp. Dep 9:00am Oct 2, arr 10:10am Oct 2. Komodo dragon tour + liveaboard snorkel.' },
+  { id:'s3b', country:'Indonesia', dest:'Bali', hotel:'', checkin:'2026-10-06', checkout:'2026-10-07', costPerNight:0, points:0, transport:145, transportMode:'plane', accommodationType:'hotel', foodCostPerDay:0, notes:'Flight KE2DVJ, Labuan Bajo → Denpasar, $290 total (both) / $145pp. Dep 13:05 Oct 6, arr 14:20 Oct 6. One night in Bali (hotel TBC) before flying to Cebu Oct 7.' },
 
   // PHILIPPINES
   { id:'s4',  country:'Philippines', dest:'Cebu (transit)', hotel:'Hostel/Budget', checkin:'2026-10-07', checkout:'2026-10-08', costPerNight:30,  points:0,     transport:0,   transportMode:'plane', accommodationType:'hostel',  foodCostPerDay:20, notes:'Arrive via Bali same-day connection. Chill day, recover from travel' },
@@ -1317,30 +1318,33 @@ const DEFAULT_DAILY_PLAN = {
       theme: 'Pink Beach Boat Trip & Departure Prep',
       morning: "Boat trip to Pink Beach (Tangsi Beach) — pale pink-tinged sand from red coral fragments, with excellent snorkeling just offshore (~$30 NZD boat + snorkel gear, half-day).",
       afternoon: "Final swim and pack up in Kuta Lombok.",
-      evening: "Early night — overland bus to Labuan Bajo departs Terminal Mandalika, Mataram tomorrow afternoon.",
-      notes: "Pink Beach boat trip ~$30 NZD. Overland bus + ferry to Labuan Bajo booked for tomorrow (~$35pp NZD est.) — a 2-day public transport journey, not a flight.",
+      evening: "Ferry back to Bali (~$18pp) for one night before tomorrow morning's flight to Labuan Bajo.",
+      notes: "Pink Beach boat trip ~$30 NZD. Ferry Lombok→Bali ~$18pp — flight KE2DVJ to Labuan Bajo departs Denpasar 9:00am the following morning.",
       price: 30
+    }
+  },
+  // ── Bali (1 night) ───────────────────────────────────────────────────
+  's2b': {
+    'day_1': {
+      theme: 'Bali Overnight — Between Lombok & Labuan Bajo',
+      morning: "Ferry Lombok → Padang Bai, Bali (~$18pp, ~4–5h).",
+      afternoon: "Transfer to accommodation near Denpasar airport, settle in.",
+      evening: "Early dinner and early night — flight KE2DVJ to Labuan Bajo departs Denpasar 9:00am tomorrow.",
+      notes: "Stay near the airport to make the 9:00am departure comfortably. Flight KE2DVJ, $290 total (both) / $145pp, arrives Labuan Bajo 10:10am.",
+      price: 0
     }
   },
   // ── Labuan Bajo / Komodo (4 nights) ─────────────────────────────────
   's3': {
     'day_1': {
-      theme: 'Overland to Sumbawa — Bus & First Ferry',
-      morning: "Board the public bus at Terminal Mandalika, Mataram, around 2:00–3:00pm.",
-      afternoon: "Bus crosses the first ferry from Lombok to Sumbawa mid-to-late afternoon.",
-      evening: "Bus continues overnight across Sumbawa island toward Sape, on the eastern coast. Sleep on the bus.",
-      notes: "Overland bus + ferry journey, day 1 of 2 — no accommodation needed tonight, it's an overnight bus. Bring snacks, water, and something to sleep against.",
+      theme: 'Arrival — Fly Denpasar → Labuan Bajo',
+      morning: "Flight KE2DVJ departs Denpasar 9:00am, arrives Labuan Bajo 10:10am.",
+      afternoon: "Transfer to Centro Bajo Hotel, check in and settle in.",
+      evening: "Catch sunset at Puncak Waringin viewpoint, a short uphill walk from town centre (free). Wind down with a low-key stroll along the harbourfront night market for grilled seafood dinner.",
+      notes: "Flight KE2DVJ $290 total (both) / $145pp. Puncak Waringin viewpoint free. Harbourfront night market seafood dinner ~$10–15 NZD pp. Book tomorrow's Komodo boat tour tonight through your accommodation.",
       price: 0
     },
     'day_2': {
-      theme: 'Sape Port → Final Ferry → Arrive Labuan Bajo',
-      morning: "Bus arrives at Sape port in eastern Sumbawa; board the final public ferry to Flores.",
-      afternoon: "Ferry crossing to Labuan Bajo takes about 7–8 hours.",
-      evening: "Roll into Labuan Bajo port between 4:00pm and 7:00pm. Check in at Centro Bajo Hotel, settle in, and — if there's time and energy after two days of travel — catch sunset at Puncak Waringin viewpoint, a short uphill walk from town centre (free). Wind down with a low-key stroll along the harbourfront night market for grilled seafood dinner.",
-      notes: "Puncak Waringin viewpoint free — only if you're not too travel-worn. Harbourfront night market seafood dinner ~$10–15 NZD pp. Book tomorrow's Komodo boat tour tonight through your accommodation.",
-      price: 0
-    },
-    'day_3': {
       theme: 'Komodo National Park — Dragons, Padar & Pink Beach',
       morning: "Full-day Komodo National Park boat tour departs early (~7am). Trek Rinca or Komodo Island with a ranger guide to see wild Komodo dragons up close (~$45 NZD combined park fee + ranger guide).",
       afternoon: "Hike Padar Island viewpoint — steep 20-min climb to the iconic three-bay panorama that's become Indonesia's most photographed view. Snorkel at Pink Beach — sand tinted pink from red coral fragments, with vibrant coral reef just offshore.",
@@ -1348,31 +1352,31 @@ const DEFAULT_DAILY_PLAN = {
       notes: "Full-day boat tour ~$45 NZD pp (park fee + guide, boat/lunch often bundled — confirm when booking). Bring reef-safe sunscreen and a hat.",
       price: 45
     },
-    'day_4': {
+    'day_3': {
       theme: 'Manta Point & Kanawa Island Snorkel',
       morning: "Full-day boat trip to Manta Point for snorkelling with manta rays at their cleaning stations near Karang Makassar (~$25 NZD boat + gear).",
       afternoon: "Stop at Kanawa Island — clear water, easy reef snorkel just offshore, relax on the beach before heading back.",
-      evening: "Return to Labuan Bajo by boat as the sun sets. Last night in town — seafood dinner and an early night before tomorrow's flight.",
-      notes: "Manta Point/Kanawa full-day snorkel ~$25 NZD. Pack tonight — early transfer to the airport tomorrow.",
+      evening: "Return to Labuan Bajo by boat as the sun sets. Seafood dinner in town.",
+      notes: "Manta Point/Kanawa full-day snorkel ~$25 NZD.",
       price: 25
     },
-    'day_5': {
-      theme: 'Departure — Fly to Bali & Onward to Cebu',
-      morning: "Check out, pack up, transfer to Labuan Bajo airport.",
-      afternoon: "Fly Labuan Bajo → Bali ($139pp NZD).",
-      evening: "Same-day connecting flight Bali → Cebu — no overnight in Bali.",
-      notes: "Flight to Bali $139pp NZD — allow ample buffer time for the same-day connection to Cebu.",
+    'day_4': {
+      theme: 'Departure — Fly Labuan Bajo → Bali',
+      morning: "Relaxed morning in Labuan Bajo, pack up and check out.",
+      afternoon: "Flight KE2DVJ departs Labuan Bajo 1:05pm, arrives Denpasar 2:20pm.",
+      evening: "Settle into a night in Bali — dinner in town before tomorrow's flight to Cebu.",
+      notes: "Flight KE2DVJ $290 total (both) / $145pp. One night in Bali (hotel TBC) before flying to Cebu Oct 7.",
       price: 0
     }
   },
-  // ── Bali - Same-day Layover (0 nights) ────────────────────────────────
+  // ── Bali (1 night) ───────────────────────────────────────────────────
   's3b': {
     'day_1': {
-      theme: 'Bali Layover — Connect to Cebu',
-      morning: "Land Bali from Labuan Bajo.",
-      afternoon: "Airport layover — no overnight stay. Grab lunch airside before the connecting flight.",
-      evening: "Fly Bali → Cebu ($139pp NZD) the same day.",
-      notes: "Same-day connection — no accommodation booked. Allow ample buffer between the two flights.",
+      theme: 'Bali — Last Night Before Cebu',
+      morning: "Land Denpasar 2:20pm from Labuan Bajo (flight KE2DVJ).",
+      afternoon: "Transfer to accommodation, relax after the flight.",
+      evening: "Dinner in Bali — early night before tomorrow's flight to Cebu (departs 8:35am).",
+      notes: "Flight to Cebu (booking ref CETFWI) departs 8:35am — stay near the airport.",
       price: 0
     }
   },
@@ -2226,6 +2230,31 @@ function loadStops() {
         if(!s.notes && def.notes) { s.notes = def.notes; changed = true; }
         if(s.costIsCashOwed === undefined && def.costIsCashOwed) { s.costIsCashOwed = true; changed = true; }
       });
+      // Labuan Bajo now flown (KE2DVJ) instead of overland — insert Bali overnight after Lombok, fix flight dates
+      if (!data.some(s => s.id === 's2b')) {
+        const baliNightStop = { id:'s2b', country:'Indonesia', dest:'Bali', hotel:'', checkin:'2026-10-01', checkout:'2026-10-02', costPerNight:50, points:0, transport:18, transportMode:'ferry', accommodationType:'hotel', foodCostPerDay:15, notes:'Ferry back Lombok→Bali (~$18pp) after Lombok checkout. One night in Bali (hotel TBC) before flying to Labuan Bajo early the next morning.' };
+        const s3idx = data.findIndex(s => s.id === 's3');
+        if (s3idx !== -1) data.splice(s3idx, 0, baliNightStop);
+        else data.push(baliNightStop);
+        changed = true;
+      }
+      const labuanS3 = data.find(s => s.id === 's3');
+      if (labuanS3 && labuanS3.transportMode !== 'plane') {
+        labuanS3.checkout = '2026-10-06';
+        labuanS3.transport = 145;
+        labuanS3.transportMode = 'plane';
+        labuanS3.notes = 'Flight KE2DVJ, Denpasar → Labuan Bajo, $290 total (both) / $145pp. Dep 9:00am Oct 2, arr 10:10am Oct 2. Komodo dragon tour + liveaboard snorkel.';
+        changed = true;
+      }
+      const labuanS3b = data.find(s => s.id === 's3b');
+      if (labuanS3b && labuanS3b.transportMode !== 'plane') {
+        labuanS3b.checkin = '2026-10-06';
+        labuanS3b.checkout = '2026-10-07';
+        labuanS3b.transport = 145;
+        labuanS3b.transportMode = 'plane';
+        labuanS3b.notes = 'Flight KE2DVJ, Labuan Bajo → Denpasar, $290 total (both) / $145pp. Dep 13:05 Oct 6, arr 14:20 Oct 6. One night in Bali (hotel TBC) before flying to Cebu Oct 7.';
+        changed = true;
+      }
       // Rename Jujuy → La Quiaca
       const jujuyStop = data.find(s => s.id === 's45' || (s.dest && s.dest.toLowerCase() === 'jujuy'));
       if (jujuyStop && jujuyStop.dest.toLowerCase() === 'jujuy') { jujuyStop.dest = 'La Quiaca'; changed = true; }
@@ -3906,7 +3935,9 @@ const DEFAULT_EXPENSES = [
   { id:'exp-mercure-bali',   date:'2026-09-20', type:'accommodation', country:'Indonesia', dest:'Bali', amount:103.99, who:'Both', notes:'Mercure Bali Nusa Dua, Sep 20–24 (4 nights)' },
   { id:'exp-novotel-lombok', date:'2026-09-27', type:'accommodation', country:'Indonesia', dest:'Lombok', amount:190, who:'Both', notes:'Novotel Lombok Resort & Villas, Sep 27–Oct 1 (4 nights), 8,000 points also used' },
   { id:'exp-airbnb-ubud', date:'2026-09-24', type:'accommodation', country:'Indonesia', dest:'Ubud', amount:70.26, who:'Both', notes:'Airbnb, Ubud (Sep 24–27, 3 nights)' },
-  { id:'exp-centro-bajo', date:'2026-10-02', type:'accommodation', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:78.15, who:'Both', notes:'Centro Bajo Hotel, Oct 2–5 (3 nights, total stay)' },
+  { id:'exp-centro-bajo', date:'2026-10-02', type:'accommodation', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:104.2, who:'Both', notes:'Centro Bajo Hotel, Oct 2–6 (4 nights, total stay)' },
+  { id:'exp-lombok-labuan-flight', date:'2026-10-02', type:'transport', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:290, who:'Both', notes:'Flight KE2DVJ, Denpasar → Labuan Bajo, $290 total (both). Dep 9:00am, arr 10:10am.' },
+  { id:'exp-labuan-lombok-return-flight', date:'2026-10-06', type:'transport', country:'Indonesia', dest:'Bali', amount:290, who:'Both', notes:'Flight KE2DVJ, Labuan Bajo → Denpasar, $290 total (both). Dep 13:05, arr 14:20.' },
   { id:'exp-airbnb-cebu', date:'2026-10-07', type:'accommodation', country:'Philippines', dest:'Cebu (transit)', amount:30, who:'Both', notes:'Airbnb' },
   { id:'exp-bali-cebu-flight', date:'2026-10-07', type:'transport', country:'Philippines', dest:'Cebu (transit)', amount:700, who:'Both', notes:'Flight Bali → Cebu, $350pp' },
   { id:'exp-southpalms-panglao', date:'2026-10-11', type:'accommodation', country:'Philippines', dest:'Panglao (Bohol)', amount:549.44, who:'Christian', notes:'South Palms Resort and Spa Panglao - MGallery Collection, Oct 11–13 (2 nights), Booking QPGPCBBD, 2 adults, 1 room' },
@@ -4454,8 +4485,8 @@ function renderBudgetOptimizer() {
           <div class="bo-savings-list">
             <div class="bo-saving-item" style="border-color:rgba(123,110,255,.15)">
               <div class="bo-saving-title">🇮🇩 Indonesia — 1 forced backtrack</div>
-              <div class="bo-saving-desc">Bali (Nusa Dua) → Ubud (car) → Lombok (ferry) → Labuan Bajo (overland bus + ferry, 2 days) → back to Bali to connect onward. The Labuan Bajo→Bali hop (~$139pp) is the one backtrack — unavoidable since the Philippines flight departs Bali.</div>
-              <div class="bo-saving-amount" style="color:var(--gold)">~$278 backtrack</div>
+              <div class="bo-saving-desc">Bali (Nusa Dua) → Ubud (car) → Lombok (ferry) → Bali (ferry, 1 night) → Labuan Bajo (flight KE2DVJ) → back to Bali (flight KE2DVJ) to connect onward. The Labuan Bajo↔Bali flights (~$145pp each way) are the one backtrack — unavoidable since the Philippines flight departs Bali.</div>
+              <div class="bo-saving-amount" style="color:var(--gold)">~$290 backtrack</div>
             </div>
             <div class="bo-saving-item" style="border-color:rgba(123,110,255,.15)">
               <div class="bo-saving-title">🇻🇳 Vietnam — ✓ Classic North→South</div>

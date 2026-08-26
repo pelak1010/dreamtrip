@@ -4878,8 +4878,8 @@ function scrollToCountry(idSlug){
   const resultEl = document.getElementById('ccResult');
   const rateCache = {};
 
-  // Fallback rates relative to USD (updated May 2026 — live API tried first)
-  const FALLBACK_USD = {USD:1,EUR:0.924,GBP:0.790,AUD:1.557,NZD:1.692,IDR:16350,PHP:56.5,VND:25450,CNY:7.1,LKR:300,MVR:15.4,PEN:3.72,BRL:5.72,ARS:1409,SGD:1.347,THB:34.1,JPY:144.5};
+  // Fallback rates relative to USD (updated Aug 2026 — live API tried first)
+  const FALLBACK_USD = {USD:1,EUR:0.857,GBP:0.733,AUD:1.398,NZD:1.678,IDR:17726,PHP:61.74,VND:26145,CNY:6.72,LKR:328.8,MVR:15.46,PEN:3.36,BRL:5.16,ARS:1509,SGD:1.270,THB:32.71,JPY:159.2};
 
   function toUSD(amount, cur) {
     return cur === 'USD' ? amount : amount / FALLBACK_USD[cur];

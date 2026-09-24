@@ -3997,6 +3997,12 @@ function loadExpenses(){
       DEFAULT_EXPENSES.forEach(def=>{
         if(!data.some(e=>e.id===def.id)){ data.push({...def}); changed = true; }
       });
+      // Correction: this entry was cached with type 'other' before being recategorized as 'shopping'.
+      const typeMigrations = { 'exp-shopping-sep22': { oldType:'other', type:'shopping' } };
+      data.forEach(e=>{
+        const m = typeMigrations[e.id];
+        if(m && e.type === m.oldType){ e.type = m.type; changed = true; }
+      });
       if(changed) localStorage.setItem('dt_expenses_v1', JSON.stringify(data));
       return data;
     }

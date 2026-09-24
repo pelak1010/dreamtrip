@@ -4003,6 +4003,27 @@ function loadExpenses(){
         const m = typeMigrations[e.id];
         if(m && e.type === m.oldType){ e.type = m.type; changed = true; }
       });
+      // Self-healing sync: on every load we snapshot what DEFAULT_EXPENSES looked like.
+      // If a cached entry still matches the *previous* snapshot exactly (meaning the user
+      // never edited it themselves via the app), it's safe to fast-forward it to today's
+      // DEFAULT_EXPENSES — so a future data correction (e.g. a wrong category) reaches
+      // already-cached browsers automatically, without needing a hand-written migration
+      // like typeMigrations above. Entries the user has actually edited are left alone.
+      try{
+        const snapKey = 'dt_expenses_defaults_snapshot_v1';
+        const prevSnapshot = JSON.parse(localStorage.getItem(snapKey) || '{}');
+        data.forEach(e=>{
+          const def = DEFAULT_EXPENSES.find(x=>x.id===e.id);
+          const prev = prevSnapshot[e.id];
+          if(def && prev && JSON.stringify(e)===JSON.stringify(prev) && JSON.stringify(e)!==JSON.stringify(def)){
+            Object.assign(e, def);
+            changed = true;
+          }
+        });
+        const snapshot = {};
+        DEFAULT_EXPENSES.forEach(def=>{ snapshot[def.id] = {...def}; });
+        localStorage.setItem(snapKey, JSON.stringify(snapshot));
+      }catch(err){}
       if(changed) localStorage.setItem('dt_expenses_v1', JSON.stringify(data));
       return data;
     }

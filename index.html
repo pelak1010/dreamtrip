@@ -809,7 +809,7 @@ const DEFAULT_STOPS = [
   // INDONESIA
   { id:'s1',  country:'Indonesia', dest:'Bali', hotel:'Mercure Bali Nusa Dua', checkin:'2026-09-20', checkout:'2026-09-24', costPerNight:25.9975,  points:6000,  transport:503,   transportMode:'plane', accommodationType:'accor',   foodCostPerDay:15, notes:'Flight Queenstown (QT) → Bali $503pp. Arrive 22:30. Explore Nusa Dua, Seminyak, Uluwatu' },
   { id:'s1b', country:'Indonesia', dest:'Ubud', hotel:'Umah Delod Ubud', checkin:'2026-09-24', checkout:'2026-09-27', costPerNight:23.42, points:0, transport:25, transportMode:'car', accommodationType:'hotel', foodCostPerDay:15, notes:'Private car from Nusa Dua $50 (both) / $25pp. Booked: 2 adults, 3 nights, 1 room. Jl. Raya Pengosekan, 80571 Ubud, Indonesia. Rice terraces, Tegallalang, Monkey Forest, Ubud Palace, cooking class.' },
-  { id:'s2',  country:'Indonesia', dest:'Lombok', hotel:'Novotel Lombok Resort & Villas', checkin:'2026-09-27', checkout:'2026-10-01', costPerNight:47.5,  points:8000, transport:43,  transportMode:'ferry', accommodationType:'accor',   foodCostPerDay:15, notes:'Car Ubud→Bali ferry port $50 (both) + Ferry $18pp each way = $43pp. Tanjung Aan & Mawun beach day, Mount Rinjani views' },
+  { id:'s2',  country:'Indonesia', dest:'Lombok', hotel:'Novotel Lombok Resort & Villas', checkin:'2026-09-27', checkout:'2026-10-01', costPerNight:47.5,  points:8000, transport:0,  transportMode:'ferry', transportLegs:[{id:'leg1', mode:'car', cost:25, notes:'Car Ubud → Bali ferry port, $50 (both) / $25pp'},{id:'leg2', mode:'ferry', cost:18, notes:'Ferry Bali → Lombok (Bangsal Port), $18pp each way'},{id:'leg3', mode:'car', cost:22.2, notes:'Transport Bangsal Port → Novotel Lombok, $44.39 (both) / $22.20pp'}], accommodationType:'accor',   foodCostPerDay:15, notes:'Car Ubud→Bali ferry port $50 (both) + Ferry $18pp each way = $43pp + Bangsal Port→Novotel Lombok transport $44.39 (both). Tanjung Aan & Mawun beach day, Mount Rinjani views' },
   { id:'s2b', country:'Indonesia', dest:'Bali', hotel:'Novotel Bali Ngurah Rai Airport', checkin:'2026-10-01', checkout:'2026-10-02', costPerNight:70, points:2000, costIsCashOwed:true, transport:18, transportMode:'ferry', accommodationType:'accor', foodCostPerDay:15, notes:'Ferry back Lombok→Bali (~$18pp) after Lombok checkout. One night at Novotel Bali Ngurah Rai Airport ($70 after using 2,000 points) before flying to Labuan Bajo early the next morning.' },
   { id:'s3',  country:'Indonesia', dest:'Labuan Bajo (Komodo)', hotel:'Centro Bajo Hotel', checkin:'2026-10-02', checkout:'2026-10-06', costPerNight:26.05, points:0,     transport:145, transportMode:'plane', accommodationType:'hotel',   foodCostPerDay:15, notes:'Flight KE2DVJ, Denpasar → Labuan Bajo, $290 total (both) / $145pp. Dep 9:00am Oct 2, arr 10:10am Oct 2. Komodo dragon tour + liveaboard snorkel.' },
   { id:'s3b', country:'Indonesia', dest:'Bali', hotel:'Novotel Bali Ngurah Rai Airport', checkin:'2026-10-06', checkout:'2026-10-07', costPerNight:70, points:1000, costIsCashOwed:true, transport:145, transportMode:'plane', accommodationType:'accor', foodCostPerDay:15, notes:'Flight KE2DVJ, Labuan Bajo → Denpasar, $290 total (both) / $145pp. Dep 13:05 Oct 6, arr 14:20 Oct 6. One night at Novotel Bali Ngurah Rai Airport ($70 using 1,000 points) before flying to Cebu Oct 7.' },
@@ -2238,6 +2238,17 @@ function loadStops() {
         if(!s.notes && def.notes) { s.notes = def.notes; changed = true; }
         if(s.costIsCashOwed === undefined && def.costIsCashOwed) { s.costIsCashOwed = true; changed = true; }
       });
+      // Add Bangsal Port → Novotel Lombok transport leg ($44.39 both) to the Lombok stop's transport breakdown
+      const lombokS2 = data.find(s => s.id === 's2');
+      if (lombokS2 && parseFloat(lombokS2.transport) === 43 && !(lombokS2.transportLegs && lombokS2.transportLegs.length > 0)) {
+        lombokS2.transport = 0;
+        lombokS2.transportLegs = [
+          { id:'leg1', mode:'car', cost:25, notes:'Car Ubud → Bali ferry port, $50 (both) / $25pp' },
+          { id:'leg2', mode:'ferry', cost:18, notes:'Ferry Bali → Lombok (Bangsal Port), $18pp each way' },
+          { id:'leg3', mode:'car', cost:22.2, notes:'Transport Bangsal Port → Novotel Lombok, $44.39 (both) / $22.20pp' },
+        ];
+        changed = true;
+      }
       // Labuan Bajo now flown (KE2DVJ) instead of overland — insert Bali overnight after Lombok, fix flight dates
       if (!data.some(s => s.id === 's2b')) {
         const baliNightStop = { id:'s2b', country:'Indonesia', dest:'Bali', hotel:'', checkin:'2026-10-01', checkout:'2026-10-02', costPerNight:50, points:0, transport:18, transportMode:'ferry', accommodationType:'hotel', foodCostPerDay:15, notes:'Ferry back Lombok→Bali (~$18pp) after Lombok checkout. One night in Bali (hotel TBC) before flying to Labuan Bajo early the next morning.' };
@@ -4001,6 +4012,7 @@ const DEFAULT_EXPENSES = [
   { id:'exp-silver-making-sep26', date:'2026-09-26', type:'experience', country:'Indonesia', dest:'Bali', amount:99.04, who:'Both', notes:'Silver making classes' },
   { id:'exp-breakfast-sep26', date:'2026-09-26', type:'food', country:'Indonesia', dest:'Bali', amount:32.35, who:'Both', notes:'Breakfast' },
   { id:'exp-ferry-bali-lombok-sep27', date:'2026-09-27', type:'transport', country:'Indonesia', dest:'Lombok', amount:55.04, who:'Both', notes:'Ferry Bali → Lombok' },
+  { id:'exp-bangsal-novotel-sep27', date:'2026-09-27', type:'transport', country:'Indonesia', dest:'Lombok', amount:44.39, who:'Both', notes:'Transport Bangsal Port → Novotel Lombok' },
 ];
 function loadExpenses(){
   try{

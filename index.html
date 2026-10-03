@@ -4106,7 +4106,7 @@ function loadExpenses(){
         const m = amountMigrations[e.id];
         if(m && e.amount === m.oldAmount){ e.amount = m.amount; changed = true; }
       });
-      // Centro Bajo Hotel was paid from the ATM cash: flag it once so "Cash left" reflects it.
+      // Centro Bajo Hotel was paid from the ATM cash: flag it once so "Paid in cash" reflects it.
       // Only when paidCash was never set — an explicit false (user unticked it) is left alone.
       const paidCashMigrations = ['exp-centro-bajo'];
       data.forEach(e=>{

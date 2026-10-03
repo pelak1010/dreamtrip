@@ -26,6 +26,11 @@ Every time `index.html` is modified and saved, run these exact commands in seque
 - Ask for full entry detail when not already given: date, amount, destination/country, who paid (`Both`/a specific person), and a short note describing the expense.
 - After adding/editing an entry, follow the Git Deployment Protocol above (the entry lives in `index.html`, so the same add/commit/push steps apply).
 
+## ATM / Cash Withdrawals Are Not Expenses
+- When the user reports an ATM withdrawal ("ATM extraction"), add it to `DEFAULT_EXPENSES` with `type:'cash'` (the 🏧 "Cash Withdrawal (not counted)" type). It is reference-only: it is excluded from Total Spent, Per Person, every category tile and every daily total, and never feeds the itinerary. The things bought with that cash are logged as normal expenses, so counting the withdrawal too would double up.
+- Expenses paid from cash on hand should carry `paidCash:true` (the "Paid with cash" tickbox in the app). The Spending tab then shows Cash withdrawn / Paid in cash / Cash left. Ask the user which expenses were paid in cash if unclear — don't guess.
+- Never log an ATM withdrawal under accommodation/food/etc. In the Google Sheet the equivalent is the "Cash withdrawal" category, which the sheet's Amount (NZD) formula treats as $0.
+
 ## Data-Correction Safety Net (avoid a repeat of the Shopping-category bug)
 A past bug: an expense was miscategorized in `DEFAULT_EXPENSES`, the fix was pushed, but users' browsers already had the wrong value cached in `localStorage` — `loadExpenses()` only ever *adds* entries missing from the cache, it never corrects fields on an entry already there, so the fix silently failed to show up. Root-cause fixes going forward:
 - `loadExpenses()` now snapshots `DEFAULT_EXPENSES` into `localStorage` (`dt_expenses_defaults_snapshot_v1`) on every load, and self-heals any cached entry that still matches the *previous* snapshot exactly (i.e. the user never edited it) forward to the current `DEFAULT_EXPENSES` value. This means most future corrections to an existing entry's fields (category, amount, notes, etc.) will now reach already-cached browsers automatically on their next load — **do not remove or bypass this mechanism**.

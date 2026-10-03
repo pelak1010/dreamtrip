@@ -4229,7 +4229,6 @@ function renderSpending(){
   const cashEntries = expenses.filter(e=>e.type==='cash');
   const cashWithdrawn = cashEntries.reduce((a,e)=>a+(parseFloat(e.amount)||0),0);
   const cashSpent = counted.filter(e=>e.paidCash).reduce((a,e)=>a+(parseFloat(e.amount)||0),0);
-  const cashLeft = cashWithdrawn - cashSpent;
 
   const accorStops = stops.filter(s=>parseInt(s.points)>0);
   const accorUsed = accorStops.reduce((a,s)=>a+(parseInt(s.points)||0),0);
@@ -4250,7 +4249,6 @@ function renderSpending(){
     ${cashEntries.length ? `<div class="spend-type-grid" style="margin-top:.6rem">
       <div class="spend-type-card"><div class="stc-label">🏧 Cash withdrawn (not counted)</div><div class="stc-val">${fmtNZD(cashWithdrawn)}</div></div>
       <div class="spend-type-card"><div class="stc-label">💵 Paid in cash (already in totals)</div><div class="stc-val">${fmtNZD(cashSpent)}</div></div>
-      <div class="spend-type-card"><div class="stc-label">👛 Cash left</div><div class="stc-val" style="color:var(--teal)">${fmtNZD(cashLeft)}</div></div>
     </div>` : ''}
     <div class="spend-country" style="margin-top:1rem">
       <div class="spend-country-head"><h3>🏆 Accor Points Tracker</h3><span class="spend-country-total" style="color:var(--gold)">${accorUsed.toLocaleString()} used / ${INITIAL_ACCOR.toLocaleString()} start</span></div>

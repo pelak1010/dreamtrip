@@ -251,6 +251,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .exp-row .exp-date{font-size:.65rem;color:rgba(245,237,214,.35);white-space:nowrap}
 .exp-row .exp-desc{flex:1;color:rgba(245,237,214,.7)}
 .exp-row .exp-amt{color:var(--sand);font-weight:600;white-space:nowrap}
+.exp-row.cash-row{border-style:dashed;opacity:.6}
+.exp-row.cash-row .exp-amt{color:rgba(245,237,214,.45);font-weight:400}
 .exp-row .exp-actions{display:flex;gap:.2rem}
 .exp-row .exp-actions button{background:none;border:none;color:rgba(245,237,214,.35);cursor:pointer;font-size:.85rem;padding:.1rem .3rem}
 .exp-row .exp-actions button:hover{color:var(--coral)}
@@ -759,6 +761,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
           <option value="transport">🚌 Transport</option>
           <option value="shopping">🛍 Shopping</option>
           <option value="other">📦 Other</option>
+          <option value="cash">🏧 Cash withdrawal (not counted)</option>
         </select>
       </div>
       <div class="modal-field"><label>Country</label>
@@ -768,6 +771,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
       <div class="modal-field"><label>Amount ($NZD)</label><input type="number" step="0.01" id="e-amount" placeholder="0"></div>
       <div class="modal-field"><label>Paid by / for</label><input id="e-who" placeholder="e.g. Both, Christian, Abi"></div>
       <div class="modal-field full"><label>Notes</label><textarea id="e-notes" rows="2" placeholder="What was it for?"></textarea></div>
+      <div class="modal-field full"><label style="display:flex;align-items:center;gap:.5rem;cursor:pointer"><input type="checkbox" id="e-paidcash"> Paid with cash (comes out of cash on hand)</label></div>
     </div>
     <div class="modal-actions">
       <button class="m-btn cancel" onclick="closeExpenseModal()">Cancel</button>
@@ -811,7 +815,7 @@ const DEFAULT_STOPS = [
   { id:'s1b', country:'Indonesia', dest:'Ubud', hotel:'Umah Delod Ubud', checkin:'2026-09-24', checkout:'2026-09-27', costPerNight:23.42, points:0, transport:24.59, transportMode:'car', accommodationType:'hotel', foodCostPerDay:30.0633, actualActivities:227.64, notes:'Grab Nusa Dua → Ubud $49.18 (both). Booked: 2 adults, 3 nights, 1 room. Jl. Raya Pengosekan, 80571 Ubud, Indonesia. Rice terraces, Tegallalang, Monkey Forest, Ubud Palace, cooking class.' },
   { id:'s2',  country:'Indonesia', dest:'Lombok', hotel:'Novotel Lombok Resort & Villas', checkin:'2026-09-27', checkout:'2026-10-01', costPerNight:47.5,  points:8000, costIsCashOwed:true, transport:0,  transportMode:'ferry', transportLegs:[{id:'leg2', mode:'ferry', cost:27.52, notes:'Ferry Bali → Lombok, $55.04 (both) / $27.52pp'},{id:'leg3', mode:'car', cost:22.195, notes:'Transport Bangsal Port → Novotel Lombok, $44.39 (both) / $22.20pp'},{id:'leg4', mode:'car', cost:6.08, notes:'Grab (Sep 30), $12.16 (both) / $6.08pp'}], accommodationType:'accor',   foodCostPerDay:16.32, actualActivities:301.30, notes:'Novotel Lombok: $190 cash + 8,000 Accor points. Ferry Bali→Lombok $55.04 (both) + Bangsal Port→Novotel $44.39 (both) + Grab $12.16. Activities: waterfall + rice field guide $228.88, yoga $30.42, notebook making $42.' },
   { id:'s2b', country:'Indonesia', dest:'Bali', hotel:'Novotel Bali Ngurah Rai Airport', checkin:'2026-10-01', checkout:'2026-10-02', costPerNight:70, points:2000, costIsCashOwed:true, transport:91.085, transportMode:'ferry', accommodationType:'accor', foodCostPerDay:43.695, actualActivities:0, notes:'Ferry back Lombok→Bali $108.15 (both) + Novotel Lombok→ferry transport $55 + Grab to Novotel $19.02. One night at Novotel Bali Ngurah Rai Airport ($70 after using 2,000 points) before flying to Labuan Bajo early the next morning.' },
-  { id:'s3',  country:'Indonesia', dest:'Labuan Bajo (Komodo)', hotel:'Centro Bajo Hotel', checkin:'2026-10-02', checkout:'2026-10-06', costPerNight:31.25, points:0,     transport:145, transportMode:'plane', accommodationType:'hotel',   foodCostPerDay:21.18625, actualActivities:378.84, notes:'Flight KE2DVJ, Denpasar → Labuan Bajo, $290 total (both) / $145pp. Dep 9:00am Oct 2, arr 10:10am Oct 2. Centro Bajo Hotel $125 (4 nights). Komodo Island tour paid $328.84 (both) + Manta Point/Kanawa snorkel ~$25pp budget. Food = Oct 2 actual $79.49 + $15pp/day budget for the remaining 3 days.' },
+  { id:'s3',  country:'Indonesia', dest:'Labuan Bajo (Komodo)', hotel:'Centro Bajo Hotel', checkin:'2026-10-02', checkout:'2026-10-06', costPerNight:31.25, points:0,     transport:145, transportMode:'plane', accommodationType:'hotel',   foodCostPerDay:25.1575, actualActivities:505.84, notes:'Flight KE2DVJ, Denpasar → Labuan Bajo, $290 total (both) / $145pp. Dep 9:00am Oct 2, arr 10:10am Oct 2. Centro Bajo Hotel $125 (4 nights, paid in cash). Komodo Island tour $328.84 + park entrance $80 (both), Crocs $47, Manta Point/Kanawa snorkel ~$25pp budget. Food = Oct 2–3 actual $141.26 + $15pp/day budget for the remaining 2 days.' },
   { id:'s3b', country:'Indonesia', dest:'Bali', hotel:'Novotel Bali Ngurah Rai Airport', checkin:'2026-10-06', checkout:'2026-10-07', costPerNight:70, points:1000, costIsCashOwed:true, transport:145, transportMode:'plane', accommodationType:'accor', foodCostPerDay:15, notes:'Flight KE2DVJ, Labuan Bajo → Denpasar, $290 total (both) / $145pp. Dep 13:05 Oct 6, arr 14:20 Oct 6. One night at Novotel Bali Ngurah Rai Airport ($70 using 1,000 points) before flying to Cebu Oct 7.' },
 
   // PHILIPPINES
@@ -2431,6 +2435,16 @@ function loadStops() {
           }
         }
       });
+      // v17 (Oct 3 2026): Labuan Bajo re-synced after the Oct 3 expenses (food, Komodo park entrance, Crocs).
+      // Only applies if the stop still holds the v16 values.
+      const s3v17 = data.find(s => s.id === 's3');
+      if (s3v17 && s3v17.actualActivities === 378.84 && s3v17.foodCostPerDay === 21.18625) {
+        Object.assign(s3v17, {
+          foodCostPerDay:25.1575, actualActivities:505.84,
+          notes:'Flight KE2DVJ, Denpasar → Labuan Bajo, $290 total (both) / $145pp. Dep 9:00am Oct 2, arr 10:10am Oct 2. Centro Bajo Hotel $125 (4 nights, paid in cash). Komodo Island tour $328.84 + park entrance $80 (both), Crocs $47, Manta Point/Kanawa snorkel ~$25pp budget. Food = Oct 2–3 actual $141.26 + $15pp/day budget for the remaining 2 days.'
+        });
+        changed = true;
+      }
       if(changed) localStorage.setItem('dt_stops_v12', JSON.stringify(data));
       return data;
     }
@@ -3976,6 +3990,9 @@ const EXPENSE_TYPES = {
   transport:      { icon:'🚌', label:'Transport' },
   shopping:       { icon:'🛍', label:'Shopping' },
   other:          { icon:'📦', label:'Other' },
+  // ATM withdrawals: logged for reference only. Never counted in any total — the things bought with
+  // the cash are logged as normal expenses (tick "Paid with cash"), so counting the withdrawal too would double up.
+  cash:           { icon:'🏧', label:'Cash Withdrawal (not counted)' },
 };
 const DEFAULT_EXPENSES = [
   { id:'exp-qt-bali-flight', date:'2026-09-20', type:'transport', country:'Indonesia', dest:'Bali', amount:1006, who:'Both', notes:'Flight Queenstown (QT) → Bali, $503pp' },
@@ -4053,11 +4070,16 @@ const DEFAULT_EXPENSES = [
   { id:'exp-grab-novotel-oct1', date:'2026-10-01', type:'transport', country:'Indonesia', dest:'Bali', amount:19.02, who:'Both', notes:'Grab to Novotel' },
   { id:'exp-food-novotel-lombok-oct1', date:'2026-10-01', type:'food', country:'Indonesia', dest:'Lombok', amount:121.94, who:'Both', notes:'Food at Novotel Lombok' },
   { id:'exp-novotel-dinner-bali-oct2', date:'2026-10-02', type:'food', country:'Indonesia', dest:'Bali', amount:87.39, who:'Both', notes:'Novotel Dinner Bali' },
-  { id:'exp-atm-oct2', date:'2026-10-02', type:'accommodation', country:'Indonesia', dest:'Bali', amount:126, who:'Both', notes:'ATM extraction' },
+  { id:'exp-atm-oct2', date:'2026-10-02', type:'cash', country:'Indonesia', dest:'Bali', amount:126, who:'Both', notes:'ATM extraction' },
   { id:'exp-cafe-back-to-bajo-oct2', date:'2026-10-02', type:'food', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:16.2, who:'Both', notes:'Cafe Back to Bajo' },
   { id:'exp-roxymart-groceries-oct2', date:'2026-10-02', type:'food', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:19.25, who:'Both', notes:'Roxy Mart groceries' },
   { id:'exp-water-oct2', date:'2026-10-02', type:'food', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:1.41, who:'Both', notes:'Water' },
   { id:'exp-smokehouse-dinner-oct2', date:'2026-10-02', type:'food', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:42.63, who:'Both', notes:'Smoke house dinner' },
+  { id:'exp-atm2-oct2', date:'2026-10-02', type:'cash', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:200, who:'Both', notes:'ATM extraction' },
+  { id:'exp-cafe-melinja-oct3', date:'2026-10-03', type:'food', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:18.93, who:'Both', notes:'Cafe Melinja' },
+  { id:'exp-dinner-la-cucina-oct3', date:'2026-10-03', type:'food', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:42.84, who:'Both', notes:'Dinner La Cucina' },
+  { id:'exp-komodo-park-entrance-oct3', date:'2026-10-03', type:'experience', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:80, who:'Both', notes:'Entrance Komodo Park' },
+  { id:'exp-crocs-oct3', date:'2026-10-03', type:'shopping', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:47, who:'Both', notes:'Crocs' },
 ];
 function loadExpenses(){
   try{
@@ -4069,7 +4091,11 @@ function loadExpenses(){
         if(!data.some(e=>e.id===def.id)){ data.push({...def}); changed = true; }
       });
       // Correction: this entry was cached with type 'other' before being recategorized as 'shopping'.
-      const typeMigrations = { 'exp-shopping-sep22': { oldType:'other', type:'shopping' } };
+      // 'exp-atm-oct2' was logged as accommodation before ATM withdrawals became a non-counted 'cash' type.
+      const typeMigrations = {
+        'exp-shopping-sep22': { oldType:'other', type:'shopping' },
+        'exp-atm-oct2': { oldType:'accommodation', type:'cash' },
+      };
       data.forEach(e=>{
         const m = typeMigrations[e.id];
         if(m && e.type === m.oldType){ e.type = m.type; changed = true; }
@@ -4138,6 +4164,7 @@ function openExpenseModal(id){
     document.getElementById('e-amount').value = exp.amount;
     document.getElementById('e-who').value = exp.who||'';
     document.getElementById('e-notes').value = exp.notes||'';
+    document.getElementById('e-paidcash').checked = !!exp.paidCash;
   } else {
     document.getElementById('expense-modal-title').textContent = 'Add Expense';
     document.getElementById('e-date').value = new Date().toISOString().slice(0,10);
@@ -4148,6 +4175,7 @@ function openExpenseModal(id){
     document.getElementById('e-amount').value = '';
     document.getElementById('e-who').value = '';
     document.getElementById('e-notes').value = '';
+    document.getElementById('e-paidcash').checked = false;
   }
   document.getElementById('expense-modal').classList.add('open');
 }
@@ -4160,12 +4188,15 @@ function saveExpenseModal(){
   const amount = parseFloat(document.getElementById('e-amount').value) || 0;
   const who = document.getElementById('e-who').value.trim();
   const notes = document.getElementById('e-notes').value.trim();
+  const paidCash = type !== 'cash' && document.getElementById('e-paidcash').checked;
   if(!dest || amount<=0){ showToast('Add a destination and an amount'); return; }
   if(editingExpenseId){
     const exp = expenses.find(e=>e.id===editingExpenseId);
-    if(exp) Object.assign(exp,{date,type,country,dest,amount,who,notes});
+    if(exp){ Object.assign(exp,{date,type,country,dest,amount,who,notes}); if(paidCash) exp.paidCash = true; else delete exp.paidCash; }
   } else {
-    expenses.push({ id:'exp'+Date.now()+Math.floor(Math.random()*1000), date, type, country, dest, amount, who, notes });
+    const entry = { id:'exp'+Date.now()+Math.floor(Math.random()*1000), date, type, country, dest, amount, who, notes };
+    if(paidCash) entry.paidCash = true;
+    expenses.push(entry);
   }
   saveExpensesData();
   closeExpenseModal();
@@ -4183,10 +4214,16 @@ function renderSpending(){
   const contentEl = document.getElementById('spend-content');
   if(!summaryEl || !contentEl) return;
 
-  const grandTotal = expenses.reduce((a,e)=>a+(parseFloat(e.amount)||0),0);
+  // Cash withdrawals are reference-only: they never count toward any total or category tile.
+  const counted = expenses.filter(e=>e.type!=='cash');
+  const grandTotal = counted.reduce((a,e)=>a+(parseFloat(e.amount)||0),0);
   const byType = {};
   Object.keys(EXPENSE_TYPES).forEach(t=>byType[t]=0);
-  expenses.forEach(e=>{ byType[e.type] = (byType[e.type]||0) + (parseFloat(e.amount)||0); });
+  counted.forEach(e=>{ byType[e.type] = (byType[e.type]||0) + (parseFloat(e.amount)||0); });
+  const cashEntries = expenses.filter(e=>e.type==='cash');
+  const cashWithdrawn = cashEntries.reduce((a,e)=>a+(parseFloat(e.amount)||0),0);
+  const cashSpent = counted.filter(e=>e.paidCash).reduce((a,e)=>a+(parseFloat(e.amount)||0),0);
+  const cashLeft = cashWithdrawn - cashSpent;
 
   const accorStops = stops.filter(s=>parseInt(s.points)>0);
   const accorUsed = accorStops.reduce((a,s)=>a+(parseInt(s.points)||0),0);
@@ -4197,13 +4234,18 @@ function renderSpending(){
     <div class="spend-total-banner">
       <div class="st-item"><div class="st-label">Total Spent</div><div class="st-val" style="color:var(--coral)">${fmtNZD(grandTotal)}</div></div>
       <div class="st-item"><div class="st-label">Per Person</div><div class="st-val" style="color:var(--teal)">${fmtNZD(grandTotal/2)}</div></div>
-      <div class="st-item"><div class="st-label">Entries Logged</div><div class="st-val">${expenses.length}</div></div>
+      <div class="st-item"><div class="st-label">Entries Logged</div><div class="st-val">${counted.length}</div></div>
       <div class="st-item"><div class="st-label">Accor Points Left</div><div class="st-val" style="color:var(--gold)">${accorLeft.toLocaleString()}</div></div>
       <div class="st-item"><div class="st-label">Avg Accom Cost/Night</div><div class="st-val" style="color:var(--teal)">${fmtNZD(avgAccomCost)}</div></div>
     </div>
     <div class="spend-type-grid">
-      ${Object.entries(EXPENSE_TYPES).map(([k,v])=>`<div class="spend-type-card"><div class="stc-label">${v.icon} ${v.label}</div><div class="stc-val">${fmtNZD(byType[k]||0)}</div></div>`).join('')}
+      ${Object.entries(EXPENSE_TYPES).filter(([k])=>k!=='cash').map(([k,v])=>`<div class="spend-type-card"><div class="stc-label">${v.icon} ${v.label}</div><div class="stc-val">${fmtNZD(byType[k]||0)}</div></div>`).join('')}
     </div>
+    ${cashEntries.length ? `<div class="spend-type-grid" style="margin-top:.6rem">
+      <div class="spend-type-card"><div class="stc-label">🏧 Cash withdrawn (not counted)</div><div class="stc-val">${fmtNZD(cashWithdrawn)}</div></div>
+      <div class="spend-type-card"><div class="stc-label">💵 Paid in cash (already in totals)</div><div class="stc-val">${fmtNZD(cashSpent)}</div></div>
+      <div class="spend-type-card"><div class="stc-label">👛 Cash left</div><div class="stc-val" style="color:var(--teal)">${fmtNZD(cashLeft)}</div></div>
+    </div>` : ''}
     <div class="spend-country" style="margin-top:1rem">
       <div class="spend-country-head"><h3>🏆 Accor Points Tracker</h3><span class="spend-country-total" style="color:var(--gold)">${accorUsed.toLocaleString()} used / ${INITIAL_ACCOR.toLocaleString()} start</span></div>
       ${accorStops.length ? accorStops.map(s=>`<div class="exp-row">
@@ -4228,13 +4270,14 @@ function renderSpending(){
 
   contentEl.innerHTML = dates.map(date=>{
     const dExpenses = expenses.filter(e=>e.date===date);
-    const dTotal = dExpenses.reduce((a,e)=>a+(parseFloat(e.amount)||0),0);
+    const dTotal = dExpenses.filter(e=>e.type!=='cash').reduce((a,e)=>a+(parseFloat(e.amount)||0),0);
     const rows = dExpenses.map(e=>{
       const t = EXPENSE_TYPES[e.type]||EXPENSE_TYPES.other;
-      return `<div class="exp-row">
+      const isCash = e.type==='cash';
+      return `<div class="exp-row${isCash?' cash-row':''}">
         <span class="exp-type-badge" title="${t.label}">${t.icon}</span>
         <span class="exp-date">${COUNTRY_FLAGS[e.country]||'🌍'} ${e.dest}</span>
-        <span class="exp-desc">${(e.notes||t.label)}${e.who?` <small style="opacity:.5">(${e.who})</small>`:''}</span>
+        <span class="exp-desc">${(e.notes||t.label)}${e.who?` <small style="opacity:.5">(${e.who})</small>`:''}${isCash?' <small style="opacity:.6">· not counted</small>':''}${e.paidCash?' <small style="opacity:.6">· 💵 cash</small>':''}</span>
         <span class="exp-amt">${fmtNZD(e.amount)}</span>
         <span class="exp-actions">
           <button onclick="openExpenseModal('${e.id}')" title="Edit">✎</button>

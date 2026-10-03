@@ -28,7 +28,7 @@ Every time `index.html` is modified and saved, run these exact commands in seque
 
 ## ATM / Cash Withdrawals Are Not Expenses
 - When the user reports an ATM withdrawal ("ATM extraction"), add it to `DEFAULT_EXPENSES` with `type:'cash'` (the 🏧 "Cash Withdrawal (not counted)" type). It is reference-only: it is excluded from Total Spent, Per Person, every category tile and every daily total, and never feeds the itinerary. The things bought with that cash are logged as normal expenses, so counting the withdrawal too would double up.
-- Expenses paid from cash on hand should carry `paidCash:true` (the "Paid with cash" tickbox in the app). The Spending tab then shows Cash withdrawn / Paid in cash / Cash left. Ask the user which expenses were paid in cash if unclear — don't guess.
+- Expenses paid from cash on hand should carry `paidCash:true` (the "Paid with cash" tickbox in the app). The Spending tab then shows Cash withdrawn / Paid in cash (there is deliberately no "Cash left" figure — the user asked for it to be removed). Ask the user which expenses were paid in cash if unclear — don't guess.
 - Never log an ATM withdrawal under accommodation/food/etc. In the Google Sheet the equivalent is the "Cash withdrawal" category, which the sheet's Amount (NZD) formula treats as $0.
 
 ## Data-Correction Safety Net (avoid a repeat of the Shopping-category bug)

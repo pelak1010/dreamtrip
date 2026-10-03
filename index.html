@@ -807,11 +807,11 @@ const DEFAULT_ICT = {
 // ═══════════════════════════════════════════
 const DEFAULT_STOPS = [
   // INDONESIA
-  { id:'s1',  country:'Indonesia', dest:'Bali', hotel:'Mercure Bali Nusa Dua', checkin:'2026-09-20', checkout:'2026-09-24', costPerNight:25.9975,  points:6000,  transport:503,   transportMode:'plane', accommodationType:'accor',   foodCostPerDay:15, notes:'Flight Queenstown (QT) → Bali $503pp. Arrive 22:30. Explore Nusa Dua, Seminyak, Uluwatu' },
-  { id:'s1b', country:'Indonesia', dest:'Ubud', hotel:'Umah Delod Ubud', checkin:'2026-09-24', checkout:'2026-09-27', costPerNight:23.42, points:0, transport:25, transportMode:'car', accommodationType:'hotel', foodCostPerDay:15, notes:'Private car from Nusa Dua $50 (both) / $25pp. Booked: 2 adults, 3 nights, 1 room. Jl. Raya Pengosekan, 80571 Ubud, Indonesia. Rice terraces, Tegallalang, Monkey Forest, Ubud Palace, cooking class.' },
-  { id:'s2',  country:'Indonesia', dest:'Lombok', hotel:'Novotel Lombok Resort & Villas', checkin:'2026-09-27', checkout:'2026-10-01', costPerNight:47.5,  points:8000, transport:0,  transportMode:'ferry', transportLegs:[{id:'leg1', mode:'car', cost:25, notes:'Car Ubud → Bali ferry port, $50 (both) / $25pp'},{id:'leg2', mode:'ferry', cost:18, notes:'Ferry Bali → Lombok (Bangsal Port), $18pp each way'},{id:'leg3', mode:'car', cost:22.2, notes:'Transport Bangsal Port → Novotel Lombok, $44.39 (both) / $22.20pp'}], accommodationType:'accor',   foodCostPerDay:15, notes:'Car Ubud→Bali ferry port $50 (both) + Ferry $18pp each way = $43pp + Bangsal Port→Novotel Lombok transport $44.39 (both). Tanjung Aan & Mawun beach day, Mount Rinjani views' },
-  { id:'s2b', country:'Indonesia', dest:'Bali', hotel:'Novotel Bali Ngurah Rai Airport', checkin:'2026-10-01', checkout:'2026-10-02', costPerNight:70, points:2000, costIsCashOwed:true, transport:18, transportMode:'ferry', accommodationType:'accor', foodCostPerDay:15, notes:'Ferry back Lombok→Bali (~$18pp) after Lombok checkout. One night at Novotel Bali Ngurah Rai Airport ($70 after using 2,000 points) before flying to Labuan Bajo early the next morning.' },
-  { id:'s3',  country:'Indonesia', dest:'Labuan Bajo (Komodo)', hotel:'Centro Bajo Hotel', checkin:'2026-10-02', checkout:'2026-10-06', costPerNight:26.05, points:0,     transport:145, transportMode:'plane', accommodationType:'hotel',   foodCostPerDay:15, notes:'Flight KE2DVJ, Denpasar → Labuan Bajo, $290 total (both) / $145pp. Dep 9:00am Oct 2, arr 10:10am Oct 2. Komodo dragon tour + liveaboard snorkel.' },
+  { id:'s1',  country:'Indonesia', dest:'Bali', hotel:'Mercure Bali Nusa Dua', checkin:'2026-09-20', checkout:'2026-09-24', costPerNight:28.7375,  points:6000, costIsCashOwed:true, transport:535.355, transportMode:'plane', accommodationType:'accor',   foodCostPerDay:0, actualActivities:189.35, notes:'Flight Queenstown (QT) → Bali $1,006 total (both) / $503pp. Arrive 22:30. Actuals: Mercure $103.99 + $10.96 balance cash + 6,000 Accor points; Grab $18.71 airport + $46. Activities/other: Uluwatu, Padang Padang, Airalo SIM, shopping.' },
+  { id:'s1b', country:'Indonesia', dest:'Ubud', hotel:'Umah Delod Ubud', checkin:'2026-09-24', checkout:'2026-09-27', costPerNight:23.42, points:0, transport:24.59, transportMode:'car', accommodationType:'hotel', foodCostPerDay:30.0633, actualActivities:227.64, notes:'Grab Nusa Dua → Ubud $49.18 (both). Booked: 2 adults, 3 nights, 1 room. Jl. Raya Pengosekan, 80571 Ubud, Indonesia. Rice terraces, Tegallalang, Monkey Forest, Ubud Palace, cooking class.' },
+  { id:'s2',  country:'Indonesia', dest:'Lombok', hotel:'Novotel Lombok Resort & Villas', checkin:'2026-09-27', checkout:'2026-10-01', costPerNight:47.5,  points:8000, costIsCashOwed:true, transport:0,  transportMode:'ferry', transportLegs:[{id:'leg2', mode:'ferry', cost:27.52, notes:'Ferry Bali → Lombok, $55.04 (both) / $27.52pp'},{id:'leg3', mode:'car', cost:22.195, notes:'Transport Bangsal Port → Novotel Lombok, $44.39 (both) / $22.20pp'},{id:'leg4', mode:'car', cost:6.08, notes:'Grab (Sep 30), $12.16 (both) / $6.08pp'}], accommodationType:'accor',   foodCostPerDay:16.32, actualActivities:301.30, notes:'Novotel Lombok: $190 cash + 8,000 Accor points. Ferry Bali→Lombok $55.04 (both) + Bangsal Port→Novotel $44.39 (both) + Grab $12.16. Activities: waterfall + rice field guide $228.88, yoga $30.42, notebook making $42.' },
+  { id:'s2b', country:'Indonesia', dest:'Bali', hotel:'Novotel Bali Ngurah Rai Airport', checkin:'2026-10-01', checkout:'2026-10-02', costPerNight:70, points:2000, costIsCashOwed:true, transport:91.085, transportMode:'ferry', accommodationType:'accor', foodCostPerDay:43.695, actualActivities:0, notes:'Ferry back Lombok→Bali $108.15 (both) + Novotel Lombok→ferry transport $55 + Grab to Novotel $19.02. One night at Novotel Bali Ngurah Rai Airport ($70 after using 2,000 points) before flying to Labuan Bajo early the next morning.' },
+  { id:'s3',  country:'Indonesia', dest:'Labuan Bajo (Komodo)', hotel:'Centro Bajo Hotel', checkin:'2026-10-02', checkout:'2026-10-06', costPerNight:31.25, points:0,     transport:145, transportMode:'plane', accommodationType:'hotel',   foodCostPerDay:21.18625, actualActivities:378.84, notes:'Flight KE2DVJ, Denpasar → Labuan Bajo, $290 total (both) / $145pp. Dep 9:00am Oct 2, arr 10:10am Oct 2. Centro Bajo Hotel $125 (4 nights). Komodo Island tour paid $328.84 (both) + Manta Point/Kanawa snorkel ~$25pp budget. Food = Oct 2 actual $79.49 + $15pp/day budget for the remaining 3 days.' },
   { id:'s3b', country:'Indonesia', dest:'Bali', hotel:'Novotel Bali Ngurah Rai Airport', checkin:'2026-10-06', checkout:'2026-10-07', costPerNight:70, points:1000, costIsCashOwed:true, transport:145, transportMode:'plane', accommodationType:'accor', foodCostPerDay:15, notes:'Flight KE2DVJ, Labuan Bajo → Denpasar, $290 total (both) / $145pp. Dep 13:05 Oct 6, arr 14:20 Oct 6. One night at Novotel Bali Ngurah Rai Airport ($70 using 1,000 points) before flying to Cebu Oct 7.' },
 
   // PHILIPPINES
@@ -2407,6 +2407,30 @@ function loadStops() {
           s.checkin = m4.checkin; s.checkout = m4.checkout; changed = true;
         }
       });
+      // v16 (Oct 2026): Indonesia stops synced to the logged expenses (cash accommodation incl. Accor
+      // cash-owed, actual transport/food, actualActivities). Applied once per cached stop — a stop that
+      // already has actualActivities has been migrated (or edited since) and is left alone.
+      const actualsMigrationsV16 = {
+        s1:  { costPerNight:28.7375, costIsCashOwed:true, transport:535.355, foodCostPerDay:0, actualActivities:189.35,
+               notes:'Flight Queenstown (QT) → Bali $1,006 total (both) / $503pp. Arrive 22:30. Actuals: Mercure $103.99 + $10.96 balance cash + 6,000 Accor points; Grab $18.71 airport + $46. Activities/other: Uluwatu, Padang Padang, Airalo SIM, shopping.' },
+        s1b: { transport:24.59, foodCostPerDay:30.0633, actualActivities:227.64 },
+        s2:  { costIsCashOwed:true, transport:0, foodCostPerDay:16.32, actualActivities:301.30,
+               transportLegs:[{id:'leg2', mode:'ferry', cost:27.52, notes:'Ferry Bali → Lombok, $55.04 (both) / $27.52pp'},{id:'leg3', mode:'car', cost:22.195, notes:'Transport Bangsal Port → Novotel Lombok, $44.39 (both) / $22.20pp'},{id:'leg4', mode:'car', cost:6.08, notes:'Grab (Sep 30), $12.16 (both) / $6.08pp'}],
+               notes:'Novotel Lombok: $190 cash + 8,000 Accor points. Ferry Bali→Lombok $55.04 (both) + Bangsal Port→Novotel $44.39 (both) + Grab $12.16. Activities: waterfall + rice field guide $228.88, yoga $30.42, notebook making $42.' },
+        s2b: { transport:91.085, foodCostPerDay:43.695, actualActivities:0,
+               notes:'Ferry back Lombok→Bali $108.15 (both) + Novotel Lombok→ferry transport $55 + Grab to Novotel $19.02. One night at Novotel Bali Ngurah Rai Airport ($70 after using 2,000 points) before flying to Labuan Bajo early the next morning.' },
+        s3:  { costPerNight:31.25, foodCostPerDay:21.18625, actualActivities:378.84,
+               notes:'Flight KE2DVJ, Denpasar → Labuan Bajo, $290 total (both) / $145pp. Dep 9:00am Oct 2, arr 10:10am Oct 2. Centro Bajo Hotel $125 (4 nights). Komodo Island tour paid $328.84 (both) + Manta Point/Kanawa snorkel ~$25pp budget. Food = Oct 2 actual $79.49 + $15pp/day budget for the remaining 3 days.' },
+      };
+      data.forEach(s => {
+        const m16 = actualsMigrationsV16[s.id];
+        if (m16 && s.country === 'Indonesia' && s.actualActivities === undefined) {
+          Object.assign(s, JSON.parse(JSON.stringify(m16))); changed = true;
+          if (s.id === 's1b' && typeof s.notes === 'string') {
+            s.notes = s.notes.replace('Private car from Nusa Dua $50 (both) / $25pp.', 'Grab Nusa Dua → Ubud $49.18 (both).');
+          }
+        }
+      });
       if(changed) localStorage.setItem('dt_stops_v12', JSON.stringify(data));
       return data;
     }
@@ -2505,8 +2529,12 @@ function calcActivityAllowance(stopList=stops) {
     const countries = [...new Set(stopList.map(s=>s.country))];
     return countries.reduce((t,c)=>t+calcActivityAllowance(stopList.filter(s=>s.country===c)),0);
   }
-  const dpTotal = stopList.reduce((a,s) => a + calcStopDailyPlanCost(s.id), 0);
-  if(dpTotal > 0) return dpTotal * 2;
+  // actualActivities (NZD, both people) = logged experiences/other/shopping (+ remaining budget for an in-progress stop);
+  // it replaces that stop's daily-plan price. Stops without it still use the per-person daily plan x2.
+  const hasActual = s => s.actualActivities !== undefined && s.actualActivities !== null;
+  const actualTotal = stopList.reduce((a,s) => a + (hasActual(s) ? (parseFloat(s.actualActivities)||0) : 0), 0);
+  const dpTotal = stopList.reduce((a,s) => a + (hasActual(s) ? 0 : calcStopDailyPlanCost(s.id)), 0);
+  if(actualTotal > 0 || dpTotal > 0) return actualTotal + dpTotal * 2;
   return stopList.reduce((a,s)=>a+nightsBetween(s.checkin,s.checkout),0) * ACTIVITY_ALLOWANCE_PP_DAY * 2;
 }
 function parsePriceNum(str) {
@@ -4749,8 +4777,9 @@ function renderBudget() {
     grandTotal+=cActivityAllowance;
     const cTotal = cStops.reduce((a,s)=>a+calcStopCost(s),0) + cActivityAllowance;
     const cDpTotal = cStops.reduce((a,s)=>a+calcStopDailyPlanCost(s.id),0);
-    const allowanceRow = cDpTotal > 0
-      ? `<div class="bc-row"><span class="bc-dest">Planned experiences (${fmtNZD(cDpTotal)} pp)</span><span class="bc-amt" style="color:var(--purple)">${fmtNZD(cActivityAllowance)}</span></div>`
+    const cHasActuals = cStops.some(s=>s.actualActivities!==undefined && s.actualActivities!==null);
+    const allowanceRow = (cDpTotal > 0 || cHasActuals)
+      ? `<div class="bc-row"><span class="bc-dest">Planned experiences (${fmtNZD(cActivityAllowance/2)} pp)</span><span class="bc-amt" style="color:var(--purple)">${fmtNZD(cActivityAllowance)}</span></div>`
       : `<div class="bc-row"><span class="bc-dest">Activities buffer (${fmtNZD(ACTIVITY_ALLOWANCE_PP_DAY)}/day pp)</span><span class="bc-amt" style="color:var(--purple)">${fmtNZD(cActivityAllowance)}</span></div>`;
     html+=`<div class="budget-card"><div class="bc-title">${COUNTRY_FLAGS[country]||'🌍'} ${country}</div>${rows.join('')}${allowanceRow}<div class="bc-row" style="margin-top:.3rem;border-top:1px solid var(--border);padding-top:.4rem"><span class="bc-dest">Subtotal</span><span class="bc-amt" style="color:var(--teal)">${fmtNZD(cTotal)}</span></div></div>`;
   });

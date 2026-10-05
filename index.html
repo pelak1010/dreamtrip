@@ -815,7 +815,7 @@ const DEFAULT_STOPS = [
   { id:'s1b', country:'Indonesia', dest:'Ubud', hotel:'Umah Delod Ubud', checkin:'2026-09-24', checkout:'2026-09-27', costPerNight:23.42, points:0, transport:24.59, transportMode:'car', accommodationType:'hotel', foodCostPerDay:30.0633, actualActivities:227.64, notes:'Grab Nusa Dua → Ubud $49.18 (both). Booked: 2 adults, 3 nights, 1 room. Jl. Raya Pengosekan, 80571 Ubud, Indonesia. Rice terraces, Tegallalang, Monkey Forest, Ubud Palace, cooking class.' },
   { id:'s2',  country:'Indonesia', dest:'Lombok', hotel:'Novotel Lombok Resort & Villas', checkin:'2026-09-27', checkout:'2026-10-01', costPerNight:47.5,  points:8000, costIsCashOwed:true, transport:0,  transportMode:'ferry', transportLegs:[{id:'leg2', mode:'ferry', cost:27.52, notes:'Ferry Bali → Lombok, $55.04 (both) / $27.52pp'},{id:'leg3', mode:'car', cost:22.195, notes:'Transport Bangsal Port → Novotel Lombok, $44.39 (both) / $22.20pp'},{id:'leg4', mode:'car', cost:6.08, notes:'Grab (Sep 30), $12.16 (both) / $6.08pp'}], accommodationType:'accor',   foodCostPerDay:16.32, actualActivities:301.30, notes:'Novotel Lombok: $190 cash + 8,000 Accor points. Ferry Bali→Lombok $55.04 (both) + Bangsal Port→Novotel $44.39 (both) + Grab $12.16. Activities: waterfall + rice field guide $228.88, yoga $30.42, notebook making $42.' },
   { id:'s2b', country:'Indonesia', dest:'Bali', hotel:'Novotel Bali Ngurah Rai Airport', checkin:'2026-10-01', checkout:'2026-10-02', costPerNight:70, points:2000, costIsCashOwed:true, transport:91.085, transportMode:'ferry', accommodationType:'accor', foodCostPerDay:43.695, actualActivities:0, notes:'Ferry back Lombok→Bali $108.15 (both) + Novotel Lombok→ferry transport $55 + Grab to Novotel $19.02. One night at Novotel Bali Ngurah Rai Airport ($70 after using 2,000 points) before flying to Labuan Bajo early the next morning.' },
-  { id:'s3',  country:'Indonesia', dest:'Labuan Bajo (Komodo)', hotel:'Centro Bajo Hotel', checkin:'2026-10-02', checkout:'2026-10-06', costPerNight:31.25, points:0,     transport:145, transportMode:'plane', accommodationType:'hotel',   foodCostPerDay:25.1575, actualActivities:505.84, notes:'Flight KE2DVJ, Denpasar → Labuan Bajo, $290 total (both) / $145pp. Dep 9:00am Oct 2, arr 10:10am Oct 2. Centro Bajo Hotel $125 (4 nights, paid in cash). Komodo Island tour $328.84 + park entrance $80 (both), Crocs $47, Manta Point/Kanawa snorkel ~$25pp budget. Food = Oct 2–3 actual $141.26 + $15pp/day budget for the remaining 2 days.' },
+  { id:'s3',  country:'Indonesia', dest:'Labuan Bajo (Komodo)', hotel:'Centro Bajo Hotel', checkin:'2026-10-02', checkout:'2026-10-06', costPerNight:31.25, points:0,     transport:145, transportMode:'plane', accommodationType:'hotel',   foodCostPerDay:29.73625, actualActivities:726.07, notes:'Flight KE2DVJ, Denpasar → Labuan Bajo, $290 total (both) / $145pp. Dep 9:00am Oct 2, arr 10:10am Oct 2. Centro Bajo Hotel $125 (4 nights, paid in cash). Komodo Island tour $328.84 + park entrance $80 + cave tour $220.23 (both), Crocs $47, Manta Point/Kanawa snorkel ~$25pp budget. Food = Oct 2–5 actual $237.89 (Oct 5 so far: Cafe Melinja $15 cash only).' },
   { id:'s3b', country:'Indonesia', dest:'Bali', hotel:'Novotel Bali Ngurah Rai Airport', checkin:'2026-10-06', checkout:'2026-10-07', costPerNight:70, points:1000, costIsCashOwed:true, transport:145, transportMode:'plane', accommodationType:'accor', foodCostPerDay:15, notes:'Flight KE2DVJ, Labuan Bajo → Denpasar, $290 total (both) / $145pp. Dep 13:05 Oct 6, arr 14:20 Oct 6. One night at Novotel Bali Ngurah Rai Airport ($70 using 1,000 points) before flying to Cebu Oct 7.' },
 
   // PHILIPPINES
@@ -2445,6 +2445,16 @@ function loadStops() {
         });
         changed = true;
       }
+      // v18 (Oct 5 2026): Labuan Bajo re-synced after the Oct 4–5 expenses (3 meals + cave tour on Oct 4, cash café Oct 5).
+      // Only applies if the stop still holds the v17 values.
+      const s3v18 = data.find(s => s.id === 's3');
+      if (s3v18 && s3v18.actualActivities === 505.84 && s3v18.foodCostPerDay === 25.1575) {
+        Object.assign(s3v18, {
+          foodCostPerDay:29.73625, actualActivities:726.07,
+          notes:'Flight KE2DVJ, Denpasar → Labuan Bajo, $290 total (both) / $145pp. Dep 9:00am Oct 2, arr 10:10am Oct 2. Centro Bajo Hotel $125 (4 nights, paid in cash). Komodo Island tour $328.84 + park entrance $80 + cave tour $220.23 (both), Crocs $47, Manta Point/Kanawa snorkel ~$25pp budget. Food = Oct 2–5 actual $237.89 (Oct 5 so far: Cafe Melinja $15 cash only).'
+        });
+        changed = true;
+      }
       if(changed) localStorage.setItem('dt_stops_v12', JSON.stringify(data));
       return data;
     }
@@ -3997,50 +4007,13 @@ const EXPENSE_TYPES = {
 const DEFAULT_EXPENSES = [
   { id:'exp-qt-bali-flight', date:'2026-09-20', type:'transport', country:'Indonesia', dest:'Bali', amount:1006, who:'Both', notes:'Flight Queenstown (QT) → Bali, $503pp' },
   { id:'exp-mercure-bali',   date:'2026-09-20', type:'accommodation', country:'Indonesia', dest:'Bali', amount:103.99, who:'Both', notes:'Mercure Bali Nusa Dua, Sep 20–24 (4 nights)' },
-  { id:'exp-novotel-lombok', date:'2026-09-27', type:'accommodation', country:'Indonesia', dest:'Lombok', amount:190, who:'Both', notes:'Novotel Lombok Resort & Villas, Sep 27–Oct 1 (4 nights), 8,000 points also used' },
-  { id:'exp-airbnb-ubud', date:'2026-09-24', type:'accommodation', country:'Indonesia', dest:'Ubud', amount:70.26, who:'Both', notes:'Umah Delod Ubud (Sep 24–27, 3 nights)' },
-  { id:'exp-novotel-bali-airport-oct1', date:'2026-10-01', type:'accommodation', country:'Indonesia', dest:'Bali', amount:70, who:'Both', notes:'Novotel Bali Ngurah Rai Airport, Oct 1–2 (1 night), 2,000 points also used' },
-  { id:'exp-centro-bajo', date:'2026-10-02', type:'accommodation', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:125, who:'Both', paidCash:true, notes:'Centro Bajo Hotel, Oct 2–6 (4 nights, total stay)' },
-  { id:'exp-lombok-labuan-flight', date:'2026-10-02', type:'transport', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:290, who:'Both', notes:'Flight KE2DVJ, Denpasar → Labuan Bajo, $290 total (both). Dep 9:00am, arr 10:10am.' },
-  { id:'exp-labuan-lombok-return-flight', date:'2026-10-06', type:'transport', country:'Indonesia', dest:'Bali', amount:290, who:'Both', notes:'Flight KE2DVJ, Labuan Bajo → Denpasar, $290 total (both). Dep 13:05, arr 14:20.' },
-  { id:'exp-novotel-bali-airport-oct6', date:'2026-10-06', type:'accommodation', country:'Indonesia', dest:'Bali', amount:70, who:'Both', notes:'Novotel Bali Ngurah Rai Airport, Oct 6–7 (1 night), 1,000 points also used' },
-  { id:'exp-airbnb-cebu', date:'2026-10-07', type:'accommodation', country:'Philippines', dest:'Cebu (transit)', amount:30, who:'Both', notes:'Airbnb' },
-  { id:'exp-bali-cebu-flight', date:'2026-10-07', type:'transport', country:'Philippines', dest:'Cebu (transit)', amount:700, who:'Both', notes:'Flight Bali → Cebu, $350pp' },
-  { id:'exp-southpalms-panglao', date:'2026-10-11', type:'accommodation', country:'Philippines', dest:'Panglao (Bohol)', amount:549.44, who:'Christian', notes:'South Palms Resort and Spa Panglao - MGallery Collection, Oct 11–13 (2 nights), Booking QPGPCBBD, 2 adults, 1 room' },
-  { id:'exp-bananaland-bohol', date:'2026-10-13', type:'accommodation', country:'Philippines', dest:'Bohol', amount:119, who:'Both', notes:'Bananaland Cottages, Oct 13–16 (3 nights), 2 adults, 1 apartment' },
-  { id:'exp-brucebeach-siquijor', date:'2026-10-16', type:'accommodation', country:'Philippines', dest:'Siquijor', amount:116.70, who:'Both', notes:'The Bruce Beach Resort, Oct 16–19 (3 nights), Tropical Treehouse (Fan Only). Booking #1578948933808308' },
-  { id:'exp-gtseaside-oslob', date:'2026-10-10', type:'accommodation', country:'Philippines', dest:'Oslob', amount:47.74, who:'Both', notes:'GT Seaside Inn, Oct 10–11 (1 night), Deluxe Double Room. Confirmation 1101543948436720383' },
-  { id:'exp-siquijor-oslob-ferry', date:'2026-10-19', type:'transport', country:'Philippines', dest:'Cebu (transit)', amount:36, who:'Both', notes:'Ferry Siquijor → Oslob, Super Shuttle Ferry, dep 8:00am arr 10:00am, $18pp' },
-  { id:'exp-oslob-cebu-bus', date:'2026-10-19', type:'transport', country:'Philippines', dest:'Cebu (transit)', amount:10, who:'Both', notes:'Bus Oslob → Cebu, Sunrays, ~4h, $5pp' },
-  { id:'exp-cebu-siargao-flight', date:'2026-10-20', type:'transport', country:'Philippines', dest:'Siargao', amount:163, who:'Both', notes:'Flight Cebu → Siargao, dep 2:50pm, arr 4pm, $163 total (both). Booking ref AE6WQY.' },
-  { id:'exp-siargao-boracay-flight', date:'2026-10-26', type:'transport', country:'Philippines', dest:'Boracay', amount:286.12, who:'Both', notes:'Flight Del Carmen (Siargao) → Caticlan, PR2375/PR2402 (1 stop), Mon 26 Oct 2026, dep 07:40 arr 10:05. Booking ref XB65MB, PHP 9,900 total (both).' },
-  { id:'exp-boracay-pps-flight', date:'2026-10-30', type:'transport', country:'Philippines', dest:'Port Barton', amount:277.05, who:'Both', notes:'Flight Boracay (Caticlan) → Puerto Princesa via Manila, 5J890/5J633, Fri 30 Oct 2026, dep 07:55 arr 12:35. Booking ref OJDE7J, PHP 10,074.48 total (both).' },
-  { id:'exp-guide-waterfall-ricefield-sep28', date:'2026-09-28', type:'experience', country:'Indonesia', dest:'Lombok', amount:228.88, who:'Both', notes:'Guide: waterfall + rice field' },
-  { id:'exp-crackers-novotel-sep28', date:'2026-09-28', type:'food', country:'Indonesia', dest:'Lombok', amount:2.47, who:'Both', notes:'Crackers (Novotel)' },
-  { id:'exp-hcm-guangzhou-flight', date:'2026-12-03', type:'transport', country:'China', dest:'Guangzhou', amount:660, who:'Both', notes:'Flight Ho Chi Minh → Guangzhou, $330pp. Dep Dec 2 9:45pm, arr Dec 3 1:30am.' },
-  { id:'exp-mercure-guangzhou-arrival', date:'2026-12-02', type:'accommodation', country:'China', dest:'Guangzhou', amount:33, who:'Both', notes:'Grand Mercure Guangzhou Baiyun International Airport, Dec 2–3 (1 night), 2,000 points also used' },
-  { id:'exp-guangzhou-zhangjiajie-train', date:'2026-12-03', type:'transport', country:'China', dest:'Zhangjiajie', amount:280, who:'Both', notes:'Fast train Guangzhou → Zhangjiajie, $140pp' },
-  { id:'exp-pullman-zhangjiajie', date:'2026-12-03', type:'accommodation', country:'China', dest:'Zhangjiajie', amount:82, who:'Both', notes:'Pullman Zhangjiajie, Dec 3–8 (5 nights), 10,000 points also used' },
-  { id:'exp-zhangjiajie-guangzhou-train', date:'2026-12-08', type:'transport', country:'China', dest:'Guangzhou', amount:280, who:'Both', notes:'Fast train Zhangjiajie → Guangzhou (return), $140pp' },
-  { id:'exp-mercure-guangzhou-return', date:'2026-12-08', type:'accommodation', country:'China', dest:'Guangzhou', amount:15, who:'Both', notes:'Mercure Guangzhou Baiyun, Dec 8–9 (1 night), 1,000 points also used' },
-  { id:'exp-pullman-guangzhou-airport', date:'2026-12-09', type:'accommodation', country:'China', dest:'Guangzhou', amount:0, who:'Both', notes:'Pullman Guangzhou Baiyun Airport, Dec 9–10 (1 night) — free night' },
-  { id:'exp-guangzhou-london-flight', date:'2026-12-10', type:'transport', country:'China', dest:'Guangzhou', amount:903, who:'Both', notes:'Flight Guangzhou → London. Order Number (Flight Network): 1146-801-347. Dep 8:00am, arr 3:55pm same day.' },
-  { id:'exp-london-ba-flight', date:'2026-12-13', type:'transport', country:'Argentina', dest:'Buenos Aires', amount:2100, who:'Both', notes:'Flight London → Buenos Aires (NCZHRF). Dep Sun Dec 13 4:40PM, arr Mon Dec 14 10:45AM. Assumed 50/50 split of $4,200 total for both legs — adjust if actual one-way cost differs.' },
-  { id:'exp-ba-london-return-flight', date:'2027-05-01', type:'transport', country:'Argentina', dest:'Buenos Aires', amount:2100, who:'Both', notes:'Return flight Buenos Aires → London (NCZHRF). Dep Sat May 1 7:00AM, arr Sat May 1 10:10PM 2027. Assumed 50/50 split of $4,200 total for both legs — adjust if actual one-way cost differs.' },
-  { id:'exp-anova2-hanoi', date:'2026-11-07', type:'accommodation', country:'Vietnam', dest:'Hanoi', amount:32, who:'Both', notes:'Anova 2 Hotel, Nov 7–8 (1 night), Deluxe Double Room — arrival night (flight lands 01:25 Nov 8).' },
-  { id:'exp-gapartment-hanoi', date:'2026-11-08', type:'accommodation', country:'Vietnam', dest:'Hanoi', amount:76, who:'Both', notes:'G-Apartment & Hotel, Nov 8–10 (2 nights), 2 adults, 1 room.' },
-  { id:'exp-amadeus-isabel-elnido', date:'2026-11-01', type:'accommodation', country:'Philippines', dest:'El Nido', amount:210, who:'Both', notes:'Amadeus and Isabel Inn, Nov 1–4 (3 nights)' },
-  { id:'exp-darayonan-coron', date:'2026-11-04', type:'accommodation', country:'Philippines', dest:'Coron', amount:128.37, who:'Both', notes:'Darayonan Lodge, Nov 4–7 (3 nights)' },
-  { id:'exp-bff-portbarton', date:'2026-10-30', type:'accommodation', country:'Philippines', dest:'Port Barton', amount:78, who:'Both', notes:"BFF Backpacker's Inn, Oct 30–Nov 1 (2 nights)" },
-  { id:'exp-coron-hanoi-flight', date:'2026-11-07', type:'transport', country:'Philippines', dest:'Coron', amount:900, who:'Both', notes:'Flight Busuanga (Coron) → Hanoi (PR2683/PR2860/PR595, 2 stops), booking YEWJ7N, $450pp. Dep Nov 7 14:00, arr Nov 8 01:25.' },
-  { id:'exp-vina-vintage-hue', date:'2026-11-20', type:'accommodation', country:'Vietnam', dest:'Hue', amount:73, who:'Both', notes:'Vina Vintage Hotel, Nov 20–23 (3 nights), Superior Double Room.' },
-  { id:'exp-carambola-phongnha', date:'2026-11-18', type:'accommodation', country:'Vietnam', dest:'Phong Nha', amount:61, who:'Both', notes:'Carambola Bungalow, Nov 18–20 (2 nights, 1 bungalow). Confirmation 6518585229.' },
   { id:'exp-airalo-sim-sep20', date:'2026-09-20', type:'other', country:'Indonesia', dest:'Bali', amount:122.35, who:'Both', notes:'Airalo SIM card' },
   { id:'exp-grab-airport-hotel-sep20', date:'2026-09-20', type:'transport', country:'Indonesia', dest:'Bali', amount:18.71, who:'Both', notes:'Grab, airport → hotel' },
   { id:'exp-shopping-sep22', date:'2026-09-22', type:'shopping', country:'Indonesia', dest:'Bali', amount:22, who:'Both', notes:'Shopping' },
   { id:'exp-grab-sep22', date:'2026-09-22', type:'transport', country:'Indonesia', dest:'Bali', amount:46, who:'Both', notes:'Grab' },
   { id:'exp-padang-padang-beach', date:'2026-09-22', type:'experience', country:'Indonesia', dest:'Bali', amount:3, who:'Both', notes:'Padang Padang beach' },
   { id:'exp-uluwatu-temple', date:'2026-09-22', type:'experience', country:'Indonesia', dest:'Bali', amount:42, who:'Both', notes:'Uluwatu temple + stupid dance' },
+  { id:'exp-airbnb-ubud', date:'2026-09-24', type:'accommodation', country:'Indonesia', dest:'Ubud', amount:70.26, who:'Both', notes:'Umah Delod Ubud (Sep 24–27, 3 nights)' },
   { id:'exp-mercure-balance-sep24', date:'2026-09-24', type:'accommodation', country:'Indonesia', dest:'Bali', amount:10.96, who:'Both', notes:'Mercure remaining balance' },
   { id:'exp-grab-sep24', date:'2026-09-24', type:'transport', country:'Indonesia', dest:'Bali', amount:49.18, who:'Both', notes:'Grab' },
   { id:'exp-fanta-market-sep24', date:'2026-09-24', type:'food', country:'Indonesia', dest:'Bali', amount:1.69, who:'Both', notes:'Fanta x2 market' },
@@ -4058,17 +4031,23 @@ const DEFAULT_EXPENSES = [
   { id:'exp-meguna-lunch-sep26', date:'2026-09-26', type:'food', country:'Indonesia', dest:'Bali', amount:35.46, who:'Both', notes:'Meguna Lunch' },
   { id:'exp-silver-making-sep26', date:'2026-09-26', type:'experience', country:'Indonesia', dest:'Bali', amount:99.04, who:'Both', notes:'Silver making classes' },
   { id:'exp-breakfast-sep26', date:'2026-09-26', type:'food', country:'Indonesia', dest:'Bali', amount:32.35, who:'Both', notes:'Breakfast' },
+  { id:'exp-novotel-lombok', date:'2026-09-27', type:'accommodation', country:'Indonesia', dest:'Lombok', amount:190, who:'Both', notes:'Novotel Lombok Resort & Villas, Sep 27–Oct 1 (4 nights), 8,000 points also used' },
   { id:'exp-ferry-bali-lombok-sep27', date:'2026-09-27', type:'transport', country:'Indonesia', dest:'Lombok', amount:55.04, who:'Both', notes:'Ferry Bali → Lombok' },
   { id:'exp-bangsal-novotel-sep27', date:'2026-09-27', type:'transport', country:'Indonesia', dest:'Lombok', amount:44.39, who:'Both', notes:'Transport Bangsal Port → Novotel Lombok' },
+  { id:'exp-guide-waterfall-ricefield-sep28', date:'2026-09-28', type:'experience', country:'Indonesia', dest:'Lombok', amount:228.88, who:'Both', notes:'Guide: waterfall + rice field' },
+  { id:'exp-crackers-novotel-sep28', date:'2026-09-28', type:'food', country:'Indonesia', dest:'Lombok', amount:2.47, who:'Both', notes:'Crackers (Novotel)' },
   { id:'exp-komodo-tour-sep30', date:'2026-09-30', type:'experience', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:328.84, who:'Both', notes:'Komodo Island Tour' },
   { id:'exp-grab-sep30', date:'2026-09-30', type:'transport', country:'Indonesia', dest:'Lombok', amount:12.16, who:'Both', notes:'Grab' },
   { id:'exp-yoga-sep30', date:'2026-09-30', type:'experience', country:'Indonesia', dest:'Lombok', amount:30.42, who:'Both', notes:'Yoga classes' },
   { id:'exp-notebook-making-sep30', date:'2026-09-30', type:'experience', country:'Indonesia', dest:'Lombok', amount:42, who:'Both', notes:'Notebook making classes' },
   { id:'exp-ferry-lombok-bali-sep30', date:'2026-09-30', type:'transport', country:'Indonesia', dest:'Lombok', amount:108.15, who:'Both', notes:'Ferry Lombok → Bali' },
+  { id:'exp-novotel-bali-airport-oct1', date:'2026-10-01', type:'accommodation', country:'Indonesia', dest:'Bali', amount:70, who:'Both', notes:'Novotel Bali Ngurah Rai Airport, Oct 1–2 (1 night), 2,000 points also used' },
   { id:'exp-transport-novotel-ferry-oct1', date:'2026-10-01', type:'transport', country:'Indonesia', dest:'Lombok', amount:55, who:'Both', notes:'Transport Novotel Lombok → Ferry' },
   { id:'exp-coffee-port-oct1', date:'2026-10-01', type:'food', country:'Indonesia', dest:'Lombok', amount:6.15, who:'Both', notes:'Coffee at port' },
   { id:'exp-grab-novotel-oct1', date:'2026-10-01', type:'transport', country:'Indonesia', dest:'Bali', amount:19.02, who:'Both', notes:'Grab to Novotel' },
   { id:'exp-food-novotel-lombok-oct1', date:'2026-10-01', type:'food', country:'Indonesia', dest:'Lombok', amount:121.94, who:'Both', notes:'Food at Novotel Lombok' },
+  { id:'exp-centro-bajo', date:'2026-10-02', type:'accommodation', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:125, who:'Both', paidCash:true, notes:'Centro Bajo Hotel, Oct 2–6 (4 nights, total stay)' },
+  { id:'exp-lombok-labuan-flight', date:'2026-10-02', type:'transport', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:290, who:'Both', notes:'Flight KE2DVJ, Denpasar → Labuan Bajo, $290 total (both). Dep 9:00am, arr 10:10am.' },
   { id:'exp-novotel-dinner-bali-oct2', date:'2026-10-02', type:'food', country:'Indonesia', dest:'Bali', amount:87.39, who:'Both', notes:'Novotel Dinner Bali' },
   { id:'exp-atm-oct2', date:'2026-10-02', type:'cash', country:'Indonesia', dest:'Bali', amount:126, who:'Both', notes:'ATM extraction' },
   { id:'exp-cafe-back-to-bajo-oct2', date:'2026-10-02', type:'food', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:16.2, who:'Both', notes:'Cafe Back to Bajo' },
@@ -4080,6 +4059,42 @@ const DEFAULT_EXPENSES = [
   { id:'exp-la-cucina-dinner-oct3', date:'2026-10-03', type:'food', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:42.84, who:'Both', notes:'Dinner La Cucina' },
   { id:'exp-komodo-park-entrance-oct3', date:'2026-10-03', type:'experience', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:80, who:'Both', notes:'Entrance Komodo Park' },
   { id:'exp-crocs-oct3', date:'2026-10-03', type:'shopping', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:47, who:'Both', notes:'Crocs' },
+  { id:'exp-breakfast-oct4', date:'2026-10-04', type:'food', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:34.61, who:'Both', notes:'Breakfast' },
+  { id:'exp-back-to-bajo-coffee-oct4', date:'2026-10-04', type:'food', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:11.21, who:'Both', notes:'Back to Bajo coffee' },
+  { id:'exp-treetop-dinner-oct4', date:'2026-10-04', type:'food', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:35.81, who:'Both', notes:'Tree Top Dinner' },
+  { id:'exp-tour-cave-oct4', date:'2026-10-04', type:'experience', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:220.23, who:'Both', notes:'Tour cave' },
+  { id:'exp-cafe-melinja-cash-oct5', date:'2026-10-05', type:'food', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:15, who:'Both', paidCash:true, notes:'Cafe Melinja (cash)' },
+  { id:'exp-labuan-lombok-return-flight', date:'2026-10-06', type:'transport', country:'Indonesia', dest:'Bali', amount:290, who:'Both', notes:'Flight KE2DVJ, Labuan Bajo → Denpasar, $290 total (both). Dep 13:05, arr 14:20.' },
+  { id:'exp-novotel-bali-airport-oct6', date:'2026-10-06', type:'accommodation', country:'Indonesia', dest:'Bali', amount:70, who:'Both', notes:'Novotel Bali Ngurah Rai Airport, Oct 6–7 (1 night), 1,000 points also used' },
+  { id:'exp-airbnb-cebu', date:'2026-10-07', type:'accommodation', country:'Philippines', dest:'Cebu (transit)', amount:30, who:'Both', notes:'Airbnb' },
+  { id:'exp-bali-cebu-flight', date:'2026-10-07', type:'transport', country:'Philippines', dest:'Cebu (transit)', amount:700, who:'Both', notes:'Flight Bali → Cebu, $350pp' },
+  { id:'exp-gtseaside-oslob', date:'2026-10-10', type:'accommodation', country:'Philippines', dest:'Oslob', amount:47.74, who:'Both', notes:'GT Seaside Inn, Oct 10–11 (1 night), Deluxe Double Room. Confirmation 1101543948436720383' },
+  { id:'exp-southpalms-panglao', date:'2026-10-11', type:'accommodation', country:'Philippines', dest:'Panglao (Bohol)', amount:549.44, who:'Christian', notes:'South Palms Resort and Spa Panglao - MGallery Collection, Oct 11–13 (2 nights), Booking QPGPCBBD, 2 adults, 1 room' },
+  { id:'exp-bananaland-bohol', date:'2026-10-13', type:'accommodation', country:'Philippines', dest:'Bohol', amount:119, who:'Both', notes:'Bananaland Cottages, Oct 13–16 (3 nights), 2 adults, 1 apartment' },
+  { id:'exp-brucebeach-siquijor', date:'2026-10-16', type:'accommodation', country:'Philippines', dest:'Siquijor', amount:116.70, who:'Both', notes:'The Bruce Beach Resort, Oct 16–19 (3 nights), Tropical Treehouse (Fan Only). Booking #1578948933808308' },
+  { id:'exp-siquijor-oslob-ferry', date:'2026-10-19', type:'transport', country:'Philippines', dest:'Cebu (transit)', amount:36, who:'Both', notes:'Ferry Siquijor → Oslob, Super Shuttle Ferry, dep 8:00am arr 10:00am, $18pp' },
+  { id:'exp-oslob-cebu-bus', date:'2026-10-19', type:'transport', country:'Philippines', dest:'Cebu (transit)', amount:10, who:'Both', notes:'Bus Oslob → Cebu, Sunrays, ~4h, $5pp' },
+  { id:'exp-cebu-siargao-flight', date:'2026-10-20', type:'transport', country:'Philippines', dest:'Siargao', amount:163, who:'Both', notes:'Flight Cebu → Siargao, dep 2:50pm, arr 4pm, $163 total (both). Booking ref AE6WQY.' },
+  { id:'exp-siargao-boracay-flight', date:'2026-10-26', type:'transport', country:'Philippines', dest:'Boracay', amount:286.12, who:'Both', notes:'Flight Del Carmen (Siargao) → Caticlan, PR2375/PR2402 (1 stop), Mon 26 Oct 2026, dep 07:40 arr 10:05. Booking ref XB65MB, PHP 9,900 total (both).' },
+  { id:'exp-boracay-pps-flight', date:'2026-10-30', type:'transport', country:'Philippines', dest:'Port Barton', amount:277.05, who:'Both', notes:'Flight Boracay (Caticlan) → Puerto Princesa via Manila, 5J890/5J633, Fri 30 Oct 2026, dep 07:55 arr 12:35. Booking ref OJDE7J, PHP 10,074.48 total (both).' },
+  { id:'exp-bff-portbarton', date:'2026-10-30', type:'accommodation', country:'Philippines', dest:'Port Barton', amount:78, who:'Both', notes:"BFF Backpacker's Inn, Oct 30–Nov 1 (2 nights)" },
+  { id:'exp-amadeus-isabel-elnido', date:'2026-11-01', type:'accommodation', country:'Philippines', dest:'El Nido', amount:210, who:'Both', notes:'Amadeus and Isabel Inn, Nov 1–4 (3 nights)' },
+  { id:'exp-darayonan-coron', date:'2026-11-04', type:'accommodation', country:'Philippines', dest:'Coron', amount:128.37, who:'Both', notes:'Darayonan Lodge, Nov 4–7 (3 nights)' },
+  { id:'exp-anova2-hanoi', date:'2026-11-07', type:'accommodation', country:'Vietnam', dest:'Hanoi', amount:32, who:'Both', notes:'Anova 2 Hotel, Nov 7–8 (1 night), Deluxe Double Room — arrival night (flight lands 01:25 Nov 8).' },
+  { id:'exp-coron-hanoi-flight', date:'2026-11-07', type:'transport', country:'Philippines', dest:'Coron', amount:900, who:'Both', notes:'Flight Busuanga (Coron) → Hanoi (PR2683/PR2860/PR595, 2 stops), booking YEWJ7N, $450pp. Dep Nov 7 14:00, arr Nov 8 01:25.' },
+  { id:'exp-gapartment-hanoi', date:'2026-11-08', type:'accommodation', country:'Vietnam', dest:'Hanoi', amount:76, who:'Both', notes:'G-Apartment & Hotel, Nov 8–10 (2 nights), 2 adults, 1 room.' },
+  { id:'exp-carambola-phongnha', date:'2026-11-18', type:'accommodation', country:'Vietnam', dest:'Phong Nha', amount:61, who:'Both', notes:'Carambola Bungalow, Nov 18–20 (2 nights, 1 bungalow). Confirmation 6518585229.' },
+  { id:'exp-vina-vintage-hue', date:'2026-11-20', type:'accommodation', country:'Vietnam', dest:'Hue', amount:73, who:'Both', notes:'Vina Vintage Hotel, Nov 20–23 (3 nights), Superior Double Room.' },
+  { id:'exp-mercure-guangzhou-arrival', date:'2026-12-02', type:'accommodation', country:'China', dest:'Guangzhou', amount:33, who:'Both', notes:'Grand Mercure Guangzhou Baiyun International Airport, Dec 2–3 (1 night), 2,000 points also used' },
+  { id:'exp-hcm-guangzhou-flight', date:'2026-12-03', type:'transport', country:'China', dest:'Guangzhou', amount:660, who:'Both', notes:'Flight Ho Chi Minh → Guangzhou, $330pp. Dep Dec 2 9:45pm, arr Dec 3 1:30am.' },
+  { id:'exp-guangzhou-zhangjiajie-train', date:'2026-12-03', type:'transport', country:'China', dest:'Zhangjiajie', amount:280, who:'Both', notes:'Fast train Guangzhou → Zhangjiajie, $140pp' },
+  { id:'exp-pullman-zhangjiajie', date:'2026-12-03', type:'accommodation', country:'China', dest:'Zhangjiajie', amount:82, who:'Both', notes:'Pullman Zhangjiajie, Dec 3–8 (5 nights), 10,000 points also used' },
+  { id:'exp-zhangjiajie-guangzhou-train', date:'2026-12-08', type:'transport', country:'China', dest:'Guangzhou', amount:280, who:'Both', notes:'Fast train Zhangjiajie → Guangzhou (return), $140pp' },
+  { id:'exp-mercure-guangzhou-return', date:'2026-12-08', type:'accommodation', country:'China', dest:'Guangzhou', amount:15, who:'Both', notes:'Mercure Guangzhou Baiyun, Dec 8–9 (1 night), 1,000 points also used' },
+  { id:'exp-pullman-guangzhou-airport', date:'2026-12-09', type:'accommodation', country:'China', dest:'Guangzhou', amount:0, who:'Both', notes:'Pullman Guangzhou Baiyun Airport, Dec 9–10 (1 night) — free night' },
+  { id:'exp-guangzhou-london-flight', date:'2026-12-10', type:'transport', country:'China', dest:'Guangzhou', amount:903, who:'Both', notes:'Flight Guangzhou → London. Order Number (Flight Network): 1146-801-347. Dep 8:00am, arr 3:55pm same day.' },
+  { id:'exp-london-ba-flight', date:'2026-12-13', type:'transport', country:'Argentina', dest:'Buenos Aires', amount:2100, who:'Both', notes:'Flight London → Buenos Aires (NCZHRF). Dep Sun Dec 13 4:40PM, arr Mon Dec 14 10:45AM. Assumed 50/50 split of $4,200 total for both legs — adjust if actual one-way cost differs.' },
+  { id:'exp-ba-london-return-flight', date:'2027-05-01', type:'transport', country:'Argentina', dest:'Buenos Aires', amount:2100, who:'Both', notes:'Return flight Buenos Aires → London (NCZHRF). Dep Sat May 1 7:00AM, arr Sat May 1 10:10PM 2027. Assumed 50/50 split of $4,200 total for both legs — adjust if actual one-way cost differs.' },
 ];
 function loadExpenses(){
   try{
@@ -4270,7 +4285,7 @@ function renderSpending(){
     return;
   }
 
-  const dates = [...new Set(expenses.map(e=>e.date))].sort((a,b)=>b.localeCompare(a));
+  const dates = [...new Set(expenses.map(e=>e.date))].sort((a,b)=>a.localeCompare(b)); // oldest first
 
   contentEl.innerHTML = dates.map(date=>{
     const dExpenses = expenses.filter(e=>e.date===date);

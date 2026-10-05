@@ -815,7 +815,7 @@ const DEFAULT_STOPS = [
   { id:'s1b', country:'Indonesia', dest:'Ubud', hotel:'Umah Delod Ubud', checkin:'2026-09-24', checkout:'2026-09-27', costPerNight:23.42, points:0, transport:24.59, transportMode:'car', accommodationType:'hotel', foodCostPerDay:30.0633, actualActivities:227.64, notes:'Grab Nusa Dua → Ubud $49.18 (both). Booked: 2 adults, 3 nights, 1 room. Jl. Raya Pengosekan, 80571 Ubud, Indonesia. Rice terraces, Tegallalang, Monkey Forest, Ubud Palace, cooking class.' },
   { id:'s2',  country:'Indonesia', dest:'Lombok', hotel:'Novotel Lombok Resort & Villas', checkin:'2026-09-27', checkout:'2026-10-01', costPerNight:47.5,  points:8000, costIsCashOwed:true, transport:0,  transportMode:'ferry', transportLegs:[{id:'leg2', mode:'ferry', cost:27.52, notes:'Ferry Bali → Lombok, $55.04 (both) / $27.52pp'},{id:'leg3', mode:'car', cost:22.195, notes:'Transport Bangsal Port → Novotel Lombok, $44.39 (both) / $22.20pp'},{id:'leg4', mode:'car', cost:6.08, notes:'Grab (Sep 30), $12.16 (both) / $6.08pp'}], accommodationType:'accor',   foodCostPerDay:16.32, actualActivities:301.30, notes:'Novotel Lombok: $190 cash + 8,000 Accor points. Ferry Bali→Lombok $55.04 (both) + Bangsal Port→Novotel $44.39 (both) + Grab $12.16. Activities: waterfall + rice field guide $228.88, yoga $30.42, notebook making $42.' },
   { id:'s2b', country:'Indonesia', dest:'Bali', hotel:'Novotel Bali Ngurah Rai Airport', checkin:'2026-10-01', checkout:'2026-10-02', costPerNight:70, points:2000, costIsCashOwed:true, transport:91.085, transportMode:'ferry', accommodationType:'accor', foodCostPerDay:43.695, actualActivities:0, notes:'Ferry back Lombok→Bali $108.15 (both) + Novotel Lombok→ferry transport $55 + Grab to Novotel $19.02. One night at Novotel Bali Ngurah Rai Airport ($70 after using 2,000 points) before flying to Labuan Bajo early the next morning.' },
-  { id:'s3',  country:'Indonesia', dest:'Labuan Bajo (Komodo)', hotel:'Centro Bajo Hotel', checkin:'2026-10-02', checkout:'2026-10-06', costPerNight:31.25, points:0,     transport:145, transportMode:'plane', accommodationType:'hotel',   foodCostPerDay:29.73625, actualActivities:676.07, notes:'Flight KE2DVJ, Denpasar → Labuan Bajo, $290 total (both) / $145pp. Dep 9:00am Oct 2, arr 10:10am Oct 2. Centro Bajo Hotel $125 (4 nights, paid in cash). Komodo Island tour $328.84 + park entrance $80 + cave tour $220.23 (both), Crocs $47. Food = Oct 2–5 actual $237.89 (Oct 5 so far: Cafe Melinja $15 cash only).' },
+  { id:'s3',  country:'Indonesia', dest:'Labuan Bajo (Komodo)', hotel:'Centro Bajo Hotel', checkin:'2026-10-02', checkout:'2026-10-06', costPerNight:31.25, points:0,     transport:145, transportMode:'plane', accommodationType:'hotel',   foodCostPerDay:30.98625, actualActivities:676.07, notes:'Flight KE2DVJ, Denpasar → Labuan Bajo, $290 total (both) / $145pp. Dep 9:00am Oct 2, arr 10:10am Oct 2. Centro Bajo Hotel $125 (4 nights, paid in cash). Komodo Island tour $328.84 + park entrance $80 + cave tour $220.23 (both), Crocs $47. Food = Oct 2–5 actual $247.89 (Oct 5 so far: breakfast $10 + Cafe Melinja $15, both cash).' },
   { id:'s3b', country:'Indonesia', dest:'Bali', hotel:'Novotel Bali Ngurah Rai Airport', checkin:'2026-10-06', checkout:'2026-10-07', costPerNight:70, points:1000, costIsCashOwed:true, transport:145, transportMode:'plane', accommodationType:'accor', foodCostPerDay:15, notes:'Flight KE2DVJ, Labuan Bajo → Denpasar, $290 total (both) / $145pp. Dep 13:05 Oct 6, arr 14:20 Oct 6. One night at Novotel Bali Ngurah Rai Airport ($70 using 1,000 points) before flying to Cebu Oct 7.' },
 
   // PHILIPPINES
@@ -2465,6 +2465,16 @@ function loadStops() {
         });
         changed = true;
       }
+      // v20 (Oct 5 2026): Labuan Bajo food re-synced after the Oct 5 cash breakfast ($10).
+      // Only applies if the stop still holds the v19 values.
+      const s3v20 = data.find(s => s.id === 's3');
+      if (s3v20 && s3v20.foodCostPerDay === 29.73625 && s3v20.actualActivities === 676.07) {
+        Object.assign(s3v20, {
+          foodCostPerDay:30.98625,
+          notes:'Flight KE2DVJ, Denpasar → Labuan Bajo, $290 total (both) / $145pp. Dep 9:00am Oct 2, arr 10:10am Oct 2. Centro Bajo Hotel $125 (4 nights, paid in cash). Komodo Island tour $328.84 + park entrance $80 + cave tour $220.23 (both), Crocs $47. Food = Oct 2–5 actual $247.89 (Oct 5 so far: breakfast $10 + Cafe Melinja $15, both cash).'
+        });
+        changed = true;
+      }
       if(changed) localStorage.setItem('dt_stops_v12', JSON.stringify(data));
       return data;
     }
@@ -4074,6 +4084,7 @@ const DEFAULT_EXPENSES = [
   { id:'exp-treetop-dinner-oct4', date:'2026-10-04', type:'food', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:35.81, who:'Both', notes:'Tree Top Dinner' },
   { id:'exp-tour-cave-oct4', date:'2026-10-04', type:'experience', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:220.23, who:'Both', notes:'Tour cave' },
   { id:'exp-cafe-melinja-cash-oct5', date:'2026-10-05', type:'food', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:15, who:'Both', paidCash:true, notes:'Cafe Melinja (cash)' },
+  { id:'exp-breakfast-cash-oct5', date:'2026-10-05', type:'food', country:'Indonesia', dest:'Labuan Bajo (Komodo)', amount:10, who:'Both', paidCash:true, notes:'Breakfast (cash)' },
   { id:'exp-labuan-lombok-return-flight', date:'2026-10-06', type:'transport', country:'Indonesia', dest:'Bali', amount:290, who:'Both', notes:'Flight KE2DVJ, Labuan Bajo → Denpasar, $290 total (both). Dep 13:05, arr 14:20.' },
   { id:'exp-novotel-bali-airport-oct6', date:'2026-10-06', type:'accommodation', country:'Indonesia', dest:'Bali', amount:70, who:'Both', notes:'Novotel Bali Ngurah Rai Airport, Oct 6–7 (1 night), 1,000 points also used' },
   { id:'exp-airbnb-cebu', date:'2026-10-07', type:'accommodation', country:'Philippines', dest:'Cebu (transit)', amount:30, who:'Both', notes:'Airbnb' },

@@ -811,11 +811,11 @@ const DEFAULT_ICT = {
 // ═══════════════════════════════════════════
 const DEFAULT_STOPS = [
   // INDONESIA
-  { id:'s1',  country:'Indonesia', dest:'Bali', hotel:'Mercure Bali Nusa Dua', checkin:'2026-09-20', checkout:'2026-09-24', costPerNight:28.7375,  points:6000, costIsCashOwed:true, transport:535.355, transportMode:'plane', accommodationType:'accor',   foodCostPerDay:0, actualActivities:189.35, notes:'Flight Queenstown (QT) → Bali $1,006 total (both) / $503pp. Arrive 22:30. Actuals: Mercure $103.99 + $10.96 balance cash + 6,000 Accor points; Grab $18.71 airport + $46. Activities/other: Uluwatu, Padang Padang, Airalo SIM, shopping.' },
-  { id:'s1b', country:'Indonesia', dest:'Ubud', hotel:'Umah Delod Ubud', checkin:'2026-09-24', checkout:'2026-09-27', costPerNight:23.42, points:0, transport:24.59, transportMode:'car', accommodationType:'hotel', foodCostPerDay:30.0633, actualActivities:227.64, notes:'Grab Nusa Dua → Ubud $49.18 (both). Booked: 2 adults, 3 nights, 1 room. Jl. Raya Pengosekan, 80571 Ubud, Indonesia. Rice terraces, Tegallalang, Monkey Forest, Ubud Palace, cooking class.' },
+  { id:'s1',  country:'Indonesia', dest:'Bali', hotel:'Mercure Bali Nusa Dua', checkin:'2026-09-20', checkout:'2026-09-24', costPerNight:28.7375,  points:6000, costIsCashOwed:true, transport:535.355, transportMode:'plane', accommodationType:'accor',   foodCostPerDay:0, actualActivities:189.35, actualOther:144.35, notes:'Flight Queenstown (QT) → Bali $1,006 total (both) / $503pp. Arrive 22:30. Actuals: Mercure $103.99 + $10.96 balance cash + 6,000 Accor points; Grab $18.71 airport + $46. Activities/other: Uluwatu, Padang Padang, Airalo SIM, shopping.' },
+  { id:'s1b', country:'Indonesia', dest:'Ubud', hotel:'Umah Delod Ubud', checkin:'2026-09-24', checkout:'2026-09-27', costPerNight:23.42, points:0, transport:24.59, transportMode:'car', accommodationType:'hotel', foodCostPerDay:30.0633, actualActivities:227.64, actualOther:128.6, notes:'Grab Nusa Dua → Ubud $49.18 (both). Booked: 2 adults, 3 nights, 1 room. Jl. Raya Pengosekan, 80571 Ubud, Indonesia. Rice terraces, Tegallalang, Monkey Forest, Ubud Palace, cooking class.' },
   { id:'s2',  country:'Indonesia', dest:'Lombok', hotel:'Novotel Lombok Resort & Villas', checkin:'2026-09-27', checkout:'2026-10-01', costPerNight:47.5,  points:8000, costIsCashOwed:true, transport:0,  transportMode:'ferry', transportLegs:[{id:'leg2', mode:'ferry', cost:27.52, notes:'Ferry Bali → Lombok, $55.04 (both) / $27.52pp'},{id:'leg3', mode:'car', cost:22.195, notes:'Transport Bangsal Port → Novotel Lombok, $44.39 (both) / $22.20pp'},{id:'leg4', mode:'car', cost:6.08, notes:'Grab (Sep 30), $12.16 (both) / $6.08pp'}], accommodationType:'accor',   foodCostPerDay:16.32, actualActivities:301.30, notes:'Novotel Lombok: $190 cash + 8,000 Accor points. Ferry Bali→Lombok $55.04 (both) + Bangsal Port→Novotel $44.39 (both) + Grab $12.16. Activities: waterfall + rice field guide $228.88, yoga $30.42, notebook making $42.' },
   { id:'s2b', country:'Indonesia', dest:'Bali', hotel:'Novotel Bali Ngurah Rai Airport', checkin:'2026-10-01', checkout:'2026-10-02', costPerNight:70, points:2000, costIsCashOwed:true, transport:91.085, transportMode:'ferry', accommodationType:'accor', foodCostPerDay:43.695, actualActivities:0, notes:'Ferry back Lombok→Bali $108.15 (both) + Novotel Lombok→ferry transport $55 + Grab to Novotel $19.02. One night at Novotel Bali Ngurah Rai Airport ($70 after using 2,000 points) before flying to Labuan Bajo early the next morning.' },
-  { id:'s3',  country:'Indonesia', dest:'Labuan Bajo (Komodo)', hotel:'Centro Bajo Hotel', checkin:'2026-10-02', checkout:'2026-10-06', costPerNight:31.25, points:0,     transport:145, transportMode:'plane', accommodationType:'hotel',   foodCostPerDay:30.98625, actualActivities:676.07, notes:'Flight KE2DVJ, Denpasar → Labuan Bajo, $290 total (both) / $145pp. Dep 9:00am Oct 2, arr 10:10am Oct 2. Centro Bajo Hotel $125 (4 nights, paid in cash). Komodo Island tour $328.84 + park entrance $80 + cave tour $220.23 (both), Crocs $47. Food = Oct 2–5 actual $247.89 (Oct 5 so far: breakfast $10 + Cafe Melinja $15, both cash).' },
+  { id:'s3',  country:'Indonesia', dest:'Labuan Bajo (Komodo)', hotel:'Centro Bajo Hotel', checkin:'2026-10-02', checkout:'2026-10-06', costPerNight:31.25, points:0,     transport:145, transportMode:'plane', accommodationType:'hotel',   foodCostPerDay:30.98625, actualActivities:676.07, actualOther:47, notes:'Flight KE2DVJ, Denpasar → Labuan Bajo, $290 total (both) / $145pp. Dep 9:00am Oct 2, arr 10:10am Oct 2. Centro Bajo Hotel $125 (4 nights, paid in cash). Komodo Island tour $328.84 + park entrance $80 + cave tour $220.23 (both), Crocs $47. Food = Oct 2–5 actual $247.89 (Oct 5 so far: breakfast $10 + Cafe Melinja $15, both cash).' },
   { id:'s3b', country:'Indonesia', dest:'Bali', hotel:'Novotel Bali Ngurah Rai Airport', checkin:'2026-10-06', checkout:'2026-10-07', costPerNight:70, points:1000, costIsCashOwed:true, transport:145, transportMode:'plane', accommodationType:'accor', foodCostPerDay:15, notes:'Flight KE2DVJ, Labuan Bajo → Denpasar, $290 total (both) / $145pp. Dep 13:05 Oct 6, arr 14:20 Oct 6. One night at Novotel Bali Ngurah Rai Airport ($70 using 1,000 points) before flying to Cebu Oct 7.' },
 
   // PHILIPPINES
@@ -2475,6 +2475,14 @@ function loadStops() {
         });
         changed = true;
       }
+      // v21 (Oct 6 2026): record the Other + Shopping part of each Indonesia stop's actualActivities (actualOther) so the
+      // Budget card can show Experiences and Other & shopping separately. Totals are unchanged. Only set where missing.
+      const actualOtherV21 = { s1:144.35, s1b:128.6, s2:0, s2b:0, s3:47 };
+      data.forEach(s => {
+        if (s.country === 'Indonesia' && actualOtherV21[s.id] !== undefined && s.actualOther === undefined && s.actualActivities !== undefined) {
+          s.actualOther = actualOtherV21[s.id]; changed = true;
+        }
+      });
       if(changed) localStorage.setItem('dt_stops_v12', JSON.stringify(data));
       return data;
     }
@@ -4861,7 +4869,13 @@ function renderBudget() {
     const cTotal = cStops.reduce((a,s)=>a+calcStopCost(s),0) + cActivityAllowance;
     const cDpTotal = cStops.reduce((a,s)=>a+calcStopDailyPlanCost(s.id),0);
     const cHasActuals = cStops.some(s=>s.actualActivities!==undefined && s.actualActivities!==null);
-    const allowanceRow = (cDpTotal > 0 || cHasActuals)
+    // actualOther = the "Other" + "Shopping" expenses that actualActivities bundles in; shown on its own row so
+    // "Experiences" matches the Spending tab's Experience category.
+    const cOther = cStops.reduce((a,s)=>a+(parseFloat(s.actualOther)||0),0);
+    const allowanceRow = (cHasActuals && cOther > 0)
+      ? `<div class="bc-row"><span class="bc-dest">Experiences (${fmtNZD((cActivityAllowance-cOther)/2)} pp)</span><span class="bc-amt" style="color:var(--purple)">${fmtNZD(cActivityAllowance-cOther)}</span></div>
+         <div class="bc-row"><span class="bc-dest">Other &amp; shopping (${fmtNZD(cOther/2)} pp)</span><span class="bc-amt" style="color:var(--purple)">${fmtNZD(cOther)}</span></div>`
+      : (cDpTotal > 0 || cHasActuals)
       ? `<div class="bc-row"><span class="bc-dest">Planned experiences (${fmtNZD(cActivityAllowance/2)} pp)</span><span class="bc-amt" style="color:var(--purple)">${fmtNZD(cActivityAllowance)}</span></div>`
       : `<div class="bc-row"><span class="bc-dest">Activities buffer (${fmtNZD(ACTIVITY_ALLOWANCE_PP_DAY)}/day pp)</span><span class="bc-amt" style="color:var(--purple)">${fmtNZD(cActivityAllowance)}</span></div>`;
     html+=`<div class="budget-card"><div class="bc-title">${COUNTRY_FLAGS[country]||'🌍'} ${country}</div>${rows.join('')}${allowanceRow}<div class="bc-row" style="margin-top:.3rem;border-top:1px solid var(--border);padding-top:.4rem"><span class="bc-dest">Subtotal</span><span class="bc-amt" style="color:var(--teal)">${fmtNZD(cTotal)}</span></div></div>`;

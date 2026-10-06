@@ -797,7 +797,7 @@ const ACCOR_RATE_PER_1000 = 43.905; // NZD value per 1000 Accor points
 //  These are the flights/transport BETWEEN countries
 // ═══════════════════════════════════════════
 const DEFAULT_ICT = {
-  'Indonesia→Philippines': { mode:'plane', icon:'✈', label:'Flight', route:'Bali → Cebu', cost:350, notes:'Fly Bali→Cebu $350pp NZD.', airline:'', bookingRef:'CETFWI', flightDate:'2026-10-07', flightTime:'8:35am', flightArrival:'8pm' },
+  'Indonesia→Philippines': { mode:'plane', icon:'✈', label:'Flight', route:'Bali → Cebu', cost:350, notes:'Fly Bali→Cebu $350pp NZD.', airline:'', bookingRef:'CETFWI', flightDate:'2026-10-07', flightTime:'8:35am', flightArrival:'4:30pm' },
   'Philippines→Vietnam':   { mode:'plane', icon:'✈', label:'Flight', route:'Coron → Hanoi', cost:450, notes:'Coron → Hanoi. $900 total (both), booking ref YEWJ7N.', airline:'', bookingRef:'YEWJ7N', flightDate:'2026-11-07', flightTime:'14:30', flightArrival:'01:25 (+1, Nov 8)' },
   'Vietnam→China':         { mode:'plane', icon:'✈', label:'Flight', route:'Ho Chi Minh → Guangzhou', cost:330, notes:'~$330pp NZD.', flightDate:'2026-12-02', flightTime:'9:45pm', flightArrival:'1:30am (Dec 3)' },
   'China→United Kingdom':  { mode:'plane', icon:'✈', label:'Flight', route:'Guangzhou → London', cost:451.5, notes:'Order Number (Flight Network): 1146-801-347. $903 total (both).', airline:'', bookingRef:'1146-801-347', flightDate:'2026-12-10', flightTime:'8:00am', flightArrival:'3:55pm (same day)' },
@@ -1399,7 +1399,7 @@ const DEFAULT_DAILY_PLAN = {
       morning: "Visit Magellan's Cross & Basilica del Sto. Niño — free entry (donations accepted). Active city centre; dress code enforced (cover shoulders & knees). 30–45 min.",
       afternoon: "Explore Fort San Pedro — oldest triangular bastion fort built by Spanish forces in the Philippines (₱50 entry, ~1 hour). Go in the afternoon to beat the midday heat.",
       evening: "Try Authentic Cebu Lechon at House of Lechon or CNT Lechon — widely considered a classic regional culinary gem (₱250–₱400 pp).",
-      notes: "Fort San Pedro ₱50 entry. Lechon ₱250–400 pp. Arrive 12pm — chill day to recover from travel.",
+      notes: "Fort San Pedro ₱50 entry. Lechon ₱250–400 pp. Arrive 4:30pm — chill evening to recover from travel.",
       price: 10
     }
   },
@@ -2515,6 +2515,11 @@ function loadICT() {
       Object.keys(DEFAULT_ICT).forEach(key => {
         if(!data[key]) { data[key] = {...DEFAULT_ICT[key]}; changed = true; }
       });
+      // Bali→Cebu flight arrival changed from 8pm to 4:30pm — only migrate if the user hasn't edited it
+      if(data['Indonesia→Philippines'] && data['Indonesia→Philippines'].flightArrival === '8pm') {
+        data['Indonesia→Philippines'].flightArrival = DEFAULT_ICT['Indonesia→Philippines'].flightArrival;
+        changed = true;
+      }
       if(data['Vietnam→Sri Lanka']) { delete data['Vietnam→Sri Lanka']; changed = true; }
       if(data['Sri Lanka→Peru']) { delete data['Sri Lanka→Peru']; changed = true; }
       if(changed) localStorage.setItem('dt_ict_v10', JSON.stringify(data));

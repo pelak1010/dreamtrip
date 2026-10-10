@@ -824,7 +824,7 @@ const DEFAULT_STOPS = [
   { id:'s6',  country:'Philippines', dest:'Oslob', hotel:'GT Seaside Inn', checkin:'2026-10-10', checkout:'2026-10-11', costPerNight:47.74,  points:0,     transport:5.5,  transportMode:'bus',   accommodationType:'hotel',  foodCostPerDay:16, notes:'Booked: NZD 47.74 total / 1 night, Deluxe Double Room. Confirmation 1101543948436720383. Bus Moalboal→Oslob $5.50pp, ~2.5h. Whale shark watching.' },
   { id:'s7',  country:'Philippines', dest:'Panglao (Bohol)', hotel:'South Palms Resort and Spa Panglao - MGallery Collection', checkin:'2026-10-11', checkout:'2026-10-13', costPerNight:274.72, points:0,    transport:20,  transportMode:'ferry', accommodationType:'accor',   foodCostPerDay:20, notes:'Booked: NZD 549.44 total / 2 nights, 2 adults, 1 room. Booking QPGPCBBD. Ferry Oslob→Tagbilaran then transfer to Panglao. Paid by Christian only. Chocolate Hills, tarsiers' },
   { id:'s8',  country:'Philippines', dest:'Bohol', hotel:'Bananaland Cottages', checkin:'2026-10-13', checkout:'2026-10-16', costPerNight:39.6667,  points:0,     transport:5,   transportMode:'car',   accommodationType:'airbnb',  foodCostPerDay:17, notes:'Booked: NZD 119 total / 3 nights, 2 adults, 1 apartment. Banana Land, Panglao Island. Arriving 13th from South Palms. Loboc River cruise' },
-  { id:'s9',  country:'Philippines', dest:'Siquijor', hotel:'The Bruce Beach Resort', checkin:'2026-10-16', checkout:'2026-10-19', costPerNight:38.9, points:0,     transport:14,  transportMode:'ferry', accommodationType:'hotel',  foodCostPerDay:16, notes:'Booked: NZD 116.70 total / 3 nights, Tropical Treehouse (Fan Only). Massage room, parking, airport pick-up. Ferry $7pp. Cambugahay Falls, Salagdoong cliff diving, island scooter loop' },
+  { id:'s9',  country:'Philippines', dest:'Siquijor', hotel:'Dolce Amore Resort', checkin:'2026-10-16', checkout:'2026-10-19', costPerNight:117.33, points:0,     transport:14,  transportMode:'ferry', accommodationType:'hotel',  foodCostPerDay:16, notes:'Booked & confirmed: NZD 352 total / 3 nights. Parking available. Replaces The Bruce Beach Resort (NZD 116.70). Ferry $7pp. Cambugahay Falls, Salagdoong cliff diving, island scooter loop' },
   { id:'s9c', country:'Philippines', dest:'Cebu (transit)', hotel:'Resort-Style Condo, Near Airport, Pool, Fast WiFi, Netflix & Disney', checkin:'2026-10-19', checkout:'2026-10-20', costPerNight:70, points:0, transport:0, transportMode:'ferry', transportLegs:[{id:'leg1', mode:'ferry', cost:18, notes:'Siquijor → Oslob, 8:00am–10:00am, Super Shuttle Ferry'},{id:'leg2', mode:'bus', cost:5, notes:'Oslob → Cebu, Sunrays bus, ~4h'}], accommodationType:'hotel', foodCostPerDay:20, notes:'Ferry Siquijor→Oslob 8:00–10:00am ($18pp Super Shuttle Ferry), then Sunrays bus Oslob→Cebu ~4h ($5pp). Booked: Resort-Style Condo, Near Airport, Pool, Fast WiFi, Netflix & Disney, One-Bedroom Apartment with Balcony and City View, approx NZD 70 total (₱2,462.88) / 1 night. Replaces Pamz Studio Condo Unit (NZD 38).' },
   { id:'s11', country:'Philippines', dest:'Siargao', hotel:'Airbnb', checkin:'2026-10-20', checkout:'2026-10-26', costPerNight:38,  points:0,     transport:81.5,  transportMode:'plane', accommodationType:'airbnb',  foodCostPerDay:18, notes:'Flight Cebu→Siargao, dep 2:50pm, arr 4pm. $163 total (both) / $81.50pp. Booking ref AE6WQY. Cloud 9 surf, island hopping, sugba lagoon' },
   { id:'s12', country:'Philippines', dest:'Boracay', hotel:'MCollection - Stay near Boracay Newcoast Beach', checkin:'2026-10-26', checkout:'2026-10-29', costPerNight:68.6667,  points:0,     transport:143.06, transportMode:'plane', accommodationType:'hotel',  foodCostPerDay:22, notes:'Booked: PAL Del Carmen (Siargao)→Caticlan, PR2375/PR2402 (1 stop), Mon 26 Oct 2026, dep 07:40 arr 10:05 (2h25min), Economy Supersaver. Booking ref XB65MB, PHP 9,900 total (~NZD 286 total / $143.06pp). Hotels.com itinerary 73545721708220, NZD 206 total / 3 nights, 2 adults, 1 room. Only booked to the 29th — last night (30th) will be booked separately in Malay near the airport for the early flight. White Beach sunsets, paraw sailing, kitesurfing' },
@@ -2286,6 +2286,17 @@ function loadStops() {
           cebuOct19.hotel = defCebu.hotel;
           cebuOct19.costPerNight = defCebu.costPerNight;
           cebuOct19.notes = defCebu.notes;
+          changed = true;
+        }
+      }
+      // Siquijor Oct 16 accommodation changed: The Bruce Beach Resort (NZD 116.70) → Dolce Amore Resort (NZD 352)
+      const siquijorOct16 = data.find(s => s.id === 's9');
+      if (siquijorOct16 && siquijorOct16.hotel === 'The Bruce Beach Resort') {
+        const defSiquijor = DEFAULT_STOPS.find(ds => ds.id === 's9');
+        if (defSiquijor) {
+          siquijorOct16.hotel = defSiquijor.hotel;
+          siquijorOct16.costPerNight = defSiquijor.costPerNight;
+          siquijorOct16.notes = defSiquijor.notes;
           changed = true;
         }
       }
@@ -4123,7 +4134,7 @@ const DEFAULT_EXPENSES = [
   { id:'exp-gtseaside-oslob', date:'2026-10-10', type:'accommodation', country:'Philippines', dest:'Oslob', amount:47.74, who:'Both', notes:'GT Seaside Inn, Oct 10–11 (1 night), Deluxe Double Room. Confirmation 1101543948436720383' },
   { id:'exp-southpalms-panglao', date:'2026-10-11', type:'accommodation', country:'Philippines', dest:'Panglao (Bohol)', amount:549.44, who:'Christian', notes:'South Palms Resort and Spa Panglao - MGallery Collection, Oct 11–13 (2 nights), Booking QPGPCBBD, 2 adults, 1 room' },
   { id:'exp-bananaland-bohol', date:'2026-10-13', type:'accommodation', country:'Philippines', dest:'Bohol', amount:119, who:'Both', notes:'Bananaland Cottages, Oct 13–16 (3 nights), 2 adults, 1 apartment' },
-  { id:'exp-brucebeach-siquijor', date:'2026-10-16', type:'accommodation', country:'Philippines', dest:'Siquijor', amount:116.70, who:'Both', notes:'The Bruce Beach Resort, Oct 16–19 (3 nights), Tropical Treehouse (Fan Only). Booking #1578948933808308' },
+  { id:'exp-brucebeach-siquijor', date:'2026-10-16', type:'accommodation', country:'Philippines', dest:'Siquijor', amount:352, who:'Both', notes:'Dolce Amore Resort, Oct 16–19 (3 nights), confirmed. Replaces The Bruce Beach Resort (NZD 116.70).' },
   { id:'exp-siquijor-oslob-ferry', date:'2026-10-19', type:'transport', country:'Philippines', dest:'Cebu (transit)', amount:36, who:'Both', notes:'Ferry Siquijor → Oslob, Super Shuttle Ferry, dep 8:00am arr 10:00am, $18pp' },
   { id:'exp-oslob-cebu-bus', date:'2026-10-19', type:'transport', country:'Philippines', dest:'Cebu (transit)', amount:10, who:'Both', notes:'Bus Oslob → Cebu, Sunrays, ~4h, $5pp' },
   { id:'exp-cebu-condo-oct19', date:'2026-10-19', type:'accommodation', country:'Philippines', dest:'Cebu (transit)', amount:70, who:'Both', notes:'Resort-Style Condo, Near Airport, Pool, Fast WiFi, Netflix & Disney. One-Bedroom Apartment with Balcony and City View, 1 night (₱2,462.88)' },
@@ -4173,6 +4184,13 @@ function loadExpenses(){
       data.forEach(e=>{
         const m = amountMigrations[e.id];
         if(m && e.amount === m.oldAmount){ e.amount = m.amount; changed = true; }
+      });
+      // Siquijor stay changed: The Bruce Beach Resort (116.70) → Dolce Amore Resort (352).
+      data.forEach(e=>{
+        if(e.id === 'exp-brucebeach-siquijor' && e.amount === 116.7){
+          const def = DEFAULT_EXPENSES.find(x=>x.id===e.id);
+          if(def){ e.amount = def.amount; e.notes = def.notes; changed = true; }
+        }
       });
       // Centro Bajo Hotel was paid from the ATM cash: flag it once so "Paid in cash" reflects it.
       // Only when paidCash was never set — an explicit false (user unticked it) is left alone.

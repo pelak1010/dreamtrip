@@ -829,8 +829,8 @@ const DEFAULT_STOPS = [
   { id:'s11', country:'Philippines', dest:'Siargao', hotel:'Terra Siargao', checkin:'2026-10-20', checkout:'2026-10-26', costPerNight:90.8333,  points:0,     transport:81.5,  transportMode:'plane', accommodationType:'hotel',  foodCostPerDay:18, notes:'Booked: Terra Siargao, Standard King Room, approx NZD 545 total / 6 nights, Tue 20 Oct – Mon 26 Oct 2026. Flight Cebu→Siargao, dep 2:50pm, arr 4pm. $163 total (both) / $81.50pp. Booking ref AE6WQY. Cloud 9 surf, island hopping, sugba lagoon' },
   { id:'s12', country:'Philippines', dest:'Boracay', hotel:'MCollection - Stay near Boracay Newcoast Beach', checkin:'2026-10-26', checkout:'2026-10-29', costPerNight:68.6667,  points:0,     transport:143.06, transportMode:'plane', accommodationType:'hotel',  foodCostPerDay:22, notes:'Booked: PAL Del Carmen (Siargao)→Caticlan, PR2375/PR2402 (1 stop), Mon 26 Oct 2026, dep 07:40 arr 10:05 (2h25min), Economy Supersaver. Booking ref XB65MB, PHP 9,900 total (~NZD 286 total / $143.06pp). Hotels.com itinerary 73545721708220, NZD 206 total / 3 nights, 2 adults, 1 room. Only booked to the 29th — last night (30th) will be booked separately in Malay near the airport for the early flight. White Beach sunsets, paraw sailing, kitesurfing' },
   { id:'s12b', country:'Philippines', dest:'Malay (Caticlan)', hotel:"Plato De Ciudad II", checkin:'2026-10-29', checkout:'2026-10-30', costPerNight:67, points:0, transport:0, transportMode:'boat', accommodationType:'hotel', foodCostPerDay:22, notes:"Booked: Plato De Ciudad II, Deluxe Double Room with Balcony, approx. NZD 67 total / 1 night, Thu 29 Oct – Fri 30 Oct 2026. Replaces Mansueto's Beach Resort (cancelled). Near Caticlan port/airport for the early Oct 30 flight to Puerto Princesa (dep 07:55)." },
-  { id:'s13a', country:'Philippines', dest:'Port Barton', hotel:'Sunset Garden', checkin:'2026-10-30', checkout:'2026-11-01', costPerNight:56.5, points:0, transport:0, transportMode:'plane', transportLegs:[{id:'leg1', mode:'plane', cost:138.53, notes:'Boracay (Caticlan) → Puerto Princesa via Manila, Cebu Pacific 5J890/5J633, dep 07:55 arr 12:35, booking ref OJDE7J, PHP 10,074.48 total (both)'},{id:'leg2', mode:'van', cost:25, notes:'Shared van Puerto Princesa → Port Barton ~4h'}], accommodationType:'hotel', foodCostPerDay:14, notes:'Booked: Sunset Garden, San Vicente, NZD 113 total / 2 nights, free cancellation, confirmed. Flight Boracay→Puerto Princesa via Manila, booking ref OJDE7J. Shared van from San Jose/Puerto Princesa ~4h (~$25pp). Hammock-lined shores, Inaladelan island, Pamuayan waterfall hike.' },
-  { id:'s13c', country:'Philippines', dest:'El Nido', hotel:'Amadeus and Isabel Inn', checkin:'2026-11-01', checkout:'2026-11-04', costPerNight:70, points:0, transport:25, transportMode:'van', accommodationType:'hotel', foodCostPerDay:18, notes:'Booked: NZD 210 total / 3 nights. Van Port Barton→El Nido ~3h (~$25pp NZD). Tour A & Tour C island hopping, Taraw cliff Via Ferrata, Las Cabañas sunset.' },
+  { id:'s13a', country:'Philippines', dest:'Puerto Princesa', hotel:'', checkin:'2026-10-30', checkout:'2026-11-01', costPerNight:56.5, points:0, transport:0, transportMode:'plane', transportLegs:[{id:'leg1', mode:'plane', cost:138.53, notes:'Boracay (Caticlan) → Puerto Princesa via Manila, Cebu Pacific 5J890/5J633, dep 07:55 arr 12:35, booking ref OJDE7J, PHP 10,074.48 total (both)'}], accommodationType:'hotel', foodCostPerDay:14, notes:'Hotel still to be found (Sunset Garden, Port Barton was cancelled) — NZD 56.50/night is an estimate. Flight Boracay→Puerto Princesa via Manila, booking ref OJDE7J. Underground River, Baywalk sunset, Kalui dinner.' },
+  { id:'s13c', country:'Philippines', dest:'El Nido', hotel:'Amadeus and Isabel Inn', checkin:'2026-11-01', checkout:'2026-11-04', costPerNight:70, points:0, transport:25, transportMode:'van', accommodationType:'hotel', foodCostPerDay:18, notes:'Booked: NZD 210 total / 3 nights. Shared van Puerto Princesa→El Nido ~5–6h (~$25pp NZD). Tour A & Tour C island hopping, Taraw cliff Via Ferrata, Las Cabañas sunset.' },
   { id:'s13b', country:'Philippines', dest:'Coron', hotel:'Darayonan Lodge', checkin:'2026-11-04', checkout:'2026-11-07', costPerNight:42.79, points:0, transport:52, transportMode:'ferry', accommodationType:'hotel', foodCostPerDay:16, notes:'Booked: NZD 128.37 total / 3 nights. Fastcraft El Nido→Coron ~4h (~₱1,800pp ~$52pp NZD). Kayangan Lake, Barracuda Lake, WWII shipwreck snorkel, Mt. Tapyas. Fly out to Hanoi (booking ref YEWJ7N).' },
 
   // VIETNAM — North to South (PDF: 26 Oct – 3 Dec, 38 nights)
@@ -952,11 +952,6 @@ const THINGS_TO_DO = {
     { icon:'🤿', name:'Crocodile Island snorkel', desc:'Colourful reef teeming with fish, a short boat ride from White Beach', price:'~$15pp' },
     { icon:'🏖', name:'Puka Shell Beach', desc:'North end, quieter, more natural and less developed than White Beach', price:'Free' },
   ],
-  'Port Barton': [
-    { icon:'🏝', name:'Inaladelan Island', desc:'Hammocks between palm trees, crystal water, near-zero crowds — the perfect off-grid beach', price:'~₱50 boat/entry' },
-    { icon:'💦', name:'Pamuayan Waterfalls hike', desc:'Jungle path to a hidden freshwater plunge basin — refreshing and completely free', price:'Free (donation)' },
-    { icon:'🤿', name:'Island snorkel tour', desc:'Multi-island boat tour through Port Barton Bay — pristine reefs, fish, and total peace', price:'~₱800pp' },
-  ],
   'El Nido': [
     { icon:'🚣', name:'Island Hopping Tour A', desc:'Big Lagoon & Secret Lagoon — paddle through karst cliffs by kayak', price:'~₱1,500pp incl. eco-fee' },
     { icon:'🏖', name:'Island Hopping Tour C', desc:'Secret Beach & Hidden Beach — only reachable by swimming through rock gaps', price:'~₱1,500pp incl. eco-fee' },
@@ -971,6 +966,7 @@ const THINGS_TO_DO = {
   ],
   'Puerto Princesa': [
     { icon:'🛶', name:'Underground River World Wonder', desc:'Paddleboat through an immense subterranean cave river system — UNESCO World Heritage', price:'~₱2,250pp all-incl.' },
+    { icon:'🌅', name:'Baywalk sunset', desc:'Evening stroll along Puerto Princesa Bay — street food, live music and a big Palawan sunset', price:'Free' },
     { icon:'🍽', name:'Kalui Restaurant dinner', desc:'Footwear-free native hardwood dining room — set seafood menus, advance booking essential', price:'~₱300–600pp' },
   ],
   'Hanoi': [
@@ -1583,29 +1579,29 @@ const DEFAULT_DAILY_PLAN = {
     'day_4': {
       theme: 'Last Morning & Departure to Palawan',
       morning: "Final White Beach swim at Station 1 — best sand at low tide.",
-      afternoon: "Pack and depart Boracay → Caticlan airport → fly to Puerto Princesa or connect via Manila for Port Barton.",
+      afternoon: "Pack and depart Boracay → Caticlan airport → fly to Puerto Princesa via Manila.",
       evening: "Travel day toward Palawan.",
-      notes: "Depart Caticlan toward Palawan (Port Barton). Book van transfer from Puerto Princesa in advance.",
+      notes: "Depart Caticlan toward Palawan (Puerto Princesa) — flight via Manila, booking ref OJDE7J.",
       price: 0
     }
   },
 
-  // ── Port Barton (2 nights) ────────────────────────────────────────────
+  // ── Puerto Princesa (2 nights) ────────────────────────────────────────
   's13a': {
     'day_1': {
-      theme: 'Arrival & Inaladelan Island',
-      morning: "Arrive Port Barton — a quiet, off-the-grid eco-conscious village with hammock-lined shores. Settle in.",
-      afternoon: "Unwind at Isolated White Beach / Inaladelan Island — hammocks strung between tall palms, incredibly low crowds and completely peaceful surroundings (₱50 boat/entry fee, half-day).",
-      evening: "Beachfront dinner in Port Barton village. Slow-paced, relaxed evening — one of the most peaceful spots in the Philippines.",
-      notes: "Inaladelan Island ₱50 pp boat/entry. Port Barton is off-the-grid — bring cash, limited ATMs.",
+      theme: 'Arrival & Baywalk Sunset',
+      morning: "Fly Boracay (Caticlan) → Puerto Princesa via Manila (dep 07:55, arr 12:35). Transfer to the hotel by tricycle or Grab.",
+      afternoon: "Check in, then wander the city — Plaza Cuartel and the Immaculate Conception Cathedral.",
+      evening: "Sunset and street food along Baywalk, then dinner at Kalui (footwear-free native hardwood dining room — book ahead; ₱300–600 pp).",
+      notes: "Hotel still to be booked. Book Underground River permits in advance for tomorrow.",
       price: 1
     },
     'day_2': {
-      theme: 'Pamuayan Waterfalls & Departure to El Nido',
-      morning: "Hike to Pamuayan Waterfalls — walk through a clearly marked inland jungle path to discover a hidden freshwater plunge basin (free entry; voluntary registration donation; 1.5–2h round trip trek).",
-      afternoon: "Pack up and travel to El Nido by shared van (~3h, ~₱350 pp).",
-      evening: "Arrive El Nido. Settle in and explore the town strip.",
-      notes: "Pamuayan Falls: free (voluntary donation). Shared van to El Nido ~₱350 pp, ~3h — book the night before.",
+      theme: 'Underground River & Departure to El Nido',
+      morning: "Puerto Princesa Underground River (UNESCO World Heritage) — paddleboat through the cave river system (~₱2,250 pp all-inclusive; ~1.5h each way to Sabang). Permits must be booked ahead.",
+      afternoon: "Return to the city and pack up. Shared van to El Nido (~5–6h, ~₱700 pp) — or choose a morning van and skip the Underground River.",
+      evening: "Arrive El Nido late. Settle in and grab dinner on the town strip.",
+      notes: "Underground River ~₱2,250 pp. Van to El Nido ~5–6h — book the night before; last vans leave mid-afternoon, so check times before committing to the cave tour.",
       price: 0
     }
   },
@@ -1614,7 +1610,7 @@ const DEFAULT_DAILY_PLAN = {
   's13c': {
     'day_1': {
       theme: 'Arrival & Island Hopping Tour A — Big Lagoon & Secret Lagoon',
-      morning: "Arrive El Nido by shared van from Port Barton (~3h, ~₱350 pp). Check in and settle. Book El Nido Island Hopping Tour A — enters Big Lagoon and Secret Lagoon through towering karst limestone formations (₱1,300 pp + ₱200 uniform eco-fee). Departs 9:00 AM sharp — book the night before.",
+      morning: "Arrive El Nido by shared van from Puerto Princesa (~5–6h, ~₱700 pp). Check in and settle. Book El Nido Island Hopping Tour A — enters Big Lagoon and Secret Lagoon through towering karst limestone formations (₱1,300 pp + ₱200 uniform eco-fee). Departs 9:00 AM sharp — book the night before.",
       afternoon: "Continue Tour A — paddle through hidden lagoons and swim beneath sheer cliff walls. Kayak rental at entry points ₱300.",
       evening: "Sunset at Las Cabañas Beach — laid-back beach bars with bean bags right on the shoreline. Optional 750m inter-island zipline (₱500–₱700).",
       notes: "Tour A: ₱1,500 pp total (₱1,300 + ₱200 eco-fee). Kayak ₱300 extra. Book night before — departs 9am.",
@@ -2320,6 +2316,20 @@ function loadStops() {
           portBartonOct30.notes = defPB.notes;
           changed = true;
         }
+      }
+      // Oct 30–Nov 1 stop moved from Port Barton to Puerto Princesa (Sunset Garden cancelled, new hotel TBD).
+      const pbToPps = data.find(s => s.id === 's13a');
+      if (pbToPps && pbToPps.dest === 'Port Barton') {
+        const defPps = DEFAULT_STOPS.find(ds => ds.id === 's13a');
+        if (defPps) {
+          ['dest','hotel','costPerNight','accommodationType','transportLegs','foodCostPerDay','notes'].forEach(k => { pbToPps[k] = defPps[k]; });
+          changed = true;
+        }
+      }
+      const elNidoVan = data.find(s => s.id === 's13c');
+      if (elNidoVan && elNidoVan.notes && elNidoVan.notes.includes('Van Port Barton→El Nido ~3h')) {
+        const defElNido = DEFAULT_STOPS.find(ds => ds.id === 's13c');
+        if (defElNido) { elNidoVan.notes = defElNido.notes; changed = true; }
       }
       // Caticlan Oct 29 accommodation changed: Mansueto's Beach Resort (NZD 56, cancelled) → Plato De Ciudad II (~NZD 67)
       const caticlanOct29 = data.find(s => s.id === 's12b');
@@ -4175,8 +4185,7 @@ const DEFAULT_EXPENSES = [
   { id:'exp-terra-siargao', date:'2026-10-20', type:'accommodation', country:'Philippines', dest:'Siargao', amount:545, who:'Both', notes:'Terra Siargao, Standard King Room, Oct 20–26 (6 nights), approx NZD 545 total' },
   { id:'exp-cebu-siargao-flight', date:'2026-10-20', type:'transport', country:'Philippines', dest:'Siargao', amount:163, who:'Both', notes:'Flight Cebu → Siargao, dep 2:50pm, arr 4pm, $163 total (both). Booking ref AE6WQY.' },
   { id:'exp-siargao-boracay-flight', date:'2026-10-26', type:'transport', country:'Philippines', dest:'Boracay', amount:286.12, who:'Both', notes:'Flight Del Carmen (Siargao) → Caticlan, PR2375/PR2402 (1 stop), Mon 26 Oct 2026, dep 07:40 arr 10:05. Booking ref XB65MB, PHP 9,900 total (both).' },
-  { id:'exp-boracay-pps-flight', date:'2026-10-30', type:'transport', country:'Philippines', dest:'Port Barton', amount:277.05, who:'Both', notes:'Flight Boracay (Caticlan) → Puerto Princesa via Manila, 5J890/5J633, Fri 30 Oct 2026, dep 07:55 arr 12:35. Booking ref OJDE7J, PHP 10,074.48 total (both).' },
-  { id:'exp-bff-portbarton', date:'2026-10-30', type:'accommodation', country:'Philippines', dest:'Port Barton', amount:113, who:'Both', notes:"Sunset Garden (San Vicente), Oct 30–Nov 1 (2 nights), confirmed, free cancellation. Replaces BFF Backpacker's Inn (NZD 78)." },
+  { id:'exp-boracay-pps-flight', date:'2026-10-30', type:'transport', country:'Philippines', dest:'Puerto Princesa', amount:277.05, who:'Both', notes:'Flight Boracay (Caticlan) → Puerto Princesa via Manila, 5J890/5J633, Fri 30 Oct 2026, dep 07:55 arr 12:35. Booking ref OJDE7J, PHP 10,074.48 total (both).' },
   { id:'exp-amadeus-isabel-elnido', date:'2026-11-01', type:'accommodation', country:'Philippines', dest:'El Nido', amount:210, who:'Both', notes:'Amadeus and Isabel Inn, Nov 1–4 (3 nights)' },
   { id:'exp-darayonan-coron', date:'2026-11-04', type:'accommodation', country:'Philippines', dest:'Coron', amount:128.37, who:'Both', notes:'Darayonan Lodge, Nov 4–7 (3 nights)' },
   { id:'exp-anova2-hanoi', date:'2026-11-07', type:'accommodation', country:'Vietnam', dest:'Hanoi', amount:32, who:'Both', notes:'Anova 2 Hotel, Nov 7–8 (1 night), Deluxe Double Room — arrival night (flight lands 01:25 Nov 8).' },
@@ -4226,6 +4235,13 @@ function loadExpenses(){
           const def = DEFAULT_EXPENSES.find(x=>x.id===e.id);
           if(def){ e.amount = def.amount; e.notes = def.notes; changed = true; }
         }
+      });
+      // Sunset Garden (Port Barton) was cancelled — drop the cached booking entry; the Boracay→Puerto Princesa flight now sits under Puerto Princesa.
+      const beforeLen = data.length;
+      for(let i = data.length - 1; i >= 0; i--){ if(data[i].id === 'exp-bff-portbarton') data.splice(i, 1); }
+      if(data.length !== beforeLen) changed = true;
+      data.forEach(e=>{
+        if(e.id === 'exp-boracay-pps-flight' && e.dest === 'Port Barton'){ e.dest = 'Puerto Princesa'; changed = true; }
       });
       // Port Barton stay changed: BFF Backpacker's Inn (78) → Sunset Garden (113).
       data.forEach(e=>{
@@ -5022,8 +5038,8 @@ const ROUTE_COORDS = [
   [10.3157,123.8854,'Cebu'],[9.3833,123.3667,'Moalboal'],
   [9.8500,124.1430,'Bohol'],[9.1856,123.5100,'Siquijor'],
   [9.8600,126.0478,'Siargao'],[11.9674,121.9248,'Boracay'],
-  [10.7667,119.2833,'Port Barton'],[11.1784,119.3871,'El Nido'],
-  [11.9993,120.2043,'Coron'],[9.7392,118.7353,'Puerto Princesa'],
+  [9.7392,118.7353,'Puerto Princesa'],[11.1784,119.3871,'El Nido'],
+  [11.9993,120.2043,'Coron'],
   [21.0278,105.8342,'Hanoi'],[20.9099,107.1839,'Ha Long Bay'],[16.0544,108.2022,'Da Nang'],[10.8231,106.6297,'HCMC'],
   [10.2898,103.9840,'Phu Quoc'],[23.1291,113.2644,'Guangzhou'],[51.5072,-0.1276,'London'],
   [-34.6037,-58.3816,'Buenos Aires'],[-27.4514,-58.9867,'Chaco'],[-25.6953,-54.4367,'Iguazu Falls'],

@@ -824,7 +824,7 @@ const DEFAULT_STOPS = [
   { id:'s6',  country:'Philippines', dest:'Oslob', hotel:'GT Seaside Inn', checkin:'2026-10-10', checkout:'2026-10-11', costPerNight:47.74,  points:0,     transport:5.5,  transportMode:'bus',   accommodationType:'hotel',  foodCostPerDay:16, notes:'Booked: NZD 47.74 total / 1 night, Deluxe Double Room. Confirmation 1101543948436720383. Bus Moalboal→Oslob $5.50pp, ~2.5h. Whale shark watching.' },
   { id:'s7',  country:'Philippines', dest:'Panglao (Bohol)', hotel:'South Palms Resort and Spa Panglao - MGallery Collection', checkin:'2026-10-11', checkout:'2026-10-13', costPerNight:274.72, points:0,    transport:20,  transportMode:'ferry', accommodationType:'accor',   foodCostPerDay:20, notes:'Booked: NZD 549.44 total / 2 nights, 2 adults, 1 room. Booking QPGPCBBD. Ferry Oslob→Tagbilaran then transfer to Panglao. Paid by Christian only. Chocolate Hills, tarsiers' },
   { id:'s8',  country:'Philippines', dest:'Bohol', hotel:'Bananaland Cottages', checkin:'2026-10-13', checkout:'2026-10-16', costPerNight:39.6667,  points:0,     transport:5,   transportMode:'car',   accommodationType:'airbnb',  foodCostPerDay:17, notes:'Booked: NZD 119 total / 3 nights, 2 adults, 1 apartment. Banana Land, Panglao Island. Arriving 13th from South Palms. Loboc River cruise' },
-  { id:'s9',  country:'Philippines', dest:'Siquijor', hotel:'Dolce Amore Resort', checkin:'2026-10-16', checkout:'2026-10-19', costPerNight:117.33, points:0,     transport:14,  transportMode:'ferry', accommodationType:'hotel',  foodCostPerDay:16, notes:'Booked & confirmed: NZD 352 total / 3 nights. Parking available. Replaces The Bruce Beach Resort (NZD 116.70). Ferry $7pp. Cambugahay Falls, Salagdoong cliff diving, island scooter loop' },
+  { id:'s9',  country:'Philippines', dest:'Siquijor', hotel:'Dolce Amore Resort', checkin:'2026-10-16', checkout:'2026-10-19', costPerNight:117.33, points:0,     transport:75.54,  transportMode:'ferry', accommodationType:'hotel',  foodCostPerDay:16, notes:'Booked & confirmed: NZD 352 total / 3 nights. Parking available. Replaces The Bruce Beach Resort (NZD 116.70). Ferry Tagbilaran Pier → Siquijor Pier booked: NZD 75.54 total (both), dep 15:20 arr 17:20, Oct 16. Cambugahay Falls, Salagdoong cliff diving, island scooter loop' },
   { id:'s9c', country:'Philippines', dest:'Cebu (transit)', hotel:'Resort-Style Condo, Near Airport, Pool, Fast WiFi, Netflix & Disney', checkin:'2026-10-19', checkout:'2026-10-20', costPerNight:70, points:0, transport:0, transportMode:'ferry', transportLegs:[{id:'leg1', mode:'ferry', cost:18, notes:'Siquijor → Oslob, 8:00am–10:00am, Super Shuttle Ferry'},{id:'leg2', mode:'bus', cost:5, notes:'Oslob → Cebu, Sunrays bus, ~4h'}], accommodationType:'hotel', foodCostPerDay:20, notes:'Ferry Siquijor→Oslob 8:00–10:00am ($18pp Super Shuttle Ferry), then Sunrays bus Oslob→Cebu ~4h ($5pp). Booked: Resort-Style Condo, Near Airport, Pool, Fast WiFi, Netflix & Disney, One-Bedroom Apartment with Balcony and City View, approx NZD 70 total (₱2,462.88) / 1 night. Replaces Pamz Studio Condo Unit (NZD 38).' },
   { id:'s11', country:'Philippines', dest:'Siargao', hotel:'Terra Siargao', checkin:'2026-10-20', checkout:'2026-10-26', costPerNight:90.8333,  points:0,     transport:81.5,  transportMode:'plane', accommodationType:'hotel',  foodCostPerDay:18, notes:'Booked: Terra Siargao, Standard King Room, approx NZD 545 total / 6 nights, Tue 20 Oct – Mon 26 Oct 2026. Flight Cebu→Siargao, dep 2:50pm, arr 4pm. $163 total (both) / $81.50pp. Booking ref AE6WQY. Cloud 9 surf, island hopping, sugba lagoon' },
   { id:'s12', country:'Philippines', dest:'Boracay', hotel:'MCollection - Stay near Boracay Newcoast Beach', checkin:'2026-10-26', checkout:'2026-10-29', costPerNight:68.6667,  points:0,     transport:143.06, transportMode:'plane', accommodationType:'hotel',  foodCostPerDay:22, notes:'Booked: PAL Del Carmen (Siargao)→Caticlan, PR2375/PR2402 (1 stop), Mon 26 Oct 2026, dep 07:40 arr 10:05 (2h25min), Economy Supersaver. Booking ref XB65MB, PHP 9,900 total (~NZD 286 total / $143.06pp). Hotels.com itinerary 73545721708220, NZD 206 total / 3 nights, 2 adults, 1 room. Only booked to the 29th — last night (30th) will be booked separately in Malay near the airport for the early flight. White Beach sunsets, paraw sailing, kitesurfing' },
@@ -1470,9 +1470,9 @@ const DEFAULT_DAILY_PLAN = {
     'day_4': {
       theme: 'Departure to Siquijor',
       morning: "Final swim and pack up.",
-      afternoon: "Depart Bohol for Siquijor via fast ferry from Tagbilaran (~1.5 h, ₱7 pp).",
+      afternoon: "Depart Tagbilaran Pier for Siquijor via ferry at 15:20 (arrive Siquijor Pier 17:20).",
       evening: "Arrive Siquijor. Settle in.",
-      notes: "Bohol → Siquijor fast ferry ₱7 pp. Check ferry schedule ahead of time.",
+      notes: "Booked: Bohol → Siquijor ferry, 15:20 → 17:20, NZD 75.54 total (both).",
       price: 0
     }
   },
@@ -2297,6 +2297,15 @@ function loadStops() {
           siquijorOct16.hotel = defSiquijor.hotel;
           siquijorOct16.costPerNight = defSiquijor.costPerNight;
           siquijorOct16.notes = defSiquijor.notes;
+          changed = true;
+        }
+      }
+      // Siquijor Oct 16 ferry booked: placeholder NZD 14 → NZD 75.54 (Tagbilaran → Siquijor, both)
+      if (siquijorOct16 && siquijorOct16.transport === 14) {
+        const defSiquijorFerry = DEFAULT_STOPS.find(ds => ds.id === 's9');
+        if (defSiquijorFerry) {
+          siquijorOct16.transport = defSiquijorFerry.transport;
+          siquijorOct16.notes = defSiquijorFerry.notes;
           changed = true;
         }
       }

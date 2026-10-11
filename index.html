@@ -2142,6 +2142,8 @@ function loadStops() {
         s42:{ oldIn:'2027-03-18', oldOut:'2027-04-13', checkin:'2027-03-19', checkout:'2027-04-14' },
       };
       // Bali→Cebu flight rebooked for Oct 7 (was Oct 5) — cascades +2 days through end of trip
+      // NOTE: s13c (El Nido) and s14b (Sapa) deliberately omitted — their current DEFAULT_STOPS dates equal this table's
+      // oldIn/oldOut, so the migration kept re-shifting correct cached dates (El Nido to Nov 3–6, Sapa to Nov 12–16).
       const dateMigrationsV2 = {
         s3:{ oldIn:'2026-10-02', oldOut:'2026-10-05', checkin:'2026-10-02', checkout:'2026-10-05' },
         s3b:{ oldIn:'2026-10-05', oldOut:'2026-10-05', checkin:'2026-10-06', checkout:'2026-10-07' },
@@ -2154,10 +2156,8 @@ function loadStops() {
         s12:{ oldIn:'2026-10-24', oldOut:'2026-10-28', checkin:'2026-10-26', checkout:'2026-10-30' },
         s13a:{ oldIn:'2026-10-28', oldOut:'2026-10-30', checkin:'2026-10-30', checkout:'2026-11-01' },
         s13b:{ oldIn:'2026-10-30', oldOut:'2026-11-01', checkin:'2026-11-01', checkout:'2026-11-03' },
-        s13c:{ oldIn:'2026-11-01', oldOut:'2026-11-04', checkin:'2026-11-03', checkout:'2026-11-06' },
         s13d:{ oldIn:'2026-11-04', oldOut:'2026-11-05', checkin:'2026-11-06', checkout:'2026-11-07' },
         s14:{ oldIn:'2026-11-05', oldOut:'2026-11-10', checkin:'2026-11-07', checkout:'2026-11-12' },
-        s14b:{ oldIn:'2026-11-10', oldOut:'2026-11-14', checkin:'2026-11-12', checkout:'2026-11-16' },
         s15:{ oldIn:'2026-11-14', oldOut:'2026-11-18', checkin:'2026-11-16', checkout:'2026-11-20' },
         s15b:{ oldIn:'2026-11-18', oldOut:'2026-11-20', checkin:'2026-11-20', checkout:'2026-11-22' },
         s15c:{ oldIn:'2026-11-20', oldOut:'2026-11-23', checkin:'2026-11-22', checkout:'2026-11-25' },
@@ -2319,13 +2319,27 @@ function loadStops() {
       }
       // Oct 30–Nov 1 stop moved from Port Barton to Puerto Princesa (Sunset Garden cancelled, new hotel TBD).
       const pbToPps = data.find(s => s.id === 's13a');
-      if (pbToPps && pbToPps.dest === 'Port Barton') {
+      if (pbToPps && (pbToPps.dest === 'Port Barton' || pbToPps.hotel === 'Sunset Garden')) {
         const defPps = DEFAULT_STOPS.find(ds => ds.id === 's13a');
         if (defPps) {
           ['dest','hotel','costPerNight','accommodationType','transportLegs','foodCostPerDay','notes'].forEach(k => { pbToPps[k] = defPps[k]; });
           changed = true;
         }
       }
+      // One-off: reset Philippines Palawan stop dates (Puerto Princesa Oct 30–Nov 1, El Nido Nov 1–4, Coron Nov 4–7) and
+      // Sapa (Nov 10–14) to DEFAULT_STOPS — dateMigrationsV2 had shifted cached El Nido/Sapa dates.
+      try {
+        if (!localStorage.getItem('dt_palawan_dates_fix_v1')) {
+          ['s13a','s13c','s13b','s14b'].forEach(id => {
+            const cur = data.find(s => s.id === id);
+            const def = DEFAULT_STOPS.find(ds => ds.id === id);
+            if (cur && def && (cur.checkin !== def.checkin || cur.checkout !== def.checkout)) {
+              cur.checkin = def.checkin; cur.checkout = def.checkout; changed = true;
+            }
+          });
+          localStorage.setItem('dt_palawan_dates_fix_v1', '1');
+        }
+      } catch(e) {}
       const elNidoVan = data.find(s => s.id === 's13c');
       if (elNidoVan && elNidoVan.notes && elNidoVan.notes.includes('Van Port Barton→El Nido ~3h')) {
         const defElNido = DEFAULT_STOPS.find(ds => ds.id === 's13c');

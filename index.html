@@ -831,7 +831,7 @@ const DEFAULT_STOPS = [
   { id:'s12b', country:'Philippines', dest:'Malay (Caticlan)', hotel:"Plato De Ciudad II", checkin:'2026-10-29', checkout:'2026-10-30', costPerNight:67, points:0, transport:0, transportMode:'boat', accommodationType:'hotel', foodCostPerDay:22, notes:"Booked: Plato De Ciudad II, Deluxe Double Room with Balcony, approx. NZD 67 total / 1 night, Thu 29 Oct – Fri 30 Oct 2026. Replaces Mansueto's Beach Resort (cancelled). Near Caticlan port/airport for the early Oct 30 flight to Puerto Princesa (dep 07:55)." },
   { id:'s13a', country:'Philippines', dest:'Puerto Princesa', hotel:'', checkin:'2026-10-30', checkout:'2026-11-01', costPerNight:56.5, points:0, transport:0, transportMode:'plane', transportLegs:[{id:'leg1', mode:'plane', cost:138.53, notes:'Boracay (Caticlan) → Puerto Princesa via Manila, Cebu Pacific 5J890/5J633, dep 07:55 arr 12:35, booking ref OJDE7J, PHP 10,074.48 total (both)'}], accommodationType:'hotel', foodCostPerDay:14, notes:'Hotel still to be found (Sunset Garden, Port Barton was cancelled) — NZD 56.50/night is an estimate. Flight Boracay→Puerto Princesa via Manila, booking ref OJDE7J. Underground River, Baywalk sunset, Kalui dinner.' },
   { id:'s13c', country:'Philippines', dest:'El Nido', hotel:'Z Garden Hotel Managed by H Hospitality', checkin:'2026-11-01', checkout:'2026-11-04', costPerNight:113.2967, points:0, transport:25, transportMode:'van', accommodationType:'hotel', foodCostPerDay:18, notes:'Booked: Z Garden Hotel, NZD 339.89 total / 3 nights, confirmation 4941436903742881522 (booking dates read Tue 3 – Fri 6 Nov; stay is planned Nov 1–4). Replaces Amadeus and Isabel Inn. Shared van Puerto Princesa→El Nido ~5–6h (~$25pp NZD). Tour A & Tour C island hopping, Taraw cliff Via Ferrata, Las Cabañas sunset.' },
-  { id:'s13b', country:'Philippines', dest:'Coron', hotel:'Sunlight Guest Hotel', checkin:'2026-11-04', checkout:'2026-11-07', costPerNight:117.87, points:0, transport:52, transportMode:'ferry', accommodationType:'hotel', foodCostPerDay:16, notes:'Booked: Sunlight Guest Hotel, National Road, Brgy Tagumpay, Coron — NZD 353.61 total (both) / 3 nights. Check-in after 2:00 PM, check-out before 12:00 PM. Fastcraft El Nido→Coron ~4h (~₱1,800pp ~$52pp NZD). Kayangan Lake, Barracuda Lake, WWII shipwreck snorkel, Mt. Tapyas. Fly out to Hanoi (booking ref YEWJ7N).' },
+  { id:'s13b', country:'Philippines', dest:'Coron', hotel:'Sunlight Guest Hotel', checkin:'2026-11-04', checkout:'2026-11-07', costPerNight:117.87, points:0, transport:0, transportMode:'ferry', transportLegs:[{id:'leg1', mode:'ferry', cost:86.495, notes:'Booked: Ferry El Nido Ferry Terminal → Coron Port, Nov 4 dep 12:00 PM, arr 15:30, NZD 172.99 total (both) / $86.50pp'}], accommodationType:'hotel', foodCostPerDay:16, notes:'Booked: Sunlight Guest Hotel, National Road, Brgy Tagumpay, Coron — NZD 353.61 total (both) / 3 nights. Check-in after 2:00 PM, check-out before 12:00 PM. Booked ferry El Nido Ferry Terminal→Coron Port, Nov 4, 12:00 PM → 15:30, NZD 172.99 total (both). Kayangan Lake, Barracuda Lake, WWII shipwreck snorkel, Mt. Tapyas. Fly out to Hanoi (booking ref YEWJ7N).' },
 
   // VIETNAM — North to South (PDF: 26 Oct – 3 Dec, 38 nights)
   { id:'s13e', country:'Vietnam', dest:'Hanoi', hotel:'Anova 2 Hotel', checkin:'2026-11-07', checkout:'2026-11-08', costPerNight:32, points:0, transport:0, transportMode:'plane', accommodationType:'hotel', foodCostPerDay:0, notes:'Arrival-night stay — flight from Coron lands 01:25 (+1). Anova 2 Hotel, Deluxe Double Room, ~NZD 32 total.' },
@@ -1628,8 +1628,8 @@ const DEFAULT_DAILY_PLAN = {
       theme: 'Sunrise Walk & Departure to Coron',
       morning: "Early sunrise walk at Las Cabañas Beach. Final coffee in El Nido town.",
       afternoon: "Pack and prepare for departure.",
-      evening: "Depart El Nido for Coron by fastcraft (~4h, ~₱1,800 pp). Book in advance — popular route fills fast.",
-      notes: "Fastcraft El Nido→Coron ~₱1,800 pp, ~4h — book 1–2 days ahead online.",
+      evening: "Ferry El Nido Ferry Terminal → Coron Port: departs 12:00 PM, arrives 15:30. Booked.",
+      notes: "Booked: ferry El Nido → Coron, Nov 4, 12:00 PM → 15:30, NZD 172.99 total (both).",
       price: 52
     }
   },
@@ -1638,7 +1638,7 @@ const DEFAULT_DAILY_PLAN = {
   's13b': {
     'day_1': {
       theme: 'Coron Ultimate Island Tour — Kayangan & Barracuda Lakes',
-      morning: "Arrive Coron by fastcraft from El Nido. Drop bags at Sunlight Guest Hotel (check-in opens after 2:00 PM) and freshen up. Coron Ultimate Island Tour (₱1,650 group boat tour, full day). Climb the famous 150-step volcanic ridge overlooking crystal-clear Kayangan Lake — consistently rated one of the cleanest lakes in Asia.",
+      morning: "Arrive Coron Port by ferry from El Nido (15:30). Drop bags at Sunlight Guest Hotel (check-in opens after 2:00 PM) and freshen up. Coron Ultimate Island Tour (₱1,650 group boat tour, full day). Climb the famous 150-step volcanic ridge overlooking crystal-clear Kayangan Lake — consistently rated one of the cleanest lakes in Asia.",
       afternoon: "Swim in Barracuda Lake — unique brackish, thermally layered volcanic water with dramatic visibility and eerie underwater rock formations (included in tour).",
       evening: "Dinner at a local seafood restaurant in Coron town.",
       notes: "Coron island tour: ₱1,650 pp group boat. Includes Kayangan Lake, Barracuda Lake, and Twin Lagoons. Stay: Sunlight Guest Hotel, National Road, Brgy Tagumpay (Nov 4–7, NZD 353.61 total) — check-in after 2:00 PM.",
@@ -2304,6 +2304,18 @@ function loadStops() {
           coronNov4.hotel = defCoron.hotel;
           coronNov4.costPerNight = defCoron.costPerNight;
           coronNov4.notes = defCoron.notes;
+          changed = true;
+        }
+      }
+      // El Nido → Coron ferry booked (Nov 4, NZD 172.99 both): placeholder NZD 52pp → booked leg
+      const coronFerry = data.find(s => s.id === 's13b');
+      if (coronFerry && !(coronFerry.transportLegs && coronFerry.transportLegs.length > 0)) {
+        const defCoronFerry = DEFAULT_STOPS.find(ds => ds.id === 's13b');
+        if (defCoronFerry) {
+          coronFerry.transport = defCoronFerry.transport;
+          coronFerry.transportMode = defCoronFerry.transportMode;
+          coronFerry.transportLegs = JSON.parse(JSON.stringify(defCoronFerry.transportLegs));
+          coronFerry.notes = defCoronFerry.notes;
           changed = true;
         }
       }

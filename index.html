@@ -4264,7 +4264,7 @@ const DEFAULT_EXPENSES = [
   { id:'exp-siargao-boracay-flight', date:'2026-10-26', type:'transport', country:'Philippines', dest:'Boracay', amount:286.12, who:'Both', notes:'Flight Del Carmen (Siargao) → Caticlan, PR2375/PR2402 (1 stop), Mon 26 Oct 2026, dep 07:40 arr 10:05. Booking ref XB65MB, PHP 9,900 total (both).' },
   { id:'exp-island-breeze-pps', date:'2026-10-30', type:'accommodation', country:'Philippines', dest:'Puerto Princesa', amount:137, who:'Both', notes:'Island Breeze Studio Pool Gym Near Airport, One-Bedroom Apartment, Oct 30–Nov 1 (2 nights), approx NZD 137 total' },
   { id:'exp-boracay-pps-flight', date:'2026-10-30', type:'transport', country:'Philippines', dest:'Puerto Princesa', amount:277.05, who:'Both', notes:'Flight Boracay (Caticlan) → Puerto Princesa via Manila, 5J890/5J633, Fri 30 Oct 2026, dep 07:55 arr 12:35. Booking ref OJDE7J, PHP 10,074.48 total (both).' },
-  { id:'exp-whaleshark-pps', date:'2026-10-31', type:'experience', country:'Philippines', dest:'Puerto Princesa', amount:17.12, who:'Both', notes:'Swim With the Whale Sharks in Puerto Princesa × 1 — deposit (NZD 17.12) paid in advance. Balance of NZD 154.30 logged separately (total NZD 171.42).' },
+  { id:'exp-whaleshark-pps', date:'2026-10-13', type:'experience', country:'Philippines', dest:'Puerto Princesa', amount:17.12, who:'Both', notes:'Swim With the Whale Sharks in Puerto Princesa × 1 — deposit (NZD 17.12) paid in advance. Balance of NZD 154.30 logged separately (total NZD 171.42).' },
   { id:'exp-whaleshark-pps-balance', date:'2026-10-31', type:'experience', country:'Philippines', dest:'Puerto Princesa', amount:154.30, who:'Both', notes:'Swim With the Whale Sharks in Puerto Princesa × 1 — remaining balance (NZD 154.30) payable on the day. Deposit NZD 17.12 logged separately (total NZD 171.42).' },
   { id:'exp-movenpick-boracay', date:'2026-10-26', type:'accommodation', country:'Philippines', dest:'Boracay', amount:600, who:'Both', notes:'Movenpick Resort & Spa Boracay, Oct 26–29 (3 nights) — $600 NZD cash (both), 2,000 Accor points also used.' },
   { id:'exp-zgarden-elnido', date:'2026-11-01', type:'accommodation', country:'Philippines', dest:'El Nido', amount:339.89, who:'Both', notes:'Z Garden Hotel Managed by H Hospitality, Nov 1–4 (3 nights), confirmation 4941436903742881522. Booking shows Tue 3 – Fri 6 Nov. Replaces Amadeus and Isabel Inn (NZD 210).' },
@@ -4317,6 +4317,10 @@ function loadExpenses(){
           e.amount = m.amount; changed = true;
           if(e.id === 'exp-whaleshark-pps'){ e.notes = DEFAULT_EXPENSES.find(x=>x.id===e.id).notes; }
         }
+      });
+      // Whale shark deposit is dated the day it was paid (Oct 13), not the tour day (Oct 31).
+      data.forEach(e=>{
+        if(e.id === 'exp-whaleshark-pps' && e.date === '2026-10-31'){ e.date = '2026-10-13'; changed = true; }
       });
       // Siquijor stay changed: The Bruce Beach Resort (116.70) → Dolce Amore Resort (352).
       data.forEach(e=>{

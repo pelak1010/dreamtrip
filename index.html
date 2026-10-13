@@ -1440,28 +1440,28 @@ const DEFAULT_DAILY_PLAN = {
   // ── Bohol / Bananaland Cottages (4 nights) ────────────────────────────
   's8': {
     'day_1': {
-      theme: 'Loboc River Cruise',
+      theme: 'Arrival & Alona Beach',
       morning: "Check in to Bananaland Cottages. Explore Tagbilaran town or Alona Beach morning swim.",
-      afternoon: "Loboc River Cruise & Buffet Lunch — floating platform restaurant through a deep tropical jungle canyon with live folk music (₱1,000 pp, 1.5–2 hours).",
+      afternoon: "Settle in and relax. Optional Alona Beach stroll.",
       evening: "Sunset at Alona Beach. Panglao island dinner.",
-      notes: "Loboc River Cruise ₱1,000 pp. Book in advance or join a shared group.",
-      price: 29
+      notes: "Arrival day — Loboc River Cruise moved to Oct 14.",
+      price: 0
     },
     'day_2': {
-      theme: 'Balicasag Reef & Virgin Island Sandbar',
-      morning: "Island Hopping to Balicasag Reef Wall — world-class snorkelling with huge sea turtle populations. Private boat ₱1,500–₱2,500 (est. ₱2,000 split 2 pax). 4–5 hours.",
-      afternoon: "Walk the Virgin Island exposed crescent sandbar — completely surrounded by turquoise water at low tide.",
-      evening: "Return to Panglao. Beachfront seafood dinner.",
-      notes: "Private boat ₱1,500–₱2,500 split. Stunning turtle snorkelling + pristine sandbar walk.",
-      price: 57
+      theme: 'Bohol Tour Day 1 — Chocolate Hills, Tarsiers & Loboc River',
+      morning: "Bohol 2-Day Premium Package, Day 1 (7 hours): Chocolate Hills and Tarsier sanctuary.",
+      afternoon: "Loboc River Cruise & Buffet Lunch — floating platform restaurant through a deep tropical jungle canyon with live folk music (separate price, TBA).",
+      evening: "Return to Panglao. Dinner.",
+      notes: "Booked: Bohol 2-Day Premium Package (Chocolate Hills, Tarsiers & River Experience + Balicasag Island), NZD 240.36 total for 2 adults (NZD 120.18 per day, i.e. 60.09 pp). Loboc River Cruise is a separate cost, TBA.",
+      price: 60.09
     },
     'day_3': {
-      theme: 'Alona Beach Free Day',
-      morning: "Morning snorkel off Alona Beach house reef.",
-      afternoon: "Optional dive with local dive shop, or relax on the beach.",
-      evening: "Explore Alona Beach restaurants and bars at leisure.",
-      notes: "Free / optional day — dive shop available on Alona Beach.",
-      price: 0
+      theme: 'Bohol Tour Day 2 — Balicasag Island',
+      morning: "Bohol 2-Day Premium Package, Day 2 (7 hours): Balicasag Island — snorkelling over the reef wall with sea turtles.",
+      afternoon: "Island hopping continues. Optional Virgin Island sandbar at low tide.",
+      evening: "Return to Panglao. Beachfront seafood dinner.",
+      notes: "Booked: Bohol 2-Day Premium Package, Day 2, NZD 120.18 (half of NZD 240.36 for 2 adults, 60.09 pp).",
+      price: 60.09
     },
     'day_4': {
       theme: 'Departure to Siquijor',
@@ -4200,6 +4200,8 @@ const DEFAULT_EXPENSES = [
   { id:'exp-gtseaside-oslob', date:'2026-10-10', type:'accommodation', country:'Philippines', dest:'Oslob', amount:47.74, who:'Both', notes:'GT Seaside Inn, Oct 10–11 (1 night), Deluxe Double Room. Confirmation 1101543948436720383' },
   { id:'exp-southpalms-panglao', date:'2026-10-11', type:'accommodation', country:'Philippines', dest:'Panglao (Bohol)', amount:549.44, who:'Christian', notes:'South Palms Resort and Spa Panglao - MGallery Collection, Oct 11–13 (2 nights), Booking QPGPCBBD, 2 adults, 1 room' },
   { id:'exp-bananaland-bohol', date:'2026-10-13', type:'accommodation', country:'Philippines', dest:'Bohol', amount:119, who:'Both', notes:'Bananaland Cottages, Oct 13–16 (3 nights), 2 adults, 1 apartment' },
+  { id:'exp-bohol-tour-day1', date:'2026-10-14', type:'experience', country:'Philippines', dest:'Bohol', amount:120.18, who:'Both', notes:'Bohol 2-Day Premium Package, Day 1: Chocolate Hills, Tarsiers & River Experience (2 adults, half of NZD 240.36)' },
+  { id:'exp-bohol-tour-day2', date:'2026-10-15', type:'experience', country:'Philippines', dest:'Bohol', amount:120.18, who:'Both', notes:'Bohol 2-Day Premium Package, Day 2: Balicasag Island (2 adults, half of NZD 240.36)' },
   { id:'exp-brucebeach-siquijor', date:'2026-10-16', type:'accommodation', country:'Philippines', dest:'Siquijor', amount:352, who:'Both', notes:'Dolce Amore Resort, Oct 16–19 (3 nights), confirmed. Replaces The Bruce Beach Resort (NZD 116.70).' },
   { id:'exp-bohol-siquijor-ferry', date:'2026-10-16', type:'transport', country:'Philippines', dest:'Siquijor', amount:75.54, who:'Both', notes:'Ferry Bohol (Tagbilaran Pier) → Siquijor (Siquijor Pier), dep 15:20 arr 17:20, Oct 16' },
   { id:'exp-siquijor-oslob-ferry', date:'2026-10-19', type:'transport', country:'Philippines', dest:'Cebu (transit)', amount:36, who:'Both', notes:'Ferry Siquijor → Oslob, Super Shuttle Ferry, dep 8:00am arr 10:00am, $18pp' },

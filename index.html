@@ -836,7 +836,7 @@ const DEFAULT_STOPS = [
   // VIETNAM — North to South (PDF: 26 Oct – 3 Dec, 38 nights)
   { id:'s13e', country:'Vietnam', dest:'Hanoi', hotel:'Anova 2 Hotel', checkin:'2026-11-07', checkout:'2026-11-08', costPerNight:32, points:0, transport:0, transportMode:'plane', accommodationType:'hotel', foodCostPerDay:0, notes:'Arrival-night stay — flight from Coron lands 01:25 (+1). Anova 2 Hotel, Deluxe Double Room, ~NZD 32 total.' },
   { id:'s14',  country:'Vietnam', dest:'Hanoi',                    hotel:'G-Apartment & Hotel', checkin:'2026-11-08', checkout:'2026-11-10', costPerNight:38, points:0, transport:0,   transportMode:'plane', accommodationType:'hotel', foodCostPerDay:15, notes:'Arrive from Coron 01:25 (+1) — flight ref YEWJ7N. G-Apartment & Hotel, $76 total for 2 nights (2 adults). Ancient capital. Old Quarter night life, Hoa Lo Prison, Hoan Kiem Lake, Vietnam Military Museum, egg coffee at Café Giảng, St. Joseph\'s Cathedral, Bach Ma Temple.' },
-  { id:'s14b', country:'Vietnam', dest:'Sapa',                      hotel:'', checkin:'2026-11-10', checkout:'2026-11-14', costPerNight:30, points:0, transport:30,  transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Overnight sleeper bus from Hanoi ~$30pp NZD (~7h). Fansipan Cable Car (₫850,000 return), Summit Pagoda Complex, H\'Mong village treks, Muong Hoa Valley loop with guide (~$33pp), alpine coaster.' },
+  { id:'s14b', country:'Vietnam', dest:'Sapa',                      hotel:'', checkin:'2026-11-10', checkout:'2026-11-14', costPerNight:30, points:0, transport:40,  transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Limousine van from Hanoi Nov 10, ~2pm pickup, ~$40pp NZD (placeholder price, ~5–6h). Fansipan Cable Car (₫850,000 return), Summit Pagoda Complex, H\'Mong village treks, Muong Hoa Valley loop with guide (~$33pp), alpine coaster.' },
   { id:'s15',  country:'Vietnam', dest:'Halong Bay (Cat Ba Island)', hotel:'', checkin:'2026-11-14', checkout:'2026-11-16', costPerNight:30, points:0, transport:35,  transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Bus + ferry Sapa via Hanoi → Cat Ba ~$35pp NZD. 2–3 day Lan Ha Bay cruise ($150–250pp NZD), Wartime Hospital Cave, Ngu Lam Peak hike, Viet Hai Village trek, Kim Giao Forest Trail.' },
   { id:'s15b', country:'Vietnam', dest:'Ninh Binh',                 hotel:'', checkin:'2026-11-16', checkout:'2026-11-18', costPerNight:30, points:0, transport:15,  transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Bus from Cat Ba ~$15pp NZD. "Halong Bay on land." Tam Coc rowboat cave ride (₫390,000/boat), Mua Cave viewpoint (₫100,000, 482 steps), Bich Dong Pagoda, Van Long Nature Reserve.' },
   { id:'s15c', country:'Vietnam', dest:'Phong Nha',                 hotel:'Carambola Bungalow', checkin:'2026-11-18', checkout:'2026-11-20', costPerNight:30.5, points:0, transport:20,  transportMode:'bus',   accommodationType:'hotel', foodCostPerDay:15, notes:'Sleeper bus from Ninh Binh ~$20pp NZD. Phong Nha-Ke Bang National Park. Dark Cave (₫450,000 pp — zipline, mud bath, kayak), Paradise Cave, Phong Nha Cave by boat, Eight Ladies Cave.' },
@@ -1693,12 +1693,12 @@ const DEFAULT_DAILY_PLAN = {
   // ── Sapa (4 nights) ─────────────────────────────────────────────────────
   's14b': {
     'day_1': {
-      theme: 'Arrival & Cat Cat Village',
-      morning: "Arrive Sapa from overnight bus. Check in and rest for 1–2 hours.",
-      afternoon: "Trek to Cat Cat H'Mong Village — suspension bridges, waterfalls, and traditional Black H'Mong homes (entry fee varies ~$3–5 NZD). About 2km downhill each way.",
-      evening: "Explore Sapa town, local night market. Try thắng cố (horse stew) or Sapa barbecue from street stalls.",
-      notes: "Cat Cat village entry ~$3–5 NZD. Easy half-day walk — good introduction to the hill tribes.",
-      price: 5
+      theme: 'Arrival in Sapa',
+      morning: "Last morning in Hanoi (see Hanoi Day 3) — limousine van leaves ~2pm.",
+      afternoon: "Limousine van Hanoi → Sapa (~5–6h, ~$40pp NZD).",
+      evening: "Arrive Sapa and check in. Explore Sapa town and the local night market. Try thắng cố (horse stew) or Sapa barbecue from street stalls.",
+      notes: "Travel day — limousine ~$40pp NZD (placeholder price). Cat Cat Village moved to Day 4.",
+      price: 0
     },
     'day_2': {
       theme: 'Fansipan Cable Car & Summit',
@@ -1719,10 +1719,10 @@ const DEFAULT_DAILY_PLAN = {
     'day_4': {
       theme: 'Market Day & Departure',
       morning: "If it's a Sunday: day trip to Bac Ha weekly market (~1.5h from Sapa, free to browse) — Tay, Dao, and H'Mong communities in traditional dress. Spectacular and very authentic.",
-      afternoon: "If not Sunday: ride the Mong Village Alpine Coaster (₫70,000–250,000 = ~$4.60–16.45 NZD, 5–7 min ride) — go early to avoid the 10am–3pm queue. Visit Thac Bac Silver Waterfall nearby (small entry fee).",
+      afternoon: "If not Sunday: ride the Mong Village Alpine Coaster (₫70,000–250,000 = ~$4.60–16.45 NZD, 5–7 min ride) — go early to avoid the 10am–3pm queue. Visit Thac Bac Silver Waterfall nearby (small entry fee). If time allows, trek down to Cat Cat H'Mong Village — suspension bridges, waterfalls, and traditional Black H'Mong homes (~2km downhill each way).",
       evening: "Overnight bus or train back to Hanoi to connect to Cat Ba Island the following morning.",
-      notes: "Bac Ha market Sundays only — free entry. Alpine Coaster $4.60–16.45 NZD. Silver Waterfall small fee.",
-      price: 10
+      notes: "Bac Ha market Sundays only — free entry. Alpine Coaster $4.60–16.45 NZD. Silver Waterfall small fee. Cat Cat village entry ~$3–5 NZD (moved here from Day 1).",
+      price: 14
     }
   },
 
@@ -2400,6 +2400,16 @@ function loadStops() {
           siargaoOct20.costPerNight = defSiargao.costPerNight;
           siargaoOct20.accommodationType = defSiargao.accommodationType;
           siargaoOct20.notes = defSiargao.notes;
+          changed = true;
+        }
+      }
+      // Hanoi → Sapa changed: overnight sleeper bus (~$30pp) → limousine van ~2pm Nov 10 (~$40pp)
+      const sapaLimo = data.find(s => s.id === 's14b');
+      if (sapaLimo && sapaLimo.notes && sapaLimo.notes.includes('Overnight sleeper bus from Hanoi')) {
+        const defSapa = DEFAULT_STOPS.find(ds => ds.id === 's14b');
+        if (defSapa) {
+          sapaLimo.transport = defSapa.transport;
+          sapaLimo.notes = defSapa.notes;
           changed = true;
         }
       }
@@ -5114,7 +5124,7 @@ const TIPS = [
   { title:'🏨 Accor Explorer Pass Strategy', text:'Buy the Explorer Pass — gives you Red Hot Rooms (up to 50% off) at Accor properties across Asia. Check if your Amex Platinum NZ already includes this as a benefit before buying. Use points for Mercure transit nights to maximise value.', list:['Mercure Cebu: 4,000 pts × 4 stays = 16,000 pts','Novotel/Ibis Vietnam: ~7,000 pts'] },
   { title:'✈ Airpoints Strategy', text:'Your 400 Airpoints are best used for the big expensive legs you can\'t get cheaply:', list:['Argentina → Peru (long-haul) → USE HERE','Buenos Aires → Europe → USE HERE','Never use Airpoints on short hops you can get for $30-90 on AirAsia/Cebu Pacific'] },
   { title:'🏝 Philippines Island Hopping', text:'The best way to do the Philippines is NOT to fly everything. Use the ferry network:', list:['Cebu → Bohol: 2h fast ferry $10pp','Bohol → Siquijor: 1.5h fast ferry $7pp','Cebu → Siargao: fly (~$40pp, no ferry option)','Siargao → Boracay: fly via Manila or Cebu (~$50pp)'] },
-  { title:'🇻🇳 Vietnam Transport Hacks', text:'Vietnam has excellent inter-city transport. Sleeper buses and budget flights are cheap and reliable:', list:['Hanoi → Ha Long Bay: 3.5h bus included in cruise $8pp','Hanoi → Sapa: overnight sleeper bus ~$30pp (saves a hotel night)','Da Nang → Da Lat: overnight sleeper bus ~$20pp','Most north→south legs (Hue, Hoi An, Ninh Binh, Phong Nha) are $5–20pp buses'] },
+  { title:'🇻🇳 Vietnam Transport Hacks', text:'Vietnam has excellent inter-city transport. Sleeper buses and budget flights are cheap and reliable:', list:['Hanoi → Ha Long Bay: 3.5h bus included in cruise $8pp','Hanoi → Sapa: limousine van ~$40pp (~5–6h, hotel pick-up)','Da Nang → Da Lat: overnight sleeper bus ~$20pp','Most north→south legs (Hue, Hoi An, Ninh Binh, Phong Nha) are $5–20pp buses'] },
   { title:'💰 South America Budget Reality', text:'South America is more expensive than Southeast Asia. Budget accordingly:', list:['Peru: $60-80pp/day (food+activities+transport)','Brazil: $70-90pp/day (BRL has been strong)','Argentina: near-zero cost with your apartment & car!','Long-haul flights (the big spend): book 3-4 months early'] },
   { title:'🚗 Argentina Ruta 40 Tips', text:'You have the huge advantage of a family car and Buenos Aires apartment. The Ruta 40 loop is epic:', list:['Route: BA → Bariloche → El Calafate → El Chaltén → Mendoza → BA','Total drive: ~4,500km over ~3 weeks','Fuel cost: ~$340 total combined (very cheap!)','Book hostels in Calafate+Chaltén months ahead — they fill fast','Perito Moreno glacier: book trekking online before you arrive'] },
   { title:'⛽ Argentina Fuel Prices (2027)', text:'Argentine nafta (petrol) is subsidised — among the cheapest in South America. Budget for the Chaco→BA drive:', list:['Chaco (Resistencia) → Buenos Aires: ~1,050km via Ruta 16/9','Family car consumption: ~10L/100km = ~105L total','Nafta Super price: ~1,200–1,500 ARS/L (≈ $1.20–1.50 USD/L)','Total fuel cost: ~$120–160 USD combined (~$60–80pp NZD)','Fill up in Resistencia before leaving — fewer stations on Ruta 16','Carry a 10L jerry can through the Chaco stretch'] },

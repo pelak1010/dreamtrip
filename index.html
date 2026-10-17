@@ -240,6 +240,26 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .spend-type-card{background:var(--fog);border:1px solid var(--border);border-radius:10px;padding:.55rem .8rem}
 .spend-type-card .stc-label{font-size:.66rem;color:rgba(245,237,214,.5)}
 .spend-type-card .stc-val{font-size:.95rem;font-weight:600;color:var(--sand);margin-top:.15rem}
+.scc-wrap{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1rem 1.2rem;margin-bottom:1.4rem}
+.scc-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.6rem;margin-bottom:.8rem}
+.scc-head h3{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--sand)}
+.scc-toggle{display:inline-flex;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.scc-toggle button{background:transparent;border:0;color:rgba(245,237,214,.55);font-size:.72rem;padding:.35rem .8rem;cursor:pointer}
+.scc-toggle button.on{background:var(--fog);color:var(--sand);font-weight:600}
+.scc-legend{display:flex;flex-wrap:wrap;gap:.9rem;font-size:.68rem;color:rgba(245,237,214,.6);margin-bottom:.5rem}
+.scc-sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.scc-row{display:grid;grid-template-columns:130px 1fr 72px;gap:.7rem;align-items:center;margin:.55rem 0}
+.scc-row .scc-name{font-size:.8rem;color:var(--sand)}
+.scc-row .scc-name small{display:block;font-size:.6rem;color:rgba(245,237,214,.4)}
+.scc-bar{display:flex;gap:2px;height:22px}
+.scc-bar i{display:block;height:100%;border-radius:3px}
+.scc-row .scc-tot{font-size:.82rem;font-weight:600;color:var(--sand);text-align:right}
+.scc-row.scc-avg{padding-bottom:.6rem;border-bottom:1px dashed var(--border)}
+.scc-note{font-size:.62rem;color:rgba(245,237,214,.4);margin-top:.5rem}
+.scc-hm{display:grid;grid-template-columns:110px repeat(6,1fr);gap:3px;font-size:.68rem;margin-top:.9rem}
+.scc-hm div{padding:.4rem .2rem;text-align:center;border-radius:4px;color:var(--sand)}
+.scc-hm .scc-hl{text-align:left;color:rgba(245,237,214,.55)}
+@media(max-width:620px){.scc-row{grid-template-columns:90px 1fr 60px}.scc-hm{grid-template-columns:80px repeat(6,1fr);font-size:.58rem}}
 .spend-country{margin-bottom:1.6rem}
 .spend-country-head{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--border);padding-bottom:.4rem;margin-bottom:.7rem}
 .spend-country-head h3{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--sand)}
@@ -4493,6 +4513,60 @@ function deleteExpense(id){
   saveExpensesData();
   renderSpending();
 }
+// Spending-by-country chart: category mix per country (stacked bars + heatmap).
+// "Per day" divides by the days actually spent in each country (sum of nights across its itinerary stops).
+const SPEND_CAT_COLORS = { accommodation:'#3987e5', food:'#d95926', experience:'#199e70', transport:'#c98500', shopping:'#d55181', other:'#898781' };
+let spendChartMode = 'day';
+function setSpendChartMode(m){ spendChartMode = m; renderSpending(); }
+function renderSpendCountryChart(counted){
+  const cats = Object.keys(SPEND_CAT_COLORS);
+  const nowD = new Date();
+  const todayStr = nowD.getFullYear()+'-'+String(nowD.getMonth()+1).padStart(2,'0')+'-'+String(nowD.getDate()).padStart(2,'0');
+  const byCountry = {};
+  counted.forEach(e=>{
+    const c = e.country || 'Other';
+    if(!byCountry[c]) byCountry[c] = { totals:{}, past:{} };
+    const amt = parseFloat(e.amount)||0;
+    byCountry[c].totals[e.type] = (byCountry[c].totals[e.type]||0) + amt;
+    if(e.date <= todayStr) byCountry[c].past[e.type] = (byCountry[c].past[e.type]||0) + amt;
+  });
+  // Days actually spent so far: itinerary nights in each country, counted up to and including today.
+  const tomorrow = new Date(todayStr+'T00:00:00'); tomorrow.setDate(tomorrow.getDate()+1);
+  const tomorrowStr = tomorrow.getFullYear()+'-'+String(tomorrow.getMonth()+1).padStart(2,'0')+'-'+String(tomorrow.getDate()).padStart(2,'0');
+  const m = spendChartMode;
+  const all = Object.entries(byCountry).map(([country,d])=>{
+    const days = stops.filter(s=>s.country===country).reduce((a,s)=>a+nightsBetween(s.checkin, s.checkout < tomorrowStr ? s.checkout : tomorrowStr),0);
+    return { country, days, totals:d.totals, past:d.past, total:cats.reduce((a,k)=>a+(d.totals[k]||0),0) };
+  }).sort((a,b)=>b.total-a.total);
+  // Per-day divides spend logged up to today by days elapsed, so countries not reached yet are left out.
+  const rows = m==='day' ? all.filter(r=>r.days>0) : all;
+  const notStarted = m==='day' ? all.filter(r=>r.days===0).map(r=>r.country) : [];
+  if(!rows.length) return '';
+  const src = r=>m==='day' ? r.past : r.totals;
+  const tripDays = rows.reduce((a,r)=>a+r.days,0);
+  const tripTotals = {}; cats.forEach(k=>tripTotals[k]=rows.reduce((a,r)=>a+(src(r)[k]||0),0));
+  const trip = { country:m==='day'?'Trip average':'All countries', flag:'🌍', days:tripDays, totals:tripTotals, past:tripTotals, total:cats.reduce((a,k)=>a+tripTotals[k],0) };
+  const val = (r,k)=>{ const v=src(r)[k]||0; return m==='day' ? v/r.days : m==='pp' ? v/2 : v; };
+  const tot = r=>cats.reduce((a,k)=>a+val(r,k),0);
+  const mx = Math.max(...rows.map(tot), tot(trip), 1);
+  const hmMax = Math.max(...rows.flatMap(r=>cats.map(k=>val(r,k))), 1);
+  const bar = r=>`<div class="scc-bar" style="width:${Math.max(tot(r)/mx*100,1)}%">${cats.map(k=>{const v=val(r,k);return v>0?`<i title="${EXPENSE_TYPES[k].label}: ${fmtNZD(v)}" style="flex:${v};background:${SPEND_CAT_COLORS[k]}"></i>`:''}).join('')}</div>`;
+  const rowHtml = (r,cls)=>`<div class="scc-row ${cls||''}"><span class="scc-name">${r.flag||COUNTRY_FLAGS[r.country]||'🌍'} ${r.country}<small>${r.days===0?'not visited yet':`${r.days} day${r.days===1?'':'s'} so far`}</small></span>${bar(r)}<span class="scc-tot">${fmtNZD(tot(r))}</span></div>`;
+  const modeLabel = m==='day' ? 'NZD per day' : m==='pp' ? 'NZD per person' : 'NZD total';
+  const note = m==='day' ? `Average NZD per day: spend logged up to today ÷ days spent in each country so far (per the itinerary).${notStarted.length?` Not visited yet: ${notStarted.join(', ')}.`:''}`
+             : m==='pp' ? 'NZD per person (total split between two).' : 'Total NZD logged so far.';
+  return `<div class="scc-wrap">
+    <div class="scc-head"><h3>📊 Spending by category and country</h3>
+      <div class="scc-toggle">${[['day','Per day'],['tot','Total'],['pp','Per person']].map(([k,l])=>`<button class="${m===k?'on':''}" onclick="setSpendChartMode('${k}')">${l}</button>`).join('')}</div></div>
+    <div class="scc-legend">${cats.map(k=>`<span><span class="scc-sw" style="background:${SPEND_CAT_COLORS[k]}"></span>${EXPENSE_TYPES[k].label}</span>`).join('')}</div>
+    ${rowHtml(trip,'scc-avg')}${rows.map(r=>rowHtml(r)).join('')}
+    <div class="scc-note">${note}</div>
+    <div class="scc-head" style="margin:1rem 0 0"><h3 style="font-size:.9rem">Category breakdown (${modeLabel})</h3></div>
+    <div class="scc-hm"><div></div>${cats.map(k=>`<div class="scc-hl" style="text-align:center">${EXPENSE_TYPES[k].icon}</div>`).join('')}
+      ${[trip,...rows].map(r=>`<div class="scc-hl">${r.country}</div>${cats.map(k=>{const v=val(r,k);return `<div style="background:${v?`rgba(57,135,229,${(0.12+0.7*v/hmMax).toFixed(2)})`:'var(--fog)'}">${v?fmtNZD(v):'–'}</div>`}).join('')}`).join('')}
+    </div>
+  </div>`;
+}
 function renderSpending(){
   const summaryEl = document.getElementById('spend-summary');
   const contentEl = document.getElementById('spend-content');
@@ -4528,6 +4602,7 @@ function renderSpending(){
       <div class="spend-type-card"><div class="stc-label">🏧 Cash withdrawn (not counted)</div><div class="stc-val">${fmtNZD(cashWithdrawn)}</div></div>
       <div class="spend-type-card"><div class="stc-label">💵 Paid in cash (already in totals)</div><div class="stc-val">${fmtNZD(cashSpent)}</div></div>
     </div>` : ''}
+    ${renderSpendCountryChart(counted)}
     <div class="spend-country" style="margin-top:1rem">
       <div class="spend-country-head"><h3>🏆 Accor Points Tracker</h3><span class="spend-country-total" style="color:var(--gold)">${accorUsed.toLocaleString()} used / ${INITIAL_ACCOR.toLocaleString()} start</span></div>
       ${accorStops.length ? accorStops.map(s=>`<div class="exp-row">

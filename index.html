@@ -4296,10 +4296,10 @@ const DEFAULT_EXPENSES = [
   { id:'exp-temple-leah-oct8', date:'2026-10-08', type:'experience', country:'Philippines', dest:'Cebu (transit)', amount:17, who:'Both', notes:'Temple of Leah, gardens' },
   { id:'exp-cabana-beach-club-lunch-oct9', date:'2026-10-09', type:'food', country:'Philippines', dest:'Moalboal', amount:27, who:'Both', notes:'Lunch Cabana Beach Club' },
   { id:'exp-coffee-oct9', date:'2026-10-09', type:'food', country:'Philippines', dest:'Moalboal', amount:11.5, who:'Both', notes:'Coffee' },
-  { id:'exp-7eleven-oct10', date:'2026-10-10', type:'food', country:'Philippines', dest:'Oslob', amount:20.51, who:'Both', notes:'7 Eleven' },
-  { id:'exp-lunch-seaside-oct10', date:'2026-10-10', type:'food', country:'Philippines', dest:'Oslob', amount:25.46, who:'Both', notes:'Lunch Seaside' },
-  { id:'exp-dinner-seaside-oct10', date:'2026-10-10', type:'food', country:'Philippines', dest:'Oslob', amount:10, who:'Both', notes:'Dinner Seaside' },
-  { id:'exp-7eleven-breakfast-oct11', date:'2026-10-11', type:'food', country:'Philippines', dest:'Oslob', amount:9.45, who:'Both', notes:'7 Eleven breakfast' },
+  { id:'exp-7eleven-oct10', date:'2026-10-10', type:'food', country:'Philippines', dest:'Moalboal', amount:20.51, who:'Both', notes:'7 Eleven' },
+  { id:'exp-lunch-seaside-oct10', date:'2026-10-10', type:'food', country:'Philippines', dest:'Moalboal', amount:25.46, who:'Both', notes:'Lunch Seaside' },
+  { id:'exp-dinner-seaside-oct10', date:'2026-10-10', type:'food', country:'Philippines', dest:'Moalboal', amount:10, who:'Both', notes:'Dinner Seaside' },
+  { id:'exp-7eleven-breakfast-oct11', date:'2026-10-11', type:'food', country:'Philippines', dest:'Moalboal', amount:9.45, who:'Both', notes:'7 Eleven breakfast' },
   { id:'exp-gtseaside-oslob', date:'2026-10-10', type:'accommodation', country:'Philippines', dest:'Oslob', amount:47.74, who:'Both', notes:'GT Seaside Inn, Oct 10–11 (1 night), Deluxe Double Room. Confirmation 1101543948436720383' },
   { id:'exp-bananaland-bohol', date:'2026-10-13', type:'accommodation', country:'Philippines', dest:'Bohol', amount:119, who:'Both', notes:'Bananaland Cottages, Oct 13–16 (3 nights), 2 adults, 1 apartment' },
   { id:'exp-panglao-hotel-food-oct13', date:'2026-10-13', type:'food', country:'Philippines', dest:'Panglao (Bohol)', amount:196.9, who:'Both', notes:'Panglao Hotel Food' },
@@ -4443,6 +4443,11 @@ function loadExpenses(){
       // The Oslob → Cebu bus is dropped too (direct ferry makes it unnecessary).
       for(let i = data.length - 1; i >= 0; i--){ if(data[i].id === 'exp-siquijor-oslob-ferry' || data[i].id === 'exp-oslob-cebu-bus') data.splice(i, 1); }
       if(data.length !== beforeSiquijorOslob) changed = true;
+      // Oct 10–11 expenses were first cached under Oslob; the group was still in Moalboal.
+      const moalboalDestFix = ['exp-7eleven-oct10','exp-lunch-seaside-oct10','exp-dinner-seaside-oct10','exp-7eleven-breakfast-oct11'];
+      data.forEach(e=>{
+        if(moalboalDestFix.includes(e.id) && e.dest === 'Oslob'){ e.dest = 'Moalboal'; changed = true; }
+      });
       // Centro Bajo Hotel was paid from the ATM cash: flag it once so "Paid in cash" reflects it.
       // Only when paidCash was never set — an explicit false (user unticked it) is left alone.
       const paidCashMigrations = ['exp-centro-bajo'];

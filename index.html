@@ -4288,6 +4288,18 @@ const DEFAULT_EXPENSES = [
   { id:'exp-grab-oct7', date:'2026-10-07', type:'transport', country:'Philippines', dest:'Cebu (transit)', amount:15.62, who:'Both', notes:'Grab' },
   { id:'exp-padthai-goong-oct7', date:'2026-10-07', type:'food', country:'Philippines', dest:'Cebu (transit)', amount:23.45, who:'Both', notes:'Pad Thai Goong' },
   { id:'exp-ferry-oslob-panglao', date:'2026-10-07', type:'transport', country:'Philippines', dest:'Panglao (Bohol)', amount:58.66, who:'Both', notes:'Ferry Oslob to Panglao, sailing Oct 11 (paid Oct 7)' },
+  { id:'exp-grab-oct8', date:'2026-10-08', type:'transport', country:'Philippines', dest:'Cebu (transit)', amount:25.76, who:'Both', notes:'Grab' },
+  { id:'exp-7eleven-oct8', date:'2026-10-08', type:'food', country:'Philippines', dest:'Cebu (transit)', amount:8.04, who:'Both', notes:'7 Eleven' },
+  { id:'exp-abaca-baking-coffee-oct8', date:'2026-10-08', type:'food', country:'Philippines', dest:'Cebu (transit)', amount:19.72, who:'Both', notes:'Abaca Baking Coffee' },
+  { id:'exp-jollibee-oct8', date:'2026-10-08', type:'food', country:'Philippines', dest:'Cebu (transit)', amount:19.35, who:'Both', notes:'Jollibee' },
+  { id:'exp-cebu-moalboal-transport-oct8', date:'2026-10-08', type:'transport', country:'Philippines', dest:'Moalboal', amount:100, who:'Both', notes:'Transport Cebu → Moalboal' },
+  { id:'exp-temple-leah-oct8', date:'2026-10-08', type:'experience', country:'Philippines', dest:'Cebu (transit)', amount:17, who:'Both', notes:'Temple of Leah, gardens' },
+  { id:'exp-cabana-beach-club-lunch-oct9', date:'2026-10-09', type:'food', country:'Philippines', dest:'Moalboal', amount:27, who:'Both', notes:'Lunch Cabana Beach Club' },
+  { id:'exp-coffee-oct9', date:'2026-10-09', type:'food', country:'Philippines', dest:'Moalboal', amount:11.5, who:'Both', notes:'Coffee' },
+  { id:'exp-7eleven-oct10', date:'2026-10-10', type:'food', country:'Philippines', dest:'Oslob', amount:20.51, who:'Both', notes:'7 Eleven' },
+  { id:'exp-lunch-seaside-oct10', date:'2026-10-10', type:'food', country:'Philippines', dest:'Oslob', amount:25.46, who:'Both', notes:'Lunch Seaside' },
+  { id:'exp-dinner-seaside-oct10', date:'2026-10-10', type:'food', country:'Philippines', dest:'Oslob', amount:10, who:'Both', notes:'Dinner Seaside' },
+  { id:'exp-7eleven-breakfast-oct11', date:'2026-10-11', type:'food', country:'Philippines', dest:'Oslob', amount:9.45, who:'Both', notes:'7 Eleven breakfast' },
   { id:'exp-gtseaside-oslob', date:'2026-10-10', type:'accommodation', country:'Philippines', dest:'Oslob', amount:47.74, who:'Both', notes:'GT Seaside Inn, Oct 10–11 (1 night), Deluxe Double Room. Confirmation 1101543948436720383' },
   { id:'exp-bananaland-bohol', date:'2026-10-13', type:'accommodation', country:'Philippines', dest:'Bohol', amount:119, who:'Both', notes:'Bananaland Cottages, Oct 13–16 (3 nights), 2 adults, 1 apartment' },
   { id:'exp-panglao-hotel-food-oct13', date:'2026-10-13', type:'food', country:'Philippines', dest:'Panglao (Bohol)', amount:196.9, who:'Both', notes:'Panglao Hotel Food' },
@@ -4322,9 +4334,9 @@ const DEFAULT_EXPENSES = [
   { id:'exp-dinner-oct18', date:'2026-10-18', type:'food', country:'Philippines', dest:'Siquijor', amount:28.14, who:'Both', notes:'Dinner' },
   { id:'exp-cafe-siquijor-oct18', date:'2026-10-18', type:'food', country:'Philippines', dest:'Siquijor', amount:11.02, who:'Both', notes:'Cafe Siquijor' },
   { id:'exp-tuktuk-ferry-pier-oct19', date:'2026-10-19', type:'transport', country:'Philippines', dest:'Siquijor', amount:11.42, who:'Both', notes:'Tuc tuc to Ferry pier' },
-  { id:'exp-siquijor-cebu-ferry', date:'2026-10-19', type:'transport', country:'Philippines', dest:'Cebu (transit)', amount:144.19, who:'Both', notes:'Ferry Siquijor → Cebu, Oct 19, dep 8:20am. NZD 144.19 total (both).' },
+  { id:'exp-siquijor-cebu-ferry', date:'2026-10-19', type:'transport', country:'Philippines', dest:'Cebu (transit)', amount:151.49, who:'Both', notes:'Ferry Siquijor → Cebu, Oct 19, dep 8:20am. NZD 151.49 total (both).' },
   { id:'exp-cebu-condo-oct19', date:'2026-10-19', type:'accommodation', country:'Philippines', dest:'Cebu (transit)', amount:70, who:'Both', notes:'Resort-Style Condo, Near Airport, Pool, Fast WiFi, Netflix & Disney. One-Bedroom Apartment with Balcony and City View, 1 night (₱2,462.88)' },
-  { id:'exp-terra-siargao', date:'2026-10-20', type:'accommodation', country:'Philippines', dest:'Siargao', amount:545, who:'Both', notes:'Terra Siargao, Standard King Room, Oct 20–26 (6 nights), approx NZD 545 total' },
+  { id:'exp-terra-siargao', date:'2026-10-20', type:'accommodation', country:'Philippines', dest:'Siargao', amount:548.98, who:'Both', notes:'Terra Siargao, Standard King Room, Oct 20–26 (6 nights), NZD 548.98 total' },
   { id:'exp-cebu-siargao-flight', date:'2026-10-20', type:'transport', country:'Philippines', dest:'Siargao', amount:163, who:'Both', notes:'Flight Cebu → Siargao, dep 2:50pm, arr 4pm, $163 total (both). Booking ref AE6WQY.' },
   { id:'exp-siargao-boracay-flight', date:'2026-10-26', type:'transport', country:'Philippines', dest:'Boracay', amount:286.12, who:'Both', notes:'Flight Del Carmen (Siargao) → Caticlan, PR2375/PR2402 (1 stop), Mon 26 Oct 2026, dep 07:40 arr 10:05. Booking ref XB65MB, PHP 9,900 total (both).' },
   { id:'exp-island-breeze-pps', date:'2026-10-30', type:'accommodation', country:'Philippines', dest:'Puerto Princesa', amount:137, who:'Both', notes:'Island Breeze Studio Pool Gym Near Airport, One-Bedroom Apartment, Oct 30–Nov 1 (2 nights), approx NZD 137 total' },
@@ -4375,12 +4387,15 @@ function loadExpenses(){
       const amountMigrations = {
         'exp-centro-bajo': { oldAmount:104.2, amount:125 },
         'exp-whaleshark-pps': { oldAmount:171.42, amount:17.12 },
+        // Terra Siargao and Siquijor → Cebu ferry corrected to the actual amounts paid.
+        'exp-terra-siargao': { oldAmount:545, amount:548.98 },
+        'exp-siquijor-cebu-ferry': { oldAmount:144.19, amount:151.49 },
       };
       data.forEach(e=>{
         const m = amountMigrations[e.id];
         if(m && e.amount === m.oldAmount){
           e.amount = m.amount; changed = true;
-          if(e.id === 'exp-whaleshark-pps'){ e.notes = DEFAULT_EXPENSES.find(x=>x.id===e.id).notes; }
+          if(['exp-whaleshark-pps','exp-terra-siargao','exp-siquijor-cebu-ferry'].includes(e.id)){ e.notes = DEFAULT_EXPENSES.find(x=>x.id===e.id).notes; }
         }
       });
       // Whale shark deposit is dated the day it was paid (Oct 13), not the tour day (Oct 31).

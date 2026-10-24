@@ -4355,7 +4355,7 @@ const DEFAULT_EXPENSES = [
   { id:'exp-breakfast-oct22', date:'2026-10-22', type:'food', country:'Philippines', dest:'Siargao', amount:17.74, who:'Both', notes:'Breakfast' },
   { id:'exp-crackers-oct22', date:'2026-10-22', type:'food', country:'Philippines', dest:'Siargao', amount:1.4, who:'Both', notes:'Crackers' },
   { id:'exp-river-experience-fees-oct22', date:'2026-10-22', type:'experience', country:'Philippines', dest:'Siargao', amount:26.7, who:'Both', notes:'Entrance fees, river experience' },
-  { id:'exp-tshirts-gifts-oct22', date:'2026-10-22', type:'other', country:'Philippines', dest:'Siargao', amount:12.67, who:'Both', notes:'T-shirts / gifts' },
+  { id:'exp-tshirts-gifts-oct22', date:'2026-10-22', type:'shopping', country:'Philippines', dest:'Siargao', amount:12.67, who:'Both', notes:'T-shirts / gifts' },
   { id:'exp-tarot-yoga-oct22', date:'2026-10-22', type:'experience', country:'Philippines', dest:'Siargao', amount:50.23, who:'Both', notes:'Tarot / yoga' },
   { id:'exp-tuktuk-siargao-oct22', date:'2026-10-22', type:'experience', country:'Philippines', dest:'Siargao', amount:70.42, who:'Both', notes:'Tuc tuc Siargao' },
   { id:'exp-dinner-oct22', date:'2026-10-22', type:'food', country:'Philippines', dest:'Siargao', amount:25, who:'Both', notes:'Dinner' },
@@ -4404,6 +4404,7 @@ function loadExpenses(){
       const typeMigrations = {
         'exp-shopping-sep22': { oldType:'other', type:'shopping' },
         'exp-atm-oct2': { oldType:'accommodation', type:'cash' },
+        'exp-tshirts-gifts-oct22': { oldType:'other', type:'shopping' },
       };
       data.forEach(e=>{
         const m = typeMigrations[e.id];

@@ -4453,7 +4453,6 @@ const DEFAULT_EXPENSES = [
   { id:'exp-dinner-zuri-nov6', date:'2026-11-06', type:'food', country:'Philippines', dest:'Coron', amount:57, who:'Both', notes:'Dinner Zuri' },
   { id:'exp-zuri-airport-transport-nov7', date:'2026-11-07', type:'transport', country:'Philippines', dest:'Coron', amount:19.71, who:'Both', notes:'Zuri transport to airport' },
   { id:'exp-jollibee-airport-cebu-nov7', date:'2026-11-07', type:'food', country:'Philippines', dest:'Cebu (transit)', amount:22.25, who:'Both', notes:'Jollibee at Cebu airport' },
-  { id:'exp-anova2-hanoi', date:'2026-11-07', type:'accommodation', country:'Vietnam', dest:'Hanoi', amount:32, who:'Both', notes:'Anova 2 Hotel, Nov 7–8 (1 night), Deluxe Double Room — arrival night (flight lands 01:25 Nov 8).' },
   { id:'exp-coron-hanoi-flight', date:'2026-11-07', type:'transport', country:'Philippines', dest:'Coron', amount:900, who:'Both', notes:'Flight Busuanga (Coron) → Hanoi (PR2683/PR2860/PR595, 2 stops), booking YEWJ7N, $450pp. Dep Nov 7 14:00, arr Nov 8 01:25.' },
   { id:'exp-fiesta-central-hanoi', date:'2026-11-07', type:'accommodation', country:'Vietnam', dest:'Hanoi', amount:261.44, who:'Both', notes:'Hanoi Fiesta Central Hotel (Agoda), Nov 7–9 (2 nights). Overnight bus to Sapa on Nov 9.' },
   { id:'exp-mgallery-sapa', date:'2026-11-10', type:'accommodation', country:'Vietnam', dest:'Sapa', amount:600, who:'Both', notes:'MGallery Sapa, Nov 10–14 (4 nights)' },
@@ -4598,6 +4597,10 @@ function loadExpenses(){
           if(def){ e.amount = def.amount; e.country = def.country; e.dest = def.dest; e.notes = def.notes; changed = true; }
         }
       });
+      // Anova 2 Hotel (Hanoi arrival night, $32) isn't a real expense — drop its cached entry to match the sheet.
+      const beforeAnova2 = data.length;
+      for(let i = data.length - 1; i >= 0; i--){ if(data[i].id === 'exp-anova2-hanoi') data.splice(i, 1); }
+      if(data.length !== beforeAnova2) changed = true;
       // London flight moved to Dec 9: the free Pullman Guangzhou night (Dec 9–10) no longer exists — drop its cached entry; move the flight's date.
       const beforePullmanGz = data.length;
       for(let i = data.length - 1; i >= 0; i--){ if(data[i].id === 'exp-pullman-guangzhou-airport') data.splice(i, 1); }

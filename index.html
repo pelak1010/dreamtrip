@@ -820,7 +820,7 @@ const DEFAULT_ICT = {
   'Indonesia→Philippines': { mode:'plane', icon:'✈', label:'Flight', route:'Bali → Cebu', cost:350, notes:'Fly Bali→Cebu $350pp NZD.', airline:'', bookingRef:'CETFWI', flightDate:'2026-10-07', flightTime:'8:35am', flightArrival:'4:30pm' },
   'Philippines→Vietnam':   { mode:'plane', icon:'✈', label:'Flight', route:'Coron → Hanoi', cost:450, notes:'Coron → Hanoi. $900 total (both), booking ref YEWJ7N.', airline:'', bookingRef:'YEWJ7N', flightDate:'2026-11-07', flightTime:'14:30', flightArrival:'01:25 (+1, Nov 8)' },
   'Vietnam→China':         { mode:'plane', icon:'✈', label:'Flight', route:'Ho Chi Minh → Guangzhou', cost:168.32, notes:'$336.64 NZD total for both ($168.32pp).', flightDate:'2026-12-02', flightTime:'9:45pm', flightArrival:'1:30am (Dec 3)' },
-  'China→United Kingdom':  { mode:'plane', icon:'✈', label:'Flight', route:'Guangzhou → London', cost:451.5, notes:'Order Number (Flight Network): 1146-801-347. $903 total (both).', airline:'', bookingRef:'1146-801-347', flightDate:'2026-12-10', flightTime:'8:00am', flightArrival:'3:55pm (same day)' },
+  'China→United Kingdom':  { mode:'plane', icon:'✈', label:'Flight', route:'Guangzhou → London', cost:451.5, notes:'Order Number (Flight Network): 1146-801-347. $903 total (both).', airline:'', bookingRef:'1146-801-347', flightDate:'2026-12-09', flightTime:'8:00am', flightArrival:'3:55pm (same day)' },
   'United Kingdom→Argentina': { mode:'plane', icon:'✈', label:'Flight', route:'London → Buenos Aires', cost:2100, notes:'Booking ref NCZHRF.', airline:'', bookingRef:'NCZHRF', flightDate:'2026-12-13', flightTime:'4:40pm', flightArrival:'10:45am (Dec 14)' },
   'Brazil→Peru':           { mode:'plane', icon:'✈', label:'Flight', route:'Foz do Iguaçu → Lima', cost:0, notes:'Price and exact routing TBC — book closer to date.', flightDate:'2027-02-09' },
   'Peru→Argentina':        { mode:'plane', icon:'✈', label:'Flight', route:'Puno/Juliaca → Buenos Aires', cost:0, notes:'Price and exact routing TBC — book closer to date, rejoining the North Loop in Salta.' },
@@ -869,10 +869,9 @@ const DEFAULT_STOPS = [
   { id:'s20', country:'China', dest:'Guangzhou (arrival)', hotel:'Grand Mercure Guangzhou Baiyun International Airport', checkin:'2026-12-02', checkout:'2026-12-03', costPerNight:33, points:2000, costIsCashOwed:true, transport:0, transportMode:'plane', accommodationType:'accor', foodCostPerDay:20, notes:'Arrive from Ho Chi Minh City 1:30am Dec 3 — book the night of Dec 2 to cover the early arrival. $33 to pay + 2,000 Accor points.' },
   { id:'s20z', country:'China', dest:'Zhangjiajie', hotel:'Pullman Zhangjiajie', checkin:'2026-12-03', checkout:'2026-12-08', costPerNight:16.4, points:10000, costIsCashOwed:true, transport:140, transportMode:'train', accommodationType:'accor', foodCostPerDay:20, notes:'Fast train Guangzhou → Zhangjiajie ~$140pp. Pullman Zhangjiajie, 5 nights, $82 total paid + 10,000 Accor points.' },
   { id:'s20c', country:'China', dest:'Guangzhou', hotel:'Mercure Guangzhou Baiyun', checkin:'2026-12-08', checkout:'2026-12-09', costPerNight:15, points:1000, costIsCashOwed:true, transport:140, transportMode:'train', accommodationType:'accor', foodCostPerDay:20, notes:'Return fast train Zhangjiajie → Guangzhou ~$140pp. $15 to pay + 1,000 Accor points.' },
-  { id:'s20d', country:'China', dest:'Guangzhou', hotel:'Pullman Guangzhou Baiyun Airport', checkin:'2026-12-09', checkout:'2026-12-10', costPerNight:0, points:0, transport:0, transportMode:'car', accommodationType:'accor', foodCostPerDay:20, notes:'Free night. Fly to London Dec 10.' },
 
   // UNITED KINGDOM
-  { id:'s20b', country:'United Kingdom', dest:'London', hotel:'', checkin:'2026-12-10', checkout:'2026-12-13', costPerNight:0, points:0, transport:0, transportMode:'plane', accommodationType:'hotel', foodCostPerDay:30, notes:'Arrive from Guangzhou 3:55pm same day. Placeholder — just budgeting $30pp/day in expenses for now, no accommodation or activity details added yet.' },
+  { id:'s20b', country:'United Kingdom', dest:'London', hotel:'', checkin:'2026-12-09', checkout:'2026-12-13', costPerNight:0, points:0, transport:0, transportMode:'plane', accommodationType:'hotel', foodCostPerDay:30, notes:'Arrive from Guangzhou 3:55pm same day. Placeholder — just budgeting $30pp/day in expenses for now, no accommodation or activity details added yet.' },
 
   // ARGENTINA — arrival, Christmas & New Year with family, then Iguazu before flying to Peru
   { id:'s41a', country:'Argentina', dest:'Buenos Aires (arrival)', hotel:'Family Apartment (FREE)', checkin:'2026-12-14', checkout:'2026-12-20', costPerNight:0, points:0, transport:0, transportMode:'plane', accommodationType:'free', foodCostPerDay:15, notes:'Arrive from London 10:45am (flight ref NCZHRF). Reconnect with family in Buenos Aires before heading to Chaco for Christmas.' },
@@ -2524,6 +2523,11 @@ function loadStops() {
         );
         changed = true;
       }
+      // London flight moved to Dec 9: drop the free Pullman Guangzhou night (Dec 9–10) and start London on Dec 9.
+      const s20dDropIdx = data.findIndex(s => s.id === 's20d');
+      if (s20dDropIdx !== -1) { data.splice(s20dDropIdx, 1); changed = true; }
+      const s20bLondon = data.find(s => s.id === 's20b');
+      if (s20bLondon && s20bLondon.checkin === '2026-12-10') { s20bLondon.checkin = '2026-12-09'; changed = true; }
       if (!data.some(s => s.id === 's41a')) {
         const ukIdx = data.findIndex(s => s.id === 's20b');
         data.splice(ukIdx !== -1 ? ukIdx + 1 : data.length, 0,
@@ -2720,6 +2724,11 @@ function loadICT() {
       if(data['Vietnam→China'] && parseFloat(data['Vietnam→China'].cost) === 330) {
         data['Vietnam→China'].cost = DEFAULT_ICT['Vietnam→China'].cost;
         data['Vietnam→China'].notes = DEFAULT_ICT['Vietnam→China'].notes;
+        changed = true;
+      }
+      // Guangzhou → London flight moved from Dec 10 to Dec 9.
+      if(data['China→United Kingdom'] && data['China→United Kingdom'].flightDate === '2026-12-10') {
+        data['China→United Kingdom'].flightDate = DEFAULT_ICT['China→United Kingdom'].flightDate;
         changed = true;
       }
       if(data['Vietnam→Sri Lanka']) { delete data['Vietnam→Sri Lanka']; changed = true; }
@@ -4469,8 +4478,7 @@ const DEFAULT_EXPENSES = [
   { id:'exp-pullman-zhangjiajie', date:'2026-12-03', type:'accommodation', country:'China', dest:'Zhangjiajie', amount:82, who:'Both', notes:'Pullman Zhangjiajie, Dec 3–8 (5 nights), 10,000 points also used' },
   { id:'exp-zhangjiajie-guangzhou-train', date:'2026-12-08', type:'transport', country:'China', dest:'Guangzhou', amount:280, who:'Both', notes:'Fast train Zhangjiajie → Guangzhou (return), $140pp' },
   { id:'exp-mercure-guangzhou-return', date:'2026-12-08', type:'accommodation', country:'China', dest:'Guangzhou', amount:15, who:'Both', notes:'Mercure Guangzhou Baiyun, Dec 8–9 (1 night), 1,000 points also used' },
-  { id:'exp-pullman-guangzhou-airport', date:'2026-12-09', type:'accommodation', country:'China', dest:'Guangzhou', amount:0, who:'Both', notes:'Pullman Guangzhou Baiyun Airport, Dec 9–10 (1 night) — free night' },
-  { id:'exp-guangzhou-london-flight', date:'2026-12-10', type:'transport', country:'China', dest:'Guangzhou', amount:903, who:'Both', notes:'Flight Guangzhou → London. Order Number (Flight Network): 1146-801-347. Dep 8:00am, arr 3:55pm same day.' },
+  { id:'exp-guangzhou-london-flight', date:'2026-12-09', type:'transport', country:'China', dest:'Guangzhou', amount:903, who:'Both', notes:'Flight Guangzhou → London. Order Number (Flight Network): 1146-801-347. Dep 8:00am, arr 3:55pm same day.' },
   { id:'exp-london-ba-flight', date:'2026-12-13', type:'transport', country:'Argentina', dest:'Buenos Aires', amount:2100, who:'Both', notes:'Flight London → Buenos Aires (NCZHRF). Dep Sun Dec 13 4:40PM, arr Mon Dec 14 10:45AM. Assumed 50/50 split of $4,200 total for both legs — adjust if actual one-way cost differs.' },
   { id:'exp-ba-london-return-flight', date:'2027-05-01', type:'transport', country:'Argentina', dest:'Buenos Aires', amount:2100, who:'Both', notes:'Return flight Buenos Aires → London (NCZHRF). Dep Sat May 1 7:00AM, arr Sat May 1 10:10PM 2027. Assumed 50/50 split of $4,200 total for both legs — adjust if actual one-way cost differs.' },
 ];
@@ -4580,6 +4588,13 @@ function loadExpenses(){
           const def = DEFAULT_EXPENSES.find(x=>x.id===e.id);
           if(def){ e.amount = def.amount; e.country = def.country; e.dest = def.dest; e.notes = def.notes; changed = true; }
         }
+      });
+      // London flight moved to Dec 9: the free Pullman Guangzhou night (Dec 9–10) no longer exists — drop its cached entry; move the flight's date.
+      const beforePullmanGz = data.length;
+      for(let i = data.length - 1; i >= 0; i--){ if(data[i].id === 'exp-pullman-guangzhou-airport') data.splice(i, 1); }
+      if(data.length !== beforePullmanGz) changed = true;
+      data.forEach(e=>{
+        if(e.id === 'exp-guangzhou-london-flight' && e.date === '2026-12-10'){ e.date = '2026-12-09'; changed = true; }
       });
       // Self-healing sync: on every load we snapshot what DEFAULT_EXPENSES looked like.
       // If a cached entry still matches the *previous* snapshot exactly (meaning the user

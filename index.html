@@ -854,7 +854,7 @@ const DEFAULT_STOPS = [
   { id:'s13b', country:'Philippines', dest:'Coron', hotel:'Sunlight Guest Hotel', checkin:'2026-11-04', checkout:'2026-11-07', costPerNight:117.87, points:0, transport:0, transportMode:'ferry', transportLegs:[{id:'leg1', mode:'ferry', cost:86.495, notes:'Booked: Ferry El Nido Ferry Terminal → Coron Port, Nov 4 dep 12:00 PM, arr 15:30, NZD 172.99 total (both) / $86.50pp'}], accommodationType:'hotel', foodCostPerDay:16, notes:'Booked: Sunlight Guest Hotel, National Road, Brgy Tagumpay, Coron — NZD 353.61 total (both) / 3 nights. Check-in after 2:00 PM, check-out before 12:00 PM. Booked ferry El Nido Ferry Terminal→Coron Port, Nov 4, 12:00 PM → 15:30, NZD 172.99 total (both). Kayangan Lake, Barracuda Lake, WWII shipwreck snorkel, Mt. Tapyas. Fly out to Hanoi (booking ref YEWJ7N).' },
 
   // VIETNAM — North to South (PDF: 26 Oct – 3 Dec, 38 nights)
-  { id:'s14',  country:'Vietnam', dest:'Hanoi',                    hotel:'G-Apartment & Hotel', checkin:'2026-11-07', checkout:'2026-11-10', costPerNight:43.3333, points:0, transport:0,   transportMode:'plane', accommodationType:'hotel', foodCostPerDay:15, notes:'Arrive from Coron 01:25 (+1) — flight ref YEWJ7N. G-Apartment & Hotel, $130 total for 3 nights, Nov 7–10 (2 adults). Ancient capital. Old Quarter night life, Hoa Lo Prison, Hoan Kiem Lake, Vietnam Military Museum, egg coffee at Café Giảng, St. Joseph\'s Cathedral, Bach Ma Temple.' },
+  { id:'s14',  country:'Vietnam', dest:'Hanoi',                    hotel:'Hanoi Fiesta Central Hotel', checkin:'2026-11-07', checkout:'2026-11-10', costPerNight:87.1467, points:0, transport:0,   transportMode:'plane', accommodationType:'hotel', foodCostPerDay:15, notes:'Arrive from Coron 01:25 (+1) — flight ref YEWJ7N. Hanoi Fiesta Central Hotel, $261.44 total, Nov 7–9 (2 nights, 2 adults), then overnight bus to Sapa on Nov 9. Ancient capital. Old Quarter night life, Hoa Lo Prison, Hoan Kiem Lake, Vietnam Military Museum, egg coffee at Café Giảng, St. Joseph\'s Cathedral, Bach Ma Temple.' },
   { id:'s14b', country:'Vietnam', dest:'Sapa',                      hotel:'', checkin:'2026-11-10', checkout:'2026-11-14', costPerNight:30, points:0, transport:40,  transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Limousine van from Hanoi Nov 10, ~2pm pickup, ~$40pp NZD (placeholder price, ~5–6h). Fansipan Cable Car (₫850,000 return), Summit Pagoda Complex, H\'Mong village treks, Muong Hoa Valley loop with guide (~$33pp), alpine coaster.' },
   { id:'s15',  country:'Vietnam', dest:'Halong Bay (Cat Ba Island)', hotel:'', checkin:'2026-11-14', checkout:'2026-11-16', costPerNight:30, points:0, transport:35,  transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Bus + ferry Sapa via Hanoi → Cat Ba ~$35pp NZD. 2–3 day Lan Ha Bay cruise ($150–250pp NZD), Wartime Hospital Cave, Ngu Lam Peak hike, Viet Hai Village trek, Kim Giao Forest Trail.' },
   { id:'s15b', country:'Vietnam', dest:'Ninh Binh',                 hotel:'', checkin:'2026-11-16', checkout:'2026-11-18', costPerNight:30, points:0, transport:15,  transportMode:'bus',   accommodationType:'hostel', foodCostPerDay:15, notes:'Bus from Cat Ba ~$15pp NZD. "Halong Bay on land." Tam Coc rowboat cave ride (₫390,000/boat), Mua Cave viewpoint (₫100,000, 482 steps), Bich Dong Pagoda, Van Long Nature Reserve.' },
@@ -1675,8 +1675,8 @@ const DEFAULT_DAILY_PLAN = {
       theme: 'Last Morning & Departure to Hanoi',
       morning: "Check out of Sunlight Guest Hotel before 12:00 PM (store bags if needed). Free morning — last-minute souvenir shopping or a relaxed swim before heading to the airport.",
       afternoon: "Pack up and head to Busuanga (Coron) Airport for the 14:30 departure to Hanoi (booking ref YEWJ7N).",
-      evening: "In flight — arrive Hanoi 01:25 (+1 day). Check in to G-Apartment & Hotel (booked Nov 7–10).",
-      notes: "Coron → Hanoi, departs 14:30, arrives 01:25 (+1). Booking ref YEWJ7N. $900 total (both). G-Apartment & Hotel booked Nov 7–10 ($130 total), so the room is ready on arrival.",
+      evening: "In flight — arrive Hanoi 01:25 (+1 day). Check in to Hanoi Fiesta Central Hotel (booked Nov 7–9).",
+      notes: "Coron → Hanoi, departs 14:30, arrives 01:25 (+1). Booking ref YEWJ7N. $900 total (both). Hanoi Fiesta Central Hotel booked Nov 7–9 ($261.44 total), so the room is ready on arrival.",
       price: 0
     }
   },
@@ -1685,15 +1685,15 @@ const DEFAULT_DAILY_PLAN = {
   's14': {
     'day_1': {
       theme: 'Fly Coron → Hanoi',
-      morning: "Check out of Sunlight Guest Hotel in Coron (see Coron Day 3). G-Apartment & Hotel is booked from tonight, so the room is ready when you land.",
+      morning: "Check out of Sunlight Guest Hotel in Coron (see Coron Day 3). Hanoi Fiesta Central Hotel is booked from tonight, so the room is ready when you land.",
       afternoon: "Busuanga (Coron) Airport, 14:30 departure to Hanoi (booking ref YEWJ7N).",
-      evening: "In flight — arrive Hanoi 01:25 (+1 day) and check straight in to G-Apartment & Hotel.",
-      notes: "Booked Nov 7–10 (3 nights), $130 total for 2 adults. Booking covers the late-night arrival so there's no separate arrival-night hotel.",
+      evening: "In flight — arrive Hanoi 01:25 (+1 day) and check straight in to Hanoi Fiesta Central Hotel.",
+      notes: "Booked Nov 7–9 (2 nights), $261.44 total for 2 adults. Booking covers the late-night arrival so there's no separate arrival-night hotel.",
       price: 0
     },
     'day_2': {
       theme: 'Arrival & Old Quarter Orientation',
-      morning: "Landed 01:25 and already checked in at G-Apartment & Hotel, so sleep in. Late morning, walk the 1.6-mile Hoàn Kiếm Lake loop — passes Thê Húc Bridge and Turtle Tower, and Ngọc Sơn Temple sits right on the lake (₫30,000 = ~$2 NZD, open 8am–6pm).",
+      morning: "Landed 01:25 and already checked in at Hanoi Fiesta Central Hotel, so sleep in. Late morning, walk the 1.6-mile Hoàn Kiếm Lake loop — passes Thê Húc Bridge and Turtle Tower, and Ngọc Sơn Temple sits right on the lake (₫30,000 = ~$2 NZD, open 8am–6pm).",
       afternoon: "Explore the Old Quarter on foot. Visit Bạch Mã Temple — the oldest temple in Hanoi, free entry (20–30 min, temple dress code applies). Egg Coffee at Café Giảng (~₫35,000 = ~$2.30 NZD).",
       evening: "Sunday — Old Quarter Walking Street opens at 7pm (Fri–Sun): roads close to traffic for street performers, food stalls and live music (free). Try a bia hơi (fresh draft beer, ~₫5,000).",
       notes: "Light day after a ~3am arrival. Hoan Kiem lake walk free. Ngoc Son Temple $2 NZD. Bach Ma Temple free. Walking Street is Fri–Sun only, so Sunday is the one chance. Egg coffee ~$2.30 NZD, bia hoi ~$0.35 NZD.",
@@ -1710,7 +1710,7 @@ const DEFAULT_DAILY_PLAN = {
     'day_4': {
       theme: 'Ba Đình & Limousine to Sapa',
       morning: "Visit Ho Chi Minh Mausoleum complex — Mausoleum, One Pillar Pagoda, Ho Chi Minh Museum (free, dress code applies, arrive before 10am). Then the Vietnam Military Museum, about 1 km away (₫40,000 = ~$2.65 NZD, open 8am–4:30pm).",
-      afternoon: "Quick lunch, then check out of G-Apartment & Hotel. Limousine van to Sapa departs ~2pm (hotel pick-up).",
+      afternoon: "Quick lunch, then check out of Hanoi Fiesta Central Hotel. Limousine van to Sapa departs ~2pm (hotel pick-up).",
       evening: "Arrive Sapa this evening and check in.",
       notes: "Tuesday — Military Museum is closed Mon & Fri, so Tuesday works. Ho Chi Minh complex free. Mausoleum interior is usually closed for annual maintenance around Sep–early Dec — check before going. Limousine to Sapa ~2pm — book ahead and confirm hotel pick-up.",
       price: 3
@@ -2655,7 +2655,7 @@ function loadStops() {
         Object.assign(s12v21, { hotel:s12def.hotel, costPerNight:200, points:2000, costIsCashOwed:true, accommodationType:'accor', notes:s12def.notes });
         changed = true;
       }
-      // v22 (Oct 19 2026): Hanoi is now one G-Apartment & Hotel booking, Nov 7–10 (3 nights, $130 total) — the separate
+      // v22 (Oct 19 2026): Hanoi is now one hotel booking, Nov 7–10 (3 nights, $130 total) — the separate
       // Anova 2 arrival-night stop (s13e) is gone. Only touches s14 if it still holds the old Nov 8–10 / $38 values.
       const s13eIdx = data.findIndex(s => s.id === 's13e');
       if (s13eIdx !== -1) { data.splice(s13eIdx, 1); changed = true; }
@@ -2663,6 +2663,12 @@ function loadStops() {
       const s14def = DEFAULT_STOPS.find(ds => ds.id === 's14');
       if (s14v22 && s14def && s14v22.checkin === '2026-11-08' && s14v22.checkout === '2026-11-10' && parseFloat(s14v22.costPerNight) === 38) {
         Object.assign(s14v22, { checkin:s14def.checkin, checkout:s14def.checkout, costPerNight:s14def.costPerNight, notes:s14def.notes });
+        changed = true;
+      }
+      // v23: Hanoi hotel is now Hanoi Fiesta Central Hotel ($261.44) — rename the cached stop if it still holds the old hotel.
+      const s14v23 = data.find(s => s.id === 's14');
+      if (s14v23 && s14def && /^G-/.test(s14v23.hotel || '')) {
+        Object.assign(s14v23, { hotel:s14def.hotel, costPerNight:s14def.costPerNight, notes:s14def.notes });
         changed = true;
       }
       if(changed) localStorage.setItem('dt_stops_v12', JSON.stringify(data));
@@ -4425,7 +4431,7 @@ const DEFAULT_EXPENSES = [
   { id:'exp-jollibee-airport-cebu-nov7', date:'2026-11-07', type:'food', country:'Philippines', dest:'Cebu (transit)', amount:22.25, who:'Both', notes:'Jollibee at Cebu airport' },
   { id:'exp-anova2-hanoi', date:'2026-11-07', type:'accommodation', country:'Vietnam', dest:'Hanoi', amount:32, who:'Both', notes:'Anova 2 Hotel, Nov 7–8 (1 night), Deluxe Double Room — arrival night (flight lands 01:25 Nov 8).' },
   { id:'exp-coron-hanoi-flight', date:'2026-11-07', type:'transport', country:'Philippines', dest:'Coron', amount:900, who:'Both', notes:'Flight Busuanga (Coron) → Hanoi (PR2683/PR2860/PR595, 2 stops), booking YEWJ7N, $450pp. Dep Nov 7 14:00, arr Nov 8 01:25.' },
-  { id:'exp-fiesta-central-hanoi', date:'2026-11-07', type:'accommodation', country:'Vietnam', dest:'Hanoi', amount:261.44, who:'Both', notes:'Hanoi Fiesta Central Hotel (Agoda), Nov 7–9 (2 nights). Replaces G-Apartment & Hotel (NZD 76). Overnight bus to Sapa on Nov 9.' },
+  { id:'exp-fiesta-central-hanoi', date:'2026-11-07', type:'accommodation', country:'Vietnam', dest:'Hanoi', amount:261.44, who:'Both', notes:'Hanoi Fiesta Central Hotel (Agoda), Nov 7–9 (2 nights). Overnight bus to Sapa on Nov 9.' },
   { id:'exp-mgallery-sapa', date:'2026-11-10', type:'accommodation', country:'Vietnam', dest:'Sapa', amount:600, who:'Both', notes:'MGallery Sapa, Nov 10–14 (4 nights)' },
   { id:'exp-train-sapa-hanoi', date:'2026-11-14', type:'transport', country:'Vietnam', dest:'Hanoi', amount:359.48, who:'Both', notes:'Train Sapa → Hanoi' },
   { id:'exp-lan-ha-bay-cruise', date:'2026-11-15', type:'experience', country:'Vietnam', dest:'Halong Bay (Cat Ba Island)', amount:656, who:'Both', notes:'Lan Ha Bay cruise' },
@@ -4541,7 +4547,7 @@ function loadExpenses(){
       // The Oslob → Cebu bus is dropped too (direct ferry makes it unnecessary).
       for(let i = data.length - 1; i >= 0; i--){ if(data[i].id === 'exp-siquijor-oslob-ferry' || data[i].id === 'exp-oslob-cebu-bus') data.splice(i, 1); }
       if(data.length !== beforeSiquijorOslob) changed = true;
-      // Hanoi: G-Apartment & Hotel (76) was replaced by Hanoi Fiesta Central Hotel (261.44, Nov 7–9) — drop the cached G-Apartment entry.
+      // Hanoi: the earlier Hanoi booking (76) was replaced by Hanoi Fiesta Central Hotel (261.44, Nov 7–9) — drop its cached entry.
       const beforeGApt = data.length;
       for(let i = data.length - 1; i >= 0; i--){ if(data[i].id === 'exp-gapartment-hanoi') data.splice(i, 1); }
       if(data.length !== beforeGApt) changed = true;
